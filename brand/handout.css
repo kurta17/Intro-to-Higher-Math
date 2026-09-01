@@ -1,0 +1,96 @@
+/* ============================================================
+   HS handout - A4 print document for problem sets, solutions
+   and exams. Depends on hs-tokens.css. Screen preview and PDF
+   export are the same layout; export with driver.mjs pdf.
+   ============================================================ */
+@page { size: A4; margin: 18mm 16mm 16mm; }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; padding: 18mm 16mm; max-width: 210mm;
+  background: var(--hs-white); color: var(--hs-fg);
+  font-family: var(--hs-font-sans); font-weight: var(--hs-weight-regular);
+  font-size: 11.5pt; line-height: 1.5;
+}
+@media print { body { padding: 0; max-width: none; } }
+
+/* ---------- masthead ---------- */
+.head {
+  border-top: 6px solid var(--hs-purple-700);
+  padding-top: 12px; margin-bottom: 22px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;
+}
+.head .who { font-size: 9pt; letter-spacing: var(--hs-tracking-widest);
+             text-transform: uppercase; color: var(--hs-purple-700);
+             font-weight: var(--hs-weight-medium); }
+.head h1 { font-size: 21pt; margin: 4px 0 2px; font-weight: var(--hs-weight-medium);
+           letter-spacing: var(--hs-tracking-tight); }
+.head .sub { color: var(--hs-fg-muted); font-size: 10pt; }
+.head .meta { text-align: right; font-size: 9.5pt; color: var(--hs-fg-muted);
+              white-space: nowrap; }
+.head .meta b { display: block; color: var(--hs-fg); font-weight: var(--hs-weight-medium); }
+
+/* ---------- rubric strip ---------- */
+.rubric {
+  background: var(--hs-purple-50); border-left: 4px solid var(--hs-purple-700);
+  padding: 10px 14px; margin: 0 0 22px; font-size: 10pt;
+}
+.rubric b { color: var(--hs-purple-800); font-weight: var(--hs-weight-medium); }
+
+/* ---------- problems ---------- */
+.problem { margin: 0 0 18px; break-inside: avoid; page-break-inside: avoid; }
+.problem > .p-head {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;
+}
+.problem .n {
+  flex: 0 0 auto; min-width: 26px; height: 26px; line-height: 26px;
+  text-align: center; border-radius: var(--hs-radius-s);
+  background: var(--hs-purple-700); color: var(--hs-white);
+  font-size: 10pt; font-weight: var(--hs-weight-medium);
+}
+.problem .marks { margin-left: auto; font-size: 9pt; color: var(--hs-fg-muted);
+                  white-space: nowrap; }
+.problem .topic { font-size: 9pt; letter-spacing: var(--hs-tracking-wide);
+                  text-transform: uppercase; color: var(--hs-fuchsia-600); }
+.problem .body { padding-left: 36px; }
+.problem ol.parts { margin: 6px 0 0; padding-left: 1.2em; }
+.problem ol.parts > li { margin-bottom: 5px; }
+
+/* answer space that survives printing */
+.space { border-bottom: 1px solid var(--hs-neutral-300); height: 22mm; margin: 8px 0 0; }
+.space.tall { height: 45mm; }
+
+/* ---------- solutions ---------- */
+.solution {
+  background: var(--hs-neutral-50); border-left: 4px solid var(--hs-green-700);
+  padding: 10px 14px; margin: 8px 0 0 36px; font-size: 10.5pt;
+}
+.solution .tag, .rubric .tag, .note-box .tag {
+  display: inline-block; font-size: 8pt; letter-spacing: var(--hs-tracking-widest);
+  text-transform: uppercase; font-weight: var(--hs-weight-bold);
+  color: var(--hs-white); background: var(--hs-green-700);
+  padding: 2px 7px; border-radius: var(--hs-radius-s); margin-right: 8px;
+}
+.rubric .tag { background: var(--hs-purple-700); }
+.note-box { background: var(--hs-yellow-50); border-left: 4px solid var(--hs-yellow-700);
+            padding: 10px 14px; margin: 8px 0; font-size: 10.5pt; }
+.note-box .tag { background: var(--hs-yellow-700); }
+.marks-note { color: var(--hs-fg-muted); font-size: 9.5pt; margin-top: 6px; }
+
+/* solutions hidden until you ask for them: ?solutions=1 or class on body */
+body:not(.with-solutions) .solution { display: none; }
+
+/* ---------- misc ---------- */
+h2.section-title {
+  font-size: 13pt; font-weight: var(--hs-weight-medium); margin: 26px 0 12px;
+  padding-bottom: 5px; border-bottom: 1px solid var(--hs-purple-200);
+  color: var(--hs-purple-800);
+}
+.foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid var(--hs-border);
+        font-size: 9pt; color: var(--hs-fg-muted);
+        display: flex; justify-content: space-between; }
+table.marks-table { border-collapse: collapse; width: 100%; font-size: 10pt; }
+table.marks-table th, table.marks-table td {
+  border: 1px solid var(--hs-neutral-300); padding: 5px 8px; text-align: left; }
+table.marks-table th { background: var(--hs-purple-50); color: var(--hs-purple-800);
+                       font-weight: var(--hs-weight-medium); }

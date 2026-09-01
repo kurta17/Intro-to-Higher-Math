@@ -1,0 +1,141 @@
+/* ============================================================
+   Harbour.Space design tokens
+   Source: harbour.space production stylesheet
+   /_next/static/chunks/4415-olj218fd.css  (captured 2026-09-01)
+   Values below are copied verbatim from that file. Do not invent
+   new brand colours - pick from these ramps.
+   ============================================================ */
+:root {
+  /* --- Purple (HS primary / --accent-* in the source) --- */
+  --hs-purple-50:  #f5f1ff;
+  --hs-purple-100: #d9d1ff;
+  --hs-purple-200: #bfaeff;
+  --hs-purple-300: #a78bff;
+  --hs-purple-400: #9067ff;
+  --hs-purple-500: #7a47ea;
+  --hs-purple-600: #6233c1;
+  --hs-purple-700: #4b2696;  /* --primary, --ring : THE Harbour.Space purple */
+  --hs-purple-800: #371675;
+  --hs-purple-900: #240759;
+  --hs-purple-950: #14003e;
+
+  /* --- Fuchsia (HS --highlight) --- */
+  --hs-fuchsia-50:  #fff1fb;
+  --hs-fuchsia-100: #ffcdea;
+  --hs-fuchsia-200: #ffa3dd;
+  --hs-fuchsia-300: #ff71d1;
+  --hs-fuchsia-400: #ff3bc7;  /* --highlight */
+  --hs-fuchsia-500: #e200ba;
+  --hs-fuchsia-600: #bb00a7;
+  --hs-fuchsia-700: #91008e;
+  --hs-fuchsia-800: #690071;
+  --hs-fuchsia-900: #440051;
+  --hs-fuchsia-950: #250033;
+
+  /* --- Cyan (HS --info) --- */
+  --hs-cyan-50:  #e4faff;
+  --hs-cyan-100: #a8f3ff;
+  --hs-cyan-200: #4bedff;
+  --hs-cyan-300: #04e3ff;
+  --hs-cyan-400: #01d5ff;
+  --hs-cyan-500: #00c2ff;   /* --info */
+  --hs-cyan-600: #02a5ee;
+  --hs-cyan-700: #0081be;
+  --hs-cyan-800: #015b89;
+  --hs-cyan-900: #003655;
+  --hs-cyan-950: #001729;
+
+  /* --- Green (HS --accent / --success) --- */
+  --hs-green-50:  #e5ffda;
+  --hs-green-100: #c4febe;
+  --hs-green-200: #9df5a5;
+  --hs-green-300: #6eeb91;
+  --hs-green-400: #39dc86;
+  --hs-green-500: #00c87d;
+  --hs-green-600: #00ad70;  /* --success, --accent */
+  --hs-green-700: #018d5c;
+  --hs-green-800: #006a46;
+  --hs-green-900: #01472f;
+  --hs-green-950: #00281b;
+
+  /* --- Yellow (HS --warning) --- */
+  --hs-yellow-50:  #f9f4ee;
+  --hs-yellow-100: #ffe5ba;
+  --hs-yellow-200: #ffd47b;
+  --hs-yellow-300: #ffc000;
+  --hs-yellow-400: #ffab02;
+  --hs-yellow-500: #ff9703;  /* --warning */
+  --hs-yellow-600: #f77f02;
+  --hs-yellow-700: #c95e00;
+  --hs-yellow-800: #953a00;
+  --hs-yellow-900: #611400;
+  --hs-yellow-950: #350000;
+
+  /* --- Red (HS --critical) --- */
+  --hs-red-50:  #ffeff3;
+  --hs-red-100: #ffced9;
+  --hs-red-200: #ffaabd;
+  --hs-red-300: #ff839e;
+  --hs-red-400: #ff5b7e;
+  --hs-red-500: #ff3561;   /* --critical */
+  --hs-red-600: #e71947;
+  --hs-red-700: #bf0931;
+  --hs-red-800: #940c1f;
+  --hs-red-900: #690c12;
+  --hs-red-950: #430707;
+
+  /* --- Neutrals --- */
+  --hs-black: #000;
+  --hs-white: #fff;
+  --hs-neutral-50:  #f5f5f5;
+  --hs-neutral-100: #eeeeee;
+  --hs-neutral-200: #e1e1e2;
+  --hs-neutral-300: #d2d2d4;
+  --hs-neutral-400: #c1c1c2;
+  --hs-neutral-500: #a6a6a7;
+  --hs-neutral-600: #828284;
+  --hs-neutral-700: #5f5f61;
+  --hs-neutral-800: #424244;
+  --hs-neutral-900: #2f2f31;
+  --hs-neutral-950: #1f1f22;
+
+  /* --- Semantic roles, as HS maps them --- */
+  --hs-bg: #ffffff;
+  --hs-fg: #000000;
+  --hs-fg-muted: #797979;
+  --hs-border: #ebebeb;
+  --hs-primary: var(--hs-purple-700);
+  --hs-primary-fg: #ffffff;
+  --hs-primary-hover: #502c9c;
+  --hs-primary-soft-fg: #371a71;
+  --hs-highlight: var(--hs-fuchsia-400);
+  --hs-highlight-soft-fg: #7c175f;
+  --hs-info-soft-fg: #005775;
+  --hs-success-soft-fg: #015334;
+  --hs-warning-soft-fg: #754300;
+  --hs-critical-soft-fg: #7d152c;
+
+  /* --- Type --- */
+  /* HS ships Apercu Pro (licensed). Manrope is the HS web fallback and is
+     freely available, so decks use Manrope and degrade to Arial/Helvetica. */
+  --hs-font-sans: "Manrope", "Apercu Pro", Arial, Helvetica, sans-serif;
+  --hs-font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --hs-weight-light: 200;
+  --hs-weight-regular: 300;
+  --hs-weight-medium: 500;   /* headings */
+  --hs-weight-bold: 700;
+  --hs-tracking-tighter: -0.05em;
+  --hs-tracking-tight: -0.025em;
+  --hs-tracking-widest: 0.1em;
+
+  /* --- Shape --- */
+  --hs-radius-s: 4px;
+  --hs-radius-m: 8px;
+  --hs-radius-l: 16px;
+  --hs-radius-xl: 20px;
+  --hs-radius-2xl: 24px;
+  --hs-radius-full: 2048px;
+  --hs-chamfer: 14px;        /* HS --chamfer-m : cut-corner cards */
+  --hs-border-thin: 1px;
+  --hs-border-thick: 2px;
+}

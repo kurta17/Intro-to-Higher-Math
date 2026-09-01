@@ -1,0 +1,165 @@
+<!doctype html>
+<!-- ============================================================
+     Session {{N}} deck. Scaffolded by:
+       node .claude/skills/run-intro-to-higher-math/driver.mjs new {{N}}
+
+     RULES (all enforced by `driver.mjs check`):
+       * <!doctype html> must stay on line 1 - without it Chrome is in
+         quirks mode and KaTeX refuses to render a single formula.
+       * One <section class="slide"> = one 1280x720 slide. Content that
+         exceeds 720px is reported as OVERFLOW; split the slide instead.
+       * Never hardcode a colour. Use the tokens in brand/hs-tokens.css.
+       * Footers and slide numbers are injected by deck.js - don't write them.
+
+     And by `verify.mjs` (see the /lecture-content skill):
+       * Every mathematical claim carries an executable check in a
+         <script type="application/x-hs-check"> block. The browser ignores
+         that type, so checks ship inside the deck and never render.
+       * Every content slide carries <div class="notes"> - what you SAY.
+       * A theorem is proved on the slide, or declares where it is proved
+         via data-proof="…", or says so in the text.
+       * Write raw < and > inside a check block, never &lt; / &gt;.
+     ============================================================ -->
+<meta charset="utf-8">
+<title>Session {{N}} · {{TITLE}}</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="{{N}}">
+<div class="deck">
+
+<!-- 1 · TITLE -->
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>{{TITLE}}</h1>
+  <p class="lede">{{GOAL}}</p>
+  <div class="meta">
+    <div>Session<b>{{N}} of 15</b></div>
+    <div>Date<b>{{DATE}}</b></div>
+  </div>
+</section>
+
+<!-- 2 · WHERE WE ARE / RECAP - always answer "why today follows yesterday" -->
+<section class="slide">
+  <span class="kicker">Recap</span>
+  <h2>Where we left off</h2>
+  <div class="s-body cols-2">
+    <ul class="ticks">
+      <li>...</li>
+    </ul>
+    <div class="box note">
+      <span class="tag">Today's question</span>
+      ...the one question this session answers.
+    </div>
+  </div>
+  <div class="notes">
+    Open by asking the room the question in the box before you answer it.
+  </div>
+</section>
+
+<!-- 3 · OBJECTIVES - lift verbatim from course/course.json -->
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today you can…</h2>
+  <div class="s-body">
+    <ul class="ticks">
+      <li>...</li>
+    </ul>
+  </div>
+  <div class="notes">
+    Read these out. Students should be able to self-assess against them at the end.
+  </div>
+</section>
+
+<!-- 4 · DEFINITION -->
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>...</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      $$ ... $$
+    </div>
+    <div class="box example">
+      <span class="tag">Example</span>
+      ...
+    </div>
+  </div>
+  <div class="notes">
+    What you say out loud: the motivating question, what to put on the board, what to ask
+    the room. Never rendered on the slide.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the worked example evaluates to …", () => 0, 0);
+    identity("the identity on this slide", x => x, x => x);
+  </script>
+</section>
+
+<!-- 5 · THEOREM + PROOF -->
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>...</h2>
+  <div class="s-body stack">
+    <div class="box thm"><span class="tag">Theorem</span> ...</div>
+    <div class="box proof"><span class="tag">Proof</span> ...</div>
+  </div>
+  <div class="notes">...</div>
+  <script type="application/x-hs-check">
+    forallInt("the theorem holds for n = 1..200", n => true, { lo: 1, hi: 200 });
+  </script>
+</section>
+
+<!-- 6 · PITFALL - one per session minimum, taken from course.json "pitfalls" -->
+<section class="slide">
+  <span class="kicker">Watch out</span>
+  <h2>Where this goes wrong</h2>
+  <div class="s-body cols-2">
+    <div class="box pitfall"><span class="tag">Trap</span> ...</div>
+    <div class="box note"><span class="tag">Fix</span> ...</div>
+  </div>
+  <div class="notes">...</div>
+  <script type="application/x-hs-check">
+    counterexample("the trap really is false", x => false, 0);
+  </script>
+</section>
+
+<!-- 7 · PRACTICE - students work, instructors circulate -->
+<section class="slide">
+  <span class="kicker">Your turn · 15 minutes</span>
+  <h2>Try it now</h2>
+  <div class="s-body cols-3">
+    <div class="box try"><span class="tag">1</span> ...</div>
+    <div class="box try"><span class="tag">2</span> ...</div>
+    <div class="box try"><span class="tag">3</span> ...</div>
+  </div>
+  <div class="notes">
+    Time-box it, circulate, take a student's reasoning to the board. Expected answers: …
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("Q1 answer set is correct", x => true, x => true);
+  </script>
+</section>
+
+<!-- 8 · WRAP-UP + HOMEWORK -->
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks"><li>...</li></ul>
+      <div class="chips" style="margin-top:18px"><span class="chip">term</span></div>
+    </div>
+    <div class="card">
+      <h3>Homework {{N}}</h3>
+      <p class="small">...</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>...</strong></p>
+    </div>
+  </div>
+  <div class="notes">...</div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>

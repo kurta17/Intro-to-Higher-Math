@@ -1,0 +1,155 @@
+<!doctype html>
+<!-- Living reference for every deck component. Screenshot it before
+     authoring a deck: node .../driver.mjs shot brand/components.html all -->
+<meta charset="utf-8">
+<title>HS deck components</title>
+<link rel="stylesheet" href="vendor/manrope/manrope.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="hs-tokens.css">
+<link rel="stylesheet" href="deck.css">
+<body data-course="Deck components" data-session="ref">
+<div class="deck">
+
+<section class="slide title">
+  <span class="kicker">Design system</span>
+  <h1>Deck components</h1>
+  <p class="lede">Every building block, on the Harbour.Space palette. Copy the markup, never the colours.</p>
+  <div class="meta">
+    <div>Slide size<b>1280 × 720</b></div>
+    <div>Type<b>Manrope</b></div>
+    <div>Primary<b>#4b2696</b></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Callouts</span>
+  <h2>The seven boxes</h2>
+  <div class="s-body cols-3 small">
+    <div class="box def"><span class="tag">Definition</span> <code>.box.def</code> — purple. New vocabulary, stated precisely.</div>
+    <div class="box thm"><span class="tag">Theorem</span> <code>.box.thm</code> — fuchsia. A claim you are about to earn.</div>
+    <div class="box proof"><span class="tag">Proof</span> <code>.box.proof</code> — neutral, auto tombstone ∎.</div>
+    <div class="box example"><span class="tag">Example</span> <code>.box.example</code> — cyan. Worked, on the board.</div>
+    <div class="box try"><span class="tag">Try it</span> <code>.box.try</code> — green. Students work now.</div>
+    <div class="box pitfall"><span class="tag">Trap</span> <code>.box.pitfall</code> — red. The classic mistake.</div>
+    <div class="box note"><span class="tag">Note</span> <code>.box.note</code> — yellow. Aside or meta-comment.</div>
+    <div class="card"><h3><code>.card</code></h3><p class="small" style="margin:0">Neutral container.</p></div>
+    <div class="card solid"><h3><code>.card.solid</code></h3><p class="small" style="margin:0">Purple, for the point that matters.</p></div>
+  </div>
+  <div class="notes">Pick the box that matches the speech act: defining, claiming, proving, illustrating, warning, or handing over to the students.</div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Layout &amp; data</span>
+  <h2>Grids, stats, chips, tables</h2>
+  <div class="s-body">
+    <div class="cols-3" style="margin-bottom:18px">
+      <div class="card"><div class="big">15</div><div class="cap"><code>.card .big / .cap</code></div></div>
+      <div class="card"><div class="big">45</div><div class="cap">stat cards read at the back of the room</div></div>
+      <div class="card solid"><div class="big">4</div><div class="cap">the one you want them to remember</div></div>
+    </div>
+    <div class="cols-2">
+      <table>
+        <tr><th>Class</th><th>Columns</th></tr>
+        <tr><td><code>.cols-2</code></td><td>1 : 1</td></tr>
+        <tr><td><code>.cols-3</code></td><td>1 : 1 : 1</td></tr>
+        <tr><td><code>.cols-5-7</code></td><td>narrow : wide</td></tr>
+        <tr><td><code>.cols-7-5</code></td><td>wide : narrow</td></tr>
+        <tr><td><code>.even</code></td><td>equal-height columns</td></tr>
+      </table>
+      <div>
+        <div class="chips" style="margin-bottom:14px">
+          <span class="chip">.chip</span><span class="chip hot">.chip.hot</span><span class="chip">key term</span>
+        </div>
+        <ul class="ticks small" style="margin:0">
+          <li><code>ul.ticks</code> — arrow bullets in fuchsia</li>
+          <li><code>.mathline</code> — one big centred formula</li>
+          <li><code>.notes</code> — speaker notes, never rendered</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Stat cards are for numbers you want remembered; chips are for the key terms of the session.</div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Maths</span>
+  <h2>KaTeX inline and display</h2>
+  <div class="s-body cols-2">
+    <div>
+      <p>Inline: the sum $\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$ sits in the line.</p>
+      <p class="mathline">$\displaystyle e^{i\theta} = \cos\theta + i\sin\theta$</p>
+      <div class="box proof">
+        <span class="tag">Proof</span>
+        Display maths inside a box:
+        $$\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$$
+      </div>
+    </div>
+    <div class="box pitfall">
+      <span class="tag">Hard-won</span>
+      <p>Delimiters: <code>$…$</code> inline, <code>$$…$$</code> display.</p>
+      <p>In HTML you must escape <code>&lt;</code> as <code>&amp;lt;</code> — even inside maths.</p>
+      <p style="margin-bottom:0">Drop the doctype and <strong>every formula silently fails</strong> (quirks mode). <code>driver.mjs check</code> catches it.</p>
+    </div>
+  </div>
+  <script type="application/x-hs-check">
+    /* Every claim on a slide carries a check - including on this one.
+       See the /lecture-content skill for the full vocabulary. */
+    forallInt("sum_{k=1}^{n} k = n(n+1)/2", n => {
+      let s = 0; for (let k = 1; k <= n; k++) s += k;
+      return s === n * (n + 1) / 2;
+    }, { lo: 1, hi: 300 });
+    claim("Euler: e^{i*pi} = -1", () => ceq(cpow(cx(Math.E, 0), 1) && cx(Math.cos(Math.PI), Math.sin(Math.PI)), cx(-1, 0), 1e-12));
+    forallInt("Pascal: C(n,k) = C(n-1,k-1) + C(n-1,k)", n => {
+      for (let k = 1; k < n; k++) if (C(n, k) !== C(n-1, k-1) + C(n-1, k)) return false;
+      return true;
+    }, { lo: 2, hi: 60 });
+  </script>
+  <div class="notes">Every claim on a slide carries a check block — this slide included. See the /lecture-content skill.</div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Class activity</span>
+  <h2>Work students do in the room</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        <code>.activity</code> — the header carries the three things that make an activity run:
+        which one it is, who students work with, and how long they have.
+        <ol>
+          <li>Task steps go in an <code>&lt;ol&gt;</code>, one instruction each.</li>
+          <li>Give them something to decide, not something to copy.</li>
+        </ol>
+        <div class="share"><b>Share:</b> <code>.share</code> — what gets presented to the room. Never leave this out; it is what turns an exercise into a discussion.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">Three or four of these per three-hour session. The share line is what makes it a discussion.</div>
+</section>
+
+<section class="slide section">
+  <span class="kicker">Divider</span>
+  <h1>Section slide</h1>
+  <p class="lede"><code>.slide.section</code> — use between the two halves of a 3-hour session.</p>
+  <span class="num-badge">2</span>
+</section>
+
+<section class="slide dark">
+  <span class="kicker">Dark</span>
+  <h2><code>.slide.dark</code> for wrap-ups</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>Cards, chips and boxes all invert automatically.</li>
+        <li>Use it for the last slide so the room knows it's over.</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Homework</h3><p class="small" style="margin-bottom:0">Brief it here, every session.</p></div>
+  </div>
+  <div class="notes">Dark slides read as "we are done" — use one at the end of every session.</div>
+</section>
+
+</div>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/katex/contrib/auto-render.min.js"></script>
+<script src="deck.js"></script>

@@ -1,0 +1,785 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 1 · Course overview and School math refresher</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="1">
+<div class="deck">
+
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Intro to Higher Math</h1>
+  <p class="lede">From getting the answer to knowing why the answer is right.</p>
+  <div class="meta">
+    <div>Session<b>1 of 15</b></div>
+    <div>Date<b>Mon 7 Sep 2026</b></div>
+    <div>Today<b>Overview + refresher</b></div>
+  </div>
+
+</section>
+
+<section class="slide">
+  <span class="kicker">Introductions</span>
+  <h2>Giorgi Kurtanidze &amp; Irakli Kereleishvili</h2>
+  <div class="s-body">
+    <p class="lede" style="max-width:none; margin-bottom:18px">
+      Software Engineers at Autopilot — and we have done all of this together.
+    </p>
+    <div class="cols-3">
+      <div class="card">
+        <div class="small muted">2017 – 2023</div>
+        <h3 style="margin:4px 0">School №199, Tbilisi</h3>
+        <p class="small" style="margin:0">Physics &amp; Mathematics</p>
+      </div>
+      <div class="card">
+        <div class="small muted">since 2022</div>
+        <h3 style="margin:4px 0">Teaching mathematics</h3>
+        <p class="small" style="margin:0">Privately, then here</p>
+      </div>
+      <div class="card">
+        <div class="small muted">2023 – 2026</div>
+        <h3 style="margin:4px 0">Harbour.Space @ UTCC</h3>
+        <p class="small" style="margin:0">CS &amp; Data Science, double major</p>
+      </div>
+      <div class="card">
+        <div class="small muted">since 2023</div>
+        <h3 style="margin:4px 0">ICPC</h3>
+        <p class="small" style="margin:0">Competing for Harbour.Space</p>
+      </div>
+      <div class="card">
+        <div class="small muted">since 2025</div>
+        <h3 style="margin:4px 0">Brainstormers</h3>
+        <p class="small" style="margin:0">Co-founded — tournaments in logic</p>
+      </div>
+      <div class="card solid">
+        <div class="small">2026</div>
+        <h3 style="margin:4px 0">Autopilot</h3>
+        <p class="small" style="margin:0">Fintech and AI systems</p>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Keep this to three minutes between you — the slide is the outline, you are the story. The through-line
+    worth saying out loud: same school, same degree, same ICPC team, same company, and we have been
+    teaching this material since 2022. Then ONE concrete example of maths inside real engineering work —
+    a proof that caught a bug, modular arithmetic in a payment system, vectors in a model — and stop.
+    Detail you can pull on if asked: Giorgi on payment infrastructure and AI products, earlier AI/Data
+    at Siam Digital Lending and research at Betimes; Irakli on financial orchestration and AI automation
+    agents, earlier Letsmod and MaxSolutions. Placements: Thailand 2024, 17th; Asia Bangkok 2025, top 10
+    among Thai teams; Asia Jakarta 2024. Medals from School №199 and a National Intellectual Competition
+    title. None of that belongs on the screen.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Introductions · round the room</span>
+  <h2>Who you are</h2>
+  <div class="s-body cols-3">
+    <div class="box def">
+      <span class="tag">1</span>
+      <p style="margin:0 0 6px"><strong>What is your name?</strong></p>
+      And what you would like to be called in class.
+    </div>
+    <div class="box example">
+      <span class="tag">2</span>
+      <p style="margin:0 0 6px"><strong>Where are you from?</strong></p>
+      Country, city — and how long you have been in Bangkok.
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      <p style="margin:0 0 6px"><strong>What is your background in maths?</strong></p>
+      Last course you took, and how you feel about proofs.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Why we ask</span>
+      This class runs on discussion and group work. Knowing the room — and hearing that other
+      people are also new to proof — is what makes people willing to speak.
+    </div>
+  </div>
+  <div class="notes">
+    Go round the room, roughly 30 seconds each; with 20 students that is ten minutes, and it is
+    ten minutes well spent. Write the names down. Listen for the third answer especially: it tells
+    you how much of the refresher to slow down for, and who to pair with whom in group work.
+    Answer the three questions about yourselves first, so the format is clear.
+  </div>
+</section>
+
+
+<section class="slide">
+  <span class="kicker">Why this course exists</span>
+  <h2>School maths ends where university maths begins</h2>
+  <div class="s-body cols-2 even">
+      <div class="card">
+        <h3>What you were rewarded for</h3>
+        <ul class="ticks">
+          <li>Getting the number at the bottom of the page</li>
+          <li>Recognising which technique to apply</li>
+          <li>Speed and accuracy</li>
+        </ul>
+      </div>
+      <div class="card solid">
+        <h3>What you will be rewarded for here</h3>
+        <ul class="ticks">
+          <li>A claim, stated precisely</li>
+          <li>An argument that forces the claim to be true</li>
+          <li>Writing it so another person is convinced</li>
+        </ul>
+      </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">The shift</span>
+      A calculation can be checked. An argument must be <strong>understood</strong>. Everything in the next three weeks trains the second skill.
+    </div>
+  </div>
+
+  <div class="notes">
+    Ask the room: "who has ever been asked WHY the quadratic formula is true?" Usually nobody.
+    That is the whole gap this course closes. Do not rush this slide - it sets the contract.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Logistics</span>
+  <h2>The course at a glance</h2>
+  <div class="s-body">
+    <div class="cols-3" style="margin-bottom: 22px">
+      <div class="card"><div class="big">3</div><div class="cap">weeks · 7–25 Sep 2026</div></div>
+      <div class="card"><div class="big">45</div><div class="cap">contact hours · 3 h/day</div></div>
+      <div class="card"><div class="big">4</div><div class="cap">ECTS credits</div></div>
+    </div>
+    <div class="cols-3">
+      <div>
+        <h3>Where it takes you next</h3>
+        <p class="small">Calculus · Linear algebra · Discrete mathematics · Graph theory · Probability — every one of them assumes the language you build here.</p>
+      </div>
+      <div>
+        <h3>Prerequisites</h3>
+        <p class="small">None formally. A solid high-school background is assumed, and today's second half checks it is actually there.</p>
+      </div>
+      <div>
+        <h3>Books</h3>
+        <p class="small" style="margin-bottom:0">Simmons, <em>Precalculus Mathematics in a Nutshell</em> · Barrington, <em>A Mathematical Foundation for Computer Science</em> · Gibilisco, <em>Algebra Know-It-All</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    Logistics only. Keep it under three minutes; they can read dates. The one line that matters
+    is which later courses depend on this one.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Roadmap</span>
+  <h2>Fifteen sessions, one argument</h2>
+  <div class="s-body cols-3 small">
+    <div class="card">
+      <h3>Week 1 · Language</h3>
+      <ol>
+        <li>Overview + refresher</li>
+        <li>Sets &amp; set operations</li>
+        <li>Functions</li>
+        <li>Function families</li>
+        <li>Proof techniques</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Week 2 · Method</h3>
+      <ol start="6">
+        <li>Mathematical induction</li>
+        <li>Combinatorics + binomial theorem</li>
+        <li><strong>Midterm</strong></li>
+        <li>GCD &amp; divisibility</li>
+        <li>Modular arithmetic</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Week 3 · Structure</h3>
+      <ol start="11">
+        <li>Vectors in ℝⁿ</li>
+        <li>Polynomials</li>
+        <li>Complex numbers</li>
+        <li>Recap · maths in the AI era</li>
+        <li><strong>Final exam</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="notes">
+    Point at the three-week arc: week 1 builds the language, week 2 the methods, week 3 the
+    structures. Session 5 (proof techniques) is the hinge - flag it now so they see it coming.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Assessment</span>
+  <h2>How the grade is built</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <table>
+        <tr><th>Component</th><th class="num">Weight</th></tr>
+        <tr><td>Homework assignments</td><td class="num">60%</td></tr>
+        <tr><td>Final exam</td><td class="num">20%</td></tr>
+        <tr><td>Midterm exam</td><td class="num">10%</td></tr>
+        <tr><td>Participation &amp; in-class activities</td><td class="num">10%</td></tr>
+      </table>
+      <p class="small muted" style="margin-top:14px">Homework dominates deliberately: proof is a skill, and skills are built by repetition, not by one exam morning.</p>
+    </div>
+    <div class="box def">
+      <span class="tag">Marking rule</span>
+      <p>A correct final answer with no reasoning is worth <strong>very little</strong>.</p>
+      <p style="margin-bottom:0">A wrong final answer with a clear, nearly-correct argument is worth <strong>a lot</strong>.</p>
+    </div>
+  </div>
+
+  <div class="notes">
+    Say out loud that homework is 60% - more than both exams combined - and that this is
+    deliberate: proof is a skill, and skills come from repetition. The marking rule box is
+    the single most important slide of the day; students will test it on Homework 1.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the four grading weights sum to 100%", () => 60 + 20 + 10 + 10, 100);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Ground rules</span>
+  <h2>Collaboration, AI, and the one hard line</h2>
+  <div class="s-body stack">
+    <div class="box try">
+      <span class="tag">Encouraged</span>
+      Discuss the material. Compare strategies. Argue about solutions. Use AI tools as a learning aid.
+    </div>
+    <div class="box pitfall">
+      <span class="tag">Prohibited</span>
+      Copying solutions from other students or external sources and submitting them as your own.
+    </div>
+    <div class="box note">
+      <span class="tag">The test that settles it</span>
+      You must be able to <strong>explain and justify every solution you submit</strong>, on the spot, without notes. If you cannot, it is not yours yet — whoever or whatever produced it.
+    </div>
+  </div>
+
+  <div class="notes">
+    The AI paragraph is course policy, not opinion - read it verbatim. The operative test is the
+    third box: if you cannot explain it on the spot, it is not yours. Say you will actually ask.
+  </div>
+</section>
+
+<section class="slide section">
+  <span class="kicker">Part II</span>
+  <h1>School math refresher</h1>
+  <p class="lede">Not revision. We take four things you already compute and ask what makes them true — which is the habit the rest of the course is built on.</p>
+  <span class="num-badge">2</span>
+</section>
+
+<section class="slide">
+  <span class="kicker">Notation</span>
+  <h2>The language we will use</h2>
+  <div class="s-body cols-5-7">
+    <table class="small">
+      <tr><th>Symbol</th><th>Reads as</th></tr>
+      <tr><td>$\in$</td><td>is an element of</td></tr>
+      <tr><td>$\subseteq$</td><td>is a subset of</td></tr>
+      <tr><td>$\Longrightarrow$</td><td>implies</td></tr>
+      <tr><td>$\Longleftrightarrow$</td><td>if and only if</td></tr>
+      <tr><td>$\forall$</td><td>for all</td></tr>
+      <tr><td>$\exists$</td><td>there exists</td></tr>
+      <tr><td>$\mathbb{N}\,\mathbb{Z}\,\mathbb{Q}\,\mathbb{R}$</td><td>naturals, integers, rationals, reals</td></tr>
+      <tr><td>$\sum_{k=1}^{n}$</td><td>the sum over $k = 1$ to $n$</td></tr>
+    </table>
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        $P \Longrightarrow Q$ asserts that there is no case in which $P$ holds and $Q$ fails. When $P$ is false the implication is true — <em>vacuously</em>.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $P \Longrightarrow Q$ is not $Q \Longrightarrow P$. "$x = 2 \Longrightarrow x^2 = 4$" is true; its converse fails at $x = -2$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Three minutes. They will meet all of this properly in Session 5; today they only need to read it.
+    The vacuous-truth line always gets a reaction — promise them it will make sense in week one and move on.
+    The last two rows are here because nothing else in the course stops to teach them: set-builder
+    notation over N, Z, Q, R is used from tomorrow morning, and sigma appears in Session 6's induction
+    proofs. Read both aloud, in words, once.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P ⟹ Q is false exactly in the case P true, Q false", () => {
+      const imp = (p, q) => (!p || q);
+      return imp(true, true) === true && imp(true, false) === false
+          && imp(false, true) === true && imp(false, false) === true;
+    });
+    counterexample("the converse of 'x=2 ⟹ x²=4' fails", x => (x * x === 4 ? x === 2 : true), -2);
+    forallInt("sigma notation: sum_{k=1}^{n} 1 = n", n => {
+      let t = 0; for (let k = 1; k <= n; k++) t += 1; return t === n;
+    }, { lo: 1, hi: 200 });
+    claim("the number systems nest: N subset Z subset Q subset R", () => {
+      const isN = x => Number.isInteger(x) && x >= 1;
+      const isZ = x => Number.isInteger(x);
+      for (const x of [1, 7, 42]) if (!(isN(x) && isZ(x))) return false;
+      return isZ(-3) && !isN(-3);
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Refresher · 1</span>
+  <h2>Every rule is a theorem with a hypothesis</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box thm" data-proof="Session 4, once real exponents are defined through exp and log">
+        <span class="tag">Laws of exponents</span>
+        For $a &gt; 0$ and all real $m, n$:
+        $$a^m a^n = a^{m+n} \qquad (a^m)^n = a^{mn} \qquad a^{-n} = \frac{1}{a^n}$$
+      </div>
+      <div class="box proof">
+        <span class="tag">Why $a^0 = 1$</span>
+        Put $n = 0$ in the first law: $a^m a^0 = a^m$. As $a \neq 0$ we may divide by $a^m$, giving $a^0 = 1$. It is <strong>forced</strong> by the law, not chosen for convenience.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $\sqrt{x^2} = x$ is false. The radical returns the non-negative root, so $\sqrt{x^2} = |x|$. Test $x = -3$.
+      </div>
+      <div class="box example">
+        <span class="tag">Worked</span>
+        $\dfrac{8^{2/3}\cdot 2^{-1}}{4^{1/2}} = \dfrac{4 \cdot \tfrac12}{2} = 1$
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The $a^0$ box is the slide. Derive it live: most of them were told $a^0=1$ as a rule to memorise, and
+    seeing it fall out of a law in one line is the first small shock of the course. Then stress $a &gt; 0$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("8^(2/3)·2^(-1)/4^(1/2) = 1",
+      () => Math.pow(8, 2/3) * Math.pow(2, -1) / Math.pow(4, 1/2), 1);
+    identity("a^m·a^n = a^(m+n)  for a > 0",
+      (a, m, n) => Math.pow(a, m) * Math.pow(a, n),
+      (a, m, n) => Math.pow(a, m + n), { arity: 3, lo: 0.2, hi: 4 });
+    identity("(a^m)^n = a^(mn)  for a > 0",
+      (a, m, n) => Math.pow(Math.pow(a, m), n),
+      (a, m, n) => Math.pow(a, m * n), { arity: 3, lo: 0.2, hi: 3 });
+    identity("a^0 = 1 follows from a^m·a^0 = a^m, for a > 0",
+      a => Math.pow(a, 0), () => 1, { lo: 0.1, hi: 9 });
+    identity("sqrt(x^2) = |x|", x => Math.sqrt(x * x), x => Math.abs(x));
+    counterexample("sqrt(x^2) = x is false", x => Math.sqrt(x * x) === x, -3);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>Spot the missing hypothesis</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Every statement below is false as written. For each one, give a counterexample, then repair it by adding the <strong>smallest</strong> hypothesis that makes it true — or argue that it cannot be repaired.
+        <ol>
+          <li>$(a^m)^n = a^{mn}$</li>
+          <li>$\sqrt{x^2} = x$</li>
+          <li>$\sqrt{ab} = \sqrt{a}\,\sqrt{b}$</li>
+          <li>$\log(a+b) = \log a + \log b$</li>
+          <li>$\dfrac{1}{a+b} = \dfrac{1}{a} + \dfrac{1}{b}$</li>
+        </ol>
+        <div class="share"><b>Share:</b> each group presents one repair and the counterexample that forced it.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Three are repairable (1, 2, 3 — all need a non-negativity condition); 4 and 5 are not, and noticing that
+    difference is the point. Do not give the answers: let a group defend a wrong repair and let the room break it
+    with a number. That is a proof in miniature.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("1 fails: (a^m)^n = a^(mn) at a=-1, m=2, n=1/2",
+      ([a, m, n]) => Math.pow(Math.pow(a, m), n) === Math.pow(a, m * n), [-1, 2, 0.5]);
+    identity("1 repaired: it holds once a > 0",
+      (a, m, n) => Math.pow(Math.pow(a, m), n),
+      (a, m, n) => Math.pow(a, m * n), { arity: 3, lo: 0.2, hi: 3 });
+    counterexample("2 fails: sqrt(x^2) = x at x = -3", x => Math.sqrt(x * x) === x, -3);
+    counterexample("3 fails: sqrt(ab) = sqrt(a)sqrt(b) at a = b = -1",
+      ([a, b]) => Math.sqrt(a * b) === Math.sqrt(a) * Math.sqrt(b), [-1, -1]);
+    identity("3 repaired: it holds for a, b >= 0",
+      (a, b) => Math.sqrt(a * b), (a, b) => Math.sqrt(a) * Math.sqrt(b),
+      { arity: 2, lo: 0, hi: 9 });
+    counterexample("4 is irreparable: log(a+b) = log a + log b at a = b = 1",
+      ([a, b]) => Math.abs(Math.log(a + b) - (Math.log(a) + Math.log(b))) < 1e-12, [1, 1]);
+    identity("4's real law is log(ab) = log a + log b",
+      (a, b) => Math.log(a * b), (a, b) => Math.log(a) + Math.log(b),
+      { arity: 2, lo: 0.2, hi: 9 });
+    counterexample("5 is irreparable at a = b = 1",
+      ([a, b]) => 1 / (a + b) === 1 / a + 1 / b, [1, 1]);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Refresher · 2</span>
+  <h2>Absolute value is distance</h2>
+  <div class="s-body cols-5-7">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        $$|x| = \begin{cases} x & x \geq 0 \\ -x & x &lt; 0\end{cases}$$
+        Read $|a - b|$ as the distance from $a$ to $b$ on the line.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box thm" data-proof="board: square both sides of the triangle inequality and use xy &lt;= |xy|">
+        <span class="tag">Proposition</span>
+        For all real $x, y$ and every $c &gt; 0$:
+        $$|xy| = |x||y| \qquad |x| \leq c \iff -c \leq x \leq c$$
+        $$|x + y| \leq |x| + |y| \quad \text{(triangle inequality)}$$
+      </div>
+      <div class="box example">
+        <span class="tag">Worked</span>
+        $|2x - 3| &lt; 5$ says $2x$ is within $5$ of $3$, so $-2 &lt; 2x &lt; 8$, that is $-1 &lt; x &lt; 4$. Every step is an <strong>equivalence</strong>.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Prove the triangle inequality on the board — it is two lines by squaring, and it is the first real proof they
+    watch in this course. Say that it reappears in Session 11 for vectors, in exactly the same form.
+  </div>
+  <script type="application/x-hs-check">
+    identity("|x| agrees with the two-case definition", x => Math.abs(x), x => (x >= 0 ? x : -x));
+    identity("|xy| = |x||y|", (x, y) => Math.abs(x * y), (x, y) => Math.abs(x) * Math.abs(y), { arity: 2 });
+    claim("triangle inequality |x+y| <= |x|+|y|", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 40 - 20, y = Math.random() * 40 - 20;
+        if (Math.abs(x + y) > Math.abs(x) + Math.abs(y) + 1e-12) return false;
+      }
+      return true;
+    });
+    equivalent("|x| <= 3  <=>  -3 <= x <= 3", x => Math.abs(x) <= 3, x => -3 <= x && x <= 3);
+    equivalent("|2x-3| < 5  <=>  -1 < x < 4", x => Math.abs(2 * x - 3) < 5, x => -1 < x && x < 4);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>Distance on the line</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">pairs</span><span class="time">10 min</span></header>
+      <div class="a-body">
+        Turn each sentence into an absolute-value inequality, solve it, and draw the solution set on a number line.
+        <ol>
+          <li>$x$ is within $3$ of $7$.</li>
+          <li>$x$ is at least $2$ away from $-1$.</li>
+          <li>$2x$ is closer to $5$ than $1$ is.</li>
+        </ol>
+        <div class="share"><b>Share:</b> two pairs draw their number lines on the board; the room decides which endpoints are included, and says why.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The endpoints are the lesson: (1) and (2) are closed, (3) is open. Make them justify inclusion from the
+    definition rather than from the shape of the symbol. Answers: $[4,10]$; $x \leq -3$ or $x \geq 1$; $2 &lt; x &lt; 3$.
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("Q1: |x-7| <= 3  <=>  4 <= x <= 10",
+      x => Math.abs(x - 7) <= 3, x => 4 <= x && x <= 10);
+    equivalent("Q2: |x+1| >= 2  <=>  x <= -3 or x >= 1",
+      x => Math.abs(x + 1) >= 2, x => x <= -3 || x >= 1);
+    equivalent("Q3: |2x-5| < 1  <=>  2 < x < 3",
+      x => Math.abs(2 * x - 5) < 1, x => 2 < x && x < 3);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Refresher · 3</span>
+  <h2>Order is three axioms; the rest is theorems</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Order axioms</span>
+      For all real $a, b, c$:
+      <ol style="margin-top:6px">
+        <li>exactly one of $a &lt; b$, $a = b$, $b &lt; a$ holds;</li>
+        <li>$a &lt; b \Longrightarrow a + c &lt; b + c$;</li>
+        <li>$a &lt; b$ and $0 &lt; c \Longrightarrow ac &lt; bc$.</li>
+      </ol>
+    </div>
+    <div class="box proof">
+      <span class="tag">Everything else is derived</span>
+      Claim: $a &lt; b \Longrightarrow -b &lt; -a$.
+      By (2) add $-a-b$ to both sides of $a &lt; b$:
+      $$a - a - b &lt; b - a - b \;\Longrightarrow\; -b &lt; -a$$
+      No new rule was needed. This is what "axiomatic approach" means.
+    </div>
+  </div>
+  <div class="notes">
+    This is the most academic slide of the day and it is worth ten minutes. The message: you were handed a list of
+    inequality rules; there are only three, and the list was theorems. Session 5 makes this a method.
+  </div>
+  <script type="application/x-hs-check">
+    claim("axiom (2): a < b implies a+c < b+c", () => {
+      for (let i = 0; i < 3000; i++) {
+        const a = Math.random()*20-10, b = Math.random()*20-10, c = Math.random()*20-10;
+        if (a < b && !(a + c < b + c)) return false;
+      }
+      return true;
+    });
+    claim("axiom (3): a < b and c > 0 implies ac < bc", () => {
+      for (let i = 0; i < 3000; i++) {
+        const a = Math.random()*20-10, b = Math.random()*20-10, c = Math.random()*10 + 1e-6;
+        if (a < b && !(a * c < b * c)) return false;
+      }
+      return true;
+    });
+    claim("derived: a < b implies -b < -a", () => {
+      for (let i = 0; i < 3000; i++) {
+        const a = Math.random()*20-10, b = Math.random()*20-10;
+        if (a < b && !(-b < -a)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Refresher · 3</span>
+  <h2>What you may and may not do</h2>
+  <div class="s-body">
+    <table>
+      <tr><th>Operation on $a &lt; b$</th><th>Legal?</th><th>Traceable to</th></tr>
+      <tr><td>Add $c$ to both sides</td><td>Always</td><td>axiom (2)</td></tr>
+      <tr><td>Multiply by $c &gt; 0$</td><td>Always</td><td>axiom (3)</td></tr>
+      <tr><td>Multiply by $c &lt; 0$</td><td>Only if you flip</td><td>(3) applied to $-c$</td></tr>
+      <tr><td>Multiply by an unknown $x$</td><td><strong>No</strong></td><td>sign of $x$ unknown — split cases</td></tr>
+      <tr><td>Square both sides</td><td>Only if both are $\geq 0$</td><td>$-3 &lt; 2$ but $9 &gt; 4$</td></tr>
+    </table>
+    <div class="cols-2" style="margin-top:14px">
+      <div class="box example">
+        <span class="tag">Row 3, traced</span>
+        $-2 &lt; 3$. Multiply by $-4$: apply axiom (3) with $c = 4$ to get $-8 &lt; 12$, then negate using $a &lt; b \Rightarrow -b &lt; -a$: $\;8 &gt; -12$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Classic</span>
+        From $\dfrac{1}{x} &lt; 1$ you may <strong>not</strong> conclude $x &gt; 1$. Check $x = -2$: the premise holds, the conclusion fails.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Go row by row and make them supply the third column before you reveal it. The last two rows are the ones they
+    lose marks on all term.
+  </div>
+  <script type="application/x-hs-check">
+    claim("traced example: -2 < 3 multiplied by -4 gives 8 > -12", () => {
+      const a = -2, b = 3, c = -4;
+      return (a < b) && (a * 4 < b * 4) && (a * c > b * c) && a * c === 8 && b * c === -12;
+    });
+    counterexample("squaring is not order-preserving: -3 < 2 but 9 > 4",
+      ([a, b]) => (a < b) === (a * a < b * b), [-3, 2]);
+    counterexample("1/x < 1 does NOT imply x > 1", x => !(1 / x < 1) || x > 1, -2);
+    claim("multiplying by c < 0 reverses the order", () => {
+      for (let i = 0; i < 3000; i++) {
+        const a = Math.random()*20-10, b = Math.random()*20-10, c = -(Math.random()*10 + 1e-6);
+        if (a < b && !(a * c > b * c)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>Always, sometimes, or never</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        You are given $a &lt; b$. Sort these moves into <strong>always legal</strong>, <strong>legal under a condition</strong>, or <strong>never legal</strong>. State the condition, or give a counterexample.
+        <ol>
+          <li>Add $c$ to both sides.</li>
+          <li>Multiply both sides by $c$.</li>
+          <li>Square both sides.</li>
+          <li>Take reciprocals of both sides.</li>
+          <li>Multiply both sides by $x$, where $x$ is the unknown.</li>
+          <li>Apply a strictly increasing function $f$ to both sides.</li>
+        </ol>
+        <div class="share"><b>Share:</b> each group defends one card. Where two groups disagree, the counterexample settles it at the board.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Cards 4 and 6 are the interesting ones. Reciprocals reverse the order only when $a$ and $b$ share a sign
+    ($2 &lt; 3$ gives $\tfrac12 &gt; \tfrac13$, but $-1 &lt; 2$ does not give $-1 &gt; \tfrac12$). Card 6 is always legal and is
+    the general principle behind cards 1 and 2 — if a group finds that, put it on the board.
+  </div>
+  <script type="application/x-hs-check">
+    claim("card 6: any strictly increasing f preserves a < b", () => {
+      const fs = [x => 2*x + 5, x => Math.exp(x), x => x*x*x, x => Math.atan(x)];
+      for (const f of fs) for (let i = 0; i < 2000; i++) {
+        const a = Math.random()*10-5, b = Math.random()*10-5;
+        if (a < b && !(f(a) < f(b))) return false;
+      }
+      return true;
+    });
+    counterexample("card 4: reciprocals need a, b of the same sign",
+      ([a, b]) => (a < b) === (1/a > 1/b), [-1, 2]);
+    claim("card 4 repaired: for 0 < a < b the reciprocal reverses", () => {
+      for (let i = 0; i < 2000; i++) {
+        const a = Math.random()*5 + 0.1, b = a + Math.random()*5 + 0.1;
+        if (!(1/a > 1/b)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Refresher · 4</span>
+  <h2>Where the quadratic formula comes from</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Derivation</span>
+      Start from $ax^2 + bx + c = 0$ with $a \neq 0$ and divide by $a$:
+      $$x^2 + \tfrac{b}{a}x = -\tfrac{c}{a}$$
+      Complete the square on the left, using $x^2 + \beta x = \left(x + \tfrac{\beta}{2}\right)^2 - \tfrac{\beta^2}{4}$:
+      $$\left(x + \tfrac{b}{2a}\right)^{2} = \frac{b^2 - 4ac}{4a^2}$$
+      Take square roots — <em>both</em> of them — and subtract $\tfrac{b}{2a}$:
+      $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+    </div>
+    <div class="box note">
+      <span class="tag">What the discriminant decides</span>
+      $b^2 - 4ac &gt; 0$: two real roots. $= 0$: one repeated root. $&lt; 0$: none in $\mathbb{R}$ — which is exactly the gap Session 13 fills with $\mathbb{C}$.
+    </div>
+  </div>
+  <div class="notes">
+    Do every line on the board, slowly. Ask at the $\pm$ step why both roots survive — that is where the
+    equivalence is, and where students silently drop a solution for the rest of their lives.
+  </div>
+  <script type="application/x-hs-check">
+    identity("x^2 + bx = (x + b/2)^2 - b^2/4",
+      (x, b) => x * x + b * x, (x, b) => Math.pow(x + b / 2, 2) - b * b / 4, { arity: 2 });
+    identity("the formula's + root satisfies ax^2+bx+c = 0 when the discriminant is >= 0",
+      (a, b, c) => { const d = b*b - 4*a*c; if (d < 0) return 0;
+        const r = (-b + Math.sqrt(d)) / (2*a); return a*r*r + b*r + c; },
+      () => 0, { arity: 3, lo: -4, hi: 4, avoid: [0] });
+    identity("the formula's - root satisfies it too",
+      (a, b, c) => { const d = b*b - 4*a*c; if (d < 0) return 0;
+        const r = (-b - Math.sqrt(d)) / (2*a); return a*r*r + b*r + c; },
+      () => 0, { arity: 3, lo: -4, hi: 4, avoid: [0] });
+    claim("discriminant = 0 gives exactly one root: x^2-4x+4", () => {
+      const d = 16 - 16; return d === 0 && Math.pow(2, 2) - 4*2 + 4 === 0;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 4</span>
+  <h2>Derive it without us</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        <ol>
+          <li>Solve $3x^2 - 12x + 7 = 0$ by completing the square. Do not use the formula.</li>
+          <li>Now close your notes and redo the derivation for a general $ax^2 + bx + c = 0$.</li>
+          <li>Write one sentence saying what $b^2 - 4ac$ tells you, and why it tells you that.</li>
+        </ol>
+        <div class="share"><b>Share:</b> one pair derives the general case at the board while the room checks that every step is an equivalence.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answer to (1): $x = 2 \pm \tfrac{\sqrt{15}}{3}$. Most pairs will get the arithmetic and miss step 3 — the
+    "why" is that the discriminant is what sits under the square root, so its sign decides whether a real root
+    exists at all. Collect step 3 in writing; it is a rehearsal for how homework is marked.
+  </div>
+  <script type="application/x-hs-check">
+    claim("Q1: 2 + sqrt(15)/3 solves 3x^2-12x+7 = 0", () => {
+      const x = 2 + Math.sqrt(15) / 3; return 3*x*x - 12*x + 7;
+    }, 0);
+    claim("Q1: 2 - sqrt(15)/3 solves it too", () => {
+      const x = 2 - Math.sqrt(15) / 3; return 3*x*x - 12*x + 7;
+    }, 0);
+    claim("Q1: the discriminant of 3x^2-12x+7 is 60 > 0, so two real roots",
+      () => 144 - 4*3*7, 60);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Exit ticket · 10 minutes</span>
+  <h2>On your own, before you leave</h2>
+  <div class="s-body cols-3">
+    <div class="box try">
+      <span class="tag">1</span>
+      Solve $|3x + 1| \geq 4$ and name which steps are equivalences.
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      Find all real $x$ with $\dfrac{2}{x-1} \leq 1$, handling the sign of $x - 1$ explicitly.
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      Show $x^2 + y^2 \geq 2xy$ for all real $x, y$, and say exactly when equality holds.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule for today</span>
+      One sentence of justification under every answer. Hand it in on the way out — it is not graded, it tells us who to sit with tomorrow.
+    </div>
+  </div>
+  <div class="notes">
+    Individual, silent, ten minutes. Collect them: this is your diagnostic for the whole cohort and it costs nothing.
+    Expected: (1) $x \leq -\tfrac53$ or $x \geq 1$; (2) $x &lt; 1$ or $x \geq 3$; (3) $(x-y)^2 \geq 0$, equality iff $x = y$.
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("Q1: |3x+1| >= 4  <=>  x <= -5/3 or x >= 1",
+      x => Math.abs(3 * x + 1) >= 4, x => x <= -5/3 || x >= 1);
+    equivalent("Q2: 2/(x-1) <= 1  <=>  x < 1 or x >= 3",
+      x => 2 / (x - 1) <= 1, x => x < 1 || x >= 3, { avoid: [1] });
+    identity("Q3: x^2 + y^2 - 2xy = (x-y)^2",
+      (x, y) => x*x + y*y - 2*x*y, (x, y) => Math.pow(x - y, 2), { arity: 2 });
+    claim("Q3: equality holds exactly when x = y", () => {
+      for (let i = 0; i < 3000; i++) {
+        const x = Math.random()*20-10, y = Math.random()*20-10;
+        const equal = Math.abs(x*x + y*y - 2*x*y) < 1e-12;
+        if (equal !== (Math.abs(x - y) < 1e-6)) return false;
+      }
+      return Math.abs(3*3 + 3*3 - 2*3*3) < 1e-12;
+    });
+  </script>
+</section>
+
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was actually about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>The rules you memorised are <strong>theorems with hypotheses</strong>. Learn the hypotheses.</li>
+        <li>Order has three axioms; every inequality move must trace back to them.</li>
+        <li>Marks live in the justification, not the answer.</li>
+      </ul>
+      <div class="chips" style="margin-top:18px">
+        <span class="chip">hypothesis</span>
+        <span class="chip">counterexample</span>
+        <span class="chip hot">equivalence step</span>
+        <span class="chip">axiom</span>
+        <span class="chip">vacuous truth</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Homework 1</h3>
+      <p class="small">12 diagnostic items — algebra, absolute value, inequalities. Each answer carries one sentence of justification.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>Sets &amp; set operations</strong> — the notation the whole course is written in.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Close on the three bullets, then brief Homework 1 concretely. Tell them tomorrow is sets, and that sets are the
+    notation every remaining session is written in.
+  </div>
+</section>
+
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>

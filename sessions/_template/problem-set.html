@@ -1,0 +1,60 @@
+<!doctype html>
+<!-- Problem set / exam handout. A4, print-first.
+     Preview:   node .claude/skills/run-intro-to-higher-math/driver.mjs open  sessions/session-NN/problem-set.html
+     Student:   node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-NN/problem-set.html
+     Marker:    node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-NN/problem-set.html solutions
+     .solution blocks are hidden unless ?solutions=1 - always write them. -->
+<meta charset="utf-8">
+<title>Homework {{N}} · Intro to Higher Math</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Homework {{N}}</h1>
+    <div class="sub">Session {{N}} · {{TITLE}}</div>
+  </div>
+  <div class="meta"><b>Set</b> {{DATE}} <b>Due</b> next class <b>Marks</b> 24</div>
+</div>
+
+<div class="rubric">
+  <span class="tag">How this is marked</span>
+  <b>Every answer carries one sentence of justification.</b> A correct value with no reasoning scores
+  half. A wrong value with a clear, nearly-correct argument scores most of the marks. You may discuss
+  problems with anyone and may use AI tools — but you must be able to explain every line you submit.
+</div>
+
+<h2 class="section-title">Part A · … (n marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Topic</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Question text. Inline maths $x^2$, display maths $$\int_0^1 x\,dx = \tfrac12$$
+    <div class="solution"><span class="tag">Solution</span>
+      Full worked solution.
+      <span class="marks-note">Where the marks sit.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">Reflection</span><span class="marks">3 marks</span></div>
+  <div class="body">
+    A written question — always include at least one.
+    <div class="space tall"></div>
+    <div class="solution"><span class="tag">Marking</span> Rubric, not an answer key.</div>
+  </div>
+</div>
+
+<div class="foot">
+  <span>Intro to Higher Math · Homework {{N}}</span>
+  <span>Kurtanidze · Kereleishvili · Harbour.Space Bangkok</span>
+</div>
+
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/handout.js"></script>

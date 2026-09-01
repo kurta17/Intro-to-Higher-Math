@@ -1,0 +1,397 @@
+{
+  "code": "Math102BKK",
+  "title": "Intro to Higher Math",
+  "program": "Maths as a Second Language",
+  "institution": "Harbour.Space Institute of Technology",
+  "campus": "Bangkok",
+  "url": "https://harbour.space/maths-as-a-second-language/courses/intro-to-higher-math-kurtanidze-kereleishvili-1528",
+  "dates": { "start": "2026-09-07", "end": "2026-09-25" },
+  "faculty": [
+    { "name": "Giorgi Kurtanidze", "role": "Software Engineer at Autopilot" },
+    { "name": "Irakli Kereleishvili", "role": "Software Engineer at Autopilot" }
+  ],
+  "logistics": {
+    "lengthWeeks": 3,
+    "hoursPerDay": 3,
+    "totalHours": 45,
+    "credits": "4 ECTS",
+    "language": "English",
+    "type": "Offline",
+    "sessions": 15
+  },
+  "pitch": "This course is designed to bridge the gap between school mathematics, which primarily focuses on computation and problem-solving techniques, and the demands of university-level mathematics.",
+  "overview": [
+    "Mathematics is the language of science, engineering, and computing. While school mathematics focuses on computation and techniques, university mathematics emphasizes abstraction, logical reasoning, and mathematical proof.",
+    "This course bridges that transition by introducing the language and foundations of higher mathematics, including sets, functions, proof techniques, combinatorics, and elementary number theory. Students will develop the mathematical thinking and problem-solving skills needed for further study.",
+    "By the end of the course, students will be prepared for subsequent courses in calculus, linear algebra, discrete mathematics, graph theory, probability, and other mathematically intensive subjects."
+  ],
+  "highlights": [
+    "Master essential concepts such as sets, functions, and their properties",
+    "Develop proficiency in key proof techniques",
+    "Build skills in combinatorics, elementary number theory, vectors, polynomials, and complex numbers",
+    "Strengthen logical reasoning, abstraction, and clear mathematical communication"
+  ],
+  "skills": ["Logic", "Combinatorics", "Proof By Induction", "Axiomatic Approach", "Functional Analysis", "Mathematical Modelling"],
+  "prerequisites": "There are no special prerequisites for this course. A solid background in high school mathematics is recommended.",
+  "grading": [
+    { "weight": 60, "component": "Homework Assignments" },
+    { "weight": 20, "component": "Final Exam" },
+    { "weight": 10, "component": "Midterm Exam" },
+    { "weight": 10, "component": "Class Participation and In-Class Activities" }
+  ],
+  "methodology": [
+    "Lectures, guided problem-solving, interactive discussions, individual practice, and collaborative group activities. Each session introduces new concepts through worked examples, followed by exercises designed to develop mathematical reasoning and problem-solving skills.",
+    "Active participation is essential. Students regularly discuss solution strategies, present and explain their reasoning, and work in groups to compare approaches.",
+    "Proof is the central theme: students explain the reasoning behind solutions rather than present final answers. AI tools are permitted as a learning aid, but all submitted work must reflect the student's own understanding and every solution must be explainable on demand."
+  ],
+  "books": [
+    { "title": "Precalculus Mathematics in a Nutshell: Geometry, Algebra, Trigonometry", "author": "George F. Simmons" },
+    { "title": "A Mathematical Foundation for Computer Science", "author": "David Barrington" },
+    { "title": "Algebra Know-It-ALL: Beginner to Advanced, and Everything in Between", "author": "Stan Gibilisco" }
+  ],
+  "sessionShape": {
+    "note": "3 contact hours. Default rhythm used by the deck generator.",
+    "blocks": [
+      { "minutes": 10, "name": "Warm-up", "purpose": "Recall + one question that the day's idea answers" },
+      { "minutes": 45, "name": "Concept I", "purpose": "Definitions, worked examples on the board" },
+      { "minutes": 25, "name": "Practice I", "purpose": "Students work; instructors circulate" },
+      { "minutes": 10, "name": "Break", "purpose": "" },
+      { "minutes": 40, "name": "Concept II", "purpose": "Second idea, theorem + proof" },
+      { "minutes": 30, "name": "Practice II / group work", "purpose": "Compare strategies, students present reasoning" },
+      { "minutes": 15, "name": "Wrap-up", "purpose": "Recap, pitfalls, homework brief" }
+    ]
+  },
+  "sessions": [
+    {
+      "n": 1, "week": 1, "day": "Monday", "date": "2026-09-07",
+      "title": "Course overview and School math refresher",
+      "goal": "Set expectations for a proof-based course and re-arm the algebraic toolkit everything else stands on.",
+      "objectives": [
+        "State how this course differs from school maths: claims need justification, not just answers",
+        "Fluently manipulate exponents, radicals, fractions, absolute value and inequalities",
+        "Factor and complete the square; solve quadratic equations and inequalities",
+        "Read and write basic mathematical notation and quantifier-free statements precisely"
+      ],
+      "keyTerms": ["statement", "proof", "counterexample", "identity vs equation", "necessary vs sufficient", "completing the square"],
+      "boardExamples": [
+        "Why (a+b)^2 = a^2 + 2ab + b^2 is a theorem, not a rule to memorise",
+        "Solve |2x - 3| < 5 and justify each step as an equivalence",
+        "Complete the square on x^2 - 6x + 13 and read off the minimum"
+      ],
+      "pitfalls": [
+        "Treating sqrt(x^2) as x rather than |x|",
+        "Multiplying an inequality by a quantity of unknown sign",
+        "Writing chains of '=' between things that are not equal"
+      ],
+      "homework": "Diagnostic set: 12 algebra/inequality items, each answer accompanied by one sentence of justification."
+    },
+    {
+      "n": 2, "week": 1, "day": "Tuesday", "date": "2026-09-08",
+      "title": "Sets & set operations",
+      "goal": "Introduce sets as the common language of all later topics, and set identities as the first real proofs.",
+      "objectives": [
+        "Use roster and set-builder notation; distinguish element-of from subset",
+        "Compute union, intersection, difference, complement, symmetric difference and Cartesian product",
+        "Prove set equalities by double inclusion and by element-chasing",
+        "Compute power sets and state |P(A)| = 2^|A|"
+      ],
+      "keyTerms": ["set", "element", "subset", "power set", "union", "intersection", "complement", "Cartesian product", "De Morgan's laws", "Venn diagram"],
+      "boardExamples": [
+        "Prove A \\ (B ∩ C) = (A \\ B) ∪ (A \\ C) by double inclusion",
+        "List P({1,2,3}) and count it",
+        "Show A × B ≠ B × A in general, with the smallest counterexample"
+      ],
+      "pitfalls": [
+        "Confusing ∈ with ⊆ (is {1} ∈ {{1},2}? is {1} ⊆ {1,2}?)",
+        "Assuming a Venn diagram is a proof",
+        "Forgetting that the empty set is a subset of every set"
+      ],
+      "homework": "Set identities: 6 to prove by double inclusion, 3 to disprove by counterexample."
+    },
+    {
+      "n": 3, "week": 1, "day": "Wednesday", "date": "2026-09-09",
+      "title": "Functions",
+      "subtitle": "Trigonometric functions.",
+      "goal": "Move from 'formula' to 'function': domain, codomain, rule - and the injective/surjective/bijective vocabulary.",
+      "objectives": [
+        "Define a function as a rule with a specified domain and codomain; distinguish codomain from image",
+        "Decide and prove injectivity, surjectivity, bijectivity",
+        "Compose functions and construct inverses of bijections",
+        "Define sine, cosine, tangent on the unit circle; read off period, domain, range and the basic identities"
+      ],
+      "keyTerms": ["domain", "codomain", "image", "preimage", "injective", "surjective", "bijective", "composition", "inverse", "unit circle", "radian", "period"],
+      "boardExamples": [
+        "f(x) = x^2 is not injective on R but is on [0, ∞): show both",
+        "Prove that if g∘f is injective then f is injective",
+        "Derive sin^2 θ + cos^2 θ = 1 from the unit circle"
+      ],
+      "pitfalls": [
+        "Saying 'the function x^2' without stating a domain",
+        "Confusing the inverse function with the reciprocal",
+        "Working in degrees when the definition assumed radians"
+      ],
+      "homework": "Injective/surjective classification (8 items with proof or counterexample) + 5 unit-circle values derived, not recalled."
+    },
+    {
+      "n": 4, "week": 1, "day": "Thursday", "date": "2026-09-10",
+      "title": "Function families (polynomial, exp/log, trig)",
+      "goal": "Build a mental library of standard functions and their growth, so later arguments can reason by shape.",
+      "objectives": [
+        "Classify polynomial functions by degree; describe end behaviour and root count",
+        "State and use the laws of exponents and logarithms; convert between bases",
+        "Compare growth rates: logarithmic < polynomial < exponential",
+        "Transform graphs by shift, scale and reflection, and recognise trig functions as periodic models"
+      ],
+      "keyTerms": ["degree", "leading coefficient", "asymptote", "exponential growth", "logarithm", "base change", "amplitude", "period", "phase shift", "graph transformation"],
+      "boardExamples": [
+        "Show log_b(x) = ln x / ln b and use it to compare log_2 n with log_10 n",
+        "Rank n, n log n, n^2, 2^n by eventual size and justify the ranking",
+        "Model daily temperature with A sin(ω t + φ) + C and identify each parameter"
+      ],
+      "pitfalls": [
+        "Writing log(a + b) = log a + log b",
+        "Reading 'exponential' as merely 'fast'",
+        "Applying a horizontal shift in the wrong direction"
+      ],
+      "homework": "Growth-comparison set, log manipulation, and one modelling question with written justification."
+    },
+    {
+      "n": 5, "week": 1, "day": "Friday", "date": "2026-09-11",
+      "title": "Theorem proving (direct, contrapositive, contradiction - disproof by counterexample)",
+      "goal": "The pivot of the course: teach the standard proof templates and when each one is the right tool.",
+      "objectives": [
+        "Parse implications, converses, contrapositives; use ∀ and ∃ correctly",
+        "Write a direct proof with an explicit hypothesis and conclusion",
+        "Choose contraposition when the negation is the easier hypothesis",
+        "Run a proof by contradiction, and disprove a universal claim with one counterexample"
+      ],
+      "keyTerms": ["implication", "converse", "contrapositive", "negation", "quantifier", "vacuous truth", "contradiction", "counterexample", "WLOG"],
+      "boardExamples": [
+        "Direct: the sum of two even integers is even",
+        "Contrapositive: if n^2 is even then n is even",
+        "Contradiction: sqrt(2) is irrational",
+        "Counterexample: 'every prime is odd' fails at 2"
+      ],
+      "pitfalls": [
+        "Proving the converse by accident",
+        "Assuming the conclusion inside the proof",
+        "Negating a quantified statement incorrectly (¬∀x P is ∃x ¬P)",
+        "Offering examples as proof of a universal statement"
+      ],
+      "homework": "8 claims: prove or disprove, each with the technique named at the top of the solution."
+    },
+    {
+      "n": 6, "week": 2, "day": "Monday", "date": "2026-09-14",
+      "title": "Mathematical induction",
+      "goal": "Give students a proof method for infinitely many statements, and make them write the induction step honestly.",
+      "objectives": [
+        "State the principle of induction and identify base case, hypothesis, inductive step",
+        "Prove summation identities and divisibility claims by induction",
+        "Use strong induction where the n-1 case is not enough",
+        "Recognise failed inductions (missing base case, hypothesis never used)"
+      ],
+      "keyTerms": ["base case", "inductive hypothesis", "inductive step", "strong induction", "well-ordering", "recurrence"],
+      "boardExamples": [
+        "Prove 1 + 2 + ... + n = n(n+1)/2",
+        "Prove 3 divides n^3 - n for all n ≥ 1",
+        "Strong induction: every integer n ≥ 2 has a prime factorisation",
+        "The 'all horses are the same colour' fallacy - locate the broken step"
+      ],
+      "pitfalls": [
+        "Verifying the base case for the wrong starting index",
+        "Writing the inductive step without ever invoking the hypothesis",
+        "Confusing 'assume true for n' with 'assume true for all n'"
+      ],
+      "homework": "6 induction proofs, one of which must use strong induction, plus a broken proof to diagnose."
+    },
+    {
+      "n": 7, "week": 2, "day": "Tuesday", "date": "2026-09-15",
+      "title": "Elementary combinatorics and binomial theorem",
+      "goal": "Teach counting as a modelling activity: name the objects, name the rule, then count.",
+      "objectives": [
+        "Apply the sum and product rules; count with and without repetition",
+        "Distinguish permutations from combinations and compute both",
+        "State the binomial theorem and expand (a+b)^n; read Pascal's triangle",
+        "Prove simple identities combinatorially (double counting) as well as algebraically"
+      ],
+      "keyTerms": ["sum rule", "product rule", "permutation", "combination", "factorial", "binomial coefficient", "Pascal's triangle", "double counting", "pigeonhole principle"],
+      "boardExamples": [
+        "How many 5-card hands contain exactly two aces?",
+        "Prove C(n,k) = C(n, n-k) both algebraically and by a bijection",
+        "Expand (x + 2)^5 with binomial coefficients",
+        "Pigeonhole: among 13 people two share a birth month"
+      ],
+      "pitfalls": [
+        "Counting ordered arrangements when order does not matter (and vice versa)",
+        "Double counting overlapping cases without inclusion-exclusion",
+        "Treating identical objects as distinguishable"
+      ],
+      "homework": "10 counting problems; each answer must state the counting rule used and why the cases are disjoint."
+    },
+    {
+      "n": 8, "week": 2, "day": "Wednesday", "date": "2026-09-16",
+      "title": "Midterm",
+      "type": "assessment",
+      "goal": "Assess sessions 1-7: sets, functions, function families, proof techniques, induction, counting.",
+      "objectives": [
+        "Write correct, readable proofs under time pressure",
+        "Choose an appropriate proof technique unprompted",
+        "Compute accurately with sets, functions and counting rules"
+      ],
+      "keyTerms": [],
+      "boardExamples": [],
+      "pitfalls": ["Answer-only solutions score poorly - the reasoning is the assessed object"],
+      "homework": "Post-midterm: each student writes a corrected version of one lost-mark problem."
+    },
+    {
+      "n": 9, "week": 2, "day": "Thursday", "date": "2026-09-17",
+      "title": "GCD & divisibility",
+      "goal": "Start number theory from the division algorithm and get to Bezout via the Euclidean algorithm.",
+      "objectives": [
+        "State and use the definition a | b and the division algorithm",
+        "Run the Euclidean algorithm and the extended version",
+        "Prove basic divisibility lemmas directly from the definition",
+        "State the fundamental theorem of arithmetic and use gcd/lcm via factorisation"
+      ],
+      "keyTerms": ["divides", "quotient", "remainder", "division algorithm", "gcd", "lcm", "Euclidean algorithm", "Bezout's identity", "coprime", "prime factorisation"],
+      "boardExamples": [
+        "gcd(1071, 462) by the Euclidean algorithm, then Bezout coefficients",
+        "Prove: if a | b and a | c then a | (bx + cy) for all integers x, y",
+        "Show gcd(a,b) · lcm(a,b) = ab"
+      ],
+      "pitfalls": [
+        "Reading a | b backwards",
+        "Assuming remainders may be negative",
+        "Confusing 'coprime in pairs' with 'coprime as a set'"
+      ],
+      "homework": "Euclidean algorithm drills + 4 divisibility proofs from the definition."
+    },
+    {
+      "n": 10, "week": 2, "day": "Friday", "date": "2026-09-18",
+      "title": "Modular arithmetic",
+      "goal": "Introduce congruence as an equivalence relation and arithmetic in Z_n, with real applications.",
+      "objectives": [
+        "Define a ≡ b (mod n) and verify it is an equivalence relation",
+        "Add, subtract and multiply congruences; know when cancellation is legal",
+        "Find modular inverses via the extended Euclidean algorithm; solve linear congruences",
+        "Apply modular arithmetic: parity/divisibility tests, clock arithmetic, check digits, hashing"
+      ],
+      "keyTerms": ["congruence", "residue class", "Z_n", "modular inverse", "linear congruence", "Fermat's little theorem", "equivalence relation"],
+      "boardExamples": [
+        "Compute 7^100 mod 13 by repeated squaring",
+        "Solve 14x ≡ 6 (mod 20) - and explain why solutions come in a family",
+        "Prove the divisibility-by-9 rule using 10 ≡ 1 (mod 9)"
+      ],
+      "pitfalls": [
+        "Dividing both sides of a congruence by a non-invertible element",
+        "Assuming every element of Z_n has an inverse",
+        "Sign errors on negative residues"
+      ],
+      "homework": "Congruence computation set + prove one divisibility rule + one small applied problem."
+    },
+    {
+      "n": 11, "week": 3, "day": "Monday", "date": "2026-09-21",
+      "title": "Vectors (2D, magnitude, dot product, ℝⁿ)",
+      "goal": "Introduce vectors both geometrically and algebraically, and generalise the picture to n dimensions.",
+      "objectives": [
+        "Add, subtract and scale vectors; compute magnitude and unit vectors",
+        "Compute the dot product and use it for angle and orthogonality",
+        "Project one vector onto another",
+        "Generalise the definitions to ℝⁿ and state Cauchy-Schwarz and the triangle inequality"
+      ],
+      "keyTerms": ["vector", "scalar", "magnitude", "unit vector", "dot product", "orthogonal", "projection", "Cauchy-Schwarz", "triangle inequality", "ℝⁿ"],
+      "boardExamples": [
+        "Angle between (3,4) and (-4,3): why is it 90 degrees?",
+        "Project (5,2) onto (1,1) and decompose into parallel + perpendicular parts",
+        "Prove the triangle inequality from Cauchy-Schwarz"
+      ],
+      "pitfalls": [
+        "Treating the dot product as producing a vector",
+        "Forgetting to normalise before projecting",
+        "Assuming geometric intuition transfers to ℝⁿ without proof"
+      ],
+      "homework": "Dot-product computations, one projection problem, one proof using Cauchy-Schwarz."
+    },
+    {
+      "n": 12, "week": 3, "day": "Tuesday", "date": "2026-09-22",
+      "title": "Polynomials",
+      "goal": "Treat polynomials as algebraic objects: division, roots, factor theorem - the bridge to complex numbers.",
+      "objectives": [
+        "Perform polynomial long division and synthetic division",
+        "Use the remainder and factor theorems to find and verify roots",
+        "Apply the rational root theorem and Vieta's formulas",
+        "Relate multiplicity of roots to the factorisation and to the graph"
+      ],
+      "keyTerms": ["degree", "monic", "polynomial division", "remainder theorem", "factor theorem", "rational root theorem", "Vieta's formulas", "multiplicity", "irreducible"],
+      "boardExamples": [
+        "Divide x^4 - 3x^2 + 2 by x - 1 and read off the remainder two ways",
+        "Factor x^3 - 6x^2 + 11x - 6 using the rational root theorem",
+        "From Vieta: find the sum and product of the roots of 2x^2 - 5x + 3 without solving"
+      ],
+      "pitfalls": [
+        "Dropping the zero coefficient of a missing term during long division",
+        "Assuming every real polynomial factors over the reals",
+        "Confusing multiplicity with the number of distinct roots"
+      ],
+      "homework": "Division + factorisation set, plus one Vieta problem and one proof about degrees."
+    },
+    {
+      "n": 13, "week": 3, "day": "Wednesday", "date": "2026-09-23",
+      "title": "Complex numbers (roots, FTA, Euler / De Moivre)",
+      "subtitle": "Estimate and example.",
+      "goal": "Complete the number system: why C exists, how it computes, and what the fundamental theorem of algebra buys us.",
+      "objectives": [
+        "Do arithmetic in C; use conjugate and modulus",
+        "Convert between rectangular and polar/exponential form",
+        "Apply De Moivre's theorem and find all n-th roots of a complex number",
+        "State the fundamental theorem of algebra and connect it to session 12's factorisation"
+      ],
+      "keyTerms": ["imaginary unit", "conjugate", "modulus", "argument", "polar form", "Euler's formula", "De Moivre's theorem", "roots of unity", "fundamental theorem of algebra"],
+      "boardExamples": [
+        "Compute (1 + i)^8 in polar form in one line",
+        "Find all cube roots of 8 and plot them on the unit circle",
+        "Derive cos 3θ from De Moivre",
+        "e^{iπ} + 1 = 0 as a consequence, not a slogan"
+      ],
+      "pitfalls": [
+        "Losing roots by taking only the principal argument",
+        "Writing sqrt(-1)·sqrt(-1) = sqrt(1)",
+        "Forgetting that arg is defined modulo 2π"
+      ],
+      "homework": "Polar-form conversions, all n-th roots of two numbers, one De Moivre identity derived."
+    },
+    {
+      "n": 14, "week": 3, "day": "Thursday", "date": "2026-09-24",
+      "title": "Course recap, why math is important in the era of AI, and preparing for the exam",
+      "goal": "Tie the 13 topics into one narrative, argue why proof literacy matters more when machines produce answers, and rehearse the exam.",
+      "objectives": [
+        "Trace the through-line: sets → functions → proof → induction → counting → number theory → vectors → polynomials → C",
+        "Articulate why verification, not generation, is the scarce skill in the AI era",
+        "Self-assess against the exam blueprint and target remaining gaps",
+        "Practise writing a full solution under exam conditions"
+      ],
+      "keyTerms": ["verification", "abstraction", "formal reasoning", "exam blueprint"],
+      "boardExamples": [
+        "A plausible-looking but wrong AI proof - students locate the broken step",
+        "Mixed-topic timed problem set with live marking rubric"
+      ],
+      "pitfalls": ["Revising by re-reading rather than by re-proving"],
+      "homework": "Full mock exam under time, self-marked against the published rubric."
+    },
+    {
+      "n": 15, "week": 3, "day": "Friday", "date": "2026-09-25",
+      "title": "Final exam",
+      "type": "assessment",
+      "goal": "Assess the full course with an emphasis on proof and justification.",
+      "objectives": [
+        "Produce correct and communicable proofs across the syllabus",
+        "Select techniques without prompting",
+        "Compute reliably in number theory, vectors, polynomials and complex numbers"
+      ],
+      "keyTerms": [],
+      "boardExamples": [],
+      "pitfalls": [],
+      "homework": ""
+    }
+  ]
+}

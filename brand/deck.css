@@ -1,0 +1,302 @@
+/* ============================================================
+   HS deck system - 16:9 slides for Intro to Higher Math
+   Depends on hs-tokens.css. Slides are authored at a fixed
+   1280x720 and scaled to the viewport by deck.js.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--hs-neutral-950);
+  font-family: var(--hs-font-sans);
+  font-weight: var(--hs-weight-regular);
+  color: var(--hs-fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- stage ---------- */
+.deck { --scale: 1; }
+.slide {
+  position: relative;
+  width: 1280px; height: 720px;
+  flex: 0 0 auto;
+  background: var(--hs-bg);
+  overflow: hidden;
+  padding: 56px 72px 52px;
+  display: flex; flex-direction: column;
+  transform: scale(var(--scale));
+  transform-origin: top center;
+}
+/* presenter mode: exactly one slide on screen, centred */
+body.present { display: flex; align-items: center; justify-content: center;
+               height: 100vh; overflow: hidden; }
+body.present .slide { display: none; }
+body.present .slide.current { display: flex; }
+
+/* scroll mode: every slide stacked (used for review + PDF export) */
+body.scroll { padding: 24px 0; }
+body.scroll .deck { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+body.scroll .slide { box-shadow: 0 3px 3px 3px #00000014, 0 4px 4px 4px #0000000a; }
+
+/* thumbs mode: the whole deck as a contact sheet, four across.
+   The slide keeps its 1280x720 layout box so nothing reflows; negative
+   margins shrink its footprint to the painted 320x180. */
+body.thumbs { background: var(--hs-neutral-200); padding: 16px 0; }
+body.thumbs .deck {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  width: calc(4 * 320px + 3 * 16px); margin: 0 auto;
+}
+body.thumbs .slide {
+  transform: scale(0.25); transform-origin: top left;
+  margin: 0 -960px -540px 0;
+  box-shadow: 0 2px 2px 2px #00000014;
+}
+
+/* ---------- brand furniture ---------- */
+.slide::before {                       /* top rail */
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg,
+      var(--hs-purple-700) 0%, var(--hs-purple-500) 42%,
+      var(--hs-fuchsia-400) 78%, var(--hs-cyan-500) 100%);
+}
+.s-foot {
+  margin-top: auto; padding-top: 14px;
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 13px; letter-spacing: var(--hs-tracking-widest);
+  /* neutral-500 measures 2.43:1 on white - fine on a laptop, illegible on a
+     projector. neutral-700 is ~7:1 and still reads as chrome. */
+  text-transform: uppercase; color: var(--hs-neutral-700);
+  border-top: var(--hs-border-thin) solid var(--hs-border);
+}
+.s-foot .num { font-variant-numeric: tabular-nums; color: var(--hs-purple-700);
+               font-weight: var(--hs-weight-medium); }
+
+/* ---------- headings ---------- */
+.kicker {
+  display: inline-block; font-size: 13px; font-weight: var(--hs-weight-medium);
+  letter-spacing: var(--hs-tracking-widest); text-transform: uppercase;
+  color: var(--hs-purple-700); margin-bottom: 10px;
+}
+.slide h1 { font-size: 68px; line-height: 1.05; margin: 0 0 18px;
+            font-weight: var(--hs-weight-medium);
+            letter-spacing: var(--hs-tracking-tighter); }
+.slide h2 { font-size: 40px; line-height: 1.125; margin: 0 0 22px;
+            font-weight: var(--hs-weight-medium);
+            letter-spacing: var(--hs-tracking-tight); }
+.slide h3 { font-size: 23px; line-height: 1.25; margin: 0 0 10px;
+            font-weight: var(--hs-weight-medium); }
+.lede { font-size: 24px; line-height: 1.45; color: var(--hs-neutral-800);
+        font-weight: var(--hs-weight-light); max-width: 26ch; }
+
+/* ---------- body ---------- */
+.s-body { flex: 1 1 auto; min-height: 0; font-size: 21px; line-height: 1.5; }
+.s-body > :first-child { margin-top: 0; }
+.s-body p { margin: 0 0 14px; }
+.cols-2, .cols-3, .cols-5-7, .cols-7-5 { display: grid; }
+/* Grid items hug their content by default - stretched boxes leave dead space.
+   Add .even for equal-height columns (side-by-side comparison cards). */
+.cols-2, .cols-3, .cols-5-7, .cols-7-5 { align-content: start; align-items: start; }
+.cols-2.even, .cols-3.even, .cols-5-7.even, .cols-7-5.even { align-items: stretch; }
+.cols-2 { grid-template-columns: 1fr 1fr; gap: 28px; }
+.cols-3 { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.cols-5-7 { grid-template-columns: 5fr 7fr; gap: 32px; }
+.cols-7-5 { grid-template-columns: 7fr 5fr; gap: 32px; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.center { display: flex; flex-direction: column; justify-content: center; }
+
+ul, ol { margin: 0 0 14px; padding-left: 1.15em; }
+li { margin-bottom: 9px; }
+li::marker { color: var(--hs-purple-600); }
+ul.ticks { list-style: none; padding-left: 0; }
+ul.ticks li { position: relative; padding-left: 30px; }
+ul.ticks li::before { content: "→"; position: absolute; left: 0;
+                      color: var(--hs-fuchsia-400); font-weight: var(--hs-weight-bold); }
+
+strong, b { font-weight: var(--hs-weight-medium); color: var(--hs-purple-800); }
+em { font-style: italic; color: var(--hs-neutral-800); }
+code, .mono { font-family: var(--hs-font-mono); font-size: 0.92em;
+              background: var(--hs-neutral-50); padding: 1px 6px;
+              border-radius: var(--hs-radius-s); }
+/* code on a dark ground: the light chip would be unreadable */
+.card.solid code, .slide.dark code, .slide.title code, .slide.section code {
+  background: #ffffff26; color: inherit; }
+
+/* ---------- chamfered card (HS --chamfer-m) ---------- */
+.chamfer {
+  clip-path: polygon(0 0, calc(100% - var(--hs-chamfer)) 0,
+                     100% var(--hs-chamfer), 100% 100%, 0 100%);
+}
+
+/* ---------- callout boxes ---------- */
+.box {
+  --accent: var(--hs-purple-700);
+  --tint: var(--hs-purple-50);
+  position: relative; background: var(--tint);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--hs-radius-m) var(--hs-radius-m) 0;
+  padding: 16px 20px 16px 22px; font-size: 20px; line-height: 1.45;
+}
+.box > :last-child { margin-bottom: 0; }
+.box .tag {
+  display: inline-block; margin-bottom: 8px;
+  font-size: 11px; letter-spacing: var(--hs-tracking-widest);
+  text-transform: uppercase; font-weight: var(--hs-weight-bold);
+  /* --tag-bg, not --accent: white on the vivid accent measures 4.1-4.3:1,
+     under AA. The rule keeps the accent; only the chip goes a step darker. */
+  color: var(--hs-white); background: var(--tag-bg, var(--accent));
+  padding: 3px 9px; border-radius: var(--hs-radius-s);
+}
+.box.def     { --accent: var(--hs-purple-700); --tint: var(--hs-purple-50);
+               --tag-bg: var(--hs-purple-700); }
+.box.thm     { --accent: var(--hs-fuchsia-500); --tint: var(--hs-fuchsia-50);
+               --tag-bg: var(--hs-fuchsia-700); }
+.box.proof   { --accent: var(--hs-neutral-700); --tint: var(--hs-neutral-50);
+               --tag-bg: var(--hs-neutral-800); }
+.box.example { --accent: var(--hs-cyan-700);    --tint: var(--hs-cyan-50);
+               --tag-bg: var(--hs-cyan-800); }
+.box.try     { --accent: var(--hs-green-700);   --tint: var(--hs-green-50);
+               --tag-bg: var(--hs-green-800); }
+.box.pitfall { --accent: var(--hs-red-600);     --tint: var(--hs-red-50);
+               --tag-bg: var(--hs-red-700); }
+.box.note    { --accent: var(--hs-yellow-700);  --tint: var(--hs-yellow-50);
+               --tag-bg: var(--hs-yellow-800); }
+.box.proof::after {                       /* tombstone */
+  content: "\25A0"; position: absolute; right: 16px; bottom: 10px;
+  color: var(--hs-neutral-700); font-size: 15px;
+}
+
+/* ---------- key cards ---------- */
+.card {
+  background: var(--hs-white); border: var(--hs-border-thin) solid var(--hs-border);
+  border-radius: var(--hs-radius-l); padding: 20px 22px;
+}
+.card.solid { background: var(--hs-purple-700); color: var(--hs-white); border: 0; }
+.card.solid h3, .card.solid strong { color: var(--hs-white); }
+.card .big { font-size: 46px; font-weight: var(--hs-weight-medium);
+             letter-spacing: var(--hs-tracking-tight); color: var(--hs-purple-700);
+             line-height: 1; }
+.card.solid .big { color: var(--hs-white); }
+.card .cap { font-size: 15px; color: var(--hs-neutral-700); margin-top: 6px; }
+.card.solid .cap { color: #d5d1eb; }
+
+/* ---------- class activity ----------
+   A task students do in the room. The header carries the three things
+   that make an activity run: how long, who with, and what gets shared. */
+.activity {
+  border: var(--hs-border-thin) solid var(--hs-purple-200);
+  border-radius: var(--hs-radius-l); overflow: hidden; background: var(--hs-white);
+}
+.activity > header {
+  background: var(--hs-purple-700); color: var(--hs-white);
+  padding: 8px 18px; display: flex; gap: 18px; align-items: baseline;
+  font-size: 14px; letter-spacing: var(--hs-tracking-widest);
+  text-transform: uppercase; font-weight: var(--hs-weight-medium);
+}
+.activity > header .who { color: var(--hs-purple-100); }
+/* fuchsia-300 on purple-700 measures 4.23:1; -200 clears AA on the same ground */
+.activity > header .time { margin-left: auto; color: var(--hs-fuchsia-200); }
+.activity .a-body { padding: 15px 20px 16px; font-size: 20px; line-height: 1.42; }
+.activity .a-body > :first-child { margin-top: 0; }
+.activity .a-body > :last-child { margin-bottom: 0; }
+.activity ol, .activity ul { margin: 8px 0 0; padding-left: 1.15em; }
+.activity li { margin-bottom: 6px; }
+.activity .share {
+  margin-top: 12px; padding-top: 10px; font-size: 17px;
+  border-top: var(--hs-border-thin) solid var(--hs-border);
+  color: var(--hs-purple-800);
+}
+.activity .share b { font-weight: var(--hs-weight-medium); }
+.slide.dark .activity { background: #ffffff0f; border-color: #ffffff26; }
+.slide.dark .activity .share { color: var(--hs-purple-200); border-top-color: #ffffff26; }
+
+/* ---------- chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-size: 15px; padding: 5px 13px; border-radius: var(--hs-radius-full);
+  background: var(--hs-purple-50); color: var(--hs-purple-800);
+  border: var(--hs-border-thin) solid var(--hs-purple-100);
+}
+.chip.hot { background: var(--hs-fuchsia-50); color: var(--hs-fuchsia-700);
+            border-color: var(--hs-fuchsia-100); }
+
+/* ---------- tables ---------- */
+table { border-collapse: collapse; width: 100%; font-size: 19px; }
+th, td { text-align: left; padding: 9px 12px;
+         border-bottom: var(--hs-border-thin) solid var(--hs-border); }
+th { font-weight: var(--hs-weight-medium); color: var(--hs-purple-800);
+     font-size: 14px; letter-spacing: var(--hs-tracking-wide);
+     text-transform: uppercase; border-bottom-color: var(--hs-purple-200); }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- title + section slides ---------- */
+.slide.title, .slide.section {
+  background: var(--hs-purple-950);
+  color: var(--hs-white);
+  justify-content: center;
+}
+.slide.title::after, .slide.section::after {   /* brand glow */
+  content: ""; position: absolute; right: -180px; top: -180px;
+  width: 620px; height: 620px; border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(255,59,199,0.42) 0%, rgba(122,71,234,0.28) 45%, transparent 70%);
+  pointer-events: none;
+}
+.slide.title > .kicker:first-of-type,
+.slide.section > .kicker:first-of-type { margin-top: auto; }
+.slide.title h1, .slide.section h1 { color: var(--hs-white); max-width: 20ch; }
+.slide.title .kicker, .slide.section .kicker { color: var(--hs-fuchsia-300); }
+.slide.title .lede, .slide.section .lede { color: var(--hs-purple-200); max-width: 46ch; }
+.slide.title .s-foot, .slide.section .s-foot {
+  border-top-color: rgba(255,255,255,0.16); color: var(--hs-purple-300); }
+.slide.title .s-foot .num, .slide.section .s-foot .num { color: var(--hs-fuchsia-300); }
+.slide.title .meta { display: flex; gap: 34px; margin-top: 26px;
+                     position: relative; z-index: 1; }
+.slide.title .meta div { font-size: 17px; color: var(--hs-purple-200); }
+.slide.title .meta b { display: block; font-size: 21px; color: var(--hs-white);
+                       font-weight: var(--hs-weight-medium); }
+.slide.section .num-badge {
+  font-size: 150px; line-height: 1; font-weight: var(--hs-weight-bold);
+  color: transparent; -webkit-text-stroke: 2px var(--hs-purple-600);
+  position: absolute; right: 72px; bottom: 96px;   /* clears the footer rule */
+  opacity: 0.7; pointer-events: none;
+}
+
+/* ---------- dark content slide ---------- */
+.slide.dark { background: var(--hs-neutral-950); color: var(--hs-white); }
+.slide.dark h2, .slide.dark h3, .slide.dark strong { color: var(--hs-white); }
+.slide.dark .lede { color: var(--hs-neutral-300); }
+.slide.dark .kicker { color: var(--hs-fuchsia-300); }
+.slide.dark .s-foot { border-top-color: #ffffff26; color: var(--hs-neutral-400); }
+.slide.dark .s-foot .num { color: var(--hs-fuchsia-300); }
+.slide.dark .muted, .slide.dark .card .cap { color: var(--hs-neutral-400); }
+.slide.dark .card { background: #ffffff0f; border-color: #ffffff1f; color: var(--hs-white); }
+.slide.dark .card .big { color: var(--hs-fuchsia-300); }
+.slide.dark .card .cap { color: var(--hs-neutral-400); }
+
+/* ---------- math ---------- */
+.katex { font-size: 1.03em; }
+.katex-display { margin: 14px 0; }
+.mathline { font-size: 27px; text-align: center; margin: 16px 0; }
+
+/* ---------- misc ---------- */
+.rule { height: 1px; background: var(--hs-border); margin: 14px 0; border: 0; }
+/* HS's own --bg-fg-muted (#797979) measures 4.35:1 on white: under AA, and
+   under-lit in a bright room. Decks darken it; the brand token is untouched. */
+.muted, .card .cap { color: var(--hs-neutral-700); }
+.small { font-size: 17px; }
+.pill-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+/* ---------- speaker notes (never rendered on slide) ---------- */
+.notes { display: none; }
+
+/* ---------- print / PDF ---------- */
+@page { size: 1280px 720px; margin: 0; }
+@media print {
+  body { background: #fff; }
+  body.scroll { padding: 0; }
+  body.scroll .deck { gap: 0; }
+  .slide { transform: none !important; box-shadow: none !important;
+           break-after: page; page-break-after: always; }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+}
