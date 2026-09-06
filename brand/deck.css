@@ -7,6 +7,9 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
+  /* Manrope ligates "(c)" into © via `liga`, silently corrupting lettered
+     list references in prose. fi/fl are unaffected by turning it off. */
+  font-variant-ligatures: no-common-ligatures;
   background: var(--hs-neutral-950);
   font-family: var(--hs-font-sans);
   font-weight: var(--hs-weight-regular);
@@ -265,6 +268,8 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 /* ---------- dark content slide ---------- */
 .slide.dark { background: var(--hs-neutral-950); color: var(--hs-white); }
 .slide.dark h2, .slide.dark h3, .slide.dark strong { color: var(--hs-white); }
+/* em is neutral-800 by default - invisible on the dark ground. */
+.slide.dark em { color: var(--hs-neutral-200); }
 .slide.dark .lede { color: var(--hs-neutral-300); }
 .slide.dark .kicker { color: var(--hs-fuchsia-300); }
 .slide.dark .s-foot { border-top-color: #ffffff26; color: var(--hs-neutral-400); }

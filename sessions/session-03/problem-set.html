@@ -1,0 +1,250 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Homework 3 · Intro to Higher Math</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Homework 3 — Functions</h1>
+    <div class="sub">Session 3 · Domain, codomain, and undoing</div>
+  </div>
+  <div class="meta">
+    <b>Set</b> Wed 9 Sep 2026
+    <b>Due</b> Thu 10 Sep 2026, start of class
+    <b>Marks</b> 24
+  </div>
+</div>
+
+<div class="rubric">
+  <span class="tag">How this is marked</span>
+  <b>Every answer carries one sentence of justification.</b> A correct value with no reasoning scores
+  half. A wrong value with a clear, nearly-correct argument scores most of the marks. You may discuss
+  problems with anyone and may use AI tools — but you must be able to explain every line you submit.
+</div>
+
+<div class="note-box">
+  <span class="tag">Before you start</span>
+  No question here is answered by a verdict alone. "Injective" is not an answer; "injective, because
+  $f(a_1) = f(a_2)$ forces $a_1 = a_2$ since…" is. To <em>disprove</em> injectivity or surjectivity you
+  need one concrete witness — to <em>prove</em> either, you need an argument covering every element.
+</div>
+
+<h2 class="section-title">Part A · Mechanics (6 marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Images and preimages</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $f : \mathbb{Z} \to \mathbb{Z}$ be given by $f(n) = 3n - 2$. Compute
+    $f(\{-1, 0, 2\})$, $\;f^{-1}(\{7\})$ and $\;f^{-1}(\{5\})$. Explain in one sentence why the
+    third answer is what it is.
+    <div class="solution"><span class="tag">Solution</span>
+      $f(\{-1,0,2\}) = \{-5, -2, 4\}$. For $f^{-1}(\{7\})$: $3n - 2 = 7$ gives $n = 3$, so the
+      preimage is $\{3\}$. For $f^{-1}(\{5\})$: $3n - 2 = 5$ gives $n = \tfrac73$, which is not an
+      integer, so <strong>no element of the domain maps to $5$</strong> and $f^{-1}(\{5\}) = \varnothing$.
+      A preimage is allowed to be empty — that is exactly what it means for $5$ to lie in the
+      codomain but outside the image.
+      <span class="marks-note">1 mark the three sets, 1 mark the sentence. A student who writes
+      $f^{-1}(5) = \tfrac73$ has confused the preimage of a set with an inverse function and scores 0 on the sentence.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">Image against codomain</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2 - 4x + 7$. State the image of $f$ and prove your
+    answer. Is $f$ surjective? Justify.
+    <div class="solution"><span class="tag">Solution</span>
+      Complete the square: $f(x) = (x-2)^2 + 3$. Since $(x-2)^2 \geq 0$ for every real $x$, we get
+      $f(x) \geq 3$, so the image is contained in $[3, \infty)$. Conversely every $y \geq 3$ is
+      attained, at $x = 2 + \sqrt{y-3}$. Hence the image is exactly $[3, \infty)$.
+      $f$ is <strong>not</strong> surjective: the codomain is $\mathbb{R}$, and $0$ (for instance) is
+      never attained because $f(x) \geq 3 &gt; 0$ for all $x$.
+      <span class="marks-note">1 mark for both inclusions — an answer that only shows $f(x) \geq 3$
+      has proved half of it. 1 mark for a named missed value with a reason.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">Unit circle</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Derive each value from the unit circle. For each, state the quadrant and the reference angle
+    before you give the number. Recalled values without that working score nothing.
+    <ol class="parts">
+      <li>$\cos\dfrac{2\pi}{3}$</li>
+      <li>$\sin\dfrac{3\pi}{4}$</li>
+      <li>$\cos\dfrac{7\pi}{6}$</li>
+      <li>$\sin\dfrac{5\pi}{3}$</li>
+      <li>$\tan\dfrac{3\pi}{4}$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $\tfrac{2\pi}{3}$ is in quadrant II, reference angle $\tfrac{\pi}{3}$; cosine is the
+      $x$-coordinate, negative there, so $-\tfrac12$.
+      (b) $\tfrac{3\pi}{4}$, quadrant II, reference $\tfrac{\pi}{4}$; sine is the $y$-coordinate,
+      positive there, so $\tfrac{\sqrt2}{2}$.
+      (c) $\tfrac{7\pi}{6}$, quadrant III, reference $\tfrac{\pi}{6}$; cosine negative, so $-\tfrac{\sqrt3}{2}$.
+      (d) $\tfrac{5\pi}{3}$, quadrant IV, reference $\tfrac{\pi}{3}$; sine negative, so $-\tfrac{\sqrt3}{2}$.
+      (e) $\tan\tfrac{3\pi}{4} = \dfrac{\sin(3\pi/4)}{\cos(3\pi/4)} = \dfrac{\sqrt2/2}{-\sqrt2/2} = -1$.
+      <span class="marks-note">1 mark for five correct values, 1 mark for quadrant + reference angle
+      throughout. All five values but no working scores 1.</span>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Proof (13 marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Classification</span><span class="marks">8 marks</span></div>
+  <div class="body">
+    For each function decide whether it is injective, surjective, both or neither. Prove each
+    positive claim; disprove each negative one with an explicit witness.
+    <ol class="parts">
+      <li>$f : \mathbb{R} \to \mathbb{R}$, $\;f(x) = 5 - 3x$</li>
+      <li>$f : \mathbb{Z} \to \mathbb{Z}$, $\;f(n) = n^2 - n$</li>
+      <li>$f : \mathbb{R} \to \mathbb{R}$, $\;f(x) = x^3 - 3x$</li>
+      <li>$f : \mathbb{N} \to \mathbb{N}$, $\;f(n) = n^2$</li>
+      <li>$f : \mathbb{R}\setminus\{0\} \to \mathbb{R}\setminus\{0\}$, $\;f(x) = \dfrac1x$</li>
+      <li>$f : \mathbb{R} \to [-1, 1]$, $\;f(x) = \sin x$</li>
+      <li>$f : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$, $\;f(a, b) = 2a + 4b$</li>
+      <li>$S = \{1,2,3\}$, $\;f : \mathcal{P}(S) \to \mathcal{P}(S)$, $\;f(X) = S \setminus X$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) <strong>Bijective.</strong> Injective: $5 - 3a = 5 - 3b \Rightarrow a = b$. Surjective: given
+      $y$, take $x = \tfrac{5-y}{3}$.<br>
+      (b) <strong>Neither.</strong> Not injective: $f(0) = f(1) = 0$. Not surjective: $n^2 - n = n(n-1)$
+      is a product of consecutive integers, hence even, so the odd value $1$ is never attained.<br>
+      (c) <strong>Surjective, not injective.</strong> Not injective: $f(0) = 0$ and $f(\sqrt3) = 3\sqrt3 - 3\sqrt3 = 0$.
+      Surjective: $f$ is continuous with $f(x) \to \pm\infty$ as $x \to \pm\infty$, so by the
+      intermediate value theorem every real is attained.<br>
+      (d) <strong>Injective, not surjective.</strong> Injective: for $a, b \geq 1$, $a^2 = b^2 \Rightarrow a = b$.
+      Not surjective: $2$ is not a perfect square.<br>
+      (e) <strong>Bijective.</strong> $f(f(x)) = x$ on the whole domain, so $f$ is its own two-sided
+      inverse, and by the theorem a map with a two-sided inverse is a bijection.<br>
+      (f) <strong>Surjective, not injective.</strong> Not injective: $\sin 0 = \sin \pi = 0$.
+      Surjective: the image of $\sin$ is exactly $[-1,1]$, which here <em>is</em> the codomain — note
+      how shrinking the codomain created surjectivity.<br>
+      (g) <strong>Neither.</strong> Not injective: $f(2,0) = 4 = f(0,1)$. Not surjective: $2a + 4b$ is
+      always even, so $1$ is never attained.<br>
+      (h) <strong>Bijective.</strong> $f(f(X)) = S \setminus (S \setminus X) = X$, so $f$ is its own
+      inverse, hence a bijection.
+      <span class="marks-note">1 mark each: half for the two verdicts, half for the justification.
+      A witness with no verification (writing "$f(0) = f(1)$" without evaluating) scores the verdict only.
+      In (f), accept any argument that the sine attains every value in $[-1,1]$.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">Composition</span><span class="marks">3 marks</span></div>
+  <div class="body">
+    Let $f : A \to B$ and $g : B \to C$.
+    <ol class="parts">
+      <li>Prove that if $g \circ f$ is surjective, then $g$ is surjective.</li>
+      <li>Show by explicit example that $f$ need <em>not</em> be surjective under the same hypothesis.</li>
+      <li>In one sentence, say why (a) is about $g$ and not $f$, given that in class we proved
+          $g \circ f$ injective forces <em>$f$</em> injective.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Let $c \in C$. Since $g \circ f$ is surjective there is $a \in A$ with $g(f(a)) = c$. Put
+      $b = f(a) \in B$; then $g(b) = c$. As $c$ was arbitrary, $g$ is surjective.<br>
+      (b) $A = \{1\}$, $B = \{1,2\}$, $C = \{1\}$, with $f(1) = 1$ and $g(1) = g(2) = 1$. Then
+      $g \circ f$ is surjective onto $C$, but $f$ misses $2$.<br>
+      (c) Surjectivity is a statement about what comes <em>out</em>, so it is inherited by the last
+      map in the chain; injectivity is a statement about what goes <em>in</em>, so it is inherited by
+      the first.
+      <span class="marks-note">1 mark the proof (it must start "let $c \in C$" — a proof that starts
+      from $b \in B$ has assumed what it is proving), 1 mark the example, 1 mark part (c).</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">Restriction</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Take the rule $x \mapsto x^2 - 4x + 7$ from question 2. Choose a domain $A \subseteq \mathbb{R}$
+    and a codomain $B$ making $f : A \to B$ a <strong>bijection</strong>, and prove both halves.
+    <div class="solution"><span class="tag">Solution</span>
+      Take $A = [2, \infty)$ and $B = [3, \infty)$; write $f(x) = (x-2)^2 + 3$.
+      Injective: for $x_1, x_2 \geq 2$ the quantities $x_1 - 2, x_2 - 2$ are $\geq 0$, and
+      $(x_1-2)^2 = (x_2-2)^2$ with both bases non-negative gives $x_1 - 2 = x_2 - 2$.
+      Surjective: given $y \geq 3$, put $x = 2 + \sqrt{y-3}$, which lies in $A$ and satisfies $f(x) = y$.
+      ($A = (-\infty, 2]$ with the same $B$ works equally well.)
+      <span class="marks-note">1 mark a correct pair $A, B$, 1 mark both proofs. Choosing $A$ without
+      also shrinking the codomain scores 0 — that is the whole point of question 2.</span>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part C · Communication (5 marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">Find the error</span><span class="marks">3 marks</span></div>
+  <div class="body">
+    The following was produced by a chatbot. It contains <strong>three</strong> distinct errors.
+    Find all three; for each, say what is wrong and give a witness where one is needed.
+    <div class="note-box">
+      <b>Claim.</b> $f : \mathbb{R} \to \mathbb{R}$, $f(x) = \dfrac{x}{x^2+1}$, is a bijection, and
+      its inverse is $f^{-1}(x) = \dfrac{x^2+1}{x}$.<br>
+      <b>"Proof."</b> $f$ is injective because it is a ratio of polynomials with no repeated factors.
+      It is surjective because its domain and codomain are both $\mathbb{R}$. Inverting a fraction
+      gives the inverse function.
+    </div>
+    <div class="space"></div>
+    <div class="solution"><span class="tag">Solution</span>
+      <strong>Error 1 — not injective.</strong> "Ratio of polynomials with no repeated factors" is not
+      a criterion for anything. Witness: $f(2) = \tfrac{2}{5}$ and $f\!\left(\tfrac12\right) =
+      \tfrac{1/2}{5/4} = \tfrac{2}{5}$, so $f(2) = f\!\left(\tfrac12\right)$ with $2 \neq \tfrac12$.<br>
+      <strong>Error 2 — not surjective.</strong> Domain and codomain being equal says nothing about
+      surjectivity. In fact $(x \mp 1)^2 \geq 0$ gives $x^2 + 1 \geq \pm 2x$, so
+      $|f(x)| \leq \tfrac12$ for every $x$; the image is $\left[-\tfrac12, \tfrac12\right]$ and
+      $1$ is never attained.<br>
+      <strong>Error 3 — inverse against reciprocal.</strong> $\tfrac{x^2+1}{x}$ is $\tfrac{1}{f(x)}$,
+      not $f^{-1}$. Undoing a function is unrelated to flipping a fraction: $f^{-1}$ satisfies
+      $f^{-1}(f(x)) = x$, and here $\tfrac{1}{f(f(x))} \neq x$ in general. Since $f$ is not a
+      bijection, no inverse function exists at all.
+      <span class="marks-note">1 mark each. Error 1 needs the numerical witness; error 2 needs a named
+      missed value with a reason, not just "the graph flattens"; error 3 must say that no inverse
+      exists, not merely that the formula is wrong.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">Rewrite precisely</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Each sentence is sloppy or false as written. Rewrite each so that it is unambiguous and true.
+    <ol class="parts">
+      <li>"$x^2$ is not injective."</li>
+      <li>"Every function has an inverse — you just swap $x$ and $y$."</li>
+      <li>"$\sin^{-1}(x)$ means $\dfrac{1}{\sin x}$."</li>
+    </ol>
+    <div class="space"></div>
+    <div class="solution"><span class="tag">Marking</span>
+      (a) A rule is not a function: e.g. "the function $f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$,
+      is not injective, since $f(-1) = f(1)$ but $-1 \neq 1$." Any answer that supplies a domain and
+      codomain and a witness is acceptable.<br>
+      (b) "A function has an inverse if and only if it is a bijection. Swapping $x$ and $y$ in the
+      equation of the graph yields a function precisely in that case."<br>
+      (c) "$\sin^{-1}$ denotes the inverse of $\sin$ restricted to $\left[-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right]$,
+      where it is a bijection onto $[-1,1]$. The reciprocal $\tfrac{1}{\sin x}$ is a different
+      function, written $\csc x$."
+      <span class="marks-note">1 mark for (a) — the domain must appear. 1 mark for (b) and (c)
+      together; (c) must mention the restricted domain, not merely "they are different".</span>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <span>Intro to Higher Math · Homework 3</span>
+  <span>Kurtanidze · Kereleishvili · Harbour.Space Bangkok</span>
+</div>
+
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/handout.js"></script>

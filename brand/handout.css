@@ -7,6 +7,9 @@
 
 * { box-sizing: border-box; }
 body {
+  /* Manrope ligates "(c)" into © via `liga`, silently corrupting lettered
+     list references in prose. fi/fl are unaffected by turning it off. */
+  font-variant-ligatures: no-common-ligatures;
   margin: 0 auto; padding: 18mm 16mm; max-width: 210mm;
   background: var(--hs-white); color: var(--hs-fg);
   font-family: var(--hs-font-sans); font-weight: var(--hs-weight-regular);
@@ -53,7 +56,7 @@ body {
 .problem .topic { font-size: 9pt; letter-spacing: var(--hs-tracking-wide);
                   text-transform: uppercase; color: var(--hs-fuchsia-600); }
 .problem .body { padding-left: 36px; }
-.problem ol.parts { margin: 6px 0 0; padding-left: 1.2em; }
+.problem ol.parts { margin: 6px 0 0; padding-left: 1.5em; list-style: lower-alpha; }
 .problem ol.parts > li { margin-bottom: 5px; }
 
 /* answer space that survives printing */
@@ -82,6 +85,7 @@ body:not(.with-solutions) .solution { display: none; }
 
 /* ---------- misc ---------- */
 h2.section-title {
+  break-after: avoid; page-break-after: avoid;
   font-size: 13pt; font-weight: var(--hs-weight-medium); margin: 26px 0 12px;
   padding-bottom: 5px; border-bottom: 1px solid var(--hs-purple-200);
   color: var(--hs-purple-800);

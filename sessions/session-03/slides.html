@@ -1,0 +1,930 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 3 · Functions</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="3">
+<div class="deck">
+
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Functions</h1>
+  <p class="lede">From "formula" to "function": a rule is not enough — you must say where it starts and where it lands.</p>
+  <div class="meta">
+    <div>Session<b>3 of 15</b></div>
+    <div>Date<b>Wed 9 Sep 2026</b></div>
+    <div>Today<b>Domain, codomain, undoing</b></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Recap</span>
+  <h2>Yesterday gave us the containers; today we move between them</h2>
+  <div class="s-body cols-2">
+    <ul class="ticks">
+      <li>Sets, and $\in$ against $\subseteq$</li>
+      <li>$\cup$, $\cap$, $\setminus$, complement, $\times$</li>
+      <li>Ordered pairs, so $A \times B$ makes sense</li>
+      <li>Proof by double inclusion</li>
+    </ul>
+    <div class="box note">
+      <span class="tag">Today's question</span>
+      <p>You have written $x^2$ a thousand times. Is $x^2$ a function?</p>
+      <p style="margin-bottom:0">And if it is — can you run it backwards?</p>
+    </div>
+  </div>
+  <div class="notes">
+    Ask the box before you answer it, and let them commit out loud. Most of the room says yes.
+    The honest answer is "not yet — you have given me a rule and no sets", and by the end of the
+    first hour they will see that the same rule $x^2$ is four different functions depending on the
+    sets you attach. Also flag the sets link: a function will turn out to be a special subset of
+    $A \times B$, so yesterday was not a detour.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today you can…</h2>
+  <div class="s-body cols-7-5">
+    <ul class="ticks">
+      <li>Define a function as a rule with a stated domain and codomain, and tell codomain from image</li>
+      <li>Decide and <strong>prove</strong> injectivity, surjectivity, bijectivity</li>
+      <li>Compose functions, and construct the inverse of a bijection</li>
+      <li>Define sine, cosine and tangent on the unit circle, and read off period, range and the identities</li>
+    </ul>
+    <div class="card">
+      <h3>How today runs</h3>
+      <p class="small">Two concepts, four group activities, one exit ticket. You will be at the board.</p>
+      <p class="small muted" style="margin-bottom:0">Objective 2 is the assessed one: a verdict without a proof scores nothing.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Read them out. Objective 2 is the assessed one — homework is eight classification items and each
+    needs a proof or a counterexample, not a verdict. Objectives 3 and 4 join up at the end of the day:
+    $\arcsin$ exists only because we restrict $\sin$ until it is a bijection.
+  </div>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>A function is three things, not one</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      A function $f : A \to B$ is three things at once:
+      <ul class="ticks" style="margin:8px 0">
+        <li>a <strong>domain</strong> $A$</li>
+        <li>a <strong>codomain</strong> $B$</li>
+        <li>a rule giving <strong>each</strong> $a \in A$ <strong>exactly one</strong> $f(a) \in B$</li>
+      </ul>
+      Equivalently $f \subseteq A \times B$, with each $a$ in exactly one pair.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Is</span>
+        $f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$. Every real has exactly one square, and it is real.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Is not</span>
+        <p>$g : \mathbb{R} \to \mathbb{R}$, $g(x) = 1/x$: nothing at $x = 0$. <em>Not total.</em></p>
+        <p style="margin-bottom:0">$h : \mathbb{R} \to \mathbb{R}$, $h(x) = \pm\sqrt{x}$: two values at $4$, none at $-1$. <em>Not single-valued.</em></p>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Say the two failure modes by name and write them on the board: <em>not total</em> (some input has no
+    output) and <em>not single-valued</em> (some input has more than one). Every non-example for the rest of
+    the course is one of these two. The $A \times B$ line is the payoff from yesterday — a function is
+    literally a set of ordered pairs, and "exactly one" is a condition on that set.
+  </div>
+  <script type="application/x-hs-check">
+    claim("x^2 is total and single-valued on R: every real has exactly one real square", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 200 - 100;
+        if (!isFinite(x * x)) return false;
+      }
+      return true;
+    });
+    claim("1/x is not total on R: there is no value at x = 0", () => !isFinite(1 / 0));
+    counterexample("x -> ±sqrt(x) has no real value at x = -1",
+      x => isFinite(Math.sqrt(x)), -1);
+    claim("x -> ±sqrt(x) is not single-valued: 2 and -2 both square to 4",
+      () => 2 * 2 === 4 && (-2) * (-2) === 4 && 2 !== -2);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>The codomain is declared; the image is computed</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      $$f(A) = \{\, f(a) : a \in A \,\} \subseteq B$$
+      $$f^{-1}(S) = \{\, a \in A : f(a) \in S \,\}$$
+      The first is the <strong>image</strong>, the second the <strong>preimage</strong> of $S \subseteq B$.
+    </div>
+    <div class="box example">
+      <span class="tag">Worked</span>
+      <p>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$.</p>
+      <p>Codomain $\mathbb{R}$, image $[0, \infty)$. So $-1$ sits in the codomain but never in the image.</p>
+      <p style="margin-bottom:0">$f^{-1}(\{4\}) = \{-2, 2\}$, while $f^{-1}([-1, 0)) = \varnothing$.</p>
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Notation warning</span>
+      $f^{-1}(S)$ takes a <strong>set</strong> and returns a <strong>set</strong>. It exists for every function. It is not the inverse function $f^{-1}$ we meet after the break, which needs a bijection.
+    </div>
+  </div>
+  <div class="notes">
+    The one sentence to repeat: the codomain is a promise you make, the image is a fact you must prove.
+    Note that $f^{-1}(S)$ is written with the same symbol as an inverse function but is a completely
+    different object — it takes a set, returns a set, and needs no bijection to exist. Say that now;
+    they will meet the real $f^{-1}$ in an hour and confuse the two otherwise.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the image of x^2 on R lies in [0, inf)", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 200 - 100;
+        if (x * x < 0) return false;
+      }
+      return true;
+    });
+    claim("0 is attained, so the image is exactly [0, inf)", () => 0 * 0, 0);
+    claim("-1 is in the codomain R but not in the image of x^2", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 400 - 200;
+        if (Math.abs(x * x + 1) < 1e-12) return false;
+      }
+      return true;
+    });
+    claim("preimage of {4} under x^2 is {-2, 2}",
+      () => 2 * 2 === 4 && (-2) * (-2) === 4);
+    claim("preimage of [-1, 0) under x^2 is empty", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 400 - 200;
+        const y = x * x;
+        if (y >= -1 && y < 0) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>Which of the three ingredients is missing?</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        For each line: is it a function? If not, name <strong>exactly</strong> which requirement fails, and give the input that breaks it.
+        <ol>
+          <li>$f : \mathbb{Z} \to \mathbb{Z}$, $f(n) = n/2$</li>
+          <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = \sqrt{x}$</li>
+          <li>$f : \mathbb{Q} \to \mathbb{Z}$, $f(p/q) = p$</li>
+          <li>$f : \mathbb{R} \to [0, \infty)$, $f(x) = x^2$</li>
+          <li>$f : \mathbb{R} \to \mathbb{R}$ defined by the condition $f(x)^2 = x$</li>
+        </ol>
+        <div class="share"><b>Share:</b> each group takes one line and names the failure — <em>not total</em>, <em>not single-valued</em>, <em>lands outside the codomain</em>, or <em>fine</em>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answers: (1) lands outside the codomain — $f(3) = 1.5 \notin \mathbb{Z}$. (2) not total — nothing at
+    $x = -1$. (3) not well defined, which is the interesting one: $\tfrac12 = \tfrac24$ but the rule returns
+    $1$ and $2$; the input is a rational, not a pair of integers. (4) fine. (5) no such function — at
+    $x = -1$ we would need $f(-1)^2 = -1$, impossible over $\mathbb{R}$.
+    Line 3 is worth most of the twelve minutes; well-definedness is a new idea and it returns in Session 10
+    when we define arithmetic on remainder classes.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("(1) n/2 leaves Z at n = 3", n => Number.isInteger(n / 2), 3);
+    counterexample("(2) sqrt(x) has no real value at x = -1",
+      x => isFinite(Math.sqrt(x)), -1);
+    claim("(3) p/q -> p is not well defined: 1/2 = 2/4 but 1 != 2",
+      () => 1 * 4 === 2 * 2 && 1 !== 2);
+    claim("(4) x^2 : R -> [0,inf) is total, single-valued and lands in the codomain", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 200 - 100;
+        if (!isFinite(x * x) || x * x < 0) return false;
+      }
+      return true;
+    });
+    claim("(5) no real y satisfies y^2 = -1, so the condition defines no function", () => {
+      for (let i = 0; i < 5000; i++) {
+        const y = Math.random() * 200 - 100;
+        if (y * y < 0) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>Injective, surjective, bijective — three questions about hitting</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      <p><strong>Injective:</strong> $f(a_1) = f(a_2) \Longrightarrow a_1 = a_2$. Nothing in $B$ is hit twice.</p>
+      <p><strong>Surjective:</strong> $\forall b \in B\;\exists a \in A$ with $f(a) = b$. Nothing in $B$ is missed.</p>
+      <p style="margin-bottom:0"><strong>Bijective:</strong> both. Every $b$ hit exactly once.</p>
+    </div>
+    <div class="box example">
+      <span class="tag">Same rule, opposite answers</span>
+      <p>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$: injective fails at $f(-2) = f(2)$; surjective fails at $-1$.</p>
+      <p style="margin-bottom:0">$f : [0,\infty) \to [0,\infty)$, $f(x) = x^2$: <strong>both</strong> hold. Nothing about the rule changed.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Draw the two arrow pictures on the board — dots in $A$, dots in $B$, arrows — before any symbols.
+    Injective = no two arrows meet; surjective = no dot in $B$ is arrow-free. Then read the symbolic
+    definitions back off the pictures. Stress that surjectivity is a statement about the <em>codomain</em>,
+    so shrinking the codomain can create it out of nothing; that is what the second example does.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("x^2 on R is not injective: -2 and 2 have the same square",
+      ([a, b]) => (a * a === b * b) === (a === b), [-2, 2]);
+    claim("x^2 : R -> R is not surjective: -1 is never attained", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 400 - 200;
+        if (Math.abs(x * x + 1) < 1e-12) return false;
+      }
+      return true;
+    });
+    claim("x^2 on [0,inf) is injective: a^2 = b^2 with a,b >= 0 forces a = b", () => {
+      for (let i = 0; i < 5000; i++) {
+        const a = Math.random() * 100, b = Math.random() * 100;
+        if (Math.abs(a * a - b * b) < 1e-12 && Math.abs(a - b) > 1e-6) return false;
+      }
+      return true;
+    });
+    identity("x^2 : [0,inf) -> [0,inf) is surjective: y = (sqrt y)^2",
+      y => Math.sqrt(y) * Math.sqrt(y), y => y, { lo: 0, hi: 100 });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept I</span>
+  <h2>Each of the four claims has one fixed opening move</h2>
+  <div class="s-body cols-2">
+    <div class="box proof">
+      <span class="tag">The four templates</span>
+      <p><strong>Injective:</strong> assume $f(a_1) = f(a_2)$, derive $a_1 = a_2$.</p>
+      <p><strong>Not injective:</strong> exhibit one pair $a_1 \neq a_2$ with equal images.</p>
+      <p><strong>Surjective:</strong> take arbitrary $b \in B$, <em>construct</em> an $a$ and check $f(a) = b$.</p>
+      <p style="margin-bottom:0"><strong>Not surjective:</strong> exhibit one $b$ and <em>prove</em> nothing maps to it.</p>
+    </div>
+    <div class="box example">
+      <span class="tag">Worked: $f : \mathbb{R} \to \mathbb{R}$, $f(x) = 3x - 5$</span>
+      <p>Injective: $3a_1 - 5 = 3a_2 - 5 \Rightarrow 3a_1 = 3a_2 \Rightarrow a_1 = a_2$.</p>
+      <p style="margin-bottom:0">Surjective: given $y$, set $x = \tfrac{y+5}{3}$; then $f(x) = 3\cdot\tfrac{y+5}{3} - 5 = y$. So $f$ is a bijection.</p>
+    </div>
+  </div>
+  <div class="notes">
+    The asymmetry is the lesson: the positive claims are universal and need an argument, the negative
+    claims are existential and need one number. Students routinely try to disprove surjectivity by
+    saying "it looks like nothing hits $-1$" — that is not the fourth template, and it costs marks all term.
+    Note where the surjectivity witness $\tfrac{y+5}{3}$ came from: solve $f(x) = y$ on scrap paper, then
+    present the answer as a construction. Say that out loud — the discovery and the write-up are different documents.
+  </div>
+  <script type="application/x-hs-check">
+    identity("3x-5 is injective: 3a-5 = 3b-5 forces a = b",
+      a => (3 * a - 5 + 5) / 3, a => a);
+    identity("3x-5 is surjective: x = (y+5)/3 gives f(x) = y",
+      y => 3 * ((y + 5) / 3) - 5, y => y);
+    claim("injectivity of 3x-5, checked on sampled pairs", () => {
+      for (let i = 0; i < 5000; i++) {
+        const a = Math.random() * 40 - 20, b = Math.random() * 40 - 20;
+        if (Math.abs((3*a - 5) - (3*b - 5)) < 1e-12 && Math.abs(a - b) > 1e-9) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>Classify, then prove it</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">groups of three</span><span class="time">15 min</span></header>
+      <div class="a-body">
+        For each: classify as injective, surjective, both or neither — then prove it with a template.
+        <ol>
+          <li>$f : \mathbb{Z} \to \mathbb{Z}$, $f(n) = 2n + 1$</li>
+          <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^3$</li>
+          <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^3 - x$</li>
+          <li>$f : \mathbb{N} \to \mathbb{N}$, $f(n) = n + 1$</li>
+          <li>$f : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$, $f(a,b) = a - b$</li>
+          <li>$f : \mathbb{R} \to (0, \infty)$, $f(x) = 2^x$</li>
+        </ol>
+        <div class="share"><b>Share:</b> one group gives a <em>positive</em> proof, one a counterexample. The room votes first.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answers: (1) injective, not surjective — $2n+1$ is always odd so $2$ is missed. (2) bijective, inverse
+    $\sqrt[3]{y}$. (3) surjective, not injective — $f(-1) = f(0) = f(1) = 0$. (4) injective, not surjective —
+    with $\mathbb{N}$ starting at $1$, nothing maps to $1$. (5) surjective via $(k,0)$, not injective since
+    $f(1,1) = f(2,2)$. (6) bijective, inverse $\log_2 y$.
+    Item 3 is the one to take to the board: surjectivity here needs a value-crossing argument, not a formula,
+    and it is fine to say "we will justify this properly once we have continuity". Item 4 will start an
+    argument about whether $0 \in \mathbb{N}$ — settle it by convention and point out the verdict changes.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("(1) 2n+1 is always odd, so 2 is never attained",
+      n => Math.abs(2 * n + 1) % 2 === 1, { lo: -300, hi: 300 });
+    forallInt("(1) 2n+1 is strictly increasing, hence injective",
+      n => 2 * n + 1 < 2 * (n + 1) + 1, { lo: -300, hi: 300 });
+    identity("(2) x^3 is inverted by the cube root, so it is a bijection on R",
+      x => Math.cbrt(x * x * x), x => x);
+    counterexample("(3) x^3-x is not injective: f(0) = f(1) = 0",
+      ([a, b]) => ((a*a*a - a) === (b*b*b - b)) === (a === b), [0, 1]);
+    claim("(3) x^3-x is surjective: bisection finds a preimage for random targets", () => {
+      const f = x => x*x*x - x;
+      for (let i = 0; i < 200; i++) {
+        const y = Math.random() * 200 - 100;
+        let lo = -10, hi = 10;
+        while (f(lo) > y) lo -= 10;
+        while (f(hi) < y) hi += 10;
+        for (let k = 0; k < 200; k++) { const m = (lo + hi) / 2; if (f(m) < y) lo = m; else hi = m; }
+        if (Math.abs(f((lo + hi) / 2) - y) > 1e-6) return false;
+      }
+      return true;
+    });
+    forallInt("(4) n+1 on N never equals 1, so it is not surjective",
+      n => n + 1 !== 1, { lo: 1, hi: 500 });
+    forallInt("(5) a-b hits every integer k, via the pair (k, 0)",
+      k => k - 0 === k, { lo: -300, hi: 300 });
+    claim("(5) a-b is not injective: (1,1) and (2,2) both give 0",
+      () => (1 - 1) === (2 - 2) && !(1 === 2));
+    identity("(6) 2^x : R -> (0,inf) is inverted by log_2, so it is a bijection",
+      y => Math.pow(2, Math.log2(y)), y => y, { lo: 0.01, hi: 500 });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Watch out</span>
+  <h2>"The function $x^2$" names no function at all</h2>
+  <div class="s-body">
+    <table>
+      <tr><th>Domain</th><th>Codomain</th><th>Injective?</th><th>Surjective?</th><th>So it is…</th></tr>
+      <tr><td>$\mathbb{R}$</td><td>$\mathbb{R}$</td><td>No ($\pm 2$)</td><td>No ($-1$)</td><td>neither</td></tr>
+      <tr><td>$[0,\infty)$</td><td>$\mathbb{R}$</td><td>Yes</td><td>No ($-1$)</td><td>injective only</td></tr>
+      <tr><td>$\mathbb{R}$</td><td>$[0,\infty)$</td><td>No ($\pm 2$)</td><td>Yes</td><td>surjective only</td></tr>
+      <tr><td>$[0,\infty)$</td><td>$[0,\infty)$</td><td>Yes</td><td>Yes</td><td><strong>bijective</strong></td></tr>
+    </table>
+    <div class="cols-2" style="margin-top:14px">
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        One rule, four functions, four different answers. A question asking "is $x^2$ injective?" is not yet a question.
+      </div>
+      <div class="box note">
+        <span class="tag">Fix</span>
+        Write $f : A \to B$ <strong>before</strong> you write the rule. Every homework answer this term starts that way.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Build the table live, one row at a time, asking the room for each cell — it lands far harder than
+    revealing it. This is the slide students should photograph. Then connect it forward: the last row is
+    what makes $\sqrt{\ }$ a legitimate function, and the same restriction trick is what will make
+    $\arcsin$ exist at the end of today.
+  </div>
+  <script type="application/x-hs-check">
+    const hitsMinus1 = () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 400 - 200;
+        if (Math.abs(x * x + 1) < 1e-12) return true;
+      }
+      return false;
+    };
+    const injOnNonneg = () => {
+      for (let i = 0; i < 5000; i++) {
+        const a = Math.random() * 100, b = Math.random() * 100;
+        if (Math.abs(a*a - b*b) < 1e-12 && Math.abs(a - b) > 1e-6) return false;
+      }
+      return true;
+    };
+    claim("row 1: x^2 : R -> R is neither injective nor surjective",
+      () => ((-2)*(-2) === 2*2 && -2 !== 2) && !hitsMinus1());
+    claim("row 2: x^2 : [0,inf) -> R is injective but not surjective",
+      () => injOnNonneg() && !hitsMinus1());
+    claim("row 3: x^2 : R -> [0,inf) is surjective but not injective", () => {
+      const surj = (() => { for (let i = 0; i < 2000; i++) {
+        const y = Math.random() * 100; if (Math.abs(Math.sqrt(y)*Math.sqrt(y) - y) > 1e-9) return false;
+      } return true; })();
+      return surj && ((-2)*(-2) === 2*2 && -2 !== 2);
+    });
+    claim("row 4: x^2 : [0,inf) -> [0,inf) is a bijection", () => {
+      const surj = (() => { for (let i = 0; i < 2000; i++) {
+        const y = Math.random() * 100; if (Math.abs(Math.sqrt(y)*Math.sqrt(y) - y) > 1e-9) return false;
+      } return true; })();
+      return injOnNonneg() && surj;
+    });
+  </script>
+</section>
+
+<section class="slide section">
+  <span class="kicker">Part II</span>
+  <h1>Composing, and undoing</h1>
+  <p class="lede">Functions are things you can chain. Some chains can be reversed — and the condition for that is exactly the vocabulary from the first hour.</p>
+  <span class="num-badge">2</span>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept II</span>
+  <h2>Composition needs the codomain of one to be the domain of the next</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      The <strong>composition</strong> of $f : A \to B$ with $g : B \to C$ is
+      $$(g \circ f)(a) = g\big(f(a)\big), \qquad g \circ f : A \to C$$
+      Read it right to left: $f$ runs first. If the middle sets do not match, the composition does not exist.
+    </div>
+    <div class="box example">
+      <span class="tag">Order is not a detail</span>
+      <p>$f(x) = x + 1$, $g(x) = x^2$, both $\mathbb{R} \to \mathbb{R}$.</p>
+      <p>$(g \circ f)(x) = (x+1)^2 \qquad (f \circ g)(x) = x^2 + 1$</p>
+      <p style="margin-bottom:0">At $x = 1$: $4$ against $2$. So $g \circ f \neq f \circ g$.</p>
+    </div>
+  </div>
+  <div class="notes">
+    The right-to-left reading trips everyone once; make them evaluate $(g \circ f)(3)$ out loud before you
+    move on. The non-commutativity example is worth a beat — up to now every operation they have met
+    (addition, multiplication, union, intersection) commuted, and this is the first that does not.
+    Composition is associative, though: $(h \circ g) \circ f = h \circ (g \circ f)$, because both sides send
+    $a$ to $h(g(f(a)))$. Say it; it is one line and they will use it silently forever.
+  </div>
+  <script type="application/x-hs-check">
+    identity("(g∘f)(x) = (x+1)^2 for f(x)=x+1, g(x)=x^2",
+      x => { const f = t => t + 1, g = t => t * t; return g(f(x)); },
+      x => Math.pow(x + 1, 2));
+    identity("(f∘g)(x) = x^2+1",
+      x => { const f = t => t + 1, g = t => t * t; return f(g(x)); },
+      x => x * x + 1);
+    counterexample("composition does not commute: at x = 1 we get 4 against 2",
+      x => Math.pow(x + 1, 2) === x * x + 1, 1);
+    identity("composition is associative: (h∘g)∘f = h∘(g∘f)",
+      x => { const f = t => t + 1, g = t => t * t, h = t => 2 * t - 3; return h(g(f(x))); },
+      x => { const f = t => t + 1, g = t => t * t, h = t => 2 * t - 3; return h(g(f(x))); });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept II</span>
+  <h2>Injectivity of a chain is inherited by its first link</h2>
+  <div class="s-body stack">
+    <div class="box thm">
+      <span class="tag">Theorem</span>
+      Let $f : A \to B$ and $g : B \to C$. If $g \circ f$ is injective, then $f$ is injective.
+    </div>
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      Suppose $f(a_1) = f(a_2)$. Applying $g$ to both sides gives $g(f(a_1)) = g(f(a_2))$, that is $(g \circ f)(a_1) = (g \circ f)(a_2)$. Since $g \circ f$ is injective, $a_1 = a_2$. Hence $f$ is injective.
+    </div>
+    <div class="box note">
+      <span class="tag">And $g$?</span>
+      Nothing follows. With $A = \{1\}$, $B = \{1,2\}$, $C = \{1\}$, $f(1) = 1$, $g(1) = g(2) = 1$: the chain is injective, $g$ is not.
+    </div>
+  </div>
+  <div class="notes">
+    This is boardExample 2 and it is the first proof of the day where the opening move is not obvious.
+    Point out that the whole proof is the injectivity template with one extra step: apply $g$. Ask the room
+    what happens if you try to prove the same thing about $g$ — someone will attempt it, and that failed
+    attempt is exactly Activity 3, so let them start it and then cut them off.
+  </div>
+  <script type="application/x-hs-check">
+    claim("exhaustive on 3-element sets: g∘f injective implies f injective", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a, b, c]);
+      const inj = h => new Set(h).size === h.length;
+      for (const f of all) for (const g of all) {
+        const gf = f.map(x => g[x]);
+        if (inj(gf) && !inj(f)) return false;
+      }
+      return true;
+    });
+    claim("g need not be injective: f:{1}->{1,2}, g(1)=g(2)=1", () => {
+      const f = [0];        // A = {0} -> B = {0,1}
+      const g = [0, 0];     // B -> C = {0}
+      const gf = f.map(x => g[x]);
+      const inj = h => new Set(h).size === h.length;
+      return inj(gf) && !inj(g);
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept II</span>
+  <h2>A function can be undone exactly when it is a bijection</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box thm" data-proof="the (⟹) direction is done on the board: an inverse forces injectivity and surjectivity in two lines each">
+        <span class="tag">Theorem</span>
+        $f : A \to B$ has a $g : B \to A$ with $g \circ f = \mathrm{id}_A$ and $f \circ g = \mathrm{id}_B$ <strong>if and only if</strong> $f$ is a bijection. This $g$ is unique: it is $f^{-1}$.
+      </div>
+      <div class="box proof">
+        <span class="tag">Proof ($\Longleftarrow$)</span>
+        Let $b \in B$. Surjectivity gives an $a$ with $f(a) = b$; injectivity says it is the only one. So $g(b) = a$ is well defined, and both composites are identities.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $f^{-1}$ is not $\tfrac{1}{f}$. For $f(x) = 3x - 5$: $f^{-1}(1) = 2$, while $\tfrac{1}{f(1)} = -\tfrac12$.
+      </div>
+      <div class="box note">
+        <span class="tag">Fix</span>
+        $f^{-1}$ undoes; $\tfrac1f$ divides. Same superscript, unrelated operations.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The $\Longleftarrow$ proof is the day's most important sentence: <em>surjectivity gives existence,
+    injectivity gives uniqueness, and together they give a well-defined rule</em>. Write those two words on
+    the board under the two hypotheses. Do the $\Longrightarrow$ direction live: if $g \circ f = \mathrm{id}$
+    then $f(a_1) = f(a_2)$ gives $a_1 = g(f(a_1)) = g(f(a_2)) = a_2$; if $f \circ g = \mathrm{id}$ then any
+    $b$ equals $f(g(b))$, so $b$ is hit.
+  </div>
+  <script type="application/x-hs-check">
+    identity("g(f(x)) = x for f(x)=3x-5, g(y)=(y+5)/3",
+      x => ((3 * x - 5) + 5) / 3, x => x);
+    identity("f(g(y)) = y as well", y => 3 * ((y + 5) / 3) - 5, y => y);
+    counterexample("the inverse is not the reciprocal: at x = 1, 2 against -1/2",
+      x => ((x + 5) / 3) === (1 / (3 * x - 5)), 1);
+    claim("exhaustive on a 3-element set: a two-sided inverse exists iff f is a bijection", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a, b, c]);
+      const isBij = h => new Set(h).size === n;
+      for (const f of all) {
+        let has = false;
+        for (const g of all) {
+          let ok = true;
+          for (let x = 0; x < n; x++) if (g[f[x]] !== x) ok = false;
+          for (let y = 0; y < n; y++) if (f[g[y]] !== y) ok = false;
+          if (ok) has = true;
+        }
+        if (has !== isBij(f)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>Find the broken step</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">groups of three</span><span class="time">14 min</span></header>
+      <div class="a-body">
+        <strong>Claim.</strong> If $g \circ f$ is injective, then $g$ is injective. <strong>"Proof."</strong>
+        <p style="margin:6px 0 10px">
+          (i) Suppose $g(b_1) = g(b_2)$.<br>
+          (ii) Write $b_1 = f(a_1)$ and $b_2 = f(a_2)$.<br>
+          (iii) Then $(g \circ f)(a_1) = (g \circ f)(a_2)$, so $a_1 = a_2$.<br>
+          (iv) Hence $b_1 = f(a_1) = f(a_2) = b_2$. $\blacksquare$
+        </p>
+        <ol>
+          <li>Which of (i)–(iv) is the first unjustified line?</li>
+          <li>Give a counterexample showing the claim is false.</li>
+          <li>Add the smallest hypothesis on $f$ that repairs the proof.</li>
+          <li>State and prove the companion result for $g \circ f$ <em>surjective</em>.</li>
+        </ol>
+        <div class="share"><b>Share:</b> one group presents the counterexample, another the repaired statement. The room decides if step 3 is the smallest fix.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The broken line is (ii): "write $b_1 = f(a_1)$" silently assumes every element of $B$ is in the
+    image — that is surjectivity of $f$, and it was never given. Counterexample: the one from two slides ago,
+    $f : \{1\} \to \{1,2\}$ with $g(1) = g(2) = 1$. Repair: assume $f$ surjective, and then the proof is
+    correct as written. Step 4: if $g \circ f$ is surjective then $g$ is surjective — given $c \in C$ there is
+    $a$ with $g(f(a)) = c$, so $f(a) \in B$ is a preimage. Note the pleasing symmetry: the chain hands
+    injectivity down to the <em>first</em> link and surjectivity to the <em>last</em>.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the claim is false: g∘f injective does not force g injective", () => {
+      const f = [0], g = [0, 0];
+      const gf = f.map(x => g[x]);
+      const inj = h => new Set(h).size === h.length;
+      return inj(gf) && !inj(g);
+    });
+    claim("repaired: g∘f injective AND f surjective does force g injective", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a, b, c]);
+      const inj = h => new Set(h).size === h.length;
+      const surj = h => new Set(h).size === n;
+      for (const f of all) for (const g of all) {
+        const gf = f.map(x => g[x]);
+        if (inj(gf) && surj(f) && !inj(g)) return false;
+      }
+      return true;
+    });
+    claim("step 4: if g∘f is surjective then g is surjective", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a, b, c]);
+      const surj = h => new Set(h).size === n;
+      for (const f of all) for (const g of all) {
+        const gf = f.map(x => g[x]);
+        if (surj(gf) && !surj(g)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept II · trigonometry</span>
+  <h2>Sine and cosine are coordinates, and the identity is Pythagoras</h2>
+  <div class="s-body cols-5-7">
+    <svg viewBox="0 0 300 268" role="img" aria-label="The unit circle, with the point at angle theta and its cosine and sine legs"
+         style="width:100%; max-width:400px; align-self:center; margin:0 auto" fill="none">
+      <line x1="10" y1="132" x2="264" y2="132" stroke="var(--hs-neutral-300)" stroke-width="1.5"/>
+      <line x1="120" y1="256" x2="120" y2="10" stroke="var(--hs-neutral-300)" stroke-width="1.5"/>
+      <circle cx="120" cy="132" r="95" stroke="var(--hs-purple-600)" stroke-width="2.5"/>
+      <line x1="181.1" y1="59.2" x2="181.1" y2="132" stroke="var(--hs-cyan-600)" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="120" y1="132" x2="181.1" y2="132" stroke="var(--hs-cyan-600)" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="120" y1="132" x2="181.1" y2="59.2" stroke="var(--hs-fuchsia-500)" stroke-width="2.5"/>
+      <path d="M 150 132 A 30 30 0 0 0 139.3 109" stroke="var(--hs-fuchsia-500)" stroke-width="2.5"/>
+      <circle cx="181.1" cy="59.2" r="5.5" fill="var(--hs-fuchsia-500)"/>
+      <circle cx="215" cy="132" r="4" fill="var(--hs-neutral-500)"/>
+      <g font-size="19" font-family="var(--hs-font-sans)">
+        <text x="152" y="156" text-anchor="middle" fill="var(--hs-cyan-800)">cos&#160;&#952;</text>
+        <text x="190" y="101" fill="var(--hs-cyan-800)">sin&#160;&#952;</text>
+        <text x="157" y="126" fill="var(--hs-fuchsia-700)">&#952;</text>
+        <text x="221" y="157" fill="var(--hs-neutral-600)">(1,&#160;0)</text>
+      </g>
+    </svg>
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        From $(1,0)$, walk $\theta$ counter-clockwise along the unit circle $x^2 + y^2 = 1$. The point you reach is $(\cos\theta,\ \sin\theta)$, and $\tan\theta = \dfrac{\sin\theta}{\cos\theta}$ where $\cos\theta \neq 0$. That distance is $\theta$ <strong>radians</strong>.
+      </div>
+      <div class="box proof">
+        <span class="tag">Why the identity is free</span>
+        The point lies <em>on</em> the circle, so $x^2 + y^2 = 1$. Substitute:
+        $$\cos^2\theta + \sin^2\theta = 1$$
+        Not a new fact — the circle's equation, renamed.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Draw the circle before you say a word, and walk a finger round it. The single idea: $\theta$ is a
+    <em>length</em>, so $\sin$ and $\cos$ are functions $\mathbb{R} \to \mathbb{R}$ like any other — not
+    triangle ratios that stop at $90^\circ$. Derive $\sin^2 + \cos^2 = 1$ by pointing at the circle; most of
+    them memorised it and have never been shown that it is one substitution.
+  </div>
+  <script type="application/x-hs-check">
+    identity("sin^2 θ + cos^2 θ = 1",
+      t => Math.sin(t) * Math.sin(t) + Math.cos(t) * Math.cos(t), () => 1, { lo: -20, hi: 20 });
+    identity("tan θ = sin θ / cos θ",
+      t => Math.tan(t), t => Math.sin(t) / Math.cos(t), { lo: -1.4, hi: 1.4 });
+    claim("θ = 0 gives the point (1, 0)", () => Math.cos(0) === 1 && Math.sin(0) === 0);
+    claim("θ = π/2 gives the point (0, 1)",
+      () => Math.abs(Math.cos(Math.PI/2)) < 1e-15 && Math.abs(Math.sin(Math.PI/2) - 1) < 1e-15);
+    claim("a full turn is 2π: cos(2π) = 1", () => Math.cos(2 * Math.PI), 1);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Concept II · trigonometry</span>
+  <h2>Periodic means never injective — so we restrict until it is</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>$f$</th><th>Domain</th><th>Image</th><th>Period</th><th>Injective there?</th></tr>
+      <tr><td>$\sin$</td><td>$\mathbb{R}$</td><td>$[-1,1]$</td><td>$2\pi$</td><td>No ($\sin 0 = \sin \pi$)</td></tr>
+      <tr><td>$\cos$</td><td>$\mathbb{R}$</td><td>$[-1,1]$</td><td>$2\pi$</td><td>No ($\cos(-\theta) = \cos\theta$)</td></tr>
+      <tr><td>$\tan$</td><td>$\mathbb{R} \setminus \{\tfrac{\pi}{2} + k\pi\}$</td><td>$\mathbb{R}$</td><td>$\pi$</td><td>No (period $\pi$)</td></tr>
+    </table>
+    <div class="cols-2" style="margin-top:14px">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        $p &gt; 0$ is a <strong>period</strong> of $f$ if $f(\theta + p) = f(\theta)$ for every $\theta$. "The" period is the smallest such $p$.
+      </div>
+      <div class="box example">
+        <span class="tag">The restriction trick, again</span>
+        $\sin$ cut down to $\left[-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right] \to [-1,1]$ is a <strong>bijection</strong>, so by the theorem it has an inverse. That inverse is $\arcsin$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    This is the slide that ties the two halves of the day together, so do not rush it. A periodic function
+    repeats, so it is never injective on all of $\mathbb{R}$, so it has no inverse there — full stop. Every
+    calculator's $\sin^{-1}$ button is silently working on a restricted domain, which is why it returns
+    $-\tfrac{\pi}{2}$ to $\tfrac{\pi}{2}$ and nothing else. Ask why we chose that interval and not, say,
+    $[\tfrac{\pi}{2}, \tfrac{3\pi}{2}]$: we could have, it is a convention, and the theorem does not care.
+  </div>
+  <script type="application/x-hs-check">
+    identity("sin has period 2π", t => Math.sin(t + 2 * Math.PI), t => Math.sin(t), { lo: -20, hi: 20 });
+    identity("cos has period 2π", t => Math.cos(t + 2 * Math.PI), t => Math.cos(t), { lo: -20, hi: 20 });
+    identity("tan has period π", t => Math.tan(t + Math.PI), t => Math.tan(t), { lo: -1.4, hi: 1.4 });
+    claim("the image of sin is inside [-1,1]", () => {
+      for (let i = 0; i < 5000; i++) {
+        const t = Math.random() * 200 - 100;
+        if (Math.abs(Math.sin(t)) > 1 + 1e-12) return false;
+      }
+      return true;
+    });
+    counterexample("sin is not injective on R: 0 and π share a sine",
+      ([a, b]) => (Math.abs(Math.sin(a) - Math.sin(b)) < 1e-12) === (a === b), [0, Math.PI]);
+    identity("sin restricted to [-π/2, π/2] is undone by arcsin",
+      t => Math.asin(Math.sin(t)), t => t, { lo: -Math.PI / 2, hi: Math.PI / 2 });
+    identity("arcsin is undone by sin on [-1, 1]",
+      y => Math.sin(Math.asin(y)), y => y, { lo: -1, hi: 1 });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Watch out</span>
+  <h2>The unit circle definition already fixed your units</h2>
+  <div class="s-body cols-2">
+    <div class="box pitfall">
+      <span class="tag">Trap</span>
+      <p>$\sin(30) \neq \tfrac12$.</p>
+      <p style="margin-bottom:0">$\theta$ is an arc length, so $\sin(30) \approx -0.988$: the point after walking $30$ units round a circle of circumference $2\pi$. What you meant was $\sin\!\left(\tfrac{\pi}{6}\right) = \tfrac12$.</p>
+    </div>
+    <div class="box note">
+      <span class="tag">Fix</span>
+      <p>Convert once, at the start: $\;\theta_{\text{rad}} = \dfrac{\pi}{180}\,\theta_{\deg}$.</p>
+      <p style="margin-bottom:0">Radians are the default here, in every calculus course, and in every programming language's standard library. Degrees are the special case that needs announcing.</p>
+    </div>
+    <div class="box try" style="grid-column: 1 / -1">
+      <span class="tag">Thirty seconds</span>
+      Convert $45^\circ$, $60^\circ$ and $270^\circ$ to radians. Then: what is $\cos(180)$, and what did whoever wrote it mean?
+    </div>
+  </div>
+  <div class="notes">
+    Worth thirty seconds of live demonstration: type <code>Math.sin(30)</code> somewhere and show the room
+    $-0.988$. Every student loses marks to this at least once, and it is silent — the answer is a plausible
+    number, just the wrong one. The deeper reason radians win is that they make $\sin$ a function of a
+    <em>length</em> rather than of an arbitrary $1/360$ convention; that is what makes the derivative of
+    $\sin$ come out as $\cos$ with no stray constant, which they will meet in calculus.
+    Drill answers: $\tfrac{\pi}{4}$, $\tfrac{\pi}{3}$, $\tfrac{3\pi}{2}$; and $\cos(180) \approx -0.598$, where
+    almost certainly $\cos(\pi) = -1$ was meant.
+  </div>
+  <script type="application/x-hs-check">
+    claim("sin(π/6) = 1/2", () => Math.sin(Math.PI / 6), 0.5);
+    claim("sin(30) in radians is nowhere near 1/2", () => Math.abs(Math.sin(30) - 0.5) > 1.4);
+    claim("sin(30) ≈ -0.988", () => Math.abs(Math.sin(30) + 0.9880316) < 1e-6);
+    claim("30 degrees is π/6 radians", () => 30 * Math.PI / 180, Math.PI / 6);
+    claim("180 degrees is π radians", () => 180 * Math.PI / 180, Math.PI);
+    claim("drill: 45 degrees is π/4", () => 45 * Math.PI / 180, Math.PI / 4);
+    claim("drill: 60 degrees is π/3", () => 60 * Math.PI / 180, Math.PI / 3);
+    claim("drill: 270 degrees is 3π/2", () => 270 * Math.PI / 180, 3 * Math.PI / 2);
+    claim("drill: cos(180) in radians is about -0.598, not -1",
+      () => Math.abs(Math.cos(180) + 0.5984601) < 1e-6);
+    claim("drill: they meant cos(π) = -1", () => Math.cos(Math.PI), -1);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 4</span>
+  <h2>Derive the circle without us</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Draw one unit circle. Close every other source — no tables, no phones.
+        <ol>
+          <li>Place $\theta = \tfrac{\pi}{6}, \tfrac{\pi}{4}, \tfrac{\pi}{3}$ and read off $(\cos\theta, \sin\theta)$ from the $30$–$60$–$90$ and $45$–$45$–$90$ triangles.</li>
+          <li>From the picture alone, argue $\cos(-\theta) = \cos\theta$ and $\sin(-\theta) = -\sin\theta$.</li>
+          <li>From the picture alone, argue $\sin(\theta + \pi) = -\sin\theta$.</li>
+          <li>$2\pi$ is a period of $\tan$. Is it the <em>smallest</em> one? Justify.</li>
+        </ol>
+        <div class="share"><b>Share:</b> one pair draws the circle and defends step 4 at the board.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answers: (1) $\left(\tfrac{\sqrt3}{2}, \tfrac12\right)$, $\left(\tfrac{\sqrt2}{2}, \tfrac{\sqrt2}{2}\right)$,
+    $\left(\tfrac12, \tfrac{\sqrt3}{2}\right)$. (2) reflecting in the $x$-axis fixes the first coordinate and
+    negates the second. (3) adding $\pi$ sends the point to its antipode, negating both coordinates.
+    (4) no — $\tan(\theta + \pi) = \tan\theta$, so $\pi$ is smaller, and it is in fact the smallest.
+    Step 4 is the one they get wrong: "a period" and "the period" are different claims, and asking for the
+    <em>smallest</em> is asking them to rule out everything below it, not just verify one value.
+  </div>
+  <script type="application/x-hs-check">
+    claim("cos(π/6) = √3/2", () => Math.cos(Math.PI / 6), Math.sqrt(3) / 2);
+    claim("sin(π/6) = 1/2", () => Math.sin(Math.PI / 6), 0.5);
+    claim("cos(π/4) = √2/2", () => Math.cos(Math.PI / 4), Math.sqrt(2) / 2);
+    claim("sin(π/4) = √2/2", () => Math.sin(Math.PI / 4), Math.sqrt(2) / 2);
+    claim("cos(π/3) = 1/2", () => Math.cos(Math.PI / 3), 0.5);
+    claim("sin(π/3) = √3/2", () => Math.sin(Math.PI / 3), Math.sqrt(3) / 2);
+    identity("cos is even: cos(-θ) = cos θ", t => Math.cos(-t), t => Math.cos(t));
+    identity("sin is odd: sin(-θ) = -sin θ", t => Math.sin(-t), t => -Math.sin(t));
+    identity("sin(θ + π) = -sin θ", t => Math.sin(t + Math.PI), t => -Math.sin(t));
+    identity("tan(θ + π) = tan θ, so 2π is a period but not the smallest",
+      t => Math.tan(t + Math.PI), t => Math.tan(t), { lo: -1.4, hi: 1.4 });
+    claim("π really is the smallest period of tan: no p in (0, π) works", () => {
+      for (let k = 1; k < 400; k++) {
+        const p = Math.PI * k / 400;
+        let repeats = true;
+        for (let i = 0; i < 200; i++) {
+          const t = Math.random() * 2.6 - 1.3;
+          if (Math.abs(Math.tan(t + p) - Math.tan(t)) > 1e-6) { repeats = false; break; }
+        }
+        if (repeats) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Exit ticket · 10 minutes</span>
+  <h2>On your own, before you leave</h2>
+  <div class="s-body cols-3">
+    <div class="box try">
+      <span class="tag">1</span>
+      Choose a domain and codomain that make $x \mapsto x^2 - 4x$ a bijection, and prove both halves.
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      With $f(x) = 2x+1$ and $g(x) = x^2$ on $\mathbb{R}$: compute $g \circ f$ and $f \circ g$, and give one $x$ where they differ.
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      Derive $\cos\tfrac{\pi}{3}$ and $\sin\tfrac{\pi}{3}$ from the unit circle. Recalling them scores zero.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule for today</span>
+      Every verdict carries its template. "Injective" alone is not an answer; "injective, because $f(a_1) = f(a_2)$ forces $a_1 = a_2$ since…" is.
+    </div>
+  </div>
+  <div class="notes">
+    Individual, silent, ten minutes, collected. Expected: (1) complete the square —
+    $x^2 - 4x = (x-2)^2 - 4$, so $[2,\infty) \to [-4,\infty)$ works, injective by the same argument as
+    $x^2$ on $[0,\infty)$ and surjective via $x = 2 + \sqrt{y+4}$. (2) $(g \circ f)(x) = 4x^2 + 4x + 1$,
+    $(f \circ g)(x) = 2x^2 + 1$; they differ at $x = 1$, giving $9$ and $3$. (3) $\tfrac12$ and $\tfrac{\sqrt3}{2}$,
+    from the $30$–$60$–$90$ triangle inscribed in the circle.
+  </div>
+  <script type="application/x-hs-check">
+    identity("Q1: x^2-4x = (x-2)^2 - 4",
+      x => x * x - 4 * x, x => Math.pow(x - 2, 2) - 4);
+    identity("Q1: on [2,∞) the map is surjective onto [-4,∞) via x = 2 + sqrt(y+4)",
+      y => { const x = 2 + Math.sqrt(y + 4); return x * x - 4 * x; },
+      y => y, { lo: -4, hi: 200 });
+    claim("Q1: x^2-4x is injective on [2, ∞)", () => {
+      const f = x => x * x - 4 * x;
+      for (let i = 0; i < 5000; i++) {
+        const a = 2 + Math.random() * 50, b = 2 + Math.random() * 50;
+        if (Math.abs(f(a) - f(b)) < 1e-12 && Math.abs(a - b) > 1e-6) return false;
+      }
+      return true;
+    });
+    identity("Q2: (g∘f)(x) = 4x^2 + 4x + 1",
+      x => { const f = t => 2 * t + 1, g = t => t * t; return g(f(x)); },
+      x => 4 * x * x + 4 * x + 1);
+    identity("Q2: (f∘g)(x) = 2x^2 + 1",
+      x => { const f = t => 2 * t + 1, g = t => t * t; return f(g(x)); },
+      x => 2 * x * x + 1);
+    counterexample("Q2: they differ at x = 1, giving 9 against 3",
+      x => Math.pow(2 * x + 1, 2) === 2 * x * x + 1, 1);
+    claim("Q3: cos(π/3) = 1/2", () => Math.cos(Math.PI / 3), 0.5);
+    claim("Q3: sin(π/3) = √3/2", () => Math.sin(Math.PI / 3), Math.sqrt(3) / 2);
+  </script>
+</section>
+
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was actually about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>A rule is not a function. <strong>Domain and codomain are part of the object</strong> — change them and every answer changes.</li>
+        <li>Injective and surjective are <strong>claims to be proved</strong>, each with a fixed opening move.</li>
+        <li>A function is invertible exactly when it is a bijection — which is why $\arcsin$ needs a restricted domain.</li>
+      </ul>
+      <div class="chips" style="margin-top:18px">
+        <span class="chip">domain</span>
+        <span class="chip">codomain</span>
+        <span class="chip">image</span>
+        <span class="chip">preimage</span>
+        <span class="chip hot">bijective</span>
+        <span class="chip">composition</span>
+        <span class="chip">inverse</span>
+        <span class="chip">radian</span>
+        <span class="chip">period</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Homework 3</h3>
+      <p class="small">Eight injective/surjective classifications, each with a proof or a counterexample, plus five unit-circle values <em>derived</em>, not recalled.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>Function families</strong> — polynomial, exp/log and trig, and how fast each one grows.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Close on the three bullets, then brief the homework concretely: a one-word verdict earns nothing, and
+    "derived, not recalled" means we want the triangle, not the table. Flag tomorrow — today gave the
+    grammar of functions, tomorrow gives the vocabulary: the standard families and their growth.
+  </div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>
