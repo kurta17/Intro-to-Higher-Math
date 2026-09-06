@@ -10,7 +10,8 @@
      check <deck.html>         slide count, titles, overflow, unrendered TeX, errors
      shot  <deck.html> [n|all] PNG per slide  -> build/<deck>/slide-NN.png
      contact <deck.html>       whole deck as a thumbnail grid, one PNG
-     pdf   <file.html> [solutions]  print/export -> build/<session>-<file>.pdf
+     pdf   <file.html> [solutions]  print/export -> build/<session>/...pdf
+     pptx  <deck.html>         PowerPoint, one image per slide + speaker notes
      open  <deck.html> [n]     serve + open a Chrome window (presenting)
      new   <session-number>    scaffold sessions/session-NN/{slides,problem-set}.html
      serve [port]              static server on 127.0.0.1 (default 8177)
@@ -21,6 +22,7 @@ import { createReadStream, statSync } from 'node:fs';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, resolve, basename, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { buildPptx, extractNotes } from './pptx.mjs';
 
 const SKILL_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(SKILL_DIR, '../../..');          // <unit>/
@@ -73,10 +75,18 @@ function deckUrl(deck, query = '', hash = '') {
   return pathToFileURL(p).href + (query ? '?' + query : '') + (hash ? '#' + hash : '');
 }
 function deckName(deck) { return basename(dirname(resolve(ROOT, deck))); }
-// build/<session>-<file>.pdf so slides.pdf and problem-set.pdf can coexist
+// <session>-<file> so slides.pdf and problem-set.pdf can coexist in one folder
 function docName(deck) {
   const f = basename(resolve(ROOT, deck)).replace(/\.html?$/i, '');
   return `${deckName(deck)}-${f}`;
+}
+/* Every generated artefact belongs to its session: build/<session>/...
+   Nothing is written to the root of build/ - one folder per deck is what
+   makes the output easy to hand over, zip, or delete. */
+function outDir(deck) {
+  const d = join(BUILD, deckName(deck));
+  mkdirSync(d, { recursive: true });
+  return d;
 }
 
 /* ---------- commands ---------- */
@@ -128,9 +138,7 @@ function cmdCheck(deck) {
 
 function cmdShot(deck, which = 'all') {
   const n = diag(deck).slides;
-  const name = deckName(deck);
-  const dir = join(BUILD, name);
-  mkdirSync(dir, { recursive: true });
+  const dir = outDir(deck);
   const list = which === 'all'
     ? Array.from({ length: n }, (_, i) => i + 1)
     : [parseInt(which, 10)];
@@ -148,7 +156,7 @@ function cmdShot(deck, which = 'all') {
    what you want when reviewing a deck you just edited. */
 function cmdContact(deck) {
   const n = diag(deck).slides;
-  const out = join(BUILD, `${docName(deck)}-contact.png`);
+  const out = join(outDir(deck), `${docName(deck)}-contact.png`);
   const rows = Math.ceil(n / 4);
   // 320x180 thumbs, 4 across. A full-size stacked canvas (1280 x 15000+)
   // makes headless Chrome hang; this stays small and renders in seconds.
@@ -161,12 +169,33 @@ function cmdContact(deck) {
 function cmdPdf(deck, flag) {
   // `solutions` reveals .solution blocks in a handout (see brand/handout.js)
   const sol = flag === 'solutions';
-  mkdirSync(BUILD, { recursive: true });
-  const out = join(BUILD, `${docName(deck)}${sol ? '-solutions' : ''}.pdf`);
+  const out = join(outDir(deck), `${docName(deck)}${sol ? '-solutions' : ''}.pdf`);
   run([...BASE_FLAGS, `--window-size=${W},${H}`, '--virtual-time-budget=15000',
     '--no-pdf-header-footer', `--print-to-pdf=${out}`,
     deckUrl(deck, 'mode=print' + (sol ? '&solutions=1' : ''))]);
   console.log(out.replace(ROOT + '/', ''));
+}
+
+/* Re-shoots every slide first: a PPTX built from stale PNGs is worse than
+   no PPTX, because nothing about it looks wrong. */
+function cmdPptx(deck) {
+  const n = diag(deck).slides;
+  const dir = outDir(deck);
+  console.log(`rendering ${n} slides...`);
+  cmdShot(deck, 'all');
+  const pngs = Array.from({ length: n }, (_, i) =>
+    join(dir, `slide-${String(i + 1).padStart(2, '0')}.png`));
+  const missing = pngs.filter(f => !existsSync(f));
+  if (missing.length) die(`missing renders: ${missing.length} of ${n}`);
+  const notes = extractNotes(readFileSync(resolve(ROOT, deck), 'utf8'));
+  if (notes.length !== n) {
+    console.log(`warning: ${notes.length} notes blocks for ${n} slides`);
+  }
+  const out = join(dir, `${docName(deck)}.pptx`);
+  buildPptx({ pngs, notes, out, tmp: join(BUILD, '.pptx-tmp'),
+              title: docName(deck) });
+  const withNotes = notes.filter(Boolean).length;
+  console.log(`${out.replace(ROOT + '/', '')}  (${n} slides, ${withNotes} with speaker notes)`);
 }
 
 /* ---------- static server ----------
@@ -244,7 +273,7 @@ function cmdNew(num) {
 
 /* ---------- dispatch ---------- */
 const [cmd, ...rest] = process.argv.slice(2);
-const table = { list: cmdList, check: cmdCheck, shot: cmdShot, contact: cmdContact,
+const table = { list: cmdList, check: cmdCheck, shot: cmdShot, contact: cmdContact, pptx: cmdPptx,
                 pdf: cmdPdf, open: cmdOpen, new: cmdNew, serve: cmdServe };
 if (!cmd || !table[cmd]) {
   console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8')

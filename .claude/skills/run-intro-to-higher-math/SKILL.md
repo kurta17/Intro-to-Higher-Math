@@ -41,9 +41,45 @@ node $D check sessions/session-01/slides.html      # lint: renders it, reports p
 node $D shot  sessions/session-01/slides.html all  # PNG per slide -> build/session-01/
 node $D shot  sessions/session-01/slides.html 9    # just slide 9
 node $D contact sessions/session-01/slides.html    # whole deck in ONE tall PNG
-node $D pdf   sessions/session-01/slides.html      # -> build/session-01-slides.pdf
+node $D pdf   sessions/session-01/slides.html      # -> build/session-01/…-slides.pdf
+node $D pptx  sessions/session-01/slides.html      # PowerPoint, with speaker notes
 node $D new   6                                    # scaffold session 6 from the template
 ```
+
+## Where output goes
+
+**Everything a command generates lands in `build/<session>/`** — PNGs, contact
+sheet, PDFs, PPTX. Nothing is ever written to the root of `build/`. One folder
+per deck is what makes a session easy to hand over, zip, or delete:
+
+```
+build/session-04/
+  slide-01.png … slide-29.png        one per slide, 1280x720
+  session-04-slides-contact.png      the whole deck as a thumbnail grid
+  session-04-slides.pdf              print export
+  session-04-slides.pptx             PowerPoint + speaker notes
+  session-04-problem-set.pdf         student copy
+  session-04-problem-set-solutions.pdf
+```
+
+## PowerPoint export
+
+`pptx` re-renders every slide and packages the PNGs as a 16:9 deck, one
+full-bleed picture per slide, with each `<div class="notes">` carried across as
+a real speaker-notes part. So the file opens identically anywhere — the
+recipient needs neither Manrope nor a maths renderer.
+
+It writes the OOXML by hand (`pptx.mjs`, ~200 lines, `zip` is the only binary
+it shells out to), because this repo has no `package.json` and no `npm install`
+step, and adding one for an export format would be the first dependency in the
+project.
+
+The slides are **images**: nothing in the PPTX is editable text. That is the
+trade for exact fidelity, and it is the right trade — the deck's source of
+truth is the HTML. Edit the HTML and re-export; never edit the PPTX.
+
+It always re-shoots before packaging. A PPTX built from stale PNGs is worse
+than no PPTX, because nothing about it looks wrong.
 
 `check` is the one to run after every edit. It loads the deck in headless
 Chrome and reports slide count, every slide title, **content that overflows
@@ -199,5 +235,5 @@ brand/            hs-tokens.css  design tokens copied from harbour.space
 course/           course.json    the 15-session curriculum model
 sessions/         _template/     scaffolds used by `driver.mjs new`
                   session-01/    reference deck + reference problem set
-build/            generated PNGs and PDFs (gitignored)
+build/            generated artefacts, one folder per session: PNGs, PDFs, PPTX
 ```
