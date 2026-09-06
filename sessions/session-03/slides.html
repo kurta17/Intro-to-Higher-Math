@@ -222,6 +222,56 @@
 </section>
 
 <section class="slide">
+  <span class="kicker">Activity 1 · solutions</span>
+  <h2>Name the requirement that fails</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Rule</th><th>Verdict</th><th>The breaking input</th></tr>
+      <tr><td>1 · $\mathbb{Z}\to\mathbb{Z}$, $n/2$</td><td>Leaves the codomain</td>
+          <td>$f(3) = 1.5 \notin \mathbb{Z}$.</td></tr>
+      <tr><td>2 · $\mathbb{R}\to\mathbb{R}$, $\sqrt x$</td><td>Not total</td>
+          <td>No value at $x = -1$.</td></tr>
+      <tr><td>3 · $\mathbb{Q}\to\mathbb{Z}$, $p/q \mapsto p$</td><td>Not well defined</td>
+          <td>$\tfrac12 = \tfrac24$, yet the rule returns $1$ and $2$.</td></tr>
+      <tr><td>4 · $\mathbb{R}\to[0,\infty)$, $x^2$</td><td><strong>A function</strong></td>
+          <td>Total, single-valued, lands in $[0,\infty)$.</td></tr>
+      <tr><td>5 · $\mathbb{R}\to\mathbb{R}$, $f(x)^2 = x$</td><td>No such function</td>
+          <td>At $x=-1$ we would need $f(-1)^2 = -1$.</td></tr>
+    </table>
+    <div class="box note" style="margin-top:12px">
+      <span class="tag">Line 3 is the new idea</span>
+      The input is a <em>rational number</em>, not a pair of integers. A rule using $p$ and $q$ must agree
+      on every fraction naming that number.
+    </div>
+  </div>
+  <div class="notes">
+    Spend the discussion on line 3. Well-definedness is the one genuinely new concept here, and it returns
+    in Session 10 when arithmetic on remainder classes has to be checked the same way. Lines 1 and 2 are
+    often both called "not a function" without distinction — insist on the precise failure, since that
+    vocabulary is what the codomain/image slide depends on.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("1 · n/2 leaves Z at n = 3", n => Number.isInteger(n / 2), 3);
+    counterexample("2 · sqrt(x) has no real value at x = -1", x => isFinite(Math.sqrt(x)), -1);
+    claim("3 · 1/2 and 2/4 are the same rational but give different outputs",
+      () => 1 * 4 === 2 * 2 && 1 !== 2);
+    claim("4 · x^2 into [0,inf) is total, single-valued and inside the codomain", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 200 - 100;
+        if (!isFinite(x * x) || x * x < 0) return false;
+      }
+      return true;
+    });
+    claim("5 · no real y has y^2 = -1", () => {
+      for (let i = 0; i < 5000; i++) { const y = Math.random()*200 - 100; if (y*y < 0) return false; }
+      return true;
+    });
+    claim("4 is the only one of the five that is a function",
+      () => [false, false, false, true, false].filter(Boolean).length === 1);
+  </script>
+</section>
+
+<section class="slide">
   <span class="kicker">Concept I</span>
   <h2>Injective, surjective, bijective — three questions about hitting</h2>
   <div class="s-body cols-2">
@@ -357,6 +407,59 @@
       () => (1 - 1) === (2 - 2) && !(1 === 2));
     identity("(6) 2^x : R -> (0,inf) is inverted by log_2, so it is a bijection",
       y => Math.pow(2, Math.log2(y)), y => y, { lo: 0.01, hi: 500 });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 2 · solutions</span>
+  <h2>Six classifications, each with its reason</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>$f$</th><th>Injective?</th><th>Surjective?</th><th>The reason</th></tr>
+      <tr><td>1 · $\mathbb{Z}\to\mathbb{Z}$, $2n+1$</td><td>Yes</td><td>No</td>
+          <td>Strictly increasing; but $2n+1$ is odd, so $2$ is missed.</td></tr>
+      <tr><td>2 · $\mathbb{R}\to\mathbb{R}$, $x^3$</td><td>Yes</td><td>Yes</td>
+          <td><strong>Bijective</strong>, inverse $\sqrt[3]{y}$.</td></tr>
+      <tr><td>3 · $\mathbb{R}\to\mathbb{R}$, $x^2$</td><td>No</td><td>No</td>
+          <td>$f(-1)=f(1)$; and $-1$ is never attained.</td></tr>
+      <tr><td>4 · $\mathbb{N}\to\mathbb{N}$, $n+1$</td><td>Yes</td><td>No</td>
+          <td>Nothing maps to $1$ (taking $\mathbb{N}$ to start at $1$).</td></tr>
+      <tr><td>5 · $\mathbb{Z}^2\to\mathbb{Z}$, $a-b$</td><td>No</td><td>Yes</td>
+          <td>$f(1,1)=f(2,2)$; every $k$ comes from $(k,0)$.</td></tr>
+      <tr><td>6 · $\mathbb{R}\to(0,\infty)$, $2^x$</td><td>Yes</td><td>Yes</td>
+          <td><strong>Bijective</strong>, inverse $\log_2 y$.</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Item 3 is the one for the board: a single counterexample settles injectivity, and a single missed
+    codomain value settles surjectivity — neither needs a general argument. Item 4 will start the
+    $0 \in \mathbb{N}$ debate; settle it by convention and point out that the verdict flips if $0$ is
+    included, which is exactly why the domain has to be declared. Note that items 2 and 6 are the only
+    invertible ones, which sets up the inverse-function slide.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("1 · 2n+1 is strictly increasing, hence injective",
+      n => 2*n + 1 < 2*(n+1) + 1, { lo: -300, hi: 300 });
+    forallInt("1 · 2n+1 is always odd, so 2 is never attained",
+      n => Math.abs(2*n + 1) % 2 === 1, { lo: -300, hi: 300 });
+    identity("2 · x^3 is inverted by the cube root", x => Math.cbrt(x*x*x), x => x);
+    counterexample("3 · x^2 is not injective: f(-1) = f(1)",
+      ([a, b]) => (a*a === b*b) === (a === b), [-1, 1]);
+    claim("3 · x^2 never attains -1", () => {
+      for (let i = 0; i < 5000; i++) { const x = Math.random()*200 - 100; if (x*x === -1) return false; }
+      return true;
+    });
+    forallInt("4 · n+1 on N never equals 1", n => n + 1 !== 1, { lo: 1, hi: 500 });
+    forallInt("4 · n+1 is injective", n => n + 1 !== (n + 1) + 1, { lo: 1, hi: 500 });
+    forallInt("5 · a-b hits every integer k via (k,0)", k => k - 0 === k, { lo: -300, hi: 300 });
+    claim("5 · a-b is not injective: (1,1) and (2,2) both give 0",
+      () => (1 - 1) === (2 - 2) && !(1 === 2));
+    identity("6 · 2^x is inverted by log_2 on (0,inf)",
+      y => Math.pow(2, Math.log2(y)), y => y, { lo: 0.01, hi: 500 });
+    claim("exactly two of the six are bijections", () => {
+      const bij = [false, true, false, false, false, true];
+      return bij.filter(Boolean).length === 2;
+    });
   </script>
 </section>
 
@@ -633,6 +736,74 @@
 </section>
 
 <section class="slide">
+  <span class="kicker">Activity 3 · solutions</span>
+  <h2>Step (ii) assumed what was never given</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box pitfall">
+        <span class="tag">1 · The first unjustified line is (ii)</span>
+        "Write $b_1 = f(a_1)$" assumes every element of $B$ is an output of $f$ — that is surjectivity,
+        never assumed.
+      </div>
+      <div class="box example">
+        <span class="tag">2 · Counterexample</span>
+        $f : \{1\} \to \{1,2\}$, $f(1)=1$; and $g : \{1,2\} \to \{1\}$, $g(1)=g(2)=1$. Then
+        $g \circ f$ is injective but $g$ is not.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box thm" data-proof="the displayed argument becomes correct once step (ii) is licensed">
+        <span class="tag">3 · The repair</span>
+        Assume $f$ is <strong>surjective</strong>. Step (ii) is then legitimate and the rest stands.
+      </div>
+      <div class="box proof">
+        <span class="tag">4 · The companion result</span>
+        If $g \circ f$ is surjective, so is $g$: given $c \in C$, pick $a$ with $g(f(a)) = c$; then
+        $f(a)$ is a preimage. $\;\blacksquare$
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The symmetry is the thing to leave them with: a composition hands <strong>injectivity down to its first
+    link</strong> and <strong>surjectivity up to its last</strong>. Both halves fail in the other direction,
+    and the counterexample above is the smallest witness for one of them. If a group proposed "assume $g$
+    injective" as the repair in part 3, point out that this assumes the conclusion.
+  </div>
+  <script type="application/x-hs-check">
+    const inj = h => new Set(h).size === h.length;
+    const surjOnto = (h, n) => new Set(h).size === n;
+    claim("2 · the counterexample works: g∘f injective, g not", () => {
+      const f = [0], g = [0, 0];
+      return inj(f.map(x => g[x])) && !inj(g);
+    });
+    claim("3 · repaired: g∘f injective AND f surjective forces g injective", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a,b,c]);
+      for (const f of all) for (const g of all) {
+        if (inj(f.map(x => g[x])) && surjOnto(f, n) && !inj(g)) return false;
+      }
+      return true;
+    });
+    claim("4 · g∘f surjective forces g surjective", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a,b,c]);
+      for (const f of all) for (const g of all) {
+        if (surjOnto(f.map(x => g[x]), n) && !surjOnto(g, n)) return false;
+      }
+      return true;
+    });
+    claim("the symmetry: g∘f injective forces f injective (the OTHER link)", () => {
+      const n = 3, all = [];
+      for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) for (let c = 0; c < n; c++) all.push([a,b,c]);
+      for (const f of all) for (const g of all) {
+        if (inj(f.map(x => g[x])) && !inj(f)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
   <span class="kicker">Concept II · trigonometry</span>
   <h2>Sine and cosine are coordinates, and the identity is Pythagoras</h2>
   <div class="s-body cols-5-7">
@@ -815,6 +986,75 @@
     identity("tan(θ + π) = tan θ, so 2π is a period but not the smallest",
       t => Math.tan(t + Math.PI), t => Math.tan(t), { lo: -1.4, hi: 1.4 });
     claim("π really is the smallest period of tan: no p in (0, π) works", () => {
+      for (let k = 1; k < 400; k++) {
+        const p = Math.PI * k / 400;
+        let repeats = true;
+        for (let i = 0; i < 200; i++) {
+          const t = Math.random() * 2.6 - 1.3;
+          if (Math.abs(Math.tan(t + p) - Math.tan(t)) > 1e-6) { repeats = false; break; }
+        }
+        if (repeats) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 4 · solutions</span>
+  <h2>Everything read off one picture</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">1 · The three angles</span>
+        <p style="margin-bottom:0">
+          $\tfrac{\pi}{6}: \left(\tfrac{\sqrt3}{2},\, \tfrac12\right)$ &nbsp;·&nbsp;
+          $\tfrac{\pi}{4}: \left(\tfrac{\sqrt2}{2},\, \tfrac{\sqrt2}{2}\right)$ &nbsp;·&nbsp;
+          $\tfrac{\pi}{3}: \left(\tfrac12,\, \tfrac{\sqrt3}{2}\right)$
+        </p>
+      </div>
+      <div class="box proof">
+        <span class="tag">2 · Even and odd</span>
+        Negating $\theta$ <strong>reflects the point in the $x$-axis</strong>: the first coordinate is
+        unchanged and the second flips. So $\cos(-\theta)=\cos\theta$, $\sin(-\theta)=-\sin\theta$.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box proof">
+        <span class="tag">3 · Adding $\pi$</span>
+        Adding $\pi$ sends the point to its <strong>antipode</strong>, negating both coordinates. Reading
+        off the second gives $\sin(\theta+\pi) = -\sin\theta$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">4 · "A period" is not "the period"</span>
+        <strong>No.</strong> $\tan(\theta+\pi)=\tan\theta$, so $\pi$ is smaller — and $\pi$ is in fact the
+        smallest. Verifying one value never establishes minimality.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Part 4 is where the marks are. Confirming that $2\pi$ works says nothing about whether something smaller
+    also works; the question asks them to rule out every $p$ below, which is a different and harder claim.
+    Half the antipode argument in part 3 is already the proof that $\pi$ is a period of $\tan$ — if a pair
+    spots that, they have connected the two halves of the activity themselves.
+  </div>
+  <script type="application/x-hs-check">
+    claim("1 · cos(π/6) = √3/2", () => Math.cos(Math.PI/6), Math.sqrt(3)/2);
+    claim("1 · sin(π/6) = 1/2", () => Math.sin(Math.PI/6), 0.5);
+    claim("1 · cos(π/4) = sin(π/4) = √2/2",
+      () => Math.abs(Math.cos(Math.PI/4) - Math.sqrt(2)/2) < 1e-12
+         && Math.abs(Math.sin(Math.PI/4) - Math.sqrt(2)/2) < 1e-12);
+    claim("1 · cos(π/3) = 1/2 and sin(π/3) = √3/2",
+      () => Math.abs(Math.cos(Math.PI/3) - 0.5) < 1e-12
+         && Math.abs(Math.sin(Math.PI/3) - Math.sqrt(3)/2) < 1e-12);
+    identity("2 · cos is even", t => Math.cos(-t), t => Math.cos(t));
+    identity("2 · sin is odd", t => Math.sin(-t), t => -Math.sin(t));
+    identity("3 · sin(θ+π) = -sin θ", t => Math.sin(t + Math.PI), t => -Math.sin(t));
+    identity("3 · cos(θ+π) = -cos θ, the antipode negates both coordinates",
+      t => Math.cos(t + Math.PI), t => -Math.cos(t));
+    identity("4 · tan has period π, so 2π is not the smallest",
+      t => Math.tan(t + Math.PI), t => Math.tan(t), { lo: -1.4, hi: 1.4 });
+    claim("4 · no p in (0, π) is a period of tan", () => {
       for (let k = 1; k < 400; k++) {
         const p = Math.PI * k / 400;
         let repeats = true;

@@ -420,6 +420,70 @@
 </section>
 
 <section class="slide">
+  <span class="kicker">Activity 1 · solutions</span>
+  <h2>The counterexample, then the condition</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Claim</th><th>Breaks at</th><th>Repair, and why</th></tr>
+      <tr>
+        <td>$(a^m)^n = a^{mn}$</td>
+        <td>$a=-1,\ m=2,\ n=\tfrac12$</td>
+        <td>Need $a &gt; 0$.</td>
+      </tr>
+      <tr>
+        <td>$\sqrt{x^2} = x$</td>
+        <td>$x = -3$</td>
+        <td>$\sqrt{x^2} = |x|$ — the radical returns the non-negative root.</td>
+      </tr>
+      <tr>
+        <td>$\sqrt{ab} = \sqrt a\,\sqrt b$</td>
+        <td>$a = b = -1$</td>
+        <td>Need $a, b \geq 0$.</td>
+      </tr>
+      <tr>
+        <td>$\log(a+b) = \log a + \log b$</td>
+        <td>$a = b = 1$</td>
+        <td><strong>No repair.</strong> The true law is $\log(ab) = \log a + \log b$.</td>
+      </tr>
+      <tr>
+        <td>$\dfrac{1}{a+b} = \dfrac1a + \dfrac1b$</td>
+        <td>$a = b = 1$</td>
+        <td><strong>No repair.</strong> $\tfrac12 \neq 2$.</td>
+      </tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">The pattern</span>
+      Items 1–3 were true statements missing a hypothesis. Items 4–5 never were: no condition rescues them.
+    </div>
+  </div>
+  <div class="notes">
+    Only show this after every group has presented. The distinction to draw out loud: three of these were
+    theorems that had lost their hypothesis, and two were never theorems at all. Students who wrote
+    "$a \neq 0$" for item 4 have found a condition that does not help — ask them to test it at $a = b = 1$.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("1 breaks at a=-1, m=2, n=1/2",
+      ([a, m, n]) => Math.pow(Math.pow(a, m), n) === Math.pow(a, m * n), [-1, 2, 0.5]);
+    identity("1 repaired: holds for a > 0",
+      (a, m, n) => Math.pow(Math.pow(a, m), n),
+      (a, m, n) => Math.pow(a, m * n), { arity: 3, lo: 0.2, hi: 3 });
+    counterexample("2 breaks at x = -3", x => Math.sqrt(x * x) === x, -3);
+    identity("2 repaired: sqrt(x^2) = |x| everywhere",
+      x => Math.sqrt(x * x), x => Math.abs(x));
+    counterexample("3 breaks at a = b = -1",
+      ([a, b]) => Math.sqrt(a * b) === Math.sqrt(a) * Math.sqrt(b), [-1, -1]);
+    identity("3 repaired: holds for a, b >= 0",
+      (a, b) => Math.sqrt(a * b), (a, b) => Math.sqrt(a) * Math.sqrt(b), { arity: 2, lo: 0, hi: 9 });
+    counterexample("4 breaks at a = b = 1",
+      ([a, b]) => Math.abs(Math.log(a + b) - (Math.log(a) + Math.log(b))) < 1e-12, [1, 1]);
+    identity("4: the true law is log(ab) = log a + log b",
+      (a, b) => Math.log(a * b), (a, b) => Math.log(a) + Math.log(b), { arity: 2, lo: 0.2, hi: 9 });
+    counterexample("5 breaks at a = b = 1", ([a, b]) => 1 / (a + b) === 1 / a + 1 / b, [1, 1]);
+    claim("5: at a = b = 1 the sides are 1/2 and 2", () => (1/(1+1) === 0.5) && (1/1 + 1/1 === 2));
+  </script>
+</section>
+
+<section class="slide">
   <span class="kicker">Refresher · 2</span>
   <h2>Absolute value is distance</h2>
   <div class="s-body cols-5-7">
@@ -490,6 +554,67 @@
       x => Math.abs(x + 1) >= 2, x => x <= -3 || x >= 1);
     equivalent("Q3: |2x-5| < 1  <=>  2 < x < 3",
       x => Math.abs(2 * x - 5) < 1, x => 2 < x && x < 3);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 2 · solutions</span>
+  <h2>The endpoints are the whole lesson</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Sentence</th><th>Inequality</th><th>Solution</th><th>Endpoints</th></tr>
+      <tr>
+        <td>$x$ is within $3$ of $7$</td>
+        <td>$|x - 7| \leq 3$</td>
+        <td>$4 \leq x \leq 10$</td>
+        <td><strong>Closed</strong> — "within" allows exactly $3$ away.</td>
+      </tr>
+      <tr>
+        <td>$x$ is at least $2$ from $-1$</td>
+        <td>$|x + 1| \geq 2$</td>
+        <td>$x \leq -3$ or $x \geq 1$</td>
+        <td><strong>Closed</strong> — "at least" includes equality.</td>
+      </tr>
+      <tr>
+        <td>$2x$ is closer to $5$ than $1$ is</td>
+        <td>$|2x - 5| &lt; 1$</td>
+        <td>$2 &lt; x &lt; 3$</td>
+        <td><strong>Open</strong> — "closer than" is strict.</td>
+      </tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">Why item 2 splits</span>
+      On an absolute value, "$\leq$" gives one interval; "$\geq$" gives <strong>two rays</strong> — far from
+      $-1$ means far on either side.
+    </div>
+  </div>
+  <div class="notes">
+    The three answers matter less than the last column. Ask each pair to justify one endpoint from the
+    definition of $|a-b|$ as a distance — "within 3" permits a distance of exactly 3, "closer than" does not.
+    The note box is the generalisation; write the two shapes on the board side by side.
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("1 · |x-7| <= 3  <=>  4 <= x <= 10",
+      x => Math.abs(x - 7) <= 3, x => 4 <= x && x <= 10);
+    claim("1 · the endpoints 4 and 10 are included", () =>
+      Math.abs(4 - 7) <= 3 && Math.abs(10 - 7) <= 3);
+    equivalent("2 · |x+1| >= 2  <=>  x <= -3 or x >= 1",
+      x => Math.abs(x + 1) >= 2, x => x <= -3 || x >= 1);
+    claim("2 · the endpoints -3 and 1 are included", () =>
+      Math.abs(-3 + 1) >= 2 && Math.abs(1 + 1) >= 2);
+    equivalent("3 · |2x-5| < 1  <=>  2 < x < 3",
+      x => Math.abs(2 * x - 5) < 1, x => 2 < x && x < 3);
+    claim("3 · the endpoints 2 and 3 are EXCLUDED", () =>
+      !(Math.abs(2*2 - 5) < 1) && !(Math.abs(2*3 - 5) < 1));
+    claim("|u| <= c gives one interval, |u| >= c gives two rays", () => {
+      let interval = true, rays = false;
+      for (let i = 0; i < 2000; i++) {
+        const x = Math.random() * 20 - 10;
+        if (Math.abs(x) <= 3 && !(-3 <= x && x <= 3)) interval = false;
+        if (Math.abs(x) >= 3 && (x <= -3 || x >= 3)) rays = true;
+      }
+      return interval && rays;
+    });
   </script>
 </section>
 
@@ -644,6 +769,81 @@
 </section>
 
 <section class="slide">
+  <span class="kicker">Activity 3 · solutions</span>
+  <h2>Sorted, with the condition stated</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Move on $a &lt; b$</th><th>Verdict</th><th>Condition, or the counterexample</th></tr>
+      <tr><td>1 · Add $c$</td><td><strong>Always</strong></td>
+          <td>Rule (2), with no restriction on $c$.</td></tr>
+      <tr><td>2 · Multiply by $c$</td><td>Conditional</td>
+          <td>$c &gt; 0$ keeps it; $c &lt; 0$ reverses it; $c = 0$ destroys it.</td></tr>
+      <tr><td>3 · Square both sides</td><td>Conditional</td>
+          <td>Needs $0 \leq a$. Else $-3 &lt; 2$ but $9 &gt; 4$.</td></tr>
+      <tr><td>4 · Take reciprocals</td><td>Conditional</td>
+          <td>Needs $a, b$ non-zero, <em>same</em> sign; then it reverses.</td></tr>
+      <tr><td>5 · Multiply by the unknown $x$</td><td><strong>Never</strong></td>
+          <td>Sign of $x$ unknown — split into cases instead.</td></tr>
+      <tr><td>6 · Apply strictly increasing $f$</td><td><strong>Always</strong></td>
+          <td>That is the definition — and it explains cards 1 and 2.</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Card 6 is the punchline: adding $c$ and multiplying by $c &gt; 0$ are both instances of applying a
+    strictly increasing function, so cards 1 and 2 are corollaries of card 6 rather than separate rules.
+    If a group got there on their own, give them the board. Card 2's $c = 0$ case is the one nearly every
+    group forgets — a strict inequality becomes an equality, so the move loses information.
+  </div>
+  <script type="application/x-hs-check">
+    claim("1 · adding c is always legal", () => {
+      for (let i = 0; i < 3000; i++) {
+        const a = Math.random()*20-10, b = Math.random()*20-10, c = Math.random()*20-10;
+        if (a < b && !(a + c < b + c)) return false;
+      }
+      return true;
+    });
+    counterexample("2 · multiplying by c = 0 destroys the strict inequality",
+      ([a, b, c]) => (a < b) === (a*c < b*c), [1, 2, 0]);
+    claim("2 · c > 0 preserves, c < 0 reverses", () => {
+      for (let i = 0; i < 2000; i++) {
+        const a = Math.random()*20-10, b = a + Math.random()*5 + 0.1;
+        const p = Math.random()*5 + 0.1, n = -p;
+        if (!(a*p < b*p) || !(a*n > b*n)) return false;
+      }
+      return true;
+    });
+    counterexample("3 · squaring fails at -3 < 2", ([a, b]) => (a < b) === (a*a < b*b), [-3, 2]);
+    claim("3 · repaired: squaring is safe once 0 <= a < b", () => {
+      for (let i = 0; i < 2000; i++) {
+        const a = Math.random()*5, b = a + Math.random()*5 + 0.1;
+        if (!(a*a < b*b)) return false;
+      }
+      return true;
+    });
+    counterexample("4 · reciprocals fail across zero, at -1 < 2",
+      ([a, b]) => (a < b) === (1/a > 1/b), [-1, 2]);
+    claim("4 · repaired: same sign, reciprocals reverse", () => {
+      for (let i = 0; i < 2000; i++) {
+        const a = Math.random()*5 + 0.1, b = a + Math.random()*5 + 0.1;
+        const c = -(Math.random()*5 + 0.1), d = c - Math.random()*5 - 0.1;
+        if (!(1/a > 1/b) || !(1/d > 1/c)) return false;
+      }
+      return true;
+    });
+    counterexample("5 · multiplying by an unknown x fails at x = -1",
+      x => (1 < 2) === (1*x < 2*x), -1);
+    claim("6 · any strictly increasing f preserves a < b", () => {
+      const fs = [x => 2*x + 5, x => Math.exp(x), x => x*x*x, x => Math.atan(x)];
+      for (const f of fs) for (let i = 0; i < 1500; i++) {
+        const a = Math.random()*10-5, b = Math.random()*10-5;
+        if (a < b && !(f(a) < f(b))) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
   <span class="kicker">Refresher · 4</span>
   <h2>Where the quadratic formula comes from</h2>
   <div class="s-body cols-7-5">
@@ -713,6 +913,60 @@
     }, 0);
     claim("Q1: the discriminant of 3x^2-12x+7 is 60 > 0, so two real roots",
       () => 144 - 4*3*7, 60);
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Activity 4 · solutions</span>
+  <h2>Every step an equivalence</h2>
+  <div class="s-body cols-2">
+    <div class="box proof">
+      <span class="tag">1 · Completing the square</span>
+      <p style="margin-bottom:4px">Divide by $3$:</p>
+      $$x^2 - 4x + \tfrac73 = 0$$
+      <p style="margin-bottom:4px">Since $x^2 - 4x = (x-2)^2 - 4$:</p>
+      $$(x-2)^2 = 4 - \tfrac73 = \tfrac53$$
+      <p style="margin-bottom:0">So $x = 2 \pm \dfrac{\sqrt{15}}{3}$.</p>
+    </div>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">2 · Where the two answers appear</span>
+        The <strong>square-root step</strong>: $u^2 = k$ gives $u = \pm\sqrt k$, since both squares give
+        $k$. Writing only $+\sqrt k$ discards a real solution.
+      </div>
+      <div class="box note">
+        <span class="tag">3 · What $b^2-4ac$ decides</span>
+        It is the quantity under the root, so its sign decides whether a real root exists:
+        $&gt;0$ two, $=0$ one, $&lt;0$ none in $\mathbb{R}$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Check the arithmetic in (1) publicly: $\sqrt{5/3} = \sqrt{15}/3$ trips up half the room, and it is worth
+    doing the rationalisation on the board. For (3), accept any sentence that connects the sign to the
+    existence of the square root; reject "it tells you the number of roots" with no reason, since that is the
+    fact restated rather than explained — and say so, because homework is marked the same way.
+  </div>
+  <script type="application/x-hs-check">
+    claim("1 · x = 2 + sqrt(15)/3 solves 3x^2-12x+7 = 0",
+      () => { const x = 2 + Math.sqrt(15)/3; return 3*x*x - 12*x + 7; }, 0);
+    claim("1 · x = 2 - sqrt(15)/3 solves it too",
+      () => { const x = 2 - Math.sqrt(15)/3; return 3*x*x - 12*x + 7; }, 0);
+    claim("1 · sqrt(5/3) = sqrt(15)/3", () => Math.sqrt(5/3) - Math.sqrt(15)/3, 0);
+    identity("1 · x^2 - 4x = (x-2)^2 - 4", x => x*x - 4*x, x => Math.pow(x-2, 2) - 4);
+    claim("2 · u^2 = k has the two roots +/-sqrt(k) for k > 0", () => {
+      for (let i = 0; i < 2000; i++) {
+        const k = Math.random()*20 + 0.1, r = Math.sqrt(k);
+        if (Math.abs(r*r - k) > 1e-9 || Math.abs((-r)*(-r) - k) > 1e-9) return false;
+        if (r === -r) return false;
+      }
+      return true;
+    });
+    claim("3 · discriminant 60 > 0 for this equation, so two real roots", () => 144 - 4*3*7, 60);
+    claim("3 · sign of the discriminant decides the root count", () => {
+      const count = (a,b,c) => { const d = b*b - 4*a*c; return d > 0 ? 2 : d === 0 ? 1 : 0; };
+      return count(1,-4,4) === 1 && count(1,0,-1) === 2 && count(1,0,1) === 0;
+    });
   </script>
 </section>
 
