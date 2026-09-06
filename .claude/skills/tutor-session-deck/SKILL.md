@@ -45,7 +45,12 @@ slide behind them, so budget two slides per activity, not one:
 | 9–12 | Concept II, same arc |
 | 13 | Pitfalls, straight from `course.json → pitfalls` |
 | 14 | `.box.try` practice — what students do in the room, each `.activity` followed by its walkthrough slide |
-| 15 | `.slide.dark` wrap-up: three takeaways, key terms as chips, homework brief |
+| 15 | `.slide.dark` wrap-up: three takeaways, key terms as chips, problem-set brief |
+
+The closing card is headed **`Problem Set N`**, never "Homework" — the
+per-session set is ungraded practice, and `course.json`'s `homework` field is
+the spec's name for the brief, not the name students see. Below it, name
+tomorrow's session. **`/tutor-problem-set`** owns the handout itself.
 
 ## Rules that make it this course and not a generic maths deck
 
@@ -76,7 +81,7 @@ slide behind them, so budget two slides per activity, not one:
    Every activity states **how long, who with, and what gets shared** — the
    `.share` line is not decoration. The course is graded 10% on participation
    and its method is "students present and explain their reasoning"; an
-   activity with no share step is just silent homework done early.
+   activity with no share step is just silent practice done early.
 
    Activity types that work here, in rough order of usefulness:
 
@@ -133,7 +138,7 @@ slide behind them, so budget two slides per activity, not one:
    students can check their own sketch against it.
 5. **Justification is the assessed object.** Where a worked example has a
    subtle step, name it on the slide ("every step here is an equivalence, so
-   nothing is gained or lost"). 60% of the grade is homework marked this way.
+   nothing is gained or lost"). The problem sets and both exams are written this way.
 6. **Connect backwards and forwards.** Slide 2 says what yesterday gives you;
    the last slide names tomorrow's session. The syllabus is one argument
    running sets → functions → proof → induction → counting → number theory →

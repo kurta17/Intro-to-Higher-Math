@@ -1,14 +1,20 @@
 ---
 name: tutor-problem-set
-description: Write homework, the midterm, or the final exam for Harbour.Space "Intro to Higher Math" (Math102BKK), with worked solutions, as a branded A4 handout. Homework carries no marks and no due date; exams carry a marks blueprint. Use when asked to create, draft, mark or review problem sets, assignments, quizzes, the midterm or the final exam for this course.
+description: Write the per-session problem set, the midterm, or the final exam for Harbour.Space "Intro to Higher Math" (Math102BKK), with worked solutions, as a branded A4 handout. Problem sets are ungraded and carry no marks and no due date; exams carry a marks blueprint. Use when asked to create, draft, mark or review problem sets, assignments, quizzes, the midterm or the final exam for this course.
 ---
 
 # Tutor: problem sets and exams
 
-Homework is **60% of the grade** — more than both exams combined. That is
-deliberate: proof is a skill, and skills are built by repetition. Treat every
-problem set as the main teaching instrument, not as an afterthought to the
-lecture.
+Every session ends with a **problem set**: ungraded practice students work on
+after class. Proof is a skill and skills are built by repetition, so treat the
+set as the main teaching instrument, not as an afterthought to the lecture —
+it does the work the lecture cannot.
+
+**Call it a Problem Set, never Homework.** The artefact is
+`Problem Set N` in the handout `<h1>`, `<title>` and footer, and in the deck's
+closing card. `course/course.json` still calls the field `homework`; that is
+the spec's name for the brief, not the name students see. The exams are the
+only graded written work these skills produce.
 
 Read `course/course.json` for the session's `objectives`, `pitfalls` and the
 one-line `homework` brief. Read `sessions/session-01/problem-set.html` as the
@@ -80,10 +86,10 @@ the same source file — there is only ever one file to keep in sync.
 - **Session 15, final** — the full syllabus, weighted toward proof. 20%.
 - Exams use the same handout markup; add `<div class="space">` under each
   item and drop the collaboration sentence from the rubric strip.
-- **Marks belong on exams, not on homework.** For the midterm and final,
+- **Marks belong on exams, not on problem sets.** For the midterm and final,
   print a `table.marks-table` blueprint of topic × marks on the first page so
   students can budget their time under a clock — that is the one place a
-  tariff helps rather than distorts. Homework carries none.
+  tariff helps rather than distorts. Problem sets carry none.
 
 ## Build it
 
@@ -106,11 +112,17 @@ and that every item really does demand a sentence.
   which is most of them.
 - Write solutions as you write questions. A question you cannot solve cleanly
   in the `.solution` block is a question that isn't ready.
-- **Don't reintroduce marks or a due date on homework.** They were stripped
+- **Don't reintroduce marks or a due date on a problem set.** They were stripped
   deliberately. `.marks` and `.marks-note` still exist in `brand/handout.css`
   and `.marks-table` is still there for the exams — the CSS being available is
   not a reason to use it on a problem set. Check with:
 
   ```bash
   grep -n 'class="marks"\|marks-note\|<b>Due</b>\|marks)' sessions/session-NN/problem-set.html
+  ```
+- **Don't call it Homework.** The word is the spec's field name, not the
+  student-facing label. One grep covers both the handout and the deck:
+
+  ```bash
+  grep -rni homework sessions/session-NN/     # expect no hits
   ```

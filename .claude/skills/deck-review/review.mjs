@@ -115,7 +115,7 @@ function auditComponents() {
 
     if (/class="activity"/.test(s.html)) {
       used['activity'] = (used['activity'] || 0) + 1;
-      if (!/class="share"/.test(s.html)) add('components', BLOCK, `slide ${s.n}`, 'activity has no <div class="share"> — nothing gets presented back, so it is silent homework');
+      if (!/class="share"/.test(s.html)) add('components', BLOCK, `slide ${s.n}`, 'activity has no <div class="share"> — nothing gets presented back, so it is silent practice');
       if (!/class="time"/.test(s.html)) add('components', WARN, `slide ${s.n}`, 'activity header has no time box — students pace badly without one');
       if (!/class="who"/.test(s.html)) add('components', WARN, `slide ${s.n}`, 'activity header does not say who they work with');
     }
@@ -282,7 +282,10 @@ function auditCoverage(session, course) {
   // Only flag the extremes: how long a slide takes depends on the room.
   if (tb.lo > target) add('coverage', WARN, 'deck', `even at the fastest pace this runs ${tb.lo} min against a ${target}-minute session — you will run out of time`);
   if (tb.hi < target * 0.55) add('coverage', WARN, 'deck', `at the slowest pace this fills only ${tb.hi} of ${target} min — thin for a full session`);
-  if (session.homework && !/homework/i.test(deckText)) add('coverage', WARN, 'deck', 'homework is never briefed on a slide');
+  // course.json still calls the field "homework"; the decks call the artefact a
+  // problem set, since it is ungraded practice. Accept either name.
+  if (session.homework && !/homework|problem set/i.test(deckText))
+    add('coverage', WARN, 'deck', 'the problem set is never briefed on a slide');
   return tb;
 }
 

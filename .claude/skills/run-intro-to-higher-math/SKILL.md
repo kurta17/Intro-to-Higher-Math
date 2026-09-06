@@ -158,10 +158,10 @@ Don't start from a blank file. Either:
   `problem-set.html` from `sessions/_template/`, pre-filled with the session's
   title and date, and prints the objectives from `course/course.json`; or
 - copy `sessions/session-01/` — the reference implementation, a complete
-  13-slide deck plus a 10-problem homework with solutions and rubric.
+  13-slide deck plus a 10-problem problem set with solutions.
 
 Four skills carry the content: **`/tutor-session-deck`** for a session's
-slides, **`/tutor-problem-set`** for homework and exams, **`/lecture-content`**
+slides, **`/tutor-problem-set`** for problem sets and exams, **`/lecture-content`**
 for whether the mathematics is true and explained, and **`/deck-review`** for
 whether the finished deck works — components, UI/UX, readability, coverage.
 This skill is only the machinery.

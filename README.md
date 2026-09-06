@@ -39,7 +39,7 @@ Three Claude Code skills live in `.claude/skills/`:
 | `/lecture-content` | verify every claim on a slide is true, and explained |
 | `/deck-review` | critique a deck: components, UI/UX, readability, coverage |
 | `/tutor-session-deck` | write a session's slides and lesson plan |
-| `/tutor-problem-set` | write homework, the midterm, the final, with rubrics |
+| `/tutor-problem-set` | write the per-session problem sets, the midterm, the final |
 
 ## Layout
 
