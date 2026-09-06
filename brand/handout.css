@@ -98,3 +98,7 @@ table.marks-table th, table.marks-table td {
   border: 1px solid var(--hs-neutral-300); padding: 5px 8px; text-align: left; }
 table.marks-table th { background: var(--hs-purple-50); color: var(--hs-purple-800);
                        font-weight: var(--hs-weight-medium); }
+
+/* uppercased labels must not uppercase the maths inside them:
+   text-transform hits KaTeX glyphs too, turning $n$ into N and $f$ into F. */
+.katex { text-transform: none; }

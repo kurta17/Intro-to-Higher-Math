@@ -232,6 +232,11 @@ th { font-weight: var(--hs-weight-medium); color: var(--hs-purple-800);
 tr:last-child td { border-bottom: 0; }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* uppercased labels must not uppercase the maths inside them:
+   text-transform hits KaTeX glyphs too, turning $n$ into N and $f$ into F. */
+.katex { text-transform: none; }
+
+
 /* ---------- title + section slides ---------- */
 .slide.title, .slide.section {
   background: var(--hs-purple-950);

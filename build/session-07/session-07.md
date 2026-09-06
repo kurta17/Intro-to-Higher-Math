@@ -6,7 +6,7 @@
 
 **Math102BKK · Session 7 of 15**
 
-Today’s goal: translate a counting question into a clear model, then use a rule that counts each allowed outcome exactly once.
+Today’s goal: turn a counting question into a clear plan, then use a rule that counts every allowed outcome once.
 
 ### Presenter notes
 
@@ -27,7 +27,7 @@ Counting is not about choosing a formula first. Students should first say what o
 | 13 · Complex numbers | 14 · Course recap and exam preparation |
 | 15 · Final exam | |
 
-**Today:** count by cases, count in stages, arrange, select, and expand powers such as $(a+b)^n$.
+**Today:** count separate cases, count step by step, arrange objects, select groups, and expand powers such as $(a+b)^n$.
 
 ### Presenter notes
 
@@ -35,15 +35,15 @@ Connect backwards to induction: many counting formulas can later be proved by in
 
 ---
 
-# Slide 03 / 30 — A counting problem is a modelling problem
+# Slide 03 / 30 — Start by describing what you count
 
-Before calculating, answer three questions.
+Before you calculate, answer three questions.
 
 1. **What is one outcome?** A code, a seating order, a committee, or a hand of cards?
 2. **Does order matter?** Is AB different from BA?
 3. **Is repetition allowed?** May an object be used more than once?
 
-Two questions can use the same objects but have different answers because they describe different outcomes.
+The same objects can give different answers when the outcomes are different.
 
 ### Presenter notes
 
@@ -53,14 +53,14 @@ Use two names, A and B. Choosing a two-person committee gives one outcome, but c
 
 # Slide 04 / 30 — By the end of today, you can…
 
-- use the **sum rule** for disjoint cases;
+- use the **sum rule** for separate cases that do not overlap;
 - use the **product rule** for a sequence of choices;
 - distinguish **permutations** from **combinations**;
 - calculate $\binom{n}{k}$ and explain what it counts;
 - use Pascal’s triangle and the **binomial theorem**;
 - prove a simple counting identity by counting the same set in two ways.
 
-**Success:** your solution names the objects being counted and explains why no outcome is missed or counted twice.
+**Success:** your solution says what is being counted and explains why every outcome is counted once.
 
 ### Presenter notes
 
@@ -74,10 +74,10 @@ From the three students A, B, and C:
 
 | Question | Outcomes | Count |
 |---|---|---:|
-| Choose a two-person committee. | ${A,B},{A,C},{B,C}$ | $3$ |
+| Choose a two-person committee. | $\{A,B\},\{A,C\},\{B,C\}$ | $3$ |
 | Choose a president and a secretary. | AB, AC, BA, BC, CA, CB | $6$ |
 
-For a committee, AB and BA describe the same group. For two different roles, they describe different assignments.
+For a committee, $\{A,B\}$ and $\{B,A\}$ describe the same group. For two different roles, AB and BA are different assignments.
 
 ### Presenter notes
 
@@ -87,9 +87,11 @@ This slide is deliberately concrete. Ask the class to explain why the first list
 
 # Slide 06 / 30 — Sum rule: count one disjoint case or another
 
-If an outcome is in **exactly one** of two disjoint cases, and the cases contain $m$ and $n$ outcomes, then the total is
+Split the outcomes into two cases that do not overlap. If one case has $m$ outcomes and the other has $n$, then the total is
 
 $$m+n.$$
+
+Cases that do not overlap are called **disjoint**.
 
 **Example.** A student chooses one elective. There are $3$ programming electives and $2$ design electives, and no course is in both lists.
 
@@ -132,12 +134,12 @@ The phrase “for each first choice” matters. The rule still works if the numb
 
 **Pairs · 8 minutes**
 
-A code has two uppercase English letters followed by three digits.
+A code has two uppercase English letters, then three digits.
 
 1. How many codes are possible if letters and digits may repeat?
-2. How many codes are possible if neither letters nor digits may repeat?
+2. How many codes are possible if no letter repeats and no digit repeats?
 
-Assume there are $26$ letters and $10$ digits. A code may begin with the digit $0$ in its digit part.
+Assume there are $26$ letters and $10$ digits. The first digit position may be $0$.
 
 **Share:** name the choice at each of the five positions.
 
@@ -152,9 +154,9 @@ Ask pairs not to calculate immediately. They should first write five multiplicat
 | Rule | Number of codes | Reason |
 |---|---:|---|
 | Repetition allowed | $26^2\cdot10^3$ | Each letter position has $26$ choices; each digit position has $10$. |
-| No repetition | $26\cdot25\cdot10\cdot9\cdot8$ | Each later position has one fewer permitted choice of the same kind. |
+| No repetition | $26\cdot25\cdot10\cdot9\cdot8$ | The letters have $26$, then $25$, choices. The digits have $10$, then $9$, then $8$, choices. |
 
-The product rule works because every finished code is produced by one unique sequence of five choices.
+Each code comes from one sequence of five choices. This is why the product rule works.
 
 ### Presenter notes
 
@@ -162,13 +164,13 @@ Point out that choosing the first letter does not reduce the digit choices: lett
 
 ---
 
-# Slide 10 / 30 — Factorials count full arrangements
+# Slide 10 / 30 — Factorials count arrangements
 
 For a positive integer $n$,
 
 $$n!=n(n-1)(n-2)\cdots2\cdot1.$$
 
-It counts the ways to arrange $n$ **distinct** objects in a row.
+It counts the ways to arrange all $n$ **distinct** objects in a row.
 
 For example, five distinct books can be arranged in
 
@@ -176,7 +178,7 @@ $$5!=5\cdot4\cdot3\cdot2\cdot1=120$$
 
 orders.
 
-By definition, $0!=1$. There is one way to arrange no objects: the empty arrangement.
+By definition, $0!=1$. There is exactly one way to arrange zero objects: do nothing.
 
 ### Presenter notes
 
@@ -186,7 +188,7 @@ The word “distinct” is essential. Do not apply $n!$ unchanged when some obje
 
 # Slide 11 / 30 — Permutations: arrange some of the objects
 
-An ordered selection of $r$ distinct objects from $n$ distinct objects is a **permutation**:
+A **permutation** is a selection in which order matters. The number of ways to choose and order $r$ distinct objects from $n$ distinct objects is
 
 $$P(n,r)=n(n-1)\cdots(n-r+1)=\frac{n!}{(n-r)!}.$$
 
@@ -206,7 +208,7 @@ Read $P(6,3)$ as “permutations of 6 things taken 3 at a time.” The formula a
 
 **Groups of three · 10 minutes**
 
-For each question, decide whether the result should be a permutation, a combination, or neither. Explain why.
+For each question, choose the correct model: permutation, combination, or neither. Explain why.
 
 1. From $8$ distinct books, place $5$ on a shelf in a row.
 2. From $8$ distinct books, choose $5$ for a reading list.
@@ -240,9 +242,9 @@ This is the bridge to combinations. The final sentence explains exactly why a pe
 
 ## Combinations: select without order
 
-When a group is all that matters, an arrangement counts the same group many times.
+When order does not matter, the same group can appear in many different orders.
 
-Next, we will divide out that overcounting and introduce the binomial coefficient.
+Next, we will remove this repeated counting and introduce the binomial coefficient.
 
 ### Presenter notes
 
@@ -252,13 +254,13 @@ Take the scheduled break before this section. On return, ask for the number of s
 
 # Slide 15 / 30 — Combinations and binomial coefficients
 
-The number of ways to choose $r$ objects from $n$ distinct objects, when order does not matter, is
+When order does not matter, the number of ways to choose $r$ objects from $n$ distinct objects is
 
 $$\binom{n}{r}=\frac{n!}{r!(n-r)!},\qquad 0\le r\le n.$$
 
 It is read as **“$n$ choose $r$.”**
 
-Why divide by $r!$? Every chosen group of $r$ objects was counted in $r!$ different orders by $P(n,r)$.
+Why divide by $r!$? In $P(n,r)$, each chosen group appears in $r!$ different orders.
 
 ### Presenter notes
 
@@ -268,14 +270,14 @@ Link directly to the previous slide: $P(n,r)=n!/(n-r)!$, then divide by $r!$. Gi
 
 # Slide 16 / 30 — Example: a five-card hand with exactly two aces
 
-A standard deck has $4$ aces and $48$ non-aces.
+A standard deck has $4$ aces and $48$ other cards.
 
-To form an unordered five-card hand with exactly two aces:
+A five-card hand has no order. To make a hand with exactly two aces:
 
 1. choose $2$ of the $4$ aces;
-2. choose $3$ of the $48$ non-aces.
+2. choose $3$ of the $48$ other cards.
 
-Therefore the number of hands is
+So the number of hands is
 
 $$\binom42\binom{48}{3}=6\cdot17{,}296=103{,}776.$$
 
@@ -305,15 +307,15 @@ All digits and candidates are distinct. The contrast between items 2 and 3 shoul
 
 | Question | Count | Why |
 |---|---:|---|
-| Four-digit PIN, no repeated digits | $P(10,4)=10\cdot9\cdot8\cdot7=5{,}040$ | Positions are ordered. |
+| Four-digit PIN, no repeated digits | $P(10,4)=10\cdot9\cdot8\cdot7=5{,}040$ | The positions have an order. |
 | Three representatives from $20$ | $\binom{20}{3}=1{,}140$ | Only the group matters. |
-| Three different roles from $20$ | $P(20,3)=20\cdot19\cdot18=6{,}840$ | The roles distinguish the choices. |
+| Three different roles from $20$ | $P(20,3)=20\cdot19\cdot18=6{,}840$ | Changing roles gives a different assignment. |
 
 For the same three people, there are
 
 $$3!=6$$
 
-ways to assign three different roles.
+different ways to assign the three roles.
 
 ### Presenter notes
 
@@ -331,7 +333,7 @@ $$\binom{n}{k}=\binom{n}{n-k}.$$
 
 $$\frac{n!}{k!(n-k)!}=\frac{n!}{(n-k)!k!}.$$
 
-**Combinatorially:** choosing the $k$ people who attend an event determines exactly the $n-k$ people who do not attend. This matching is reversible.
+**By counting:** choosing the $k$ people who attend determines the $n-k$ people who do not attend. Each choice determines the other.
 
 ### Presenter notes
 
@@ -343,11 +345,11 @@ Name the reversible matching: take a selected subset and send it to its compleme
 
 Count the set of all subsets of an $n$-element set in two ways.
 
-- **By size:** there are $\binom{n}{k}$ subsets with exactly $k$ elements, so the total is
+- **By size:** for each $k=0,1,\ldots,n$, there are $\binom{n}{k}$ subsets with exactly $k$ elements. Add these numbers:
 
 $$\binom n0+\binom n1+\cdots+\binom nn.$$
 
-- **By decisions:** for each of the $n$ elements, choose “in” or “out,” giving $2^n$ subsets.
+- **By decisions:** for each of the $n$ elements, decide “in” or “out.” This gives $2^n$ subsets.
 
 Therefore,
 
@@ -375,7 +377,7 @@ The word “binomial” means an expression with two terms, such as $a+b$. Do no
 
 # Slide 22 / 30 — Pascal’s triangle
 
-Each row gives the binomial coefficients $\binom nk$ for one value of $n$.
+Row $n$ contains the binomial coefficients $\binom n0,\binom n1,\ldots,\binom nn$.
 
 | $n$ | Coefficients |
 |---:|---|
@@ -386,7 +388,7 @@ Each row gives the binomial coefficients $\binom nk$ for one value of $n$.
 | $4$ | $1\quad4\quad6\quad4\quad1$ |
 | $5$ | $1\quad5\quad10\quad10\quad5\quad1$ |
 
-Every interior entry is the sum of the two entries directly above it:
+Every entry that is not at an edge is the sum of the two entries directly above it:
 
 $$\binom nk=\binom{n-1}{k-1}+\binom{n-1}{k},
 \qquad 1\le k\le n-1.$$
@@ -399,21 +401,21 @@ Use the row $n=4$ to read $\binom42=6$. The last formula is Pascal’s identity;
 
 # Slide 23 / 30 — The binomial theorem
 
-For every non-negative integer $n$ and real numbers $a,b$,
+For every non-negative integer $n$ (that is, $n=0,1,2,\ldots$) and real numbers $a,b$,
 
 $$
 (a+b)^n
 =\sum_{k=0}^{n}\binom nk a^{\,n-k}b^k.
 $$
 
-Written out, this is
+The expansion starts and ends as follows:
 
 $$
 (a+b)^n
 =\binom n0a^n+\binom n1a^{n-1}b+\cdots+\binom nn b^n.
 $$
 
-The exponents of $a$ go down from $n$ to $0$; the exponents of $b$ go up from $0$ to $n$.
+The exponent of $a$ goes down from $n$ to $0$. The exponent of $b$ goes up from $0$ to $n$.
 
 ### Presenter notes
 
@@ -427,7 +429,7 @@ Pascal’s row for $n=5$ is
 
 $$1, 5, 10, 10, 5, 1.$$
 
-Therefore
+So
 
 $$
 \begin{aligned}
@@ -446,18 +448,18 @@ Keep the unsimplified line visible long enough for students to trace the source 
 
 # Slide 25 / 30 — Why is the coefficient $\binom nk$?
 
-Write
+There are $n$ factors, each equal to $(a+b)$:
 
 $$
 (a+b)^n=(a+b)(a+b)\cdots(a+b).
 $$
 
-To create the term $a^{n-k}b^k$:
+To make the term $a^{n-k}b^k$:
 
-- choose $b$ from exactly $k$ of the $n$ factors;
-- choose $a$ from the remaining $n-k$ factors.
+- choose $b$ from exactly $k$ factors;
+- choose $a$ from the other $n-k$ factors.
 
-There are $\binom nk$ choices of those $k$ factors. Thus $\binom nk$ is the coefficient of $a^{n-k}b^k$.
+There are $\binom nk$ ways to choose those $k$ factors. So $\binom nk$ is the coefficient of $a^{n-k}b^k$.
 
 ### Presenter notes
 
@@ -479,9 +481,9 @@ Checklist:
 
 1. Write the row of Pascal’s triangle for $n=4$.
 2. Keep the negative sign with $-3$.
-3. Simplify each term only after writing its coefficient.
+3. Write the whole term before you simplify it.
 
-**Share:** which powers of $x$ have negative coefficients, and why?
+**Share:** which coefficients are negative, and why?
 
 ### Presenter notes
 
@@ -502,7 +504,7 @@ $$
 \end{aligned}
 $$
 
-The $x^3$ and $x$ coefficients are negative because they include an odd power of $-3$.
+The coefficients of $x^3$ and $x$ are negative because they contain an odd power of $-3$.
 
 ### Presenter notes
 
@@ -512,15 +514,15 @@ Invite students to check one middle coefficient independently: $6(2x)^2(-3)^2=6\
 
 # Slide 28 / 30 — Pigeonhole principle
 
-If more than $m$ objects are placed into $m$ boxes, then at least one box contains at least two objects.
+If more than $m$ objects are put into $m$ boxes, at least one box has at least two objects.
 
 **Example.** Among $13$ people, at least two were born in the same month.
 
 - objects: the $13$ people;
 - boxes: the $12$ birth months;
-- since $13>12$, one month contains at least two people.
+- since $13>12$, at least one month has at least two people.
 
-The conclusion is about a shared **month**, not necessarily a shared birthday.
+This shows a shared **month**, not necessarily a shared birthday.
 
 ### Presenter notes
 
@@ -528,7 +530,7 @@ This principle guarantees that a repeated category exists; it does not identify 
 
 ---
 
-# Slide 29 / 30 — Exit ticket · show your model
+# Slide 29 / 30 — Exit ticket · explain your method
 
 1. A café offers $4$ hot drinks and $3$ cold drinks. A customer chooses one drink. How many choices are there, and which rule applies?
 2. From $9$ distinct students, how many three-person committees are possible?
@@ -545,13 +547,13 @@ Expected answers: 1. $4+3=7$, sum rule, because the drink types are disjoint cho
 
 # Slide 30 / 30 — What today was about
 
-- Use the **sum rule** for disjoint alternatives and the **product rule** for stages of a process.
+- Use the **sum rule** for separate alternatives and the **product rule** for steps in a process.
 - Use a **permutation** when order matters; use a **combination** when it does not.
-- $\binom nk$ counts $k$-element selections from $n$ distinct objects.
+- $\binom nk$ counts selections of $k$ objects from $n$ distinct objects.
 - Pascal’s triangle gives binomial coefficients, and the **binomial theorem** expands $(a+b)^n$.
 - Counting one collection in two ways can prove an identity.
 
-**Homework 7:** ten counting problems. For every answer, state the rule used and explain why the cases are disjoint or why order matters.
+**Homework 7:** ten counting problems. For each answer, name the rule you use. Then explain why the cases do not overlap or why order matters.
 
 **Next session:** Midterm — Sessions 1–7.
 

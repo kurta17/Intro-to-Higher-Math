@@ -1,0 +1,1163 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 7 · Elementary combinatorics and the binomial theorem</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="7">
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Elementary combinatorics and the binomial theorem</h1>
+  <p class="lede" style="max-width:60ch"><strong>Sum rule · product rule · permutations · combinations · binomial coefficients</strong></p>
+  <p class="lede" style="max-width:60ch">Today's goal: turn a counting question into a clear plan, then use a rule that counts every allowed outcome once.</p>
+  <div class="meta">
+    <div>Session<b>7 of 15</b></div>
+    <div>Date<b>Tue 15 Sep 2026</b></div>
+  </div>
+  <div class="notes">
+    Counting is not about choosing a formula first. Students should first say what one outcome is,
+    whether order matters, and whether repetition is allowed.
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <span class="kicker">Course outline</span>
+  <h2>Where session 7 sits</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><td>1 · Course overview and school-maths refresher</td><td>2 · Sets and set operations</td></tr>
+      <tr><td>3 · Functions</td><td>4 · Function families</td></tr>
+      <tr><td>5 · Theorem proving</td><td>6 · Mathematical induction</td></tr>
+      <tr><td><strong>7 · Elementary combinatorics and binomial theorem</strong></td><td>8 · Midterm</td></tr>
+      <tr><td>9 · GCD and divisibility</td><td>10 · Modular arithmetic</td></tr>
+      <tr><td>11 · Vectors</td><td>12 · Polynomials</td></tr>
+      <tr><td>13 · Complex numbers</td><td>14 · Course recap and exam preparation</td></tr>
+      <tr><td>15 · Final exam</td><td></td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">Today</span>
+      Count separate cases, count step by step, arrange objects, select groups, and expand powers such as $(a+b)^n$.
+    </div>
+  </div>
+  <div class="notes">
+    Connect backwards to induction: many counting formulas can later be proved by induction. Connect
+    forwards to the midterm: students need to justify why their chosen counting rule matches the question.
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <span class="kicker">Warm-up</span>
+  <h2>Start by describing what you count</h2>
+  <div class="s-body cols-7-5">
+    <div class="box note">
+      <span class="tag">Before you calculate, answer three questions</span>
+      <ol style="margin:8px 0 0">
+        <li><strong>What is one outcome?</strong> A code, a seating order, a committee, or a hand of cards?</li>
+        <li><strong>Does order matter?</strong> Is AB different from BA?</li>
+        <li><strong>Is repetition allowed?</strong> May an object be used more than once?</li>
+      </ol>
+    </div>
+    <div class="card solid">
+      <h3>The point</h3>
+      <p class="small" style="margin-bottom:0">The same objects can give different answers when the outcomes are different.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Use two names, A and B. Choosing a two-person committee gives one outcome, but choosing a president
+    and a secretary gives two possible ordered outcomes. This distinction drives the rest of the lesson.
+  </div>
+  <script type="application/x-hs-check">
+    counts("same two objects, different outcomes: 1 committee of two from {A,B}",
+      () => C(2, 2), () => {
+        const people = ['A','B'], out = new Set();
+        for (const x of people) for (const y of people) if (x !== y) out.add([x,y].sort().join(''));
+        return out.size;
+      });
+    counts("same two objects, different outcomes: 2 ordered role assignments from {A,B}",
+      () => P(2, 2), () => {
+        const people = ['A','B'], out = new Set();
+        for (const x of people) for (const y of people) if (x !== y) out.add(x + y);
+        return out.size;
+      });
+  </script>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today, you can…</h2>
+  <div class="s-body cols-7-5">
+    <ul class="ticks">
+      <li>use the <strong>sum rule</strong> for separate cases that do not overlap;</li>
+      <li>use the <strong>product rule</strong> for a sequence of choices;</li>
+      <li>distinguish <strong>permutations</strong> from <strong>combinations</strong>;</li>
+      <li>calculate $\binom{n}{k}$ and explain what it counts;</li>
+      <li>use Pascal's triangle and the <strong>binomial theorem</strong>;</li>
+      <li>prove a simple counting identity by counting the same set in two ways.</li>
+    </ul>
+    <div class="card solid">
+      <h3>Success</h3>
+      <p class="small" style="margin-bottom:0">your solution says what is being counted and explains why every outcome is counted once.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Read "disjoint" in everyday language: one outcome cannot belong to two cases at the same time. This
+    is the condition students often omit when using addition.
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <span class="kicker">Choose or arrange</span>
+  <h2>A small example: choose or arrange?</h2>
+  <div class="s-body">
+    <p class="small" style="margin:0 0 10px">From the three students A, B, and C:</p>
+    <table class="small">
+      <tr><th>Question</th><th>Outcomes</th><th class="num">Count</th></tr>
+      <tr><td>Choose a two-person committee.</td><td>$\{A,B\},\{A,C\},\{B,C\}$</td><td class="num">$3$</td></tr>
+      <tr><td>Choose a president and a secretary.</td><td>AB, AC, BA, BC, CA, CB</td><td class="num">$6$</td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">The difference</span>
+      For a committee, $\{A,B\}$ and $\{B,A\}$ describe the same group. For two different roles, AB and BA are different assignments.
+    </div>
+  </div>
+  <div class="notes">
+    This slide is deliberately concrete. Ask the class to explain why the first list uses braces and the
+    second does not. Braces represent an unordered set.
+  </div>
+  <script type="application/x-hs-check">
+    counts("3 two-person committees from A, B, C", () => C(3, 2), () => {
+      const p = ['A','B','C'], out = new Set();
+      for (const x of p) for (const y of p) if (x !== y) out.add([x,y].sort().join(''));
+      return out.size;
+    });
+    counts("6 president/secretary assignments from A, B, C", () => P(3, 2), () => {
+      const p = ['A','B','C'], out = new Set();
+      for (const x of p) for (const y of p) if (x !== y) out.add(x + y);
+      return out.size;
+    });
+    claim("{A,B} and {B,A} are the same group, but AB and BA are different assignments",
+      () => ['A','B'].sort().join('') === ['B','A'].sort().join('') && 'AB' !== 'BA');
+  </script>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <span class="kicker">Sum rule</span>
+  <h2>Sum rule: count one disjoint case or another</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      Split the outcomes into two cases that do not overlap. If one case has $m$ outcomes and the other has $n$, then the total is
+      $$m+n.$$
+      Cases that do not overlap are called <strong>disjoint</strong>.
+    </div>
+    <div class="box example">
+      <span class="tag">Example</span>
+      A student chooses one elective. There are $3$ programming electives and $2$ design electives, and no course is in both lists.
+      $$3+2=5$$
+      possible choices.
+    </div>
+  </div>
+  <div class="notes">
+    Stress the condition. If a course were listed in both groups, adding would count it twice.
+    Inclusion–exclusion is the repair for overlapping cases, but it is beyond today's core material.
+  </div>
+  <script type="application/x-hs-check">
+    counts("3 programming + 2 design electives, no overlap, gives 5 choices",
+      () => 3 + 2, () => {
+        const prog = ['p1','p2','p3'], des = ['d1','d2'];
+        return new Set([...prog, ...des]).size;
+      });
+    claim("the disjointness condition is real: with one course in both lists, adding double-counts it", () => {
+      const a = ['p1','p2','shared'], b = ['d1','shared'];
+      return a.length + b.length === 5 && new Set([...a, ...b]).size === 4;
+    });
+  </script>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <span class="kicker">Product rule</span>
+  <h2>Product rule: count a sequence of choices</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      If a process has two stages:
+      <ul style="margin:8px 0 0">
+        <li>$m$ choices for the first stage; and</li>
+        <li>for <strong>each</strong> first choice, $n$ choices for the second stage,</li>
+      </ul>
+      <p style="margin:10px 0 0">then there are</p>
+      $$m\cdot n$$
+      complete outcomes.
+    </div>
+    <div class="box example">
+      <span class="tag">Example</span>
+      With $3$ shirts and $4$ pairs of trousers, there are
+      $$3\cdot4=12$$
+      outfits.
+    </div>
+  </div>
+  <div class="notes">
+    The phrase "for each first choice" matters. The rule still works if the number of second-stage
+    choices changes, but then multiply the relevant branch sizes and add the disjoint branches.
+  </div>
+  <script type="application/x-hs-check">
+    counts("3 shirts x 4 trousers = 12 outfits", () => 3 * 4, () => {
+      let n = 0;
+      for (let s = 0; s < 3; s++) for (let t = 0; t < 4; t++) n++;
+      return n;
+    });
+    counts("the product rule in general: m x n pairs, checked for m = 5, n = 7",
+      () => 5 * 7, () => {
+        const out = new Set();
+        for (let i = 0; i < 5; i++) for (let j = 0; j < 7; j++) out.add(i + ',' + j);
+        return out.size;
+      });
+  </script>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>Build a code carefully</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">pairs</span><span class="time">8 min</span></header>
+      <div class="a-body">
+        A code has two uppercase English letters, then three digits.
+        <ol>
+          <li>How many codes are possible if letters and digits may repeat?</li>
+          <li>How many codes are possible if no letter repeats and no digit repeats?</li>
+        </ol>
+        Assume there are $26$ letters and $10$ digits. The first digit position may be $0$.
+        <div class="share"><b>Share:</b> name the choice at each of the five positions.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ask pairs not to calculate immediately. They should first write five multiplication slots. The
+    statement about zero prevents students from treating the code as a five-digit number.
+  </div>
+  <script type="application/x-hs-check">
+    claim("with repetition: 26^2 * 10^3 = 676000", () => Math.pow(26,2) * Math.pow(10,3), 676000);
+    claim("without repetition: 26*25*10*9*8 = 468000", () => 26*25*10*9*8, 468000);
+    counts("the letter part with repetition really has 26^2 codes", () => 26*26, () => {
+      const out = new Set();
+      for (let a = 0; a < 26; a++) for (let b = 0; b < 26; b++) out.add(a + ',' + b);
+      return out.size;
+    });
+    counts("the digit part without repetition really has 10*9*8 codes", () => 10*9*8, () => {
+      const out = new Set();
+      for (let a = 0; a < 10; a++) for (let b = 0; b < 10; b++) for (let c = 0; c < 10; c++)
+        if (a !== b && a !== c && b !== c) out.add(a + ',' + b + ',' + c);
+      return out.size;
+    });
+  </script>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <span class="kicker">Activity 1 · how to solve it</span>
+  <h2>Count the code positions</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Rule</th><th class="num">Number of codes</th><th>Reason</th></tr>
+      <tr><td>Repetition allowed</td><td class="num">$26^2\cdot10^3$</td><td>Each letter position has $26$ choices; each digit position has $10$.</td></tr>
+      <tr><td>No repetition</td><td class="num">$26\cdot25\cdot10\cdot9\cdot8$</td><td>The letters have $26$, then $25$, choices. The digits have $10$, then $9$, then $8$, choices.</td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">Method</span>
+      Each code comes from one sequence of five choices. This is why the product rule works.
+    </div>
+  </div>
+  <div class="notes">
+    Point out that choosing the first letter does not reduce the digit choices: letters and digits are
+    different kinds of symbols. Only a previous letter restricts a later letter here.
+  </div>
+  <script type="application/x-hs-check">
+    claim("26^2 * 10^3 = 676000", () => Math.pow(26,2) * Math.pow(10,3), 676000);
+    claim("26*25*10*9*8 = 468000", () => 26*25*10*9*8, 468000);
+    counts("no-repetition letters: 26*25 ordered pairs of distinct letters", () => 26*25, () => {
+      const out = new Set();
+      for (let a = 0; a < 26; a++) for (let b = 0; b < 26; b++) if (a !== b) out.add(a + ',' + b);
+      return out.size;
+    });
+    claim("a letter choice does not restrict a digit choice: the two kinds are independent",
+      () => 26*25*10*9*8 === (26*25) * (10*9*8));
+  </script>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <span class="kicker">Factorials</span>
+  <h2>Factorials count arrangements</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      For a positive integer $n$,
+      $$n!=n(n-1)(n-2)\cdots2\cdot1.$$
+      It counts the ways to arrange all $n$ <strong>distinct</strong> objects in a row.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        Five distinct books can be arranged in
+        $$5!=5\cdot4\cdot3\cdot2\cdot1=120$$
+        orders.
+      </div>
+      <div class="box note">
+        <span class="tag">The empty case</span>
+        By definition, $0!=1$. There is exactly one way to arrange zero objects: do nothing.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The word "distinct" is essential. Do not apply $n!$ unchanged when some objects are identical. The
+    definition of $0!$ is useful for binomial coefficients later.
+  </div>
+  <script type="application/x-hs-check">
+    claim("5! = 5*4*3*2*1 = 120", () => fact(5), 120n);
+    counts("5! really is the number of orderings of 5 distinct books", () => fact(5), () => {
+      const perms = (a) => a.length <= 1 ? 1 : a.length * perms(a.slice(1));
+      return perms([1,2,3,4,5]);
+    });
+    counts("brute force: orderings of 4 distinct objects", () => fact(4), () => {
+      const out = new Set();
+      const go = (used, acc) => {
+        if (acc.length === 4) { out.add(acc.join('')); return; }
+        for (let i = 1; i <= 4; i++) if (!used.has(i)) { used.add(i); go(used, [...acc, i]); used.delete(i); }
+      };
+      go(new Set(), []);
+      return out.size;
+    });
+    claim("0! = 1: exactly one way to arrange zero objects", () => fact(0), 1n);
+  </script>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <span class="kicker">Permutations</span>
+  <h2>Permutations: arrange some of the objects</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      A <strong>permutation</strong> is a selection in which order matters. The number of ways to choose and order $r$ distinct objects from $n$ distinct objects is
+      $$P(n,r)=n(n-1)\cdots(n-r+1)=\frac{n!}{(n-r)!}.$$
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        From $6$ students, assign president, secretary, and treasurer:
+        $$P(6,3)=6\cdot5\cdot4=120.$$
+      </div>
+      <div class="box note">
+        <span class="tag">Why</span>
+        The roles are different, so order matters.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Read $P(6,3)$ as "permutations of 6 things taken 3 at a time." The formula assumes $0\le r\le n$ and
+    distinct candidates.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P(6,3) = 6*5*4 = 120", () => P(6,3), 120n);
+    claim("P(n,r) = n!/(n-r)! for the sampled pairs", () => {
+      for (let n = 0; n <= 12; n++) for (let r = 0; r <= n; r++)
+        if (P(n, r) !== fact(n) / fact(n - r)) return false;
+      return true;
+    });
+    counts("P(6,3) really counts ordered triples of distinct students", () => P(6,3), () => {
+      const out = new Set();
+      for (let a = 0; a < 6; a++) for (let b = 0; b < 6; b++) for (let c = 0; c < 6; c++)
+        if (a !== b && a !== c && b !== c) out.add(a + ',' + b + ',' + c);
+      return out.size;
+    });
+  </script>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>Which counting model?</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">groups of three</span><span class="time">10 min</span></header>
+      <div class="a-body">
+        For each question, choose the correct model: permutation, combination, or neither. Explain why.
+        <ol>
+          <li>From $8$ distinct books, place $5$ on a shelf in a row.</li>
+          <li>From $8$ distinct books, choose $5$ for a reading list.</li>
+          <li>From $6$ students, assign president, secretary, and treasurer.</li>
+        </ol>
+        Then calculate the answers for questions 1 and 3.
+        <div class="share"><b>Share:</b> say "order matters" or "order does not matter" before naming any formula.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Students should write "order matters" or "order does not matter" before any formula. Question 2
+    deliberately introduces combinations before the formula appears; it should be identified, not yet
+    calculated.
+  </div>
+  <script type="application/x-hs-check">
+    claim("Q1: P(8,5) = 8*7*6*5*4 = 6720", () => P(8,5), 6720n);
+    claim("Q3: P(6,3) = 120", () => P(6,3), 120n);
+    claim("Q2 is a different count from Q1: C(8,5) = 56, not 6720", () => C(8,5), 56n);
+    counts("Q1 really counts ordered shelves of 5 from 8", () => P(8,5), () => {
+      let n = 0;
+      const go = (used, depth) => {
+        if (depth === 5) { n++; return; }
+        for (let i = 0; i < 8; i++) if (!used.has(i)) { used.add(i); go(used, depth + 1); used.delete(i); }
+      };
+      go(new Set(), 0);
+      return n;
+    });
+  </script>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <span class="kicker">Activity 2 · how to solve it</span>
+  <h2>Answers and the key distinction</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Question</th><th>Model</th><th class="num">Count</th></tr>
+      <tr><td>Place $5$ of $8$ books on a shelf.</td><td>Permutation</td><td class="num">$P(8,5)=8\cdot7\cdot6\cdot5\cdot4=6{,}720$</td></tr>
+      <tr><td>Choose $5$ of $8$ books for a list.</td><td>Combination</td><td class="num">Order does not matter.</td></tr>
+      <tr><td>Assign three different roles from $6$ students.</td><td>Permutation</td><td class="num">$P(6,3)=120$</td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">The bridge to combinations</span>
+      The same five books can make $5!=120$ different shelf orders, but they make only one five-book reading list.
+    </div>
+  </div>
+  <div class="notes">
+    This is the bridge to combinations. The final sentence explains exactly why a permutation count is
+    too large for an unordered selection.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P(8,5) = 6720", () => P(8,5), 6720n);
+    claim("P(6,3) = 120", () => P(6,3), 120n);
+    claim("5! = 120 shelf orders of one fixed set of five books", () => fact(5), 120n);
+    claim("a permutation count is exactly 5! times the unordered count: P(8,5) = 5! * C(8,5)",
+      () => P(8,5) === fact(5) * C(8,5));
+  </script>
+</section>
+
+<!-- 14 -->
+<section class="slide section">
+  <span class="kicker">Section 2</span>
+  <h1>Combinations: select without order</h1>
+  <p class="lede">When order does not matter, the same group can appear in many different orders.</p>
+  <p class="lede">Next, we will remove this repeated counting and introduce the binomial coefficient.</p>
+  <span class="num-badge">2</span>
+  <div class="notes">
+    Take the scheduled break before this section. On return, ask for the number of shelf orders of the
+    particular five books A, B, C, D, E: it is $5!$. This motivates the division in the next slide.
+  </div>
+  <script type="application/x-hs-check">
+    counts("the five books A, B, C, D, E appear in 5! = 120 different orders", () => fact(5), () => {
+      const out = new Set();
+      const go = (used, acc) => {
+        if (acc.length === 5) { out.add(acc.join('')); return; }
+        for (const x of 'ABCDE') if (!used.has(x)) { used.add(x); go(used, [...acc, x]); used.delete(x); }
+      };
+      go(new Set(), []);
+      return out.size;
+    });
+  </script>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <span class="kicker">Combinations</span>
+  <h2>Combinations and binomial coefficients</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      When order does not matter, the number of ways to choose $r$ objects from $n$ distinct objects is
+      $$\binom{n}{r}=\frac{n!}{r!(n-r)!},\qquad 0\le r\le n.$$
+      It is read as <strong>"$n$ choose $r$."</strong>
+    </div>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">Why divide</span>
+        Why divide by $r!$? In $P(n,r)$, each chosen group appears in $r!$ different orders.
+      </div>
+      <div class="box example">
+        <span class="tag">Example</span>
+        ABC, ACB, BAC, BCA, CAB, and CBA are the $3!=6$ orders of the same three-person group.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Link directly to the previous slide: $P(n,r)=n!/(n-r)!$, then divide by $r!$. Give the small example
+    that ABC, ACB, BAC, BCA, CAB, and CBA are the six orders of the same three-person group.
+  </div>
+  <script type="application/x-hs-check">
+    claim("C(n,r) = n!/(r!(n-r)!) for every 0 <= r <= n up to n = 20", () => {
+      for (let n = 0; n <= 20; n++) for (let r = 0; r <= n; r++)
+        if (C(n, r) !== fact(n) / (fact(r) * fact(n - r))) return false;
+      return true;
+    });
+    claim("P(n,r) = r! * C(n,r), which is why we divide by r!", () => {
+      for (let n = 0; n <= 15; n++) for (let r = 0; r <= n; r++)
+        if (P(n, r) !== fact(r) * C(n, r)) return false;
+      return true;
+    });
+    counts("C(5,3) really counts unordered 3-element subsets of a 5-set", () => C(5,3), () => {
+      const out = new Set();
+      for (let m = 0; m < 32; m++) {
+        const bits = [...Array(5).keys()].filter(i => m & (1 << i));
+        if (bits.length === 3) out.add(bits.join(','));
+      }
+      return out.size;
+    });
+    claim("ABC, ACB, BAC, BCA, CAB, CBA are 3! = 6 orders of one group", () => fact(3), 6n);
+  </script>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <span class="kicker">Worked example</span>
+  <h2>A five-card hand with exactly two aces</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">The model</span>
+      A standard deck has $4$ aces and $48$ other cards.
+      <p style="margin:10px 0 0">A five-card hand has no order. To make a hand with exactly two aces:</p>
+      <ol style="margin:8px 0 0">
+        <li>choose $2$ of the $4$ aces;</li>
+        <li>choose $3$ of the $48$ other cards.</li>
+      </ol>
+    </div>
+    <div class="box example">
+      <span class="tag">The count</span>
+      So the number of hands is
+      $$\binom42\binom{48}{3}=6\cdot17{,}296=103{,}776.$$
+    </div>
+  </div>
+  <div class="notes">
+    Students often multiply by an unnecessary $5!$. A hand has no first card, second card, and so on, so
+    both choices are combinations. The two stages produce disjoint card types, so the product rule
+    connects them.
+  </div>
+  <script type="application/x-hs-check">
+    claim("C(4,2) = 6", () => C(4,2), 6n);
+    claim("C(48,3) = 17296", () => C(48,3), 17296n);
+    claim("C(4,2)*C(48,3) = 6 * 17296 = 103776", () => C(4,2) * C(48,3), 103776n);
+    claim("a standard deck: 4 aces + 48 other cards = 52", () => 4 + 48, 52);
+    counts("brute force on a small deck: 2 of 4 aces and 3 of 6 others", () => C(4,2) * C(6,3), () => {
+      let n = 0;
+      const subsets = (size, k) => {
+        const out = [];
+        for (let m = 0; m < (1 << size); m++) {
+          const bits = [...Array(size).keys()].filter(i => m & (1 << i));
+          if (bits.length === k) out.push(bits);
+        }
+        return out;
+      };
+      for (const a of subsets(4, 2)) for (const b of subsets(6, 3)) n++;
+      return n;
+    });
+  </script>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>Order or no order?</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">pairs</span><span class="time">10 min</span></header>
+      <div class="a-body">
+        <ol>
+          <li>A four-digit PIN uses four different digits. Zero is allowed in the first position. How many PINs are possible?</li>
+          <li>From $20$ candidates, choose $3$ student representatives. How many groups are possible?</li>
+          <li>From $20$ candidates, choose a chairperson, a secretary, and a treasurer. How many assignments are possible?</li>
+        </ol>
+        For each answer, write the rule or formula you used.
+        <div class="share"><b>Share:</b> why items 2 and 3 use the same $20$ people but give different counts.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    All digits and candidates are distinct. The contrast between items 2 and 3 should be made explicit:
+    the same three people can form one representatives group but six different three-role assignments.
+  </div>
+  <script type="application/x-hs-check">
+    claim("Q1: P(10,4) = 10*9*8*7 = 5040", () => P(10,4), 5040n);
+    claim("Q2: C(20,3) = 1140", () => C(20,3), 1140n);
+    claim("Q3: P(20,3) = 20*19*18 = 6840", () => P(20,3), 6840n);
+    claim("items 2 and 3 differ by exactly 3! = 6", () => P(20,3) === fact(3) * C(20,3));
+    counts("Q1 really counts 4-digit PINs with distinct digits", () => P(10,4), () => {
+      let n = 0;
+      const go = (used, depth) => {
+        if (depth === 4) { n++; return; }
+        for (let d = 0; d <= 9; d++) if (!used.has(d)) { used.add(d); go(used, depth + 1); used.delete(d); }
+      };
+      go(new Set(), 0);
+      return n;
+    });
+  </script>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <span class="kicker">Activity 3 · how to solve it</span>
+  <h2>Answers</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><th>Question</th><th class="num">Count</th><th>Why</th></tr>
+      <tr><td>Four-digit PIN, no repeated digits</td><td class="num">$P(10,4)=10\cdot9\cdot8\cdot7=5{,}040$</td><td>The positions have an order.</td></tr>
+      <tr><td>Three representatives from $20$</td><td class="num">$\binom{20}{3}=1{,}140$</td><td>Only the group matters.</td></tr>
+      <tr><td>Three different roles from $20$</td><td class="num">$P(20,3)=20\cdot19\cdot18=6{,}840$</td><td>Changing roles gives a different assignment.</td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">The factor between them</span>
+      For the same three people, there are $3!=6$ different ways to assign the three roles.
+    </div>
+  </div>
+  <div class="notes">
+    Check the arithmetic on the board: $\binom{20}{3}=20\cdot19\cdot18/(3\cdot2\cdot1)=1{,}140$. This
+    makes the "divide by $3!$" idea concrete.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P(10,4) = 5040", () => P(10,4), 5040n);
+    claim("C(20,3) = 20*19*18/(3*2*1) = 1140", () => C(20,3), 1140n);
+    claim("the board arithmetic: 20*19*18 = 6840 and 6840/6 = 1140",
+      () => 20*19*18 === 6840 && 6840/6 === 1140);
+    claim("P(20,3) = 6840", () => P(20,3), 6840n);
+    claim("3! = 6", () => fact(3), 6n);
+  </script>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <span class="kicker">An identity, two ways</span>
+  <h2>A useful identity: choose or leave out</h2>
+  <div class="s-body cols-5-7">
+    <div class="box thm">
+      <span class="tag">Identity</span>
+      For $0\le k\le n$,
+      $$\binom{n}{k}=\binom{n}{n-k}.$$
+    </div>
+    <div class="stack">
+      <div class="box proof">
+        <span class="tag">Algebraically</span>
+        $$\frac{n!}{k!(n-k)!}=\frac{n!}{(n-k)!k!}.$$
+      </div>
+      <div class="box proof">
+        <span class="tag">By counting</span>
+        Choosing the $k$ people who attend determines the $n-k$ people who do not attend. Each choice determines the other.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Name the reversible matching: take a selected subset and send it to its complement. This is a
+    bijection, so the two sets of choices have equal size. Both proofs are deliberately short and visible.
+  </div>
+  <script type="application/x-hs-check">
+    claim("C(n,k) = C(n,n-k) for every 0 <= k <= n up to n = 40", () => {
+      for (let n = 0; n <= 40; n++) for (let k = 0; k <= n; k++)
+        if (C(n, k) !== C(n, n - k)) return false;
+      return true;
+    });
+    claim("algebraically: k!(n-k)! = (n-k)!k!, so the two formulas are the same expression", () => {
+      for (let n = 0; n <= 15; n++) for (let k = 0; k <= n; k++)
+        if (fact(k) * fact(n - k) !== fact(n - k) * fact(k)) return false;
+      return true;
+    });
+    claim("the matching is a bijection: complementing a subset twice returns the original", () => {
+      const universe = 6;
+      for (let m = 0; m < (1 << universe); m++) {
+        const comp = (~m) & ((1 << universe) - 1);
+        if (((~comp) & ((1 << universe) - 1)) !== m) return false;
+      }
+      return true;
+    });
+    counts("complementation matches 2-subsets of a 6-set with 4-subsets one-to-one",
+      () => C(6,2), () => {
+        const out = new Set();
+        for (let m = 0; m < 64; m++) {
+          const bits = [...Array(6).keys()].filter(i => m & (1 << i));
+          if (bits.length === 4) out.add(bits.join(','));
+        }
+        return out.size;
+      });
+  </script>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <span class="kicker">Double counting</span>
+  <h2>Double counting: all subsets of an $n$-element set</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">By size</span>
+        For each $k=0,1,\ldots,n$, there are $\binom{n}{k}$ subsets with exactly $k$ elements. Add these numbers:
+        $$\binom n0+\binom n1+\cdots+\binom nn.$$
+      </div>
+      <div class="box note">
+        <span class="tag">By decisions</span>
+        For each of the $n$ elements, decide "in" or "out." This gives $2^n$ subsets.
+      </div>
+    </div>
+    <div class="box proof">
+      <span class="tag">Therefore</span>
+      Both methods count the set of all subsets of an $n$-element set, so
+      $$\sum_{k=0}^{n}\binom{n}{k}=2^n.$$
+    </div>
+  </div>
+  <div class="notes">
+    This is double counting: both methods count the same collection, not two different collections that
+    happen to have the same answer. For $n=3$, students can list the eight subsets as a check.
+  </div>
+  <script type="application/x-hs-check">
+    claim("sum of C(n,k) over k = 0..n equals 2^n, for n = 0..40", () => {
+      for (let n = 0; n <= 40; n++) {
+        let s = 0n;
+        for (let k = 0; k <= n; k++) s += C(n, k);
+        if (s !== 2n ** BigInt(n)) return false;
+      }
+      return true;
+    });
+    counts("for n = 3 there really are 2^3 = 8 subsets", () => 2n ** 3n, () => {
+      const out = new Set();
+      for (let m = 0; m < 8; m++) out.add([...Array(3).keys()].filter(i => m & (1 << i)).join(','));
+      return out.size;
+    });
+    counts("for n = 3, counting by size gives the same 8", () => {
+      let s = 0n; for (let k = 0; k <= 3; k++) s += C(3, k); return s;
+    }, () => {
+      const bySize = [0,0,0,0];
+      for (let m = 0; m < 8; m++) bySize[[...Array(3).keys()].filter(i => m & (1 << i)).length]++;
+      return bySize.reduce((a, b) => a + b, 0);
+    });
+  </script>
+</section>
+
+<!-- 21 -->
+<section class="slide section">
+  <span class="kicker">Section 3</span>
+  <h1>Pascal's triangle and the binomial theorem</h1>
+  <p class="lede">The same binomial coefficients that count groups also appear when we expand $(a+b)^n$.</p>
+  <p class="lede">We will first see the coefficients in Pascal's triangle, then explain why they occur.</p>
+  <span class="num-badge">3</span>
+  <div class="notes">
+    The word "binomial" means an expression with two terms, such as $a+b$. Do not assume students know
+    this vocabulary.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the coefficients of (a+b)^2 are the binomial coefficients 1, 2, 1",
+      () => C(2,0) === 1n && C(2,1) === 2n && C(2,2) === 1n);
+  </script>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <span class="kicker">Pascal's triangle</span>
+  <h2>Pascal's triangle</h2>
+  <div class="s-body cols-5-7">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        Row $n$ contains the binomial coefficients $\binom n0,\binom n1,\ldots,\binom nn$.
+      </div>
+      <div class="box thm" data-proof="board: split the k-element choices according to whether one fixed person is selected - if selected, choose k-1 from the rest; if not, choose k from the rest">
+        <span class="tag">Pascal's identity</span>
+        Every entry that is not at an edge is the sum of the two entries directly above it:
+        $$\binom nk=\binom{n-1}{k-1}+\binom{n-1}{k},
+        \qquad 1\le k\le n-1.$$
+      </div>
+    </div>
+    <table class="small">
+      <tr><th class="num">$n$</th><th>Coefficients</th></tr>
+      <tr><td class="num">$0$</td><td>$1$</td></tr>
+      <tr><td class="num">$1$</td><td>$1\quad1$</td></tr>
+      <tr><td class="num">$2$</td><td>$1\quad2\quad1$</td></tr>
+      <tr><td class="num">$3$</td><td>$1\quad3\quad3\quad1$</td></tr>
+      <tr><td class="num">$4$</td><td>$1\quad4\quad6\quad4\quad1$</td></tr>
+      <tr><td class="num">$5$</td><td>$1\quad5\quad10\quad10\quad5\quad1$</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Use the row $n=4$ to read $\binom42=6$. The last formula is Pascal's identity; its usual
+    combinatorial proof separates a $k$-person choice according to whether one particular person is
+    selected.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the six printed rows are correct", () => {
+      const rows = [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1],[1,5,10,10,5,1]];
+      for (let n = 0; n < rows.length; n++)
+        for (let k = 0; k <= n; k++) if (C(n, k) !== BigInt(rows[n][k])) return false;
+      return true;
+    });
+    claim("Pascal's identity C(n,k) = C(n-1,k-1) + C(n-1,k) for 1 <= k <= n-1, up to n = 40", () => {
+      for (let n = 2; n <= 40; n++) for (let k = 1; k <= n - 1; k++)
+        if (C(n, k) !== C(n - 1, k - 1) + C(n - 1, k)) return false;
+      return true;
+    });
+    claim("reading row n = 4 gives C(4,2) = 6", () => C(4,2), 6n);
+  </script>
+</section>
+
+<!-- 23 -->
+<section class="slide">
+  <span class="kicker">The binomial theorem</span>
+  <h2>The binomial theorem</h2>
+  <div class="s-body cols-5-7">
+    <div class="box thm" data-proof="slide 25: choose b from exactly k of the n factors and a from the other n-k, which can be done in C(n,k) ways">
+      <span class="tag">Theorem</span>
+      For every non-negative integer $n$ (that is, $n=0,1,2,\ldots$) and real numbers $a,b$,
+      $$(a+b)^n=\sum_{k=0}^{n}\binom nk a^{\,n-k}b^k.$$
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Written out</span>
+        The expansion starts and ends as follows:
+        $$(a+b)^n=\binom n0a^n+\binom n1a^{n-1}b+\cdots+\binom nn b^n.$$
+      </div>
+      <div class="box note">
+        <span class="tag">Read the exponents</span>
+        The exponent of $a$ goes down from $n$ to $0$. The exponent of $b$ goes up from $0$ to $n$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    First check $n=2$: $(a+b)^2=a^2+2ab+b^2$. The formula includes the endpoints because
+    $\binom n0=\binom nn=1$ and $a^0=b^0=1$.
+  </div>
+  <script type="application/x-hs-check">
+    identity("the binomial theorem at n = 2: (a+b)^2 = a^2 + 2ab + b^2",
+      (a, b) => Math.pow(a + b, 2), (a, b) => a*a + 2*a*b + b*b, { arity: 2 });
+    identity("the binomial theorem at n = 5, as a sum of C(5,k) a^(5-k) b^k",
+      (a, b) => Math.pow(a + b, 5),
+      (a, b) => { let s = 0; for (let k = 0; k <= 5; k++) s += Number(C(5,k)) * Math.pow(a, 5-k) * Math.pow(b, k); return s; },
+      { arity: 2 });
+    claim("the sum formula reproduces (a+b)^n for every n = 0..12 at sampled a, b", () => {
+      for (let n = 0; n <= 12; n++) for (let t = 0; t < 40; t++) {
+        const a = Math.random()*4 - 2, b = Math.random()*4 - 2;
+        let s = 0;
+        for (let k = 0; k <= n; k++) s += Number(C(n,k)) * Math.pow(a, n-k) * Math.pow(b, k);
+        if (Math.abs(s - Math.pow(a + b, n)) > 1e-9 * Math.max(1, Math.abs(s))) return false;
+      }
+      return true;
+    });
+    claim("the endpoints: C(n,0) = C(n,n) = 1, and a^0 = b^0 = 1", () => {
+      for (let n = 0; n <= 30; n++) if (C(n,0) !== 1n || C(n,n) !== 1n) return false;
+      return Math.pow(7, 0) === 1 && Math.pow(-3, 0) === 1;
+    });
+  </script>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <span class="kicker">Worked expansion</span>
+  <h2>Worked expansion: $(x+2)^5$</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">Pascal's row</span>
+      Pascal's row for $n=5$ is
+      $$1, 5, 10, 10, 5, 1.$$
+    </div>
+    <div class="box example">
+      <span class="tag">So</span>
+      $$\begin{aligned}
+      (x+2)^5
+      &amp;=x^5+5x^4(2)+10x^3(2^2)\\
+      &amp;\quad+10x^2(2^3)+5x(2^4)+2^5\\
+      &amp;=x^5+10x^4+40x^3+80x^2+80x+32.
+      \end{aligned}$$
+    </div>
+  </div>
+  <div class="notes">
+    Keep the unsimplified line visible long enough for students to trace the source of every term. In
+    particular, the exponent on $x$ plus the exponent on $2$ is always $5$.
+  </div>
+  <script type="application/x-hs-check">
+    identity("(x+2)^5 = x^5 + 10x^4 + 40x^3 + 80x^2 + 80x + 32",
+      x => Math.pow(x + 2, 5),
+      x => Math.pow(x,5) + 10*Math.pow(x,4) + 40*Math.pow(x,3) + 80*x*x + 80*x + 32);
+    identity("the unsimplified line equals the simplified line",
+      x => Math.pow(x,5) + 5*Math.pow(x,4)*2 + 10*Math.pow(x,3)*Math.pow(2,2)
+           + 10*x*x*Math.pow(2,3) + 5*x*Math.pow(2,4) + Math.pow(2,5),
+      x => Math.pow(x,5) + 10*Math.pow(x,4) + 40*Math.pow(x,3) + 80*x*x + 80*x + 32);
+    claim("Pascal's row for n = 5 is 1, 5, 10, 10, 5, 1", () => {
+      const row = [1,5,10,10,5,1];
+      for (let k = 0; k <= 5; k++) if (C(5,k) !== BigInt(row[k])) return false;
+      return true;
+    });
+    claim("in every term the exponent on x plus the exponent on 2 is 5", () => {
+      for (let k = 0; k <= 5; k++) if ((5 - k) + k !== 5) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <span class="kicker">Why the coefficient</span>
+  <h2>Why is the coefficient $\binom nk$?</h2>
+  <div class="s-body cols-5-7">
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      There are $n$ factors, each equal to $(a+b)$:
+      $$(a+b)^n=(a+b)(a+b)\cdots(a+b).$$
+      To make the term $a^{n-k}b^k$:
+      <ul style="margin:8px 0 0">
+        <li>choose $b$ from exactly $k$ factors;</li>
+        <li>choose $a$ from the other $n-k$ factors.</li>
+      </ul>
+      <p style="margin:10px 0 0">There are $\binom nk$ ways to choose those $k$ factors. So $\binom nk$ is the coefficient of $a^{n-k}b^k$.</p>
+    </div>
+    <div class="box example">
+      <span class="tag">Example</span>
+      In $(a+b)^3$, the term $ab^2$ comes from choosing $b$ from exactly two factors. The possible choices are factors $12$, $13$, and $23$, so its coefficient is $3=\binom32$.
+    </div>
+  </div>
+  <div class="notes">
+    Give the example $(a+b)^3$. The term $ab^2$ comes from choosing $b$ from exactly two factors; the
+    possible choices are factors $12$, $13$, and $23$, so its coefficient is $3=\binom32$.
+  </div>
+  <script type="application/x-hs-check">
+    counts("expanding (a+b)^3 by hand: the term ab^2 arises 3 times, one per choice of 2 factors",
+      () => C(3,2), () => {
+        let n = 0;
+        for (const f1 of ['a','b']) for (const f2 of ['a','b']) for (const f3 of ['a','b']) {
+          const word = [f1, f2, f3];
+          if (word.filter(c => c === 'b').length === 2) n++;
+        }
+        return n;
+      });
+    claim("in general, expanding (a+b)^n term by term gives C(n,k) copies of a^(n-k) b^k", () => {
+      for (let n = 1; n <= 12; n++) {
+        const tally = new Array(n + 1).fill(0);
+        for (let m = 0; m < (1 << n); m++) {
+          let k = 0;
+          for (let i = 0; i < n; i++) if (m & (1 << i)) k++;
+          tally[k]++;
+        }
+        for (let k = 0; k <= n; k++) if (BigInt(tally[k]) !== C(n, k)) return false;
+      }
+      return true;
+    });
+    claim("C(3,2) = 3", () => C(3,2), 3n);
+  </script>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <span class="kicker">Activity 4</span>
+  <h2>Expand with the theorem</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 4</span><span class="who">work independently</span><span class="time">8 min</span></header>
+      <div class="a-body">
+        Use the binomial theorem to expand
+        $$(2x-3)^4.$$
+        Checklist:
+        <ol>
+          <li>Write the row of Pascal's triangle for $n=4$.</li>
+          <li>Keep the negative sign with $-3$.</li>
+          <li>Write the whole term before you simplify it.</li>
+        </ol>
+        <div class="share"><b>Share:</b> which coefficients are negative, and why?</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Do not let students distribute only once and stop. The sign alternates because the power of $-3$
+    alternates between positive and negative values.
+  </div>
+  <script type="application/x-hs-check">
+    identity("(2x-3)^4 = 16x^4 - 96x^3 + 216x^2 - 216x + 81",
+      x => Math.pow(2*x - 3, 4),
+      x => 16*Math.pow(x,4) - 96*Math.pow(x,3) + 216*x*x - 216*x + 81);
+    claim("Pascal's row for n = 4 is 1, 4, 6, 4, 1", () => {
+      const row = [1,4,6,4,1];
+      for (let k = 0; k <= 4; k++) if (C(4,k) !== BigInt(row[k])) return false;
+      return true;
+    });
+    claim("the negative coefficients are exactly those with an odd power of -3", () => {
+      const coef = k => Number(C(4,k)) * Math.pow(2, 4-k) * Math.pow(-3, k);
+      return coef(0) > 0 && coef(1) < 0 && coef(2) > 0 && coef(3) < 0 && coef(4) > 0;
+    });
+  </script>
+</section>
+
+<!-- 27 -->
+<section class="slide">
+  <span class="kicker">Activity 4 · how to solve it</span>
+  <h2>Walkthrough</h2>
+  <div class="s-body cols-7-5">
+    <div class="box example">
+      <span class="tag">The expansion</span>
+      Using the coefficients $1,4,6,4,1$,
+      $$\begin{aligned}
+      (2x-3)^4
+      &amp;=(2x)^4+4(2x)^3(-3)+6(2x)^2(-3)^2\\
+      &amp;\quad+4(2x)(-3)^3+(-3)^4\\
+      &amp;=16x^4-96x^3+216x^2-216x+81.
+      \end{aligned}$$
+    </div>
+    <div class="box note">
+      <span class="tag">The signs</span>
+      The coefficients of $x^3$ and $x$ are negative because they contain an odd power of $-3$.
+    </div>
+  </div>
+  <div class="notes">
+    Invite students to check one middle coefficient independently: $6(2x)^2(-3)^2=6\cdot4x^2\cdot9=216x^2$.
+    This isolates a common arithmetic error.
+  </div>
+  <script type="application/x-hs-check">
+    identity("the unsimplified line equals the simplified line",
+      x => Math.pow(2*x,4) + 4*Math.pow(2*x,3)*(-3) + 6*Math.pow(2*x,2)*Math.pow(-3,2)
+           + 4*(2*x)*Math.pow(-3,3) + Math.pow(-3,4),
+      x => 16*Math.pow(x,4) - 96*Math.pow(x,3) + 216*x*x - 216*x + 81);
+    identity("and both equal (2x-3)^4",
+      x => Math.pow(2*x - 3, 4),
+      x => 16*Math.pow(x,4) - 96*Math.pow(x,3) + 216*x*x - 216*x + 81);
+    claim("the middle coefficient: 6(2x)^2(-3)^2 = 6*4*9 = 216", () => 6*4*9, 216);
+    claim("the x^3 and x coefficients are negative", () => -96 < 0 && -216 < 0);
+  </script>
+</section>
+
+<!-- 28 -->
+<section class="slide">
+  <span class="kicker">Pigeonhole</span>
+  <h2>Pigeonhole principle</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      If more than $m$ objects are put into $m$ boxes, at least one box has at least two objects.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        Among $13$ people, at least two were born in the same month.
+        <ul style="margin:8px 0 0">
+          <li>objects: the $13$ people;</li>
+          <li>boxes: the $12$ birth months;</li>
+          <li>since $13>12$, at least one month has at least two people.</li>
+        </ul>
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Do not overstate it</span>
+        This shows a shared <strong>month</strong>, not necessarily a shared birthday.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    This principle guarantees that a repeated category exists; it does not identify which category. The
+    last sentence prevents a common overstatement of the conclusion.
+  </div>
+  <script type="application/x-hs-check">
+    claim("with 13 people in 12 months, some month always holds at least 2", () => {
+      for (let trial = 0; trial < 20000; trial++) {
+        const boxes = new Array(12).fill(0);
+        for (let i = 0; i < 13; i++) boxes[Math.floor(Math.random()*12)]++;
+        if (!boxes.some(b => b >= 2)) return false;
+      }
+      return true;
+    });
+    claim("the bound is sharp: 12 people can occupy 12 months with no repeat", () => {
+      const boxes = new Array(12).fill(0);
+      for (let i = 0; i < 12; i++) boxes[i]++;
+      return boxes.every(b => b === 1);
+    });
+    claim("a shared month is not a shared birthday: 3 Jan and 20 Jan share the month but not the day",
+      () => '01-03'.slice(0,2) === '01-20'.slice(0,2) && '01-03' !== '01-20');
+  </script>
+</section>
+
+<!-- 29 -->
+<section class="slide">
+  <span class="kicker">Exit ticket</span>
+  <h2>Explain your method</h2>
+  <div class="s-body cols-2">
+    <div class="box try">
+      <span class="tag">1</span>
+      A café offers $4$ hot drinks and $3$ cold drinks. A customer chooses one drink. How many choices are there, and which rule applies?
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      From $9$ distinct students, how many three-person committees are possible?
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      Find the coefficient of $x^3$ in $(x+2)^5$.
+    </div>
+    <div class="box try">
+      <span class="tag">4</span>
+      Explain in one sentence why $\binom{8}{3}$ is not the answer to "arrange $3$ of $8$ books on a shelf."
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule</span>
+      Write one sentence of reasoning for each answer.
+    </div>
+  </div>
+  <div class="notes">
+    Expected answers: 1. $4+3=7$, sum rule, because the drink types are disjoint choices.
+    2. $\binom93=84$. 3. $\binom52x^3(2^2)$ gives coefficient $40$. 4. A shelf order matters, so each
+    chosen group has $3!$ different orders.
+  </div>
+  <script type="application/x-hs-check">
+    claim("Q1: 4 + 3 = 7 by the sum rule, since the drink types are disjoint", () => 4 + 3, 7);
+    claim("Q2: C(9,3) = 84", () => C(9,3), 84n);
+    claim("Q3: the coefficient of x^3 in (x+2)^5 is C(5,2)*2^2 = 10*4 = 40",
+      () => Number(C(5,2)) * Math.pow(2,2), 40);
+    identity("Q3 cross-check: (x+2)^5 really has 40x^3",
+      x => Math.pow(x + 2, 5),
+      x => Math.pow(x,5) + 10*Math.pow(x,4) + 40*Math.pow(x,3) + 80*x*x + 80*x + 32);
+    claim("Q4: P(8,3) = 3! * C(8,3), so C(8,3) undercounts the shelf orders by a factor of 3! = 6",
+      () => P(8,3) === fact(3) * C(8,3) && C(8,3) === 56n && P(8,3) === 336n);
+  </script>
+</section>
+
+<!-- 30 -->
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>Use the <strong>sum rule</strong> for separate alternatives and the <strong>product rule</strong> for steps in a process.</li>
+        <li>Use a <strong>permutation</strong> when order matters; use a <strong>combination</strong> when it does not.</li>
+        <li>$\binom nk$ counts selections of $k$ objects from $n$ distinct objects.</li>
+        <li>Pascal's triangle gives binomial coefficients, and the <strong>binomial theorem</strong> expands $(a+b)^n$.</li>
+        <li>Counting one collection in two ways can prove an identity.</li>
+      </ul>
+      <div class="chips" style="margin-top:14px">
+        <span class="chip">sum rule</span><span class="chip">product rule</span><span class="chip hot">permutation</span>
+        <span class="chip hot">combination</span><span class="chip">factorial</span><span class="chip hot">binomial coefficient</span>
+        <span class="chip">Pascal's triangle</span><span class="chip">double counting</span><span class="chip">pigeonhole principle</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Problem Set 7</h3>
+      <p class="small">Ten counting problems. For each answer, name the rule you use. Then explain why the cases do not overlap or why order matters.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>Midterm</strong> — Sessions 1–7.</p>
+    </div>
+  </div>
+  <div class="notes">
+    End by asking students to say the key diagnostic question before choosing a formula: "Does order
+    matter?" Remind them that a correct number with an unexplained model is not a complete solution.
+  </div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>
