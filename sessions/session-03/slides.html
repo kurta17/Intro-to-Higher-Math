@@ -37,9 +37,9 @@
   </div>
   <div class="notes">
     Ask the box before you answer it, and let them commit out loud. Most of the room says yes.
-    The honest answer is "not yet — you have given me a rule and no sets", and by the end of the
+    A more precise answer is "not completely specified — you have given me a rule but not its domain and codomain", and by the end of the
     first hour they will see that the same rule $x^2$ is four different functions depending on the
-    sets you attach. Also flag the sets link: a function will turn out to be a special subset of
+    sets you attach. Also flag the sets link: a function has a graph that is a special subset of
     $A \times B$, so yesterday was not a detour.
   </div>
 </section>
@@ -79,7 +79,7 @@
         <li>a <strong>codomain</strong> $B$</li>
         <li>a rule giving <strong>each</strong> $a \in A$ <strong>exactly one</strong> $f(a) \in B$</li>
       </ul>
-      Equivalently $f \subseteq A \times B$, with each $a$ in exactly one pair.
+      Its <strong>graph</strong> is a subset of $A \times B$, with each $a$ occurring in exactly one pair.
     </div>
     <div class="stack">
       <div class="box example">
@@ -89,7 +89,7 @@
       <div class="box pitfall">
         <span class="tag">Is not</span>
         <p>$g : \mathbb{R} \to \mathbb{R}$, $g(x) = 1/x$: nothing at $x = 0$. <em>Not total.</em></p>
-        <p style="margin-bottom:0">$h : \mathbb{R} \to \mathbb{R}$, $h(x) = \pm\sqrt{x}$: two values at $4$, none at $-1$. <em>Not single-valued.</em></p>
+        <p style="margin-bottom:0">The relation $y^2=x$ on $\mathbb{R}$: two possible $y$ values when $x=4$, and none when $x=-1$. <em>Not a function.</em></p>
       </div>
     </div>
   </div>
@@ -108,9 +108,9 @@
       return true;
     });
     claim("1/x is not total on R: there is no value at x = 0", () => !isFinite(1 / 0));
-    counterexample("x -> ±sqrt(x) has no real value at x = -1",
+    counterexample("the relation y²=x has no real output at x = -1",
       x => isFinite(Math.sqrt(x)), -1);
-    claim("x -> ±sqrt(x) is not single-valued: 2 and -2 both square to 4",
+    claim("the relation y²=x is not single-valued at x = 4: 2 and -2 both work",
       () => 2 * 2 === 4 && (-2) * (-2) === 4 && 2 !== -2);
   </script>
 </section>
@@ -315,7 +315,7 @@
         <ol>
           <li>$f : \mathbb{Z} \to \mathbb{Z}$, $f(n) = 2n + 1$</li>
           <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^3$</li>
-          <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^3 - x$</li>
+          <li>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$</li>
           <li>$f : \mathbb{N} \to \mathbb{N}$, $f(n) = n + 1$</li>
           <li>$f : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$, $f(a,b) = a - b$</li>
           <li>$f : \mathbb{R} \to (0, \infty)$, $f(x) = 2^x$</li>
@@ -326,11 +326,11 @@
   </div>
   <div class="notes">
     Answers: (1) injective, not surjective — $2n+1$ is always odd so $2$ is missed. (2) bijective, inverse
-    $\sqrt[3]{y}$. (3) surjective, not injective — $f(-1) = f(0) = f(1) = 0$. (4) injective, not surjective —
+    $\sqrt[3]{y}$. (3) neither — $f(-1) = f(1)$, while $-1$ is missed. (4) injective, not surjective —
     with $\mathbb{N}$ starting at $1$, nothing maps to $1$. (5) surjective via $(k,0)$, not injective since
     $f(1,1) = f(2,2)$. (6) bijective, inverse $\log_2 y$.
-    Item 3 is the one to take to the board: surjectivity here needs a value-crossing argument, not a formula,
-    and it is fine to say "we will justify this properly once we have continuity". Item 4 will start an
+    Item 3 is the one to take to the board: it shows that one counterexample can settle injectivity, and one
+    missed codomain value can settle surjectivity. Item 4 will start an
     argument about whether $0 \in \mathbb{N}$ — settle it by convention and point out the verdict changes.
   </div>
   <script type="application/x-hs-check">
@@ -340,17 +340,12 @@
       n => 2 * n + 1 < 2 * (n + 1) + 1, { lo: -300, hi: 300 });
     identity("(2) x^3 is inverted by the cube root, so it is a bijection on R",
       x => Math.cbrt(x * x * x), x => x);
-    counterexample("(3) x^3-x is not injective: f(0) = f(1) = 0",
-      ([a, b]) => ((a*a*a - a) === (b*b*b - b)) === (a === b), [0, 1]);
-    claim("(3) x^3-x is surjective: bisection finds a preimage for random targets", () => {
-      const f = x => x*x*x - x;
-      for (let i = 0; i < 200; i++) {
-        const y = Math.random() * 200 - 100;
-        let lo = -10, hi = 10;
-        while (f(lo) > y) lo -= 10;
-        while (f(hi) < y) hi += 10;
-        for (let k = 0; k < 200; k++) { const m = (lo + hi) / 2; if (f(m) < y) lo = m; else hi = m; }
-        if (Math.abs(f((lo + hi) / 2) - y) > 1e-6) return false;
+    counterexample("(3) x² is not injective: f(-1) = f(1)",
+      ([a, b]) => (a * a === b * b) === (a === b), [-1, 1]);
+    claim("(3) x² is not surjective onto R: -1 is missed", () => {
+      for (let i = 0; i < 5000; i++) {
+        const x = Math.random() * 200 - 100;
+        if (x * x === -1) return false;
       }
       return true;
     });
@@ -692,7 +687,7 @@
 
 <section class="slide">
   <span class="kicker">Concept II · trigonometry</span>
-  <h2>Periodic means never injective — so we restrict until it is</h2>
+  <h2>Periodicity gives repeated outputs</h2>
   <div class="s-body">
     <table class="small">
       <tr><th>$f$</th><th>Domain</th><th>Image</th><th>Period</th><th>Injective there?</th></tr>
@@ -703,7 +698,7 @@
     <div class="cols-2" style="margin-top:14px">
       <div class="box def">
         <span class="tag">Definition</span>
-        $p &gt; 0$ is a <strong>period</strong> of $f$ if $f(\theta + p) = f(\theta)$ for every $\theta$. "The" period is the smallest such $p$.
+        $p &gt; 0$ is a <strong>period</strong> of $f$ if $f(\theta + p) = f(\theta)$ for every $\theta$. When there is a smallest positive one, it is the <strong>fundamental period</strong>.
       </div>
       <div class="box example">
         <span class="tag">The restriction trick, again</span>

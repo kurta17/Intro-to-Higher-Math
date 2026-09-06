@@ -172,7 +172,7 @@
 
 <section class="slide">
   <span class="kicker">Roadmap</span>
-  <h2>Fifteen sessions, one argument</h2>
+  <h2>The course, week by week</h2>
   <div class="s-body cols-3 small">
     <div class="card">
       <h3>Week 1 · Language</h3>
@@ -292,7 +292,7 @@
     <div class="stack">
       <div class="box def">
         <span class="tag">Definition</span>
-        $P \Longrightarrow Q$ asserts that there is no case in which $P$ holds and $Q$ fails. When $P$ is false the implication is true — <em>vacuously</em>.
+        $P \Longrightarrow Q$ says: whenever $P$ is true, $Q$ must be true too. The only way it can fail is if $P$ is true and $Q$ is false.
       </div>
       <div class="box pitfall">
         <span class="tag">Trap</span>
@@ -302,7 +302,8 @@
   </div>
   <div class="notes">
     Three minutes. They will meet all of this properly in Session 5; today they only need to read it.
-    The vacuous-truth line always gets a reaction — promise them it will make sense in week one and move on.
+    Do not introduce technical names for the truth table here. Students only need the practical test: an
+    implication is broken by an example where the first part is true and the second is false.
     The last two rows are here because nothing else in the course stops to teach them: set-builder
     notation over N, Z, Q, R is used from tomorrow morning, and sigma appears in Session 6's induction
     proofs. Read both aloud, in words, once.
@@ -328,7 +329,7 @@
 
 <section class="slide">
   <span class="kicker">Refresher · 1</span>
-  <h2>Every rule is a theorem with a hypothesis</h2>
+  <h2>Rules come with conditions</h2>
   <div class="s-body cols-2">
     <div class="stack">
       <div class="box thm" data-proof="Session 4, once real exponents are defined through exp and log">
@@ -379,7 +380,7 @@
     <div class="activity">
       <header><span>Activity 1</span><span class="who">groups of three</span><span class="time">12 min</span></header>
       <div class="a-body">
-        Every statement below is false as written. For each one, give a counterexample, then repair it by adding the <strong>smallest</strong> hypothesis that makes it true — or argue that it cannot be repaired.
+        Each line below is wrong as written, or is not defined for all real inputs. For each one, give a counterexample, then add a condition that makes a correct statement — or explain why no such simple repair works.
         <ol>
           <li>$(a^m)^n = a^{mn}$</li>
           <li>$\sqrt{x^2} = x$</li>
@@ -494,10 +495,10 @@
 
 <section class="slide">
   <span class="kicker">Refresher · 3</span>
-  <h2>Order is three axioms; the rest is theorems</h2>
+  <h2>Three order rules explain the moves</h2>
   <div class="s-body cols-2">
     <div class="box def">
-      <span class="tag">Order axioms</span>
+      <span class="tag">Rules we will use</span>
       For all real $a, b, c$:
       <ol style="margin-top:6px">
         <li>exactly one of $a &lt; b$, $a = b$, $b &lt; a$ holds;</li>
@@ -506,26 +507,27 @@
       </ol>
     </div>
     <div class="box proof">
-      <span class="tag">Everything else is derived</span>
+      <span class="tag">A useful consequence</span>
       Claim: $a &lt; b \Longrightarrow -b &lt; -a$.
       By (2) add $-a-b$ to both sides of $a &lt; b$:
       $$a - a - b &lt; b - a - b \;\Longrightarrow\; -b &lt; -a$$
-      No new rule was needed. This is what "axiomatic approach" means.
+      No new inequality rule was needed: adding the same number, then reversing signs, was enough.
     </div>
   </div>
   <div class="notes">
-    This is the most academic slide of the day and it is worth ten minutes. The message: you were handed a list of
-    inequality rules; there are only three, and the list was theorems. Session 5 makes this a method.
+    This is the most abstract slide of the day and it is worth ten minutes. The message is modest but useful:
+    familiar inequality moves have reasons. We will return to the formal foundations of the real numbers later;
+    today, students should be able to name the rule that justifies a move.
   </div>
   <script type="application/x-hs-check">
-    claim("axiom (2): a < b implies a+c < b+c", () => {
+    claim("rule (2): a < b implies a+c < b+c", () => {
       for (let i = 0; i < 3000; i++) {
         const a = Math.random()*20-10, b = Math.random()*20-10, c = Math.random()*20-10;
         if (a < b && !(a + c < b + c)) return false;
       }
       return true;
     });
-    claim("axiom (3): a < b and c > 0 implies ac < bc", () => {
+    claim("rule (3): a < b and c > 0 implies ac < bc", () => {
       for (let i = 0; i < 3000; i++) {
         const a = Math.random()*20-10, b = Math.random()*20-10, c = Math.random()*10 + 1e-6;
         if (a < b && !(a * c < b * c)) return false;
@@ -544,20 +546,20 @@
 
 <section class="slide">
   <span class="kicker">Refresher · 3</span>
-  <h2>What you may and may not do</h2>
+  <h2>Rules for working with inequalities</h2>
   <div class="s-body">
     <table>
-      <tr><th>Operation on $a &lt; b$</th><th>Legal?</th><th>Traceable to</th></tr>
-      <tr><td>Add $c$ to both sides</td><td>Always</td><td>axiom (2)</td></tr>
-      <tr><td>Multiply by $c &gt; 0$</td><td>Always</td><td>axiom (3)</td></tr>
-      <tr><td>Multiply by $c &lt; 0$</td><td>Only if you flip</td><td>(3) applied to $-c$</td></tr>
-      <tr><td>Multiply by an unknown $x$</td><td><strong>No</strong></td><td>sign of $x$ unknown — split cases</td></tr>
-      <tr><td>Square both sides</td><td>Only if both are $\geq 0$</td><td>$-3 &lt; 2$ but $9 &gt; 4$</td></tr>
+      <tr><th>Move</th><th>Result</th><th>Reason</th></tr>
+      <tr><td>Add $c$ to both sides</td><td>Same direction</td><td>Adding preserves order</td></tr>
+      <tr><td>Multiply by $c &gt; 0$</td><td>Same direction</td><td>Positive multiplication preserves order</td></tr>
+      <tr><td>Multiply by $c &lt; 0$</td><td>Reverse the sign</td><td>Negative multiplication reverses order</td></tr>
+      <tr><td>Multiply by an unknown $x$</td><td>Split into cases</td><td>The sign of $x$ is unknown</td></tr>
+      <tr><td>Square both sides</td><td>Check the signs</td><td>$-3 &lt; 2$ but $(-3)^2 &gt; 2^2$</td></tr>
     </table>
     <div class="cols-2" style="margin-top:14px">
       <div class="box example">
-        <span class="tag">Row 3, traced</span>
-        $-2 &lt; 3$. Multiply by $-4$: apply axiom (3) with $c = 4$ to get $-8 &lt; 12$, then negate using $a &lt; b \Rightarrow -b &lt; -a$: $\;8 &gt; -12$.
+        <span class="tag">Worked example</span>
+        Start with $-2 &lt; 3$. Multiplying both sides by $-4$ gives $8$ and $-12$. Because $-4$ is negative, reverse the sign: $\;8 &gt; -12$.
       </div>
       <div class="box pitfall">
         <span class="tag">Classic</span>
@@ -566,13 +568,14 @@
     </div>
   </div>
   <div class="notes">
-    Go row by row and make them supply the third column before you reveal it. The last two rows are the ones they
-    lose marks on all term.
+    Go row by row and make students state what happens before you reveal the answer. Do not refer to
+    numbered axioms: the short explanation in the last column is enough at this point. The last two rows
+    are where most algebra mistakes happen.
   </div>
   <script type="application/x-hs-check">
-    claim("traced example: -2 < 3 multiplied by -4 gives 8 > -12", () => {
+    claim("worked example: -2 < 3 multiplied by -4 gives 8 > -12", () => {
       const a = -2, b = 3, c = -4;
-      return (a < b) && (a * 4 < b * 4) && (a * c > b * c) && a * c === 8 && b * c === -12;
+      return (a < b) && (a * c > b * c) && a * c === 8 && b * c === -12;
     });
     counterexample("squaring is not order-preserving: -3 < 2 but 9 > 4",
       ([a, b]) => (a < b) === (a * a < b * b), [-3, 2]);
@@ -608,9 +611,9 @@
     </div>
   </div>
   <div class="notes">
-    Cards 4 and 6 are the interesting ones. Reciprocals reverse the order only when $a$ and $b$ share a sign
-    ($2 &lt; 3$ gives $\tfrac12 &gt; \tfrac13$, but $-1 &lt; 2$ does not give $-1 &gt; \tfrac12$). Card 6 is always legal and is
-    the general principle behind cards 1 and 2 — if a group finds that, put it on the board.
+    Cards 3, 4 and 6 are the interesting ones. Taking reciprocals needs non-zero numbers of the same sign:
+    $2 &lt; 3$ gives $\tfrac12 &gt; \tfrac13$, while $-1 &lt; 2$ gives no reliable comparison after reciprocals.
+    Card 6 is always legal and is the general principle behind cards 1 and 2 — if a group finds that, put it on the board.
   </div>
   <script type="application/x-hs-check">
     claim("card 6: any strictly increasing f preserves a < b", () => {
@@ -630,6 +633,13 @@
       }
       return true;
     });
+    claim("card 4 also works for a < b < 0: reciprocals reverse", () => {
+      for (let i = 0; i < 2000; i++) {
+        const b = -(Math.random() * 5 + 0.1), a = b - Math.random() * 5 - 0.1;
+        if (!(1/a > 1/b)) return false;
+      }
+      return true;
+    });
   </script>
 </section>
 
@@ -643,7 +653,7 @@
       $$x^2 + \tfrac{b}{a}x = -\tfrac{c}{a}$$
       Complete the square on the left, using $x^2 + \beta x = \left(x + \tfrac{\beta}{2}\right)^2 - \tfrac{\beta^2}{4}$:
       $$\left(x + \tfrac{b}{2a}\right)^{2} = \frac{b^2 - 4ac}{4a^2}$$
-      Take square roots — <em>both</em> of them — and subtract $\tfrac{b}{2a}$:
+      If $b^2-4ac \geq 0$, take <em>both</em> square roots and subtract $\tfrac{b}{2a}$:
       $$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
     </div>
     <div class="box note">
@@ -681,7 +691,7 @@
       <div class="a-body">
         <ol>
           <li>Solve $3x^2 - 12x + 7 = 0$ by completing the square. Do not use the formula.</li>
-          <li>Now close your notes and redo the derivation for a general $ax^2 + bx + c = 0$.</li>
+          <li>In the general derivation, which step gives two possible answers? Explain why both must be kept.</li>
           <li>Write one sentence saying what $b^2 - 4ac$ tells you, and why it tells you that.</li>
         </ol>
         <div class="share"><b>Share:</b> one pair derives the general case at the board while the room checks that every step is an equivalence.</div>
@@ -689,9 +699,10 @@
     </div>
   </div>
   <div class="notes">
-    Answer to (1): $x = 2 \pm \tfrac{\sqrt{15}}{3}$. Most pairs will get the arithmetic and miss step 3 — the
-    "why" is that the discriminant is what sits under the square root, so its sign decides whether a real root
-    exists at all. Collect step 3 in writing; it is a rehearsal for how homework is marked.
+    Answer to (1): $x = 2 \pm \tfrac{\sqrt{15}}{3}$. For (2), the square-root step gives $\pm$; keeping both
+    values is necessary because either may solve the original equation. For (3), the discriminant sits under
+    the square root, so its sign decides whether real roots exist. Collect step 3 in writing; it is a rehearsal
+    for how homework is marked.
   </div>
   <script type="application/x-hs-check">
     claim("Q1: 2 + sqrt(15)/3 solves 3x^2-12x+7 = 0", () => {
