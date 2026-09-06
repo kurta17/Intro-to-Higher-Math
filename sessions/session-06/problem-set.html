@@ -1,0 +1,262 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Problem Set 6 · Intro to Higher Math</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Problem Set 6 — Mathematical induction</h1>
+    <div class="sub">Session 6 · Ordinary induction, strong induction, sums, divisibility, and common errors</div>
+  </div>
+  <div class="meta">
+    <b>Set</b> Mon 14 Sep 2026
+  </div>
+</div>
+
+<div class="rubric">
+  <span class="tag">How to answer</span>
+  <b>Every answer carries one sentence of justification.</b> A value on its own is not a solution — say
+  why it is right. You may discuss problems with anyone and may use AI tools, but you must be able to
+  explain every line you submit.
+</div>
+
+<div class="note-box">
+  <span class="tag">Notation</span>
+  $d\mid N$ means that $N=dq$ for some integer $q$. In words, "$d$ divides $N$" means that $N$ is a
+  multiple of $d$.
+</div>
+
+<div class="note-box">
+  <span class="tag">For each induction proof, make these parts easy to find</span>
+  <ol class="parts" style="list-style:decimal">
+    <li>the statement $P(n)$ and its starting value;</li>
+    <li>the base case;</li>
+    <li>the inductive hypothesis for an arbitrary allowed integer $k$;</li>
+    <li>the inductive step from $P(k)$ to $P(k+1)$;</li>
+    <li>the conclusion by induction.</li>
+  </ol>
+</div>
+
+<h2 class="section-title">Part A · Start with the structure</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Name the three main parts</span></div>
+  <div class="body">
+    For the claim
+    $$1+2+\cdots+n=\frac{n(n+1)}2 \qquad (n\geq1),$$
+    write:
+    <ol class="parts" style="list-style:decimal">
+      <li>the base-case statement $P(1)$;</li>
+      <li>the inductive hypothesis $P(k)$;</li>
+      <li>the exact statement $P(k+1)$ that you must prove.</li>
+    </ol>
+    Do not prove the claim in this question. Write the three statements clearly.
+    <div class="solution"><span class="tag">Solution</span>
+      $$\begin{aligned}
+      P(1):&amp;\quad 1=\frac{1(1+1)}2.\\
+      P(k):&amp;\quad 1+2+\cdots+k=\frac{k(k+1)}2 \quad\text{for some }k\geq1.\\
+      P(k+1):&amp;\quad 1+2+\cdots+k+(k+1)=\frac{(k+1)(k+2)}2.
+      \end{aligned}$$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">Sum of odd numbers</span></div>
+  <div class="body">
+    Prove by induction that, for every integer $n\geq1$,
+    $$1+3+5+\cdots+(2n-1)=n^2.$$
+    In your inductive step, explain why the next term is $2k+1$.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ be
+      $$1+3+5+\cdots+(2n-1)=n^2.$$
+      <p style="margin:8px 0 0"><b>Base case:</b> for $n=1$, the left side is $1$ and the right side is $1^2=1$.</p>
+      <p style="margin:8px 0 0"><b>Inductive hypothesis:</b> let $k\geq1$ and assume</p>
+      $$1+3+\cdots+(2k-1)=k^2.$$
+      The next term is $2(k+1)-1=2k+1$. Therefore
+      $$\begin{aligned}
+      1+3+\cdots+(2k-1)+(2k+1)
+      &amp;=k^2+2k+1\\
+      &amp;=(k+1)^2.
+      \end{aligned}$$
+      This proves $P(k+1)$. By induction, $P(n)$ is true for every integer $n\geq1$. $\square$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">An exponential inequality</span></div>
+  <div class="body">
+    Prove by induction that, for every integer $n\geq0$,
+    $$2^n\geq n+1.$$
+    In the inductive step, state why $2(k+1)\geq k+2$.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ be $2^n\geq n+1$ for $n\geq0$.
+      <p style="margin:8px 0 0"><b>Base case:</b> $2^0=1\geq0+1$.</p>
+      <p style="margin:8px 0 0"><b>Inductive hypothesis:</b> let $k\geq0$ and assume $2^k\geq k+1$. Then</p>
+      $$2^{k+1}=2\cdot2^k\geq2(k+1).$$
+      Because $k\geq0$, we have $2(k+1)=2k+2\geq k+2$. Thus $2^{k+1}\geq k+2$, which is $P(k+1)$.
+      By induction, $2^n\geq n+1$ for every integer $n\geq0$. $\square$
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Write complete proofs</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Divisibility with an exponential</span></div>
+  <div class="body">
+    Prove by induction that, for every integer $n\geq1$,
+    $$5\mid(6^n-1).$$
+    Write the inductive hypothesis in the form $6^k-1=5m$ for some integer $m$. In the next case, end
+    with $5$ times an integer.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ be $5\mid(6^n-1)$ for $n\geq1$.
+      <p style="margin:8px 0 0"><b>Base case:</b> $6^1-1=5=5\cdot1$, so $P(1)$ is true.</p>
+      <p style="margin:8px 0 0"><b>Inductive hypothesis:</b> let $k\geq1$ and assume $6^k-1=5m$ for some integer $m$. Then</p>
+      $$\begin{aligned}
+      6^{k+1}-1
+      &amp;=6\cdot6^k-1\\
+      &amp;=6(6^k-1)+5\\
+      &amp;=6(5m)+5\\
+      &amp;=5(6m+1).
+      \end{aligned}$$
+      Since $6m+1$ is an integer, $5\mid(6^{k+1}-1)$. By induction, $5\mid(6^n-1)$ for every integer $n\geq1$. $\square$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">Sum of squares</span></div>
+  <div class="body">
+    Prove by induction that, for every integer $n\geq1$,
+    $$1^2+2^2+\cdots+n^2=\frac{n(n+1)(2n+1)}6.$$
+    In the inductive step, factor out $k+1$ before simplifying.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ be
+      $$1^2+2^2+\cdots+n^2=\frac{n(n+1)(2n+1)}6$$
+      for $n\geq1$.
+      <p style="margin:8px 0 0"><b>Base case:</b></p>
+      $$1^2=1=\frac{1\cdot2\cdot3}{6}.$$
+      <p style="margin:8px 0 0"><b>Inductive hypothesis:</b> let $k\geq1$ and assume</p>
+      $$1^2+2^2+\cdots+k^2=\frac{k(k+1)(2k+1)}6.$$
+      Then
+      $$\begin{aligned}
+      1^2+\cdots+k^2+(k+1)^2
+      &amp;=\frac{k(k+1)(2k+1)}6+(k+1)^2\\
+      &amp;=\frac{(k+1)\bigl(k(2k+1)+6(k+1)\bigr)}6\\
+      &amp;=\frac{(k+1)(2k^2+7k+6)}6\\
+      &amp;=\frac{(k+1)(k+2)(2k+3)}6.
+      \end{aligned}$$
+      This is the formula with $n=k+1$. By induction, $P(n)$ is true for every integer $n\geq1$. $\square$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">A polynomial is always divisible by $3$</span></div>
+  <div class="body">
+    Prove by induction that, for every integer $n\geq1$,
+    $$3\mid(n^3-n).$$
+    Write the inductive hypothesis in the form $k^3-k=3m$ for some integer $m$.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ be $3\mid(n^3-n)$ for $n\geq1$.
+      <p style="margin:8px 0 0"><b>Base case:</b> $1^3-1=0=3\cdot0$.</p>
+      <p style="margin:8px 0 0"><b>Inductive hypothesis:</b> let $k\geq1$ and assume $k^3-k=3m$ for some integer $m$. Then</p>
+      $$\begin{aligned}
+      (k+1)^3-(k+1)
+      &amp;=(k^3-k)+3k(k+1)\\
+      &amp;=3m+3k(k+1)\\
+      &amp;=3\bigl(m+k(k+1)\bigr).
+      \end{aligned}$$
+      The number in brackets is an integer. Thus $3\mid((k+1)^3-(k+1))$. By induction, $3\mid(n^3-n)$
+      for every integer $n\geq1$. $\square$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">Strong induction — postage using $4$ and $5$</span></div>
+  <div class="body">
+    Prove by <b>strong induction</b> that every integer $n\geq12$ can be written as
+    $$n=4a+5b$$
+    for non-negative integers $a$ and $b$. Here, non-negative means $0,1,2,\ldots$.
+    <ol class="parts" style="list-style:decimal">
+      <li>Show the four base cases $n=12,13,14,15$.</li>
+      <li>For the step, let $k\geq15$ and assume that every integer from $12$ to $k$ has this form.</li>
+      <li>Use the earlier number $k-3$ to prove the result for $k+1$.</li>
+    </ol>
+    State why the strong hypothesis includes $k-3$.
+    <div class="solution"><span class="tag">Solution</span>
+      Let $P(n)$ mean that $n=4a+5b$ for some non-negative integers $a,b$.
+      <p style="margin:8px 0 0"><b>Base cases:</b></p>
+      $$12=3\cdot4,\qquad13=2\cdot4+5,\qquad14=4+2\cdot5,\qquad15=3\cdot5.$$
+      <p style="margin:8px 0 0"><b>Strong inductive hypothesis:</b> let $k\geq15$ and assume that $P(m)$ is true for every integer</p>
+      $m$ with $12\leq m\leq k$. Since $k\geq15$,
+      $$12\leq k-3\leq k.$$
+      So the hypothesis applies to $k-3$. Write $k-3=4a+5b$ for some non-negative integers $a,b$. Then
+      $$k+1=(k-3)+4=4(a+1)+5b.$$
+      The integers $a+1$ and $b$ are non-negative. Thus $P(k+1)$ is true. By strong induction, every
+      integer $n\geq12$ has the required form. $\square$
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part C · Read a proof critically</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">The "all horses have the same colour" error</span></div>
+  <div class="body">
+    Someone tries to prove the false claim below by induction.
+    <div class="note-box" style="margin:8px 0">
+      <span class="tag">The claim</span>
+      <b>Claim $P(n)$:</b> Every group of $n$ horses has horses of only one colour.
+      <p style="margin:8px 0 0"><b>Base case:</b> A group of one horse has only one colour.</p>
+      <p style="margin:6px 0 0"><b>Inductive step:</b> Assume $P(k)$. Take a group of $k+1$ horses. The
+      first $k$ horses have one colour by $P(k)$. The last $k$ horses also have one colour by $P(k)$.
+      These two groups share $k-1$ horses, so all $k+1$ horses have the same colour.</p>
+    </div>
+    Answer all three questions.
+    <ol class="parts" style="list-style:decimal">
+      <li>Which value of $k$ makes the inductive step fail?</li>
+      <li>Why does the "shared horses" sentence fail at this value?</li>
+      <li>Explain why adding more base cases cannot prove the original claim.</li>
+    </ol>
+    <div class="space tall"></div>
+    <div class="solution"><span class="tag">Solution</span>
+      <ol class="parts" style="list-style:decimal">
+        <li>The step fails at $k=1$.</li>
+        <li>At $k=1$, the first group of $k$ horses and the last group of $k$ horses share $k-1=0$
+          horses. There is no shared horse that links the colours of the two one-horse groups.</li>
+        <li>More base cases cannot prove the original claim, because the claim itself is false: a group
+          of two horses can contain horses of different colours. The step from $k=1$ to $k=2$ must be
+          valid, and it is not.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="note-box">
+  <span class="tag">Self-check before submitting</span>
+  <ol class="parts">
+    <li>Did I write the correct starting value for every proof?</li>
+    <li>Did I state an inductive hypothesis for one allowed integer $k$?</li>
+    <li>Did I use that hypothesis in the step?</li>
+    <li>Did I prove the exact next statement, $P(k+1)$?</li>
+    <li>Did I write a conclusion that gives the correct range of $n$?</li>
+  </ol>
+</div>
+
+<div class="foot">
+  <span>Intro to Higher Math · Problem Set 6</span>
+  <span>Kurtanidze · Kereleishvili · Harbour.Space Bangkok</span>
+</div>
+
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/handout.js"></script>

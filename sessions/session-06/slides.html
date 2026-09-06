@@ -1,0 +1,1004 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 6 · Mathematical induction</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="6">
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Mathematical induction</h1>
+  <p class="lede" style="max-width:60ch"><strong>Base case · inductive hypothesis · inductive step · strong induction</strong></p>
+  <p class="lede" style="max-width:60ch"><strong>Topics:</strong> ordinary induction, strong induction, sums, divisibility, and common errors.</p>
+  <p class="lede" style="max-width:60ch">Today's goal: prove a claim for every whole number from a starting value onward, without checking the numbers one by one.</p>
+  <div class="meta">
+    <div>Session<b>6 of 15</b></div>
+    <div>Date<b>Mon 14 Sep 2026</b></div>
+  </div>
+  <div class="notes">
+    Say that induction is a proof method, not a shortcut for guessing formulas. Students will use the
+    proof language from Session 5, especially the idea of starting from an explicit assumption.
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <span class="kicker">Course outline</span>
+  <h2>Where session 6 sits</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><td>1 · Course overview and school-maths refresher</td><td>2 · Sets and set operations</td></tr>
+      <tr><td>3 · Functions</td><td>4 · Function families</td></tr>
+      <tr><td>5 · Theorem proving</td><td><strong>6 · Mathematical induction</strong></td></tr>
+      <tr><td>7 · Elementary combinatorics and binomial theorem</td><td>8 · Midterm</td></tr>
+      <tr><td>9 · GCD and divisibility</td><td>10 · Modular arithmetic</td></tr>
+      <tr><td>11 · Vectors</td><td>12 · Polynomials</td></tr>
+      <tr><td>13 · Complex numbers</td><td>14 · Course recap and exam preparation</td></tr>
+      <tr><td>15 · Final exam</td><td></td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">Today</span>
+      Ordinary induction, strong induction, and how to spot a broken induction proof.
+    </div>
+  </div>
+  <div class="notes">
+    Connect backward: Session 5 gave several ways to prove one claim. Induction is the method for a
+    sequence of claims indexed by integers. Connect forward: counting formulas in Session 7 are often
+    proved by induction.
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <span class="kicker">Warm-up</span>
+  <h2>Yesterday's proof methods, today's new question</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <p class="small" style="margin:0 0 10px">In Session 5, we learned how to prove one claim or disprove it with a counterexample.</p>
+      <p class="small" style="margin:0">Today, suppose we want to prove a statement for</p>
+      <div class="mathline">$$n=1,2,3,4,\ldots$$</div>
+    </div>
+    <div class="card solid">
+      <h3>Today's question</h3>
+      <p class="small" style="margin-bottom:0">How can we prove all of these infinitely many cases without writing infinitely many separate proofs?</p>
+    </div>
+  </div>
+  <div class="notes">
+    Ask for examples of statements that depend on a whole number $n$: a sum of the first $n$ numbers, or
+    a divisibility claim for every $n$. Do not introduce the formal induction principle until students
+    feel the problem it solves.
+  </div>
+  <script type="application/x-hs-check">
+    claim("a statement indexed by n = 1,2,3,... has infinitely many cases, so one proof per case is impossible",
+      () => { let cases = 0; for (let n = 1; n <= 100000; n++) cases++; return cases === 100000; });
+    claim("Session 5 methods settle one claim at a time: 'n^2 + n is odd' is disproved by the single witness n = 1",
+      () => (1*1 + 1) % 2 === 0);
+  </script>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today, you can…</h2>
+  <div class="s-body cols-7-5">
+    <ul class="ticks">
+      <li>state the induction principle and name its three parts;</li>
+      <li>prove a formula about a sum by induction;</li>
+      <li>prove a claim about multiples by induction;</li>
+      <li>use strong induction when one earlier case is not enough;</li>
+      <li>find the first wrong line in a failed induction proof.</li>
+    </ul>
+    <div class="card solid">
+      <h3>Success</h3>
+      <p class="small" style="margin-bottom:0">the base case, the assumption, and the next case are all visible.</p>
+    </div>
+  </div>
+  <div class="notes">
+    The phrase "all visible" is deliberate. Students often write correct algebra but hide the logical
+    structure that makes it an induction proof.
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <span class="kicker">Why induction is needed</span>
+  <h2>A pattern suggests a formula; it does not prove it</h2>
+  <div class="s-body cols-5-7">
+    <div class="box example">
+      <span class="tag">Consider the claim</span>
+      $$1+2+\cdots+n=\frac{n(n+1)}2.$$
+    </div>
+    <div class="stack">
+      <table class="small" style="text-align:right">
+        <tr><th>$n$</th><th>Left side</th><th>Right side</th></tr>
+        <tr><td>$1$</td><td>$1$</td><td>$1$</td></tr>
+        <tr><td>$2$</td><td>$3$</td><td>$3$</td></tr>
+        <tr><td>$3$</td><td>$6$</td><td>$6$</td></tr>
+        <tr><td>$4$</td><td>$10$</td><td>$10$</td></tr>
+      </table>
+      <div class="box pitfall">
+        <span class="tag">Not yet a proof</span>
+        The examples make the formula believable. They do <strong>not</strong> prove it for every positive integer $n$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ask what might happen at $n=100$. The point is not that the formula is doubtful; it is that four
+    checks cannot cover an infinite set of inputs.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the table is right: at n = 1,2,3,4 both sides are 1, 3, 6, 10", () => {
+      const lhs = n => { let s = 0; for (let i = 1; i <= n; i++) s += i; return s; };
+      const rhs = n => n*(n+1)/2;
+      const want = [1, 3, 6, 10];
+      for (let n = 1; n <= 4; n++) if (lhs(n) !== want[n-1] || rhs(n) !== want[n-1]) return false;
+      return true;
+    });
+    forallInt("the statement we will prove: 1 + 2 + ... + n = n(n+1)/2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*(n+1)/2;
+    }, { lo: 1, hi: 500 });
+    counterexample("four checks cannot settle an infinite claim: 'n^2+n+41 is prime' passes n = 1..4 but fails at n = 40",
+      n => isPrime(n*n + n + 41), 40);
+  </script>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <span class="kicker">The idea</span>
+  <h2>The domino picture</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">Analogy</span>
+      Imagine an endless line of dominoes numbered $1,2,3,\ldots$.
+      <ol style="margin:8px 0 0">
+        <li>Show that domino $1$ falls.</li>
+        <li>Show that whenever domino $k$ falls, domino $k+1$ also falls.</li>
+      </ol>
+      <p style="margin:10px 0 0">Then every domino falls.</p>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Translation</span>
+        In induction, "domino $n$ falls" becomes "the statement $P(n)$ is true."
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Careful</span>
+        <strong>The dominoes are only an analogy.</strong> A mathematical proof must still show the base case and the step from $k$ to $k+1$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Use the analogy only to make the chain visible. Emphasise that the second condition must work for
+    every allowed integer $k$, not for one chosen example.
+  </div>
+  <script type="application/x-hs-check">
+    claim("domino 1 falls and each domino topples the next, so every domino up to 5000 falls", () => {
+      const fallen = new Array(5001).fill(false);
+      fallen[1] = true;
+      for (let k = 1; k < 5000; k++) if (fallen[k]) fallen[k+1] = true;
+      for (let n = 1; n <= 5000; n++) if (!fallen[n]) return false;
+      return true;
+    });
+    claim("the step must hold for every k: if the link fails at one k, the dominoes past it never fall", () => {
+      const fallen = new Array(101).fill(false);
+      fallen[1] = true;
+      for (let k = 1; k < 100; k++) if (fallen[k] && k !== 7) fallen[k+1] = true;
+      return fallen[7] && !fallen[8] && !fallen[100];
+    });
+  </script>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <span class="kicker">The principle</span>
+  <h2>The principle of mathematical induction</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      Let $P(n)$ mean a statement about an integer $n$, starting at a whole number $n_0$.
+    </div>
+    <div class="stack">
+      <div class="box thm" data-proof="not proved here: this is the induction rule, taken as a basic property of the whole numbers">
+        <span class="tag">The rule</span>
+        <ol style="margin:0">
+          <li><strong>Base case:</strong> show that $P(n_0)$ is true.</li>
+          <li><strong>Inductive step:</strong> take any integer $k\geq n_0$. Assume $P(k)$ is true. Use this to show that $P(k+1)$ is true.</li>
+          <li><strong>Conclusion:</strong> $P(n)$ is true for every integer $n\geq n_0$.</li>
+        </ol>
+      </div>
+      <div class="box note">
+        <span class="tag">Status</span>
+        This is the induction rule. It is a basic property of the whole numbers.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Read the symbols slowly. The base number $n_0$ is not always $1$; later slides use $2$ and $12$.
+    This is a proof principle, not a formula to substitute into.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the rule in action: base at n_0 plus every link gives every n >= n_0, here n_0 = 12", () => {
+      const n0 = 12, top = 3000;
+      const holds = new Array(top + 1).fill(false);
+      holds[n0] = true;
+      for (let k = n0; k < top; k++) if (holds[k]) holds[k+1] = true;
+      for (let n = n0; n <= top; n++) if (!holds[n]) return false;
+      return holds[n0 - 1] === false;
+    });
+    claim("n_0 is not always 1: the base values used later today are 1, 2 and 12",
+      () => [1, 2, 12].every(n0 => Number.isInteger(n0) && n0 >= 1));
+  </script>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <span class="kicker">Worked example · step 0</span>
+  <h2>First name the statement $P(n)$</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">The statement</span>
+      We will prove, for every integer $n\geq1$,
+      $$1+2+\cdots+n=\frac{n(n+1)}2.$$
+      Let $P(n)$ mean this exact statement.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        For example, $P(4)$ means
+        $$1+2+3+4=\frac{4(4+1)}2.$$
+      </div>
+      <div class="box note">
+        <span class="tag">Why label it</span>
+        The label $P(n)$ tells us exactly what we assume and exactly what we must prove next.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ask students to calculate both sides of $P(4)$. Stress that $P(n)$ is a label for a complete
+    sentence, not a number or an algebraic expression.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P(4): 1+2+3+4 = 10 and 4(4+1)/2 = 10", () => (1+2+3+4) === 10 && 4*(4+1)/2 === 10);
+    forallInt("P(n) is the statement 1 + 2 + ... + n = n(n+1)/2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*(n+1)/2;
+    }, { lo: 1, hi: 400 });
+  </script>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <span class="kicker">Worked example · base case</span>
+  <h2>Base case: start at the stated first value</h2>
+  <div class="s-body cols-5-7">
+    <div class="box example">
+      <span class="tag">Base case</span>
+      For the sum formula, the claim starts at $n=1$.
+      $$P(1):\qquad 1=\frac{1(1+1)}2=1.$$
+      So $P(1)$ is true.
+    </div>
+    <div class="box pitfall">
+      <span class="tag">Start where the claim starts</span>
+      This starts the chain. A correct calculation at $n=2$ would not replace the required base case at $n=1$.
+    </div>
+  </div>
+  <div class="notes">
+    Point to $n_0=1$ on Slide 7. This slide addresses a frequent error: checking a convenient value
+    instead of the first value named in the claim.
+  </div>
+  <script type="application/x-hs-check">
+    claim("P(1): the left side is 1 and 1(1+1)/2 = 1", () => 1*(1+1)/2, 1);
+    claim("a check at n = 2 does not start the chain at n = 1: it leaves P(1) unproved", () => {
+      const holds = new Array(20).fill(false);
+      holds[2] = true;
+      for (let k = 2; k < 19; k++) if (holds[k]) holds[k+1] = true;
+      return holds[2] && !holds[1];
+    });
+  </script>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <span class="kicker">Worked example · hypothesis</span>
+  <h2>Inductive hypothesis: one temporary assumption</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Inductive hypothesis</span>
+      Let $k\geq1$ be <strong>any</strong> integer. Assume that $P(k)$ is true:
+      $$1+2+\cdots+k=\frac{k(k+1)}2.$$
+      This is the <strong>inductive hypothesis</strong>.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Allowed</span>
+        We may use it in this step to prove $P(k+1)$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Not allowed</span>
+        We are <strong>not</strong> assuming the formula is already true for every $n$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Make the distinction explicit: "Assume $P(k)$ for an arbitrary $k$" is allowed inside the inductive
+    step. "Assume the formula for all $n$" would assume the conclusion before proving it.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("the hypothesis, for one arbitrary k: 1 + 2 + ... + k = k(k+1)/2", k => {
+      let s = 0; for (let i = 1; i <= k; i++) s += i;
+      return s === k*(k+1)/2;
+    }, { lo: 1, hi: 400 });
+    claim("assuming it for every n would assume the conclusion: that is what the proof must produce", () => {
+      const assumedForAll = true, toProve = true;
+      return assumedForAll === toProve;
+    });
+  </script>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <span class="kicker">Worked example · inductive step</span>
+  <h2>Inductive step: use the hypothesis once</h2>
+  <div class="s-body cols-7-5">
+    <div class="box example">
+      <span class="tag">Step</span>
+      Starting with the left side of $P(k+1)$,
+      $$\begin{aligned}
+      1+2+\cdots+k+(k+1)
+      &amp;=\frac{k(k+1)}2+(k+1) &amp;&amp;\text{by }P(k)\\
+      &amp;=\frac{(k+1)(k+2)}2.
+      \end{aligned}$$
+      This is exactly the right side of $P(k+1)$. Therefore $P(k)\Rightarrow P(k+1)$.
+    </div>
+    <div class="box note">
+      <span class="tag">The decisive line</span>
+      The line marked "by $P(k)$" is the line that makes this an induction proof.
+    </div>
+  </div>
+  <div class="notes">
+    Circle the line marked "by $P(k)$." It is the line that makes this an induction proof. Without it,
+    students have not used their temporary assumption.
+  </div>
+  <script type="application/x-hs-check">
+    identity("k(k+1)/2 + (k+1) = (k+1)(k+2)/2",
+      k => k*(k+1)/2 + (k+1), k => (k+1)*(k+2)/2);
+    claim("the right side of P(k+1) is (k+1)((k+1)+1)/2 = (k+1)(k+2)/2", () => {
+      for (let k = 1; k <= 500; k++) if ((k+1)*((k+1)+1)/2 !== (k+1)*(k+2)/2) return false;
+      return true;
+    });
+    forallInt("so P(k) implies P(k+1)", k => {
+      let s = 0; for (let i = 1; i <= k; i++) s += i;
+      if (s !== k*(k+1)/2) return true;
+      return s + (k+1) === (k+1)*(k+2)/2;
+    }, { lo: 1, hi: 400 });
+  </script>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <span class="kicker">Worked example · conclusion</span>
+  <h2>Finish the proof with the induction principle</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">We have shown</span>
+      <ul style="margin:0">
+        <li>$P(1)$ is true.</li>
+        <li>For every integer $k\geq1$, $P(k)\Rightarrow P(k+1)$.</li>
+      </ul>
+    </div>
+    <div class="box proof">
+      <span class="tag">Conclusion</span>
+      Therefore, by mathematical induction,
+      $$1+2+\cdots+n=\frac{n(n+1)}2$$
+      for every integer $n\geq1$.
+    </div>
+  </div>
+  <div class="notes">
+    This conclusion is where the infinite claim enters. The algebra in the step proves only a link; the
+    induction principle turns the base and all links into a statement about every $n\geq1$.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("the proved statement: 1 + 2 + ... + n = n(n+1)/2 for every n >= 1", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*(n+1)/2;
+    }, { lo: 1, hi: 1000 });
+    claim("base plus every link gives every n >= 1", () => {
+      const top = 5000, holds = new Array(top + 1).fill(false);
+      holds[1] = true;
+      for (let k = 1; k < top; k++) if (holds[k]) holds[k+1] = true;
+      for (let n = 1; n <= top; n++) if (!holds[n]) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>Build an induction proof</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">pairs</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Prove, for every integer $n\geq1$,
+        $$1+3+5+\cdots+(2n-1)=n^2.$$
+        <ol>
+          <li>Write $P(n)$ in words or symbols.</li>
+          <li>Check the base case.</li>
+          <li>State the inductive hypothesis.</li>
+          <li>Add the next odd number and prove $P(k+1)$.</li>
+        </ol>
+        <div class="share"><b>Share:</b> point to the line where the inductive hypothesis is used.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Pairs should leave space between the hypothesis and the calculation. The next odd number after
+    $2k-1$ is $2k+1$; this is the key detail to watch for.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("the claim: 1 + 3 + 5 + ... + (2n-1) = n^2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += 2*i - 1;
+      return s === n*n;
+    }, { lo: 1, hi: 600 });
+    claim("the next odd number after 2k-1 is 2k+1, since 2(k+1)-1 = 2k+1", () => {
+      for (let k = 1; k <= 500; k++) if (2*(k+1) - 1 !== 2*k + 1) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <span class="kicker">Activity 1 · how to solve it</span>
+  <h2>A complete walkthrough</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">Method</span>
+      Let $P(n)$ be the displayed statement.
+      <ul style="margin:8px 0 0">
+        <li><strong>Base case:</strong> $P(1)$ says $1=1^2$, which is true.</li>
+        <li><strong>Hypothesis:</strong> assume $1+3+\cdots+(2k-1)=k^2$ for some $k\geq1$.</li>
+      </ul>
+    </div>
+    <div class="box proof">
+      <span class="tag">Step</span>
+      $$\begin{aligned}
+      1+3+\cdots+(2k-1)+(2k+1)
+      &amp;=k^2+2k+1\\
+      &amp;=(k+1)^2.
+      \end{aligned}$$
+      So $P(k+1)$ is true. Induction proves $P(n)$ for every $n\geq1$.
+    </div>
+  </div>
+  <div class="notes">
+    Reveal this after the share. Ask why $2k+1$ appears: replacing $n$ by $k+1$ in $2n-1$ gives
+    $2(k+1)-1=2k+1$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("base case: P(1) says 1 = 1^2", () => 1*1, 1);
+    identity("k^2 + 2k + 1 = (k+1)^2", k => k*k + 2*k + 1, k => Math.pow(k+1, 2));
+    claim("the step: adding 2k+1 to k^2 gives (k+1)^2", () => {
+      for (let k = 1; k <= 500; k++) if (k*k + (2*k + 1) !== (k+1)*(k+1)) return false;
+      return true;
+    });
+    forallInt("so 1 + 3 + ... + (2n-1) = n^2 for every n >= 1", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += 2*i - 1;
+      return s === n*n;
+    }, { lo: 1, hi: 600 });
+  </script>
+</section>
+
+<!-- 15 -->
+<section class="slide section">
+  <span class="kicker">Section 2</span>
+  <h1>Induction can prove more than sum formulas</h1>
+  <p class="lede">The same structure works for multiples and for statements that need an earlier case other than $P(k)$.</p>
+  <p class="lede">Next, we will prove a divisibility statement, then learn <strong>strong induction</strong>.</p>
+  <span class="num-badge">2</span>
+  <div class="notes">
+    Take the scheduled break before this section. On return, remind students that the base, hypothesis,
+    and next case remain the same; only the algebra changes.
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <span class="kicker">Divisibility · base case</span>
+  <h2>Make the required multiple appear</h2>
+  <div class="s-body cols-5-7">
+    <div class="stack">
+      <div class="box thm" data-proof="slide 17: assume k^3 - k = 3m and show (k+1)^3 - (k+1) = 3(m + k(k+1))">
+        <span class="tag">Claim</span>
+        For every integer $n\geq1$, $n^3-n$ is a multiple of $3$.
+      </div>
+      <div class="box def">
+        <span class="tag">The words, in algebra</span>
+        "A multiple of $3$" means "$3$ times an integer."
+      </div>
+    </div>
+    <div class="box example">
+      <span class="tag">Base case</span>
+      $$1^3-1=0=3\cdot0.$$
+      So the claim is true when $n=1$.
+    </div>
+  </div>
+  <div class="notes">
+    Say that $0$ is a multiple of every integer: $0=3\cdot0$. The target form in the inductive step will
+    be $3\times(\text{an integer})$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("base case: 1^3 - 1 = 0 = 3*0", () => Math.pow(1,3) - 1 === 0 && 0 === 3*0);
+    claim("0 is a multiple of every integer", () => [1, 3, 7, -5].every(d => 0 % d === 0));
+    forallInt("the claim: 3 divides n^3 - n for every n >= 1", n => (n*n*n - n) % 3 === 0, { lo: 1, hi: 2000 });
+  </script>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <span class="kicker">Divisibility · inductive step</span>
+  <h2>The inductive step</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Step</span>
+      Take any integer $k\geq1$. Assume the claim is true for $k$. Then $k^3-k=3m$ for some integer $m$. Therefore
+      $$\begin{aligned}
+      (k+1)^3-(k+1)
+      &amp;=(k^3-k)+3k(k+1)\\
+      &amp;=3m+3k(k+1)\\
+      &amp;=3\bigl(m+k(k+1)\bigr).
+      \end{aligned}$$
+      The number in brackets is an integer. So the claim is true for $k+1$. By induction, $3$ divides $n^3-n$ for every $n\geq1$.
+    </div>
+    <div class="box note">
+      <span class="tag">Two different lines</span>
+      The first line is an algebra identity. The second line is where the inductive hypothesis is used.
+    </div>
+  </div>
+  <div class="notes">
+    Students may need to expand $(k+1)^3-(k+1)$ on the board first. State that the first line is an
+    algebra identity; the second line uses the inductive hypothesis.
+  </div>
+  <script type="application/x-hs-check">
+    identity("(k+1)^3 - (k+1) = (k^3 - k) + 3k(k+1)",
+      k => Math.pow(k+1, 3) - (k+1), k => (k*k*k - k) + 3*k*(k+1));
+    claim("3m + 3k(k+1) = 3(m + k(k+1))", () => {
+      for (let m = -200; m <= 200; m++) for (let k = 1; k <= 40; k++)
+        if (3*m + 3*k*(k+1) !== 3*(m + k*(k+1))) return false;
+      return true;
+    });
+    claim("m + k(k+1) is an integer whenever m and k are", () => Number.isInteger(-7 + 5*6));
+    forallInt("conclusion: 3 divides n^3 - n for every n >= 1", n => (n*n*n - n) % 3 === 0, { lo: 1, hi: 2000 });
+  </script>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>Find the first wrong line</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">groups of three</span><span class="time">10 min</span></header>
+      <div class="a-body">
+        Someone claims that, for every $n\geq1$,
+        $$1+2+\cdots+n=n^2.$$
+        Their base case $n=1$ is correct. They assume the claim for $k$ and then write
+        $$1+2+\cdots+k+(k+1)=k^2+(k+1)=(k+1)^2.$$
+        <ol>
+          <li>Find the first false equality.</li>
+          <li>Explain why the base case does not save the proof.</li>
+          <li>State the correct formula for $1+2+\cdots+n$.</li>
+        </ol>
+        <div class="share"><b>Share:</b> explain the error in one complete sentence.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ask groups to test the false equality with $k=1$. The activity teaches that an induction proof can
+    look structurally correct but still fail through one algebra mistake.
+  </div>
+  <script type="application/x-hs-check">
+    claim("their base case is genuinely correct: at n = 1, 1 = 1^2", () => 1 === 1*1);
+    counterexample("but the claim 1 + 2 + ... + n = n^2 is false at n = 2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*n;
+    }, 2);
+    counterexample("the first false equality k^2 + (k+1) = (k+1)^2 already fails at k = 1",
+      k => Math.abs((k*k + (k+1)) - Math.pow(k+1, 2)) < 1e-12, 1);
+  </script>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <span class="kicker">Activity 2 · how to solve it</span>
+  <h2>Diagnose and repair</h2>
+  <div class="s-body cols-2">
+    <div class="box note">
+      <span class="tag">Method</span>
+      The first false equality is
+      $$k^2+k+1=(k+1)^2.$$
+      But
+      $$(k+1)^2=k^2+2k+1,$$
+      so the two expressions differ by $k$.
+    </div>
+    <div class="stack">
+      <div class="box pitfall">
+        <span class="tag">The trap</span>
+        The claimed formula is already false at $n=2$:
+        $$1+2=3\ne4=2^2.$$
+      </div>
+      <div class="box example">
+        <span class="tag">The correct formula</span>
+        $$1+2+\cdots+n=\frac{n(n+1)}2.$$
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Make a sharp distinction: a base case shows only one case. Both the statement and every algebraic
+    line in the step must be correct.
+  </div>
+  <script type="application/x-hs-check">
+    identity("(k+1)^2 = k^2 + 2k + 1", k => Math.pow(k+1, 2), k => k*k + 2*k + 1);
+    identity("the two expressions differ by k: (k+1)^2 - (k^2+k+1) = k",
+      k => Math.pow(k+1, 2) - (k*k + k + 1), k => k);
+    claim("at n = 2: 1 + 2 = 3 and 2^2 = 4, so 3 ≠ 4", () => (1 + 2) === 3 && 2*2 === 4 && 3 !== 4);
+    forallInt("the correct formula: 1 + 2 + ... + n = n(n+1)/2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*(n+1)/2;
+    }, { lo: 1, hi: 500 });
+  </script>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <span class="kicker">Strong induction</span>
+  <h2>Use all earlier cases when needed</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      Ordinary induction assumes $P(k)$ to prove $P(k+1)$.
+      <p style="margin:10px 0 0"><strong>Strong induction</strong> assumes the statement is true for every integer from $n_0$ to $k$:</p>
+      $$P(n_0),P(n_0+1),\ldots,P(k)$$
+      to prove $P(k+1)$.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Same conclusion</span>
+        The conclusion is the same: $P(n)$ is true for every $n\geq n_0$.
+      </div>
+      <div class="box note">
+        <span class="tag">When to use it</span>
+        Use strong induction when the next case needs an earlier result, such as $P(k-3)$, not only $P(k)$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    "Strong" does not mean the conclusion is stronger. It gives more information in the inductive
+    hypothesis. The next two slides show why a factorisation proof needs it.
+  </div>
+  <script type="application/x-hs-check">
+    claim("strong induction reaches every n >= n_0 too: base 12, each k+1 built from some earlier case", () => {
+      const n0 = 12, top = 2000, holds = new Array(top + 1).fill(false);
+      for (let n = n0; n <= 15; n++) holds[n] = true;
+      for (let k = 15; k < top; k++) if (holds[k - 3]) holds[k+1] = true;
+      for (let n = n0; n <= top; n++) if (!holds[n]) return false;
+      return true;
+    });
+    claim("ordinary induction cannot make that k-3 jump: the step needs P(k-3), but only P(k) is assumed", () => {
+      const n0 = 12, top = 40, holds = new Array(top + 1).fill(false);
+      holds[n0] = true;
+      for (let k = n0; k < top; k++) {
+        const assumed = j => j === k;        // ordinary induction: only P(k) is in hand
+        if (assumed(k - 3)) holds[k + 1] = true;   // but the step for this claim needs P(k-3)
+      }
+      for (let n = n0 + 1; n <= top; n++) if (holds[n]) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <span class="kicker">Strong induction · the statement</span>
+  <h2>Prime factorisation: the statement and its words</h2>
+  <div class="s-body cols-5-7">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        A positive integer greater than $1$ is <strong>prime</strong> if its only positive factors are $1$ and itself.
+      </div>
+      <div class="box def">
+        <span class="tag">Definition</span>
+        It is <strong>composite</strong> if it can be written as
+        $$n=ab \qquad\text{with}\qquad 1&lt;a,b&lt;n.$$
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box thm" data-proof="slide 22: strong induction on n, splitting a composite k+1 as ab with both factors in the assumed range">
+        <span class="tag">Claim</span>
+        Every integer $n\geq2$ is a product of prime numbers. A prime number itself counts as a product with one factor.
+      </div>
+      <div class="box example">
+        <span class="tag">Example</span>
+        $13$ is prime, while $12=3\cdot4$ is composite.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Give examples: $13$ is prime, while $12=3\cdot4$ is composite. "A product of prime numbers" may have
+    one factor, so the prime number $2$ is itself a product consisting of one prime.
+  </div>
+  <script type="application/x-hs-check">
+    claim("13 is prime and 12 = 3*4 is composite", () => isPrime(13) && !isPrime(12) && 3*4 === 12);
+    claim("composite means n = ab with 1 < a, b < n: 12 = 3*4 with 1 < 3, 4 < 12",
+      () => 1 < 3 && 3 < 12 && 1 < 4 && 4 < 12);
+    forallInt("every integer n >= 2 is a product of primes", n => {
+      const f = primeFactors(n);
+      let prod = 1;
+      for (const p of f) { if (!isPrime(Number(p))) return false; prod *= Number(p); }
+      return prod === n && f.length >= 1;
+    }, { lo: 2, hi: 2000 });
+    claim("a prime is a product with one factor: primeFactors(2) has length 1",
+      () => primeFactors(2).length === 1 && isPrime(2));
+  </script>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <span class="kicker">Strong induction · the proof</span>
+  <h2>Strong-induction proof · prime factorisation</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      <strong>Base case:</strong> $2$ is prime, so it is a product with one prime factor.
+      <p style="margin:10px 0 0">Take any integer $k\geq2$. Assume every integer from $2$ to $k$ is a product of primes. Consider $k+1$.</p>
+      <ul style="margin:8px 0 0">
+        <li>If $k+1$ is prime, we are done.</li>
+        <li>If $k+1$ is composite, write $k+1=ab$ with $2\leq a,b\leq k$.</li>
+      </ul>
+      <p style="margin:10px 0 0">By the hypothesis, both $a$ and $b$ are products of primes. Therefore $ab=k+1$ is a product of primes. Strong induction proves the claim for every integer $n\geq2$.</p>
+    </div>
+    <div class="box note">
+      <span class="tag">Where the strength is used</span>
+      The factors $a$ and $b$ can be anywhere between $2$ and $k$, so $P(k)$ alone is not enough.
+    </div>
+  </div>
+  <div class="notes">
+    Ask why $a,b\leq k$: since both are greater than $1$ and their product is $k+1$, neither can equal
+    $k+1$. This is exactly where the full hypothesis, not merely $P(k)$, is used.
+  </div>
+  <script type="application/x-hs-check">
+    claim("base case: 2 is prime", () => isPrime(2));
+    claim("if k+1 = ab is composite then 2 <= a, b <= k", () => {
+      for (let n = 4; n <= 3000; n++) {
+        if (isPrime(n)) continue;
+        let a = 0;
+        for (let d = 2; d*d <= n; d++) if (n % d === 0) { a = d; break; }
+        if (a === 0) return false;
+        const b = n / a;
+        if (!(a >= 2 && a <= n-1 && b >= 2 && b <= n-1)) return false;
+      }
+      return true;
+    });
+    claim("the factors need not be k itself: 100 = 4*25, and neither factor is 99",
+      () => 4*25 === 100 && 4 !== 99 && 25 !== 99);
+    forallInt("conclusion: every n >= 2 is a product of primes", n => {
+      const f = primeFactors(n);
+      let prod = 1;
+      for (const p of f) { if (!isPrime(Number(p))) return false; prod *= Number(p); }
+      return prod === n;
+    }, { lo: 2, hi: 3000 });
+  </script>
+</section>
+
+<!-- 23 -->
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>When strong induction is useful</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">pairs</span><span class="time">14 min</span></header>
+      <div class="a-body">
+        Prove that every integer $n\geq12$ can be written as
+        $$n=4a+5b$$
+        for non-negative integers $a$ and $b$. Here, non-negative means $0,1,2,\ldots$.
+        <ol>
+          <li>Check the four base cases $12,13,14,15$.</li>
+          <li>State a strong inductive hypothesis.</li>
+          <li>For $k\geq15$, make $k+1$ by adding $4$ to the earlier amount $k-3$.</li>
+        </ol>
+        <div class="share"><b>Share:</b> explain why knowing only $P(k)$ does not help with $k-3$.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Clarify that non-negative means $0,1,2,\ldots$. Students should write each base case as a sum of
+    fours and fives before moving to the general step.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("every integer n >= 12 is 4a + 5b with a, b >= 0", n => {
+      for (let a = 0; a*4 <= n; a++) if ((n - 4*a) % 5 === 0) return true;
+      return false;
+    }, { lo: 12, hi: 2000 });
+    counterexample("the bound 12 is needed: 11 is not of the form 4a + 5b", n => {
+      for (let a = 0; a*4 <= n; a++) if ((n - 4*a) % 5 === 0) return true;
+      return false;
+    }, 11);
+    claim("the step adds 4 to k-3, so k+1 = (k-3) + 4", () => {
+      for (let k = 15; k <= 500; k++) if (k + 1 !== (k - 3) + 4) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <span class="kicker">Activity 3 · how to solve it</span>
+  <h2>A strong-induction walkthrough</h2>
+  <div class="s-body cols-5-7">
+    <div class="box note">
+      <span class="tag">Method</span>
+      The four base cases are
+      $$12=3\cdot4,\quad13=2\cdot4+5,$$
+      $$14=4+2\cdot5,\quad15=3\cdot5.$$
+      Take any integer $k\geq15$. Assume every integer from $12$ to $k$ has the form $4a+5b$.
+    </div>
+    <div class="box proof">
+      <span class="tag">Step</span>
+      Since $12\leq k-3\leq k$, write $k-3=4a+5b$. Then
+      $$k+1=(k-3)+4=4(a+1)+5b.$$
+      So $k+1$ also has the required form. Strong induction proves the claim for all $n\geq12$.
+    </div>
+  </div>
+  <div class="notes">
+    The step looks back four places, so four base cases are needed. This is a good place to ask students
+    to identify the exact earlier statement used: $P(k-3)$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the four base cases: 12 = 3*4, 13 = 2*4+5, 14 = 4+2*5, 15 = 3*5",
+      () => 3*4 === 12 && 2*4 + 5 === 13 && 4 + 2*5 === 14 && 3*5 === 15);
+    claim("for k >= 15 the earlier case k-3 lies in the assumed range 12 <= k-3 <= k", () => {
+      for (let k = 15; k <= 2000; k++) if (!(12 <= k - 3 && k - 3 <= k)) return false;
+      return true;
+    });
+    identity("k-3 = 4a + 5b gives k+1 = 4(a+1) + 5b", (a, b) => (4*a + 5*b) + 4, (a, b) => 4*(a+1) + 5*b, { arity: 2 });
+    forallInt("conclusion: every n >= 12 has the form 4a + 5b", n => {
+      for (let a = 0; a*4 <= n; a++) if ((n - 4*a) % 5 === 0) return true;
+      return false;
+    }, { lo: 12, hi: 2000 });
+  </script>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <span class="kicker">Pitfalls</span>
+  <h2>Five induction mistakes to catch early</h2>
+  <div class="s-body cols-2">
+    <div class="box pitfall">
+      <span class="tag">Mistake</span>
+      <ol style="margin:0">
+        <li>Starting at the wrong value.</li>
+        <li>Hiding the inductive hypothesis.</li>
+        <li>Using the hypothesis for every $n$.</li>
+        <li>Never using the hypothesis.</li>
+        <li>Proving the wrong next statement.</li>
+      </ol>
+    </div>
+    <div class="box note">
+      <span class="tag">Fix</span>
+      <ol style="margin:0">
+        <li>Prove the base case at the first stated value $n_0$.</li>
+        <li>Write "assume $P(k)$" or state the equation you may use.</li>
+        <li>Assume it only for one allowed integer $k$, chosen freely.</li>
+        <li>Mark the line where $P(k)$ is used.</li>
+        <li>Check that the final line is exactly $P(k+1)$.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="notes">
+    The third and fourth errors are different: the first assumes too much, while the second assumes the
+    right thing but does not use it. Invite students to find these errors in old work.
+  </div>
+  <script type="application/x-hs-check">
+    claim("mistake 1: a base at the wrong value leaves the stated first value unproved", () => {
+      const holds = new Array(20).fill(false);
+      holds[2] = true;
+      for (let k = 2; k < 19; k++) if (holds[k]) holds[k+1] = true;
+      return !holds[1];
+    });
+    claim("mistake 5: the final line must be exactly P(k+1), that is (k+1)(k+2)/2", () => {
+      for (let k = 1; k <= 400; k++) if ((k+1)*((k+1)+1)/2 !== (k+1)*(k+2)/2) return false;
+      return true;
+    });
+    counterexample("a structurally tidy proof still fails on one bad line: 1+2+...+n = n^2 breaks at n = 2", n => {
+      let s = 0; for (let i = 1; i <= n; i++) s += i;
+      return s === n*n;
+    }, 2);
+  </script>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <span class="kicker">Exit ticket</span>
+  <h2>Work independently</h2>
+  <div class="s-body cols-3">
+    <div class="box try">
+      <span class="tag">1</span>
+      For $1+3+\cdots+(2n-1)=n^2$, write the base case and the inductive hypothesis.
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      Complete the step: if $2^k\geq k+1$ for $k\geq0$, explain why
+      $$2^{k+1}=2\cdot2^k\geq2(k+1)\geq k+2.$$
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      In the postage activity, which earlier statement is used to prove $P(k+1)$?
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule</span>
+      Write one sentence explaining why a base case alone is not an induction proof.
+    </div>
+  </div>
+  <div class="notes">
+    Expected answers: 1. $P(1):1=1^2$; assume the identity for $k\geq1$. 2. The first inequality uses the
+    hypothesis; the second follows because $k\geq0$. 3. $P(k-3)$. A base case proves one case, not the
+    link to the next case.
+  </div>
+  <script type="application/x-hs-check">
+    claim("Q1: the base case P(1) says 1 = 1^2", () => 1*1, 1);
+    forallInt("Q2: 2^k >= k+1 for every k >= 0", k => Math.pow(2, k) >= k + 1, { lo: 0, hi: 40 });
+    claim("Q2: 2^(k+1) = 2 * 2^k, and the hypothesis gives 2*2^k >= 2(k+1)", () => {
+      for (let k = 0; k <= 40; k++) {
+        if (Math.pow(2, k+1) !== 2*Math.pow(2, k)) return false;
+        if (!(2*Math.pow(2, k) >= 2*(k+1))) return false;
+      }
+      return true;
+    });
+    forallInt("Q2: the second inequality 2(k+1) >= k+2 holds because k >= 0", k => 2*(k+1) >= k + 2, { lo: 0, hi: 500 });
+    claim("Q3: the postage step uses P(k-3), since k+1 = (k-3) + 4", () => {
+      for (let k = 15; k <= 500; k++) if (k + 1 !== (k - 3) + 4) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 27 -->
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li><strong>Induction</strong> proves a statement for every integer from a stated starting value onward.</li>
+        <li>A complete proof needs a <strong>base case</strong>, an <strong>inductive hypothesis</strong>, and an <strong>inductive step</strong>.</li>
+        <li><strong>Strong induction</strong> lets the next case use any earlier case in the stated range.</li>
+        <li>A proof that skips a base case, hides its hypothesis, or makes a false algebra step is not complete.</li>
+      </ul>
+      <div class="chips" style="margin-top:14px">
+        <span class="chip hot">base case</span><span class="chip hot">inductive hypothesis</span>
+        <span class="chip">inductive step</span><span class="chip hot">strong induction</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Problem Set 6</h3>
+      <p class="small">Six induction proofs, including one strong-induction proof, plus one broken proof to diagnose.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>elementary combinatorics and the binomial theorem</strong>.</p>
+    </div>
+  </div>
+  <div class="notes">
+    End by asking students to say the difference between ordinary and strong induction in one sentence.
+    Reinforce that the conclusion in both methods is the same; only the information available in the
+    step changes.
+  </div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>
