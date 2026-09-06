@@ -16,15 +16,14 @@
   <div class="meta">
     <b>Set</b> Thu 10 Sep 2026
     <b>Due</b> Fri 11 Sep 2026, start of class
-    <b>Marks</b> 24
   </div>
 </div>
 
 <div class="rubric">
-  <span class="tag">How this is marked</span>
-  <b>Every answer carries one sentence of justification.</b> A correct value with no reasoning scores
-  half. A wrong value with a clear, nearly-correct argument scores most of the marks. You may discuss
-  problems with anyone and may use AI tools — but you must be able to explain every line you submit.
+  <span class="tag">How to answer</span>
+  <b>Every answer carries one sentence of justification.</b> A value on its own is not a solution — say
+  why it is right. You may discuss problems with anyone and may use AI tools, but you must be able to
+  explain every line you submit.
 </div>
 
 <div class="note-box">
@@ -33,10 +32,10 @@
   compare growth, say <em>for sufficiently large $n$</em>; one numerical example does not prove a growth claim.
 </div>
 
-<h2 class="section-title">Part A · Mechanics (8 marks)</h2>
+<h2 class="section-title">Part A · Mechanics</h2>
 
 <div class="problem">
-  <div class="p-head"><span class="n">1</span><span class="topic">Polynomial shape</span><span class="marks">2 marks</span></div>
+  <div class="p-head"><span class="n">1</span><span class="topic">Polynomial shape</span></div>
   <div class="body">
     Let $p(x)=-3x^4+2x-7$.
     <ol class="parts">
@@ -49,13 +48,12 @@
       coefficient is negative, so the graph goes down at both ends: $p(x)\to-\infty$ as
       $x\to-\infty$ and as $x\to\infty$. When $|x|$ is large, the leading term $-3x^4$ is much
       larger in size than $2x-7$, so it determines the end behaviour.
-      <span class="marks-note">1 mark for degree + leading coefficient; 1 mark for both ends with a reason.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">2</span><span class="topic">Quadratic transformation</span><span class="marks">2 marks</span></div>
+  <div class="p-head"><span class="n">2</span><span class="topic">Quadratic transformation</span></div>
   <div class="body">
     Start with $f(x)=x^2$. The function
     $$g(x)=-(x-2)^2+4$$
@@ -68,40 +66,37 @@
       Move the graph of $y=x^2$ right by $2$, reflect it in the $x$-axis, then move it up by $4$.
       Its vertex is $(2,4)$. For roots,
       $-(x-2)^2+4=0\Longleftrightarrow(x-2)^2=4\Longleftrightarrow x-2=\pm2$, so $x=0$ or $x=4$.
-      <span class="marks-note">1 mark for the three transformations; 1 mark for the vertex and both roots.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">3</span><span class="topic">Exponential equation</span><span class="marks">2 marks</span></div>
+  <div class="p-head"><span class="n">3</span><span class="topic">Exponential equation</span></div>
   <div class="body">
     Solve $5^{2x-1}=125$. Rewrite $125$ with base $5$, then state why you may set the exponents equal.
     <div class="solution"><span class="tag">Solution</span>
       Since $125=5^3$, we have $5^{2x-1}=5^3$. The base $5$ is positive and is not $1$, so the
       exponential function $5^t$ is one-to-one and $2x-1=3$. Hence $x=2$.
-      <span class="marks-note">1 mark for $x=2$; 1 mark for matching the bases and stating the condition.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">4</span><span class="topic">Change of base</span><span class="marks">2 marks</span></div>
+  <div class="p-head"><span class="n">4</span><span class="topic">Change of base</span></div>
   <div class="body">
     Use the change-of-base formula to calculate $\log_4 32$. Show the formula you use and give the exact answer.
     <div class="solution"><span class="tag">Solution</span>
       $$\log_4 32=\frac{\ln 32}{\ln 4}=\frac{\ln(2^5)}{\ln(2^2)}=\frac{5\ln2}{2\ln2}=\frac52.$$
       The formula is valid because the input $32$ is positive and the bases $4$ and $e$ are positive
       and not equal to $1$.
-      <span class="marks-note">1 mark for $\frac52$; 1 mark for a correct use of the formula and its conditions.</span>
     </div>
   </div>
 </div>
 
-<h2 class="section-title">Part B · Reasoning and modelling (11 marks)</h2>
+<h2 class="section-title">Part B · Reasoning and modelling</h2>
 
 <div class="problem">
-  <div class="p-head"><span class="n">5</span><span class="topic">Logarithmic equation</span><span class="marks">3 marks</span></div>
+  <div class="p-head"><span class="n">5</span><span class="topic">Logarithmic equation</span></div>
   <div class="body">
     Solve over the real numbers:
     $$\log_2(x-1)+\log_2(x+1)=3.$$
@@ -113,13 +108,12 @@
         \Longleftrightarrow x^2=9.$$
       The algebra gives $x=3$ or $x=-3$, but the domain keeps only $x=3$. Check:
       $\log_2(2)+\log_2(4)=1+2=3$.
-      <span class="marks-note">1 mark for the domain; 1 mark for legal log manipulation and algebra; 1 mark for rejecting $-3$ and checking $3$.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">6</span><span class="topic">Growth comparison</span><span class="marks">3 marks</span></div>
+  <div class="p-head"><span class="n">6</span><span class="topic">Growth comparison</span></div>
   <div class="body">
     Put the following functions in order from slowest growth to fastest growth as the positive integer
     $n$ becomes very large:
@@ -131,13 +125,12 @@
       This is an eventual statement: it becomes true once $n$ is large enough, not necessarily at every
       positive integer. For example, at $n=3$, $2^n=8&lt;9=n^2$, but for sufficiently large $n$ the
       exponential $2^n$ is larger than $n^2$.
-      <span class="marks-note">1 mark for the complete ranking; 1 mark for saying “eventually” or its meaning; 1 mark for a valid explanation using $n=3$.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">7</span><span class="topic">Periodic model</span><span class="marks">5 marks</span></div>
+  <div class="p-head"><span class="n">7</span><span class="topic">Periodic model</span></div>
   <div class="body">
     Let $t$ be the number of hours after midnight. A simple model for temperature is
     $$T(t)=3\sin\!\left(\frac{\pi}{6}(t-1)\right)+20 \qquad (0\leq t\leq12).$$
@@ -153,15 +146,14 @@
       $\frac{\pi}{6}(t-1)=\frac\pi2$ gives $t=4$. A minimum occurs when the input is $3\pi/2$,
       giving $t=10$. In $f(t-1)$, the new input must be $t=1$ to give the old value $f(0)$, so the
       graph moves right by $1$.
-      <span class="marks-note">2 marks for amplitude, midline, period, and range; 2 marks for both times with reasoning; 1 mark for the shift explanation.</span>
     </div>
   </div>
 </div>
 
-<h2 class="section-title">Part C · Communicate precisely (5 marks)</h2>
+<h2 class="section-title">Part C · Communicate precisely</h2>
 
 <div class="problem">
-  <div class="p-head"><span class="n">8</span><span class="topic">Find the error</span><span class="marks">3 marks</span></div>
+  <div class="p-head"><span class="n">8</span><span class="topic">Find the error</span></div>
   <div class="body">
     A student writes: “$\log_2(u+v)=\log_2u+\log_2v$ because logarithms turn an operation into addition.”
     <ol class="parts">
@@ -173,13 +165,12 @@
       The false statement is $\log_2(u+v)=\log_2u+\log_2v$. Take $u=v=1$:
       $\log_2(1+1)=\log_2 2=1$, while $\log_2 1+\log_2 1=0+0=0$.
       The correct product law is $\log_2(uv)=\log_2u+\log_2v$ for $u>0$ and $v>0$.
-      <span class="marks-note">1 mark for identifying the false law; 1 mark for the complete counterexample; 1 mark for the product law with $u,v>0$.</span>
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">9</span><span class="topic">Make a claim precise</span><span class="marks">2 marks</span></div>
+  <div class="p-head"><span class="n">9</span><span class="topic">Make a claim precise</span></div>
   <div class="body">
     The statement “An exponential function is always bigger than a polynomial” is false or unclear as written.
     Rewrite it as a true statement about $c^n$ and $n^k$, including all important conditions. Then give one
@@ -190,7 +181,6 @@
       $c^n>n^k$ for every integer $n\geq N$.” The word “fixed” matters: the bases and powers are not
       changing with $n$. For $c=2$, $k=2$, and $n=3$, we have $2^3=8&lt;9=3^2$, so the inequality is
       not true for every positive $n$.
-      <span class="marks-note">1 mark for a correct eventual-growth statement with $c>1$, $k>0$, and fixed quantities; 1 mark for a valid counterexample to “always”.</span>
     </div>
   </div>
 </div>
