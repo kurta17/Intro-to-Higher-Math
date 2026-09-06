@@ -1,0 +1,278 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Homework 2 · Intro to Higher Math</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Homework 2 — Set identities</h1>
+    <div class="sub">Session 2 · Sets &amp; set operations</div>
+  </div>
+  <div class="meta">
+    <b>Set</b> Tue 8 Sep 2026
+    <b>Due</b> Wed 9 Sep 2026, start of class
+    <b>Marks</b> 24
+  </div>
+</div>
+
+<div class="rubric">
+  <span class="tag">How this is marked</span>
+  <b>Every answer carries one sentence of justification.</b> A correct value with no reasoning scores
+  half. A wrong value with a clear, nearly-correct argument scores most of the marks. You may discuss
+  problems with anyone and may use AI tools — but you must be able to explain every line you submit.
+</div>
+
+<div class="note-box">
+  <span class="tag">Two formats, and they are marked strictly</span>
+  <b>To prove an identity:</b> double inclusion. Take an <b>arbitrary</b> element of one side, show it
+  lies in the other, then do the reverse. The word "arbitrary" must appear.<br>
+  <b>To disprove one:</b> name your sets explicitly, compute <b>both</b> sides, and point at the element
+  that is in one and not the other. A Venn diagram is not a proof and is not a disproof.
+</div>
+
+<h2 class="section-title">Part A · Notation and computation (6 marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Notation</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $U = \{1,2,\dots,12\}$, $\;A = \{\, x \in U : x \text{ is even} \,\}$ and
+    $B = \{\, x \in U : x \text{ is a multiple of } 3 \,\}$.
+    <ol class="parts">
+      <li>Write $A$ and $B$ in roster notation.</li>
+      <li>Compute $A \cap B$, $\;A \cup B$, $\;A \setminus B$, $\;A \triangle B$ and $\;B^c$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $A = \{2,4,6,8,10,12\}$, $B = \{3,6,9,12\}$.<br>
+      (b) $A \cap B = \{6,12\}$; $\;A \cup B = \{2,3,4,6,8,9,10,12\}$; $\;A \setminus B = \{2,4,8,10\}$;
+      $\;A \triangle B = \{2,3,4,8,9,10\}$; $\;B^c = \{1,2,4,5,7,8,10,11\}$.
+      <span class="marks-note">1 mark for (a), 1 for (b); lose the (b) mark if $B^c$ is given without
+      reference to $U$.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">∈ vs ⊆</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $C = \{\, 1,\ \{1\},\ \{1,2\},\ \varnothing \,\}$. Decide true or false, and in each case quote the
+    definition that settles it.
+    <ol class="parts">
+      <li>$1 \in C$ &nbsp;&nbsp; (b) $\{1\} \in C$ &nbsp;&nbsp; (c) $\{1\} \subseteq C$
+          &nbsp;&nbsp; (d) $\{1,2\} \subseteq C$ &nbsp;&nbsp; (e) $\varnothing \subseteq C$
+          &nbsp;&nbsp; (f) $|C| = 4$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) True — $1$ is listed. (b) True — $\{1\}$ is listed as an element. (c) True — the only element of
+      $\{1\}$ is $1$, and $1 \in C$. (d) False — it would need $2 \in C$, and $2$ is not an element of $C$.
+      (e) True — vacuously, for every set. (f) True.
+      <span class="marks-note">1 mark for (a)–(c), 1 for (d)–(f). Note (b) and (c) are both true here for
+      different reasons; a student who says "they cannot both be true" has the misconception this question
+      is testing.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">Power set</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $A = \{a, b, c\}$.
+    <ol class="parts">
+      <li>List $\mathcal{P}(A)$ in full, organised by the size of the subset.</li>
+      <li>State $|\mathcal{P}(A)|$ and explain in one sentence why $|\mathcal{P}(A)| = 2^{|A|}$ for
+          <em>any</em> finite $A$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $\varnothing$; $\{a\},\{b\},\{c\}$; $\{a,b\},\{a,c\},\{b,c\}$; $\{a,b,c\}$.<br>
+      (b) $|\mathcal{P}(A)| = 8 = 2^3$. Building a subset means deciding, independently for each of the
+      $n$ elements, whether it is in or out — two choices $n$ times, so $2^n$ subsets.
+      <span class="marks-note">1 mark for a complete list (dropping $\varnothing$ or $A$ itself loses it),
+      1 for the choice argument. "Because the formula says so" scores zero.</span>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Six identities to prove (12 marks)</h2>
+
+<div class="note-box">
+  <span class="tag">For every problem in this part</span>
+  Prove by double inclusion. Each is 2 marks: 1 for each direction. A proof that verifies the identity on
+  one example scores <b>zero</b>, however carefully the example is computed.
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Distributivity</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Prove that $\;A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\;$ for all sets $A, B, C$.
+    <div class="solution"><span class="tag">Solution</span>
+      $(\subseteq)$ Let $x \in A \cup (B \cap C)$ be arbitrary. Then $x \in A$, or $x \in B \cap C$.
+      If $x \in A$ then $x$ is in both $A \cup B$ and $A \cup C$, so in their intersection. If
+      $x \in B \cap C$ then $x \in B$ and $x \in C$, so again $x \in A \cup B$ and $x \in A \cup C$.
+      Either way $x \in (A\cup B) \cap (A \cup C)$.<br>
+      $(\supseteq)$ Let $x \in (A \cup B) \cap (A \cup C)$ be arbitrary, so $x \in A \cup B$ and
+      $x \in A \cup C$. If $x \in A$ we are done. If not, then from the first $x \in B$ and from the
+      second $x \in C$, so $x \in B \cap C$. Either way $x \in A \cup (B \cap C)$. $\blacksquare$
+      <span class="marks-note">The "if not, then" case split in the second direction is where the marks
+      are lost.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">De Morgan</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Let $A, B \subseteq U$. Prove that $\;(A \cap B)^{c} = A^{c} \cup B^{c}$.
+    <div class="solution"><span class="tag">Solution</span>
+      $(\subseteq)$ Let $x \in (A \cap B)^c$ be arbitrary. Then $x \in U$ and $x \notin A \cap B$, i.e.
+      it is not the case that both $x \in A$ and $x \in B$. So $x \notin A$ or $x \notin B$, giving
+      $x \in A^c$ or $x \in B^c$, hence $x \in A^c \cup B^c$.<br>
+      $(\supseteq)$ Let $x \in A^c \cup B^c$ be arbitrary. Then $x \notin A$ or $x \notin B$, so it is not
+      the case that $x$ lies in both, i.e. $x \notin A \cap B$. As $x \in U$, $x \in (A\cap B)^c$.
+      $\blacksquare$
+      <span class="marks-note">1 mark per direction. The negation of "and" into "or" must be stated, not
+      assumed silently.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">Difference</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Prove that $\;A \setminus (B \cup C) = (A \setminus B) \cap (A \setminus C)\;$ for all sets $A, B, C$.
+    <div class="solution"><span class="tag">Solution</span>
+      $(\subseteq)$ Let $x \in A \setminus (B \cup C)$ be arbitrary. Then $x \in A$ and $x \notin B \cup C$,
+      so $x \notin B$ and $x \notin C$. Hence $x \in A \setminus B$ and $x \in A \setminus C$, so $x$ is in
+      the intersection.<br>
+      $(\supseteq)$ Let $x \in (A\setminus B) \cap (A \setminus C)$ be arbitrary. Then $x \in A$,
+      $x \notin B$ and $x \notin C$, so $x \notin B \cup C$, giving $x \in A \setminus (B \cup C)$.
+      $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">Symmetric difference</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Prove that $\;A \triangle B = (A \cup B) \setminus (A \cap B)\;$ for all sets $A, B$.
+    <div class="solution"><span class="tag">Solution</span>
+      Recall $A \triangle B = (A\setminus B) \cup (B \setminus A)$.<br>
+      $(\subseteq)$ Let $x \in A \triangle B$ be arbitrary, so $x \in A \setminus B$ or $x \in B \setminus A$.
+      In the first case $x \in A \subseteq A \cup B$ and $x \notin B$, so $x \notin A \cap B$. The second
+      case is symmetric. Either way $x \in (A\cup B)\setminus(A \cap B)$.<br>
+      $(\supseteq)$ Let $x \in (A \cup B)\setminus(A\cap B)$ be arbitrary. Then $x$ is in $A$ or in $B$,
+      but not in both. If $x \in A$ then $x \notin B$, so $x \in A \setminus B$; otherwise $x \in B$ and
+      $x \notin A$, so $x \in B \setminus A$. Either way $x \in A \triangle B$. $\blacksquare$
+      <span class="marks-note">"In at least one but not both" is the phrase that earns the second mark.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">Subsets</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Prove that for all sets $A, B$: $\;A \subseteq B \;\Longleftrightarrow\; A \cup B = B$.
+    <div class="solution"><span class="tag">Solution</span>
+      $(\Rightarrow)$ Suppose $A \subseteq B$. Certainly $B \subseteq A \cup B$. Conversely, let
+      $x \in A \cup B$ be arbitrary: if $x \in B$ we are done, and if $x \in A$ then $x \in B$ by the
+      hypothesis. So $A \cup B \subseteq B$, and the two sets are equal.<br>
+      $(\Leftarrow)$ Suppose $A \cup B = B$. Let $x \in A$ be arbitrary. Then $x \in A \cup B$, which
+      equals $B$, so $x \in B$. Hence $A \subseteq B$. $\blacksquare$
+      <span class="marks-note">1 mark per direction. This is an "if and only if", so two separate proofs
+      are required — a single chain of $\Leftrightarrow$ signs scores at most 1.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">9</span><span class="topic">Cartesian product</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    Prove that $\;A \times (B \cap C) = (A \times B) \cap (A \times C)\;$ for all sets $A, B, C$.
+    <div class="solution"><span class="tag">Solution</span>
+      Elements here are ordered pairs, so an arbitrary element is written $(x,y)$.<br>
+      $(\subseteq)$ Let $(x,y) \in A \times (B\cap C)$ be arbitrary. Then $x \in A$ and $y \in B \cap C$,
+      so $y \in B$ and $y \in C$. Hence $(x,y) \in A\times B$ and $(x,y) \in A \times C$.<br>
+      $(\supseteq)$ Let $(x,y) \in (A\times B)\cap(A\times C)$ be arbitrary. Then $x \in A$, $y \in B$ and
+      $y \in C$, so $y \in B\cap C$ and $(x,y) \in A\times(B\cap C)$. $\blacksquare$
+      <span class="marks-note">1 mark for taking an arbitrary <em>pair</em> rather than an arbitrary
+      element, 1 for completing both directions.</span>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part C · Three to disprove, and one to write (6 marks)</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">10</span><span class="topic">Disproof</span><span class="marks">3 marks</span></div>
+  <div class="body">
+    Each statement below is <b>false</b>. For each, give explicit sets, compute both sides, and name an
+    element that is in one side and not the other. One mark each.
+    <ol class="parts">
+      <li>$(A \cup B) \setminus B = A$ &nbsp; for all sets $A, B$.</li>
+      <li>$\mathcal{P}(A \cup B) = \mathcal{P}(A) \cup \mathcal{P}(B)$ &nbsp; for all sets $A, B$.</li>
+      <li>$A \times B = B \times A$ &nbsp; for all sets $A, B$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $A = B = \{1\}$: left is $\{1\}\setminus\{1\} = \varnothing$, right is $\{1\}$. The element $1$
+      is in the right and not the left. (It holds precisely when $A \cap B = \varnothing$.)<br>
+      (b) $A = \{1\}$, $B = \{2\}$: left is $\mathcal{P}(\{1,2\})$, which contains $\{1,2\}$; right is
+      $\{\varnothing,\{1\}\} \cup \{\varnothing,\{2\}\}$, which does not. The element $\{1,2\}$ separates
+      them. (Only $\supseteq$ holds in general.)<br>
+      (c) $A = \{1\}$, $B = \{2\}$: left is $\{(1,2)\}$, right is $\{(2,1)\}$, and $(1,2) \neq (2,1)$
+      since ordered pairs agree only when both coordinates do.
+      <span class="marks-note">No mark for "it is false" without both sides computed. No mark for a Venn
+      diagram.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">11</span><span class="topic">Find the error</span><span class="marks">2 marks</span></div>
+  <div class="body">
+    A student submits the following. Identify the first step that is wrong, say why it is wrong, and state
+    whether the claimed identity is nevertheless true.
+    <div class="note-box" style="margin:8px 0">
+      <b>Claim.</b> $A \setminus (B \setminus C) = (A \setminus B) \cup C$ for all sets $A,B,C$.<br>
+      <b>"Proof."</b> Let $x \in A \setminus (B \setminus C)$. Then $x \in A$ and $x \notin B \setminus C$.
+      Now $x \notin B\setminus C$ means $x \notin B$ or $x \in C$. So $x \in A \setminus B$ or $x \in C$,
+      hence $x \in (A\setminus B) \cup C$. Therefore the two sets are equal. $\blacksquare$
+    </div>
+    <div class="solution"><span class="tag">Solution</span>
+      The individual steps of the displayed argument are correct, and they establish
+      $A \setminus (B\setminus C) \subseteq (A\setminus B)\cup C$. The error is the final sentence:
+      only <b>one inclusion</b> was proved, and equality requires both. In fact the identity is
+      <b>false</b> — take $A = \varnothing$, $C = \{1\}$: the left side is $\varnothing$ and the right
+      side is $\{1\}$.
+      <span class="marks-note">1 mark for locating the error at the conclusion rather than mid-argument,
+      1 mark for the counterexample. A student who says "the third step is wrong" has not read carefully
+      and scores 0 for that part.</span>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">12</span><span class="topic">Reflection</span><span class="marks">1 mark</span></div>
+  <div class="body">
+    In no more than five sentences: a Venn diagram convinced you that some identity was true, and then you
+    were asked to prove it by double inclusion anyway. What does the proof give you that the picture does
+    not? You are not being asked to prove anything here.
+    <div class="space tall"></div>
+    <div class="solution"><span class="tag">Marking</span>
+      Look for the idea that the diagram shows one configuration while the claim quantifies over all sets,
+      and/or that a diagram cannot be drawn faithfully for four or more sets. Credit any answer that
+      distinguishes "I am convinced" from "it is established". There is no single correct answer.
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <span>Intro to Higher Math · Homework 2</span>
+  <span>Kurtanidze · Kereleishvili · Harbour.Space Bangkok</span>
+</div>
+
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/handout.js"></script>

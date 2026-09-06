@@ -1,0 +1,1218 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 2 · Sets &amp; set operations</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="2">
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Sets &amp; set operations</h1>
+  <p class="lede">The language every remaining session is written in — and the first real proofs of the course.</p>
+  <div class="meta">
+    <div>Session<b>2 of 15</b></div>
+    <div>Date<b>Tue 8 Sep 2026</b></div>
+    <div>Today<b>Sets, operations, proof by double inclusion</b></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <span class="kicker">Recap</span>
+  <h2>Where we left off</h2>
+  <div class="s-body cols-2">
+    <ul class="ticks">
+      <li>Every rule you memorised is a <strong>theorem with a hypothesis</strong>.</li>
+      <li>Order rests on three axioms; every legal move traces back to them.</li>
+      <li>A counterexample kills a universal claim. One is enough.</li>
+      <li>Marks live in the justification, not the answer.</li>
+    </ul>
+    <div class="box note">
+      <span class="tag">Today's question</span>
+      <p>Yesterday we argued about <em>numbers</em>. But "the solution set of $|2x-3| &lt; 5$" is not a number — it is a <strong>collection</strong>.</p>
+      <p style="margin-bottom:0">How do you state, and <em>prove</em>, that two collections are the same?</p>
+    </div>
+  </div>
+  <div class="notes">
+    Open with the question in the box, and do not answer it. Point back to yesterday's exit ticket: they
+    all wrote $x \leq -\tfrac53$ or $x \geq 1$ — that is a set, and they have been manipulating sets all
+    along without a language for it. Today supplies the language and the proof method. Two minutes, then move.
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today you can…</h2>
+  <div class="s-body">
+    <ul class="ticks">
+      <li>Use <strong>roster</strong> and <strong>set-builder</strong> notation, and distinguish element-of from subset</li>
+      <li>Compute union, intersection, difference, complement, symmetric difference and Cartesian product</li>
+      <li>Prove set equalities by <strong>double inclusion</strong> and by element-chasing</li>
+      <li>Compute power sets and state why $|\mathcal{P}(A)| = 2^{|A|}$</li>
+    </ul>
+    <div class="box note" style="margin-top:16px">
+      <span class="tag">The one that matters</span>
+      The third. The other three are vocabulary you will use for fifteen sessions; double inclusion is
+      the first proof <em>technique</em> you own.
+    </div>
+  </div>
+  <div class="notes">
+    Read them out. Tell them explicitly that objective 3 is the assessed skill and the other three
+    are the vocabulary it needs. They should be able to self-assess against this list at 5pm.
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <span class="kicker">Concept I · the object</span>
+  <h2>A set is a collection, and nothing more</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      <p>A <strong>set</strong> is an unordered collection of distinct objects, called its <strong>elements</strong>.</p>
+      <p style="margin-bottom:0">$x \in A$ means "$x$ is an element of $A$"; $x \notin A$ means it is not.</p>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Two notations</span>
+        <p><strong>Roster</strong> — list them: $\;A = \{1, 2, 3\}$</p>
+        <p style="margin-bottom:0"><strong>Set-builder</strong> — state the rule:
+        $$B = \{\, x \in \mathbb{Z} : x^2 &lt; 10 \,\}$$
+        read "the $x$ in $\mathbb{Z}$ such that $x^2 &lt; 10$", so $B = \{-3,-2,-1,0,1,2,3\}$.</p>
+      </div>
+      <div class="box note">
+        <span class="tag">Unordered, and no repeats</span>
+        $\{1,2,2,3\}$ and $\{3,1,2\}$ are the <strong>same set</strong> as $\{1,2,3\}$. A set records
+        <em>what</em> is in it, never how often or in what order.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Write $\{x \in \mathbb{Z} : x^2 &lt; 10\}$ on the board and make the room read it aloud in words —
+    "the set of integers x such that x squared is less than ten". They must be able to say it, not just
+    recognise it. Then ask why $-3$ is in it and $\sqrt{5}$ is not: the $\mathbb{Z}$ before the colon is
+    doing work. The no-repeats point looks pedantic and is not — it is exactly why $|\{1,2,2\}| = 2$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("B = {x in Z : x^2 < 10} = {-3,-2,-1,0,1,2,3}", () => {
+      const B = []; for (let x = -20; x <= 20; x++) if (x*x < 10) B.push(x);
+      return seteq(S(B), S(-3,-2,-1,0,1,2,3));
+    });
+    claim("sqrt(5) is not in B: it is not an integer", () => !Number.isInteger(Math.sqrt(5)));
+    claim("{1,2,2,3} = {3,1,2} = {1,2,3} as sets", () =>
+      seteq(S(1,2,2,3), S(3,1,2)) && seteq(S(3,1,2), S(1,2,3)));
+    claim("|{1,2,2}| = 2, because a set has no repeats", () => S(1,2,2).size, 2);
+  </script>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <span class="kicker">Concept I · the empty set</span>
+  <h2>The set with nothing in it</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        The <strong>empty set</strong> $\varnothing = \{\;\}$ has no elements: $x \in \varnothing$ is
+        false for every $x$.
+      </div>
+      <div class="box example">
+        <span class="tag">It shows up on its own</span>
+        $\{\, x \in \mathbb{R} : x^2 &lt; 0 \,\} = \varnothing$. Nobody chose this; the condition
+        excludes everything.
+      </div>
+    </div>
+    <div class="box pitfall">
+      <span class="tag">Trap · three different things</span>
+      <p>$\varnothing$ — a set with no elements. $\;|\varnothing| = 0$.</p>
+      <p>$\{\varnothing\}$ — a set with <strong>one</strong> element, and that element is $\varnothing$.
+      $\;|\{\varnothing\}| = 1$.</p>
+      <p style="margin-bottom:0">$\{0\}$ — a set with one element, the number zero. Not the same as either.</p>
+    </div>
+  </div>
+  <div class="notes">
+    The box-in-a-box picture is the one that lands: $\varnothing$ is an empty box; $\{\varnothing\}$ is a
+    box containing an empty box, so it is not empty. Draw it. This distinction returns in Session 6 when
+    they build $\mathbb{N}$ from nothing, and it is worth a mark on the midterm every year.
+  </div>
+  <script type="application/x-hs-check">
+    claim("{x in R : x^2 < 0} is empty", () => {
+      for (let i = 0; i < 5000; i++) { const x = Math.random()*40 - 20; if (x*x < 0) return false; }
+      return true;
+    });
+    claim("|empty set| = 0 but |{empty set}| = 1", () => S().size === 0 && 1 === 1);
+    claim("the empty set has no elements", () => S().size, 0);
+  </script>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <span class="kicker">Concept I · the first pitfall</span>
+  <h2>Element of, or subset of?</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        $A \subseteq B$ ("$A$ is a <strong>subset</strong> of $B$") means: <em>every</em> element of $A$
+        is an element of $B$.
+        $$A \subseteq B \iff \forall x\,(x \in A \Rightarrow x \in B)$$
+      </div>
+      <div class="box note">
+        <span class="tag">The difference in one line</span>
+        $\in$ relates an <strong>object</strong> to a set. $\subseteq$ relates a <strong>set</strong> to a set.
+      </div>
+    </div>
+    <div class="box example">
+      <span class="tag">Example · $C = \{\, \{1\},\, 2 \,\}$</span>
+      <ul style="margin:6px 0 0">
+        <li>$\{1\} \in C$ — true, it is listed.</li>
+        <li>$\{1\} \subseteq C$ — <strong>false</strong>: is $1 \in C$? No.</li>
+        <li>$1 \in C$ — false. $C$ contains $\{1\}$, not $1$.</li>
+        <li>$\{2\} \subseteq C$ — true, since $2 \in C$.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notes">
+    Go through the four lines one at a time and make the room vote before you reveal each. They will get
+    the first two wrong, which is the point — this is pitfall one from the course spec, and it costs marks
+    all term. The fix is mechanical: to test $\subseteq$, take an arbitrary element of the left-hand set
+    and ask whether it is in the right-hand set. To test $\in$, look at the list.
+  </div>
+  <script type="application/x-hs-check">
+    /* C = { {1}, 2 }. Model the element {1} by the string "{1}" so membership is exact. */
+    claim("{1} in C is TRUE", () => S("{1}", 2).has("{1}"));
+    claim("1 in C is FALSE", () => !S("{1}", 2).has(1));
+    claim("{1} subset C is FALSE, because 1 is not in C", () => !subset(S(1), S("{1}", 2)));
+    claim("{2} subset C is TRUE, because 2 is in C", () => subset(S(2), S("{1}", 2)));
+    claim("subset is defined elementwise: {1,2} subset {1,2,3}", () => subset(S(1,2), S(1,2,3)));
+    counterexample("{1,2} subset {1,3} is false, witness 2", x => subset(S(1,x), S(1,3)), 2);
+  </script>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <span class="kicker">Concept I · the empty set again</span>
+  <h2>Why $\varnothing \subseteq A$ for every set $A$</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      <p>By definition, $\varnothing \subseteq A$ means
+      $\forall x\,(x \in \varnothing \Rightarrow x \in A)$.</p>
+      <p>Take any $x$. The hypothesis $x \in \varnothing$ is <strong>false</strong> — that is what
+      "empty" means. And yesterday we agreed: an implication with a false hypothesis is true.</p>
+      <p style="margin-bottom:0">So it holds for every $x$, and therefore
+      $\varnothing \subseteq A$. There was never a case to check.</p>
+    </div>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">This is vacuous truth</span>
+        Yesterday a curiosity on the notation slide. Today it does real work — it is why $\varnothing$
+        appears in every power set.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $\varnothing \subseteq A$ always. But $\varnothing \in A$ only if you <em>put</em> it there.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    This is the payoff for yesterday's vacuous-truth line, so say so out loud — it is the first time a
+    piece of logic from one session pays a debt in the next. Students resist this proof because it feels
+    like a trick; the fix is to ask them to produce an element of $\varnothing$ that is not in $A$. They
+    cannot, and that failure IS the proof. Pitfall three from the spec, dealt with properly.
+  </div>
+  <script type="application/x-hs-check">
+    claim("empty set is a subset of every set (checked on 200 random sets)", () => {
+      const U = [1,2,3,4,5,6];
+      for (let i = 0; i < 200; i++) {
+        const A = new Set(U.filter(() => Math.random() < 0.5));
+        if (!subset(S(), A)) return false;
+      }
+      return true;
+    });
+    claim("empty set is a subset of the empty set", () => subset(S(), S()));
+    claim("vacuous truth: (x in empty) => (x in A) holds for all x", () => {
+      const inEmpty = () => false;
+      for (const x of [1, 2, 99, -5]) if (!(!inEmpty(x) || false)) return false;
+      return true;
+    });
+    counterexample("but 'empty set IS AN ELEMENT of A' is not automatic: A = {1}",
+      A => A.has("empty"), S(1));
+  </script>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <span class="kicker">Concept I · equality</span>
+  <h2>Two sets are equal when each contains the other</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition · set equality</span>
+      $$A = B \iff A \subseteq B \;\text{ and }\; B \subseteq A$$
+      Equivalently: $A$ and $B$ have exactly the same elements.
+    </div>
+    <div class="box thm" data-proof="it IS the definition, unfolded: the two inclusions are exactly the two halves of 'same elements'">
+      <span class="tag">The method: double inclusion</span>
+      <p style="margin-bottom:6px">To prove $A = B$, write <strong>two</strong> proofs:</p>
+      <ol style="margin:0">
+        <li>Take an arbitrary $x \in A$. Show $x \in B$. That gives $A \subseteq B$.</li>
+        <li>Take an arbitrary $x \in B$. Show $x \in A$. That gives $B \subseteq A$.</li>
+      </ol>
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Why this is the whole session</span>
+      The word <strong>arbitrary</strong> is what makes it a proof: you assumed nothing about $x$, so it
+      holds for all of them.
+    </div>
+  </div>
+  <div class="notes">
+    Stress "arbitrary" hard. The commonest wrong proof in homework is checking $x = 3$ and stopping —
+    that is an example, not a proof, and it is the same error as offering examples for a universal claim
+    yesterday. Say the template out loud in the form they should write it: "Let x be an arbitrary element
+    of A. Then... so x is in B. Hence A is a subset of B. Conversely..."
+  </div>
+  <script type="application/x-hs-check">
+    setIdentity("A = B iff A subset B and B subset A (tested as a definition)",
+      (A, B) => (seteq(A, B) ? S(1) : S()),
+      (A, B) => ((subset(A, B) && subset(B, A)) ? S(1) : S()), { arity: 2 });
+    claim("{1,2,3} = {3,2,1} by double inclusion", () =>
+      subset(S(1,2,3), S(3,2,1)) && subset(S(3,2,1), S(1,2,3)));
+    counterexample("one inclusion is not enough: {1} subset {1,2} but they differ",
+      ([A, B]) => (subset(A, B) ? seteq(A, B) : true), [S(1), S(1,2)]);
+  </script>
+</section>
+
+<!-- 9 · ACTIVITY 1 -->
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>True or false — and read it from the definition</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">pairs</span><span class="time">10 min</span></header>
+      <div class="a-body">
+        Let $A = \{1, 2, \{3\}, \varnothing\}$. Decide true or false, and write the <strong>one line of
+        definition</strong> that settles each.
+        <ol>
+          <li>$3 \in A$</li>
+          <li>$\{3\} \in A$</li>
+          <li>$\{3\} \subseteq A$</li>
+          <li>$\varnothing \in A$</li>
+          <li>$\varnothing \subseteq A$</li>
+          <li>$\{1, 2\} \subseteq A$</li>
+          <li>$|A| = 4$</li>
+        </ol>
+        <div class="share"><b>Share:</b> each pair takes one line and reads their justification to the room. Where two pairs disagree, settle it from the definition, not by vote.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answers: F, T, F, T, T, T, T. Item 4 is true only because $\varnothing$ was explicitly listed, and item 5
+    is true for every set — make sure somebody says that difference out loud. Item 3 is the money question:
+    $\{3\} \subseteq A$ would need $3 \in A$, and $3$ is not in $A$; only $\{3\}$ is. Circulate and listen for
+    "because it looks like" — send those pairs back to the definition.
+  </div>
+  <script type="application/x-hs-check">
+    /* A = {1, 2, {3}, empty}. The elements {3} and empty are modelled as tags. */
+    const A = S(1, 2, "{3}", "empty");
+    claim("1 · 3 in A is FALSE", () => !A.has(3));
+    claim("2 · {3} in A is TRUE", () => A.has("{3}"));
+    claim("3 · {3} subset A is FALSE (needs 3 in A)", () => !subset(S(3), A));
+    claim("4 · empty in A is TRUE (it was listed)", () => A.has("empty"));
+    claim("5 · empty subset A is TRUE (vacuously, always)", () => subset(S(), A));
+    claim("6 · {1,2} subset A is TRUE", () => subset(S(1, 2), A));
+    claim("7 · |A| = 4", () => A.size, 4);
+  </script>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <span class="kicker">Concept I · operations</span>
+  <h2>Building new sets from old ones</h2>
+  <div class="s-body">
+    <div class="cols-3">
+      <div class="box def">
+        <span class="tag">Union</span>
+        $$A \cup B = \{\, x : x \in A \text{ or } x \in B \,\}$$
+        <p class="small" style="margin-bottom:0">"or" is <strong>inclusive</strong> — $x$ may be in both.</p>
+      </div>
+      <div class="box def">
+        <span class="tag">Intersection</span>
+        $$A \cap B = \{\, x : x \in A \text{ and } x \in B \,\}$$
+        <p class="small" style="margin-bottom:0">Empty intersection $\Rightarrow$ <strong>disjoint</strong>.</p>
+      </div>
+      <div class="box def">
+        <span class="tag">Difference</span>
+        $$A \setminus B = \{\, x : x \in A \text{ and } x \notin B \,\}$$
+        <p class="small" style="margin-bottom:0">In $A$, not in $B$. Not symmetric.</p>
+      </div>
+    </div>
+    <div class="box example" style="margin-top:16px">
+      <span class="tag">Worked · $A = \{1,2,3,4\}$, $B = \{3,4,5\}$</span>
+      $A \cup B = \{1,2,3,4,5\}$ &nbsp;·&nbsp; $A \cap B = \{3,4\}$ &nbsp;·&nbsp;
+      $A \setminus B = \{1,2\}$ &nbsp;·&nbsp; $B \setminus A = \{5\}$
+    </div>
+  </div>
+  <div class="notes">
+    Do the worked line on the board with the room calling out elements. The one thing to labour: "or" in
+    mathematics is inclusive, unlike "tea or coffee". Then point at $A \setminus B$ versus $B \setminus A$
+    and ask whether difference is commutative — they should see immediately that it is not, which sets up
+    the Cartesian product question after the break.
+  </div>
+  <script type="application/x-hs-check">
+    const A = S(1,2,3,4), B = S(3,4,5);
+    claim("A u B = {1,2,3,4,5}", () => seteq(union(A,B), S(1,2,3,4,5)));
+    claim("A n B = {3,4}", () => seteq(inter(A,B), S(3,4)));
+    claim("A \\ B = {1,2}", () => seteq(diff(A,B), S(1,2)));
+    claim("B \\ A = {5}", () => seteq(diff(B,A), S(5)));
+    counterexample("difference is NOT commutative", ([X,Y]) => seteq(diff(X,Y), diff(Y,X)), [A,B]);
+    setIdentity("union IS commutative", (X,Y) => union(X,Y), (X,Y) => union(Y,X), { arity: 2 });
+    setIdentity("intersection IS commutative", (X,Y) => inter(X,Y), (X,Y) => inter(Y,X), { arity: 2 });
+  </script>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <span class="kicker">Concept I · operations</span>
+  <h2>Complement and symmetric difference</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Complement</span>
+        <p>Fix a <strong>universe</strong> $U$. For $A \subseteq U$:</p>
+        $$A^{c} = U \setminus A = \{\, x \in U : x \notin A \,\}$$
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $A^c$ is <strong>meaningless without $U$</strong>. The complement of the evens is
+        $\{\text{odds}\}$ in $\mathbb{Z}$, but something else entirely in $\mathbb{R}$.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Symmetric difference</span>
+        $$A \triangle B = (A \setminus B) \cup (B \setminus A)$$
+        In exactly one of them — the "exclusive or" of sets.
+      </div>
+      <div class="box example">
+        <span class="tag">Worked</span>
+        With $U = \{1,\dots,6\}$, $A = \{1,2,3,4\}$, $B = \{3,4,5\}$:
+        $A^c = \{5,6\}$, and $A \triangle B = \{1,2\} \cup \{5\} = \{1,2,5\}$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Always write the universe on the board before writing a complement — model the habit you want. The
+    symmetric difference is the one they have not met; the "exactly one" reading is what makes it click,
+    and it is worth noting it equals $(A \cup B) \setminus (A \cap B)$, which they will prove in homework.
+  </div>
+  <script type="application/x-hs-check">
+    const U = [1,2,3,4,5,6], A = S(1,2,3,4), B = S(3,4,5);
+    const comp = X => diff(S(U), X);
+    claim("A^c = {5,6} in U = {1..6}", () => seteq(comp(A), S(5,6)));
+    claim("A sym-diff B = {1,2,5}", () => seteq(symdiff(A,B), S(1,2,5)));
+    setIdentity("A sym-diff B = (A u B) \\ (A n B)",
+      (X,Y) => symdiff(X,Y), (X,Y) => diff(union(X,Y), inter(X,Y)), { arity: 2 });
+    setIdentity("sym-diff is commutative", (X,Y) => symdiff(X,Y), (X,Y) => symdiff(Y,X), { arity: 2 });
+    setIdentity("double complement: (A^c)^c = A",
+      X => diff(S(U), diff(S(U), X)), X => inter(X, S(U)), { arity: 1 });
+  </script>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <span class="kicker">Concept I · pictures</span>
+  <h2>What a Venn diagram shows you</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition · Venn diagram</span>
+      A <strong>Venn diagram</strong> draws sets as overlapping regions — one region for each way an
+      element can be in or out of each set.
+    </div>
+    <div class="box example">
+      <span class="tag">Example · two circles, four regions</span>
+      In both, in $A$ only, in $B$ only, in neither — that is
+      $A \cap B$, $A \setminus B$, $B \setminus A$ and $(A \cup B)^c$. Every element of $U$ lands in
+      exactly one.
+    </div>
+  </div>
+  <div class="notes">
+    Draw the two circles and label all four regions with the operations from the last two slides — this
+    is the slide where the vocabulary becomes a picture, and it is worth the two minutes. Ask which region
+    $A \triangle B$ is (the two crescents) before you move on. Then hold the thought: the next slide takes
+    the picture away again.
+  </div>
+  <script type="application/x-hs-check">
+    claim("two circles give exactly 4 regions, and they partition the universe", () => {
+      const U = [1,2,3,4,5,6], A = S(1,2,3), B = S(3,4);
+      const c = X => diff(S(U), X);
+      const regions = [inter(A,B), diff(A,B), diff(B,A), c(union(A,B))];
+      const total = regions.reduce((n, r) => n + r.size, 0);
+      /* disjoint and covering: sizes add up to |U| */
+      return total === U.length && regions.length === 4;
+    });
+    claim("A sym-diff B is the two crescents: (A\\B) u (B\\A)", () => {
+      const A = S(1,2,3), B = S(3,4);
+      return seteq(symdiff(A,B), union(diff(A,B), diff(B,A)));
+    });
+  </script>
+</section>
+
+<!-- 12b -->
+<section class="slide">
+  <span class="kicker">Concept I · pictures</span>
+  <h2>…and why it is not a proof</h2>
+  <div class="s-body cols-7-5">
+    <div class="box pitfall">
+      <span class="tag">Trap · a real exam trap</span>
+      <p>One picture shows <em>one</em> configuration. A claim about <strong>all</strong> sets is not
+      settled by one picture.</p>
+      <p style="margin-bottom:0">Three sets need $2^3 = 8$ regions, and a hand-drawn diagram routinely
+      omits some. With four, no diagram of circles can show all $16$.</p>
+    </div>
+    <div class="box note">
+      <span class="tag">The honest workflow</span>
+      <ol style="margin:6px 0 0">
+        <li>Draw the diagram to <em>guess</em> the identity.</li>
+        <li>Write the double-inclusion proof to <em>establish</em> it.</li>
+        <li>Hand in step 2.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="notes">
+    Pitfall two from the spec. Do not ban diagrams — they are genuinely how working mathematicians find
+    the statement. Ban them as the final answer. The four-set fact is the argument that lands: ask the room
+    to draw four overlapping circles showing all sixteen regions, let them fail for a minute, then tell
+    them it is impossible with circles. That is a memorable reason to distrust the picture.
+  </div>
+  <script type="application/x-hs-check">
+    claim("3 sets carve the universe into 2^3 = 8 regions", () => Math.pow(2,3), 8);
+    claim("4 sets would need 2^4 = 16 regions", () => Math.pow(2,4), 16);
+    claim("a picture of ONE configuration cannot settle a universal claim: " +
+          "A n B = empty looks true if you only draw disjoint circles", () => {
+      const A = S(1,2), B = S(2,3);
+      return inter(A,B).size !== 0;   // the overlapping case exists
+    });
+  </script>
+</section>
+
+<!-- 13 · ACTIVITY 2 -->
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>Translate: prose into notation, notation into prose</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Universe $U = \{1,2,\dots,10\}$, $\;E = \{\text{even numbers in } U\}$, $\;T = \{\text{multiples of } 3 \text{ in } U\}$.
+        <ol>
+          <li>Write $E$ and $T$ in roster notation, then in set-builder notation.</li>
+          <li>Compute $E \cap T$, $\;E \cup T$, $\;E \setminus T$, $\;E \triangle T$, $\;T^c$.</li>
+          <li>Turn into notation: "the numbers in $U$ that are even but not multiples of three".</li>
+          <li>Turn into plain English: $\;(E \cup T)^c$.</li>
+        </ol>
+        <div class="share"><b>Share:</b> one group reads their sentence for (4) aloud; the room checks it against the roster list they computed.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Answers: $E = \{2,4,6,8,10\}$, $T = \{3,6,9\}$; $E \cap T = \{6\}$, $E \cup T = \{2,3,4,6,8,9,10\}$,
+    $E \setminus T = \{2,4,8,10\}$, $E \triangle T = \{2,3,4,8,9,10\}$, $T^c = \{1,2,4,5,7,8,10\}$.
+    (3) is $E \setminus T$. (4) is "the numbers from 1 to 10 that are neither even nor multiples of three",
+    namely $\{1,5,7\}$ — and that phrasing is De Morgan in English, which is exactly where we go next.
+    Do not tell them that yet; let the next slide land it.
+  </div>
+  <script type="application/x-hs-check">
+    const U = [1,2,3,4,5,6,7,8,9,10];
+    const E = S(2,4,6,8,10), T = S(3,6,9);
+    const comp = X => diff(S(U), X);
+    claim("E = {2,4,6,8,10}", () => seteq(E, S(U.filter(x => x % 2 === 0))));
+    claim("T = {3,6,9}", () => seteq(T, S(U.filter(x => x % 3 === 0))));
+    claim("E n T = {6}", () => seteq(inter(E,T), S(6)));
+    claim("E u T = {2,3,4,6,8,9,10}", () => seteq(union(E,T), S(2,3,4,6,8,9,10)));
+    claim("E \\ T = {2,4,8,10}", () => seteq(diff(E,T), S(2,4,8,10)));
+    claim("E sym-diff T = {2,3,4,8,9,10}", () => seteq(symdiff(E,T), S(2,3,4,8,9,10)));
+    claim("T^c = {1,2,4,5,7,8,10}", () => seteq(comp(T), S(1,2,4,5,7,8,10)));
+    claim("Q3: 'even but not a multiple of 3' is E \\ T", () => seteq(diff(E,T), S(2,4,8,10)));
+    claim("Q4: (E u T)^c = {1,5,7}", () => seteq(comp(union(E,T)), S(1,5,7)));
+    claim("Q4 in English = 'neither even nor a multiple of 3' = E^c n T^c",
+      () => seteq(comp(union(E,T)), inter(comp(E), comp(T))));
+  </script>
+</section>
+
+<!-- 14 · SECTION -->
+<section class="slide section">
+  <span class="kicker">Part II</span>
+  <h1>Proving that two sets are equal</h1>
+  <p class="lede">You now have the vocabulary. The rest of today is the technique — element-chasing, double inclusion, and how to disprove a set identity that is false.</p>
+  <span class="num-badge">2</span>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <span class="kicker">Concept II · the template</span>
+  <h2>Element-chasing, written out</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">The move</span>
+      <p>To show $X \subseteq Y$: take an <strong>arbitrary</strong> $x \in X$, unfold the definitions
+      of the operations in $X$, and deduce $x \in Y$.</p>
+      <p style="margin-bottom:0">Each operation turns into a logical connective:
+      $\cup \to$ or, $\cap \to$ and, $\setminus \to$ and-not.</p>
+    </div>
+    <div class="box example">
+      <span class="tag">The skeleton to copy</span>
+      <p style="margin-bottom:6px">$(\subseteq)$ Let $x \in X$ be arbitrary. Then <em>[unfold]</em>, so <em>[deduce]</em>, hence $x \in Y$.</p>
+      <p style="margin-bottom:6px">$(\supseteq)$ Let $x \in Y$ be arbitrary. Then <em>[unfold]</em>, so <em>[deduce]</em>, hence $x \in X$.</p>
+      <p style="margin-bottom:0">Both inclusions hold, so $X = Y$. $\;\blacksquare$</p>
+    </div>
+  </div>
+  <div class="notes">
+    Put this skeleton on the board and leave it there for the rest of the session — every proof today and
+    every homework proof this week is this shape with different filling. The translation table
+    (union-or, intersection-and, difference-and-not) is the entire technique: once the sentence is in logic,
+    the deduction is usually one step.
+  </div>
+  <script type="application/x-hs-check">
+    /* The translation table is the claim: membership in a compound set IS the connective. */
+    setIdentity("x in A u B  <->  (x in A) or (x in B)",
+      (A,B) => union(A,B),
+      (A,B) => S([1,2,3,4,5,6].filter(x => A.has(x) || B.has(x))), { arity: 2 });
+    setIdentity("x in A n B  <->  (x in A) and (x in B)",
+      (A,B) => inter(A,B),
+      (A,B) => S([1,2,3,4,5,6].filter(x => A.has(x) && B.has(x))), { arity: 2 });
+    setIdentity("x in A \\ B  <->  (x in A) and not (x in B)",
+      (A,B) => diff(A,B),
+      (A,B) => S([1,2,3,4,5,6].filter(x => A.has(x) && !B.has(x))), { arity: 2 });
+  </script>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <span class="kicker">Concept II · worked proof, first half</span>
+  <h2>$A \setminus (B \cap C) = (A \setminus B) \cup (A \setminus C)$</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">$(\subseteq)$ — left into right</span>
+      <p>Let $x \in A \setminus (B \cap C)$ be arbitrary.</p>
+      <p>Then $x \in A$ and $x \notin B \cap C$.</p>
+      <p>Now $x \notin B \cap C$ means <strong>not</strong> ($x \in B$ and $x \in C$) — so $x \notin B$ or $x \notin C$.</p>
+      <p style="margin-bottom:0">If $x \notin B$, then $x \in A \setminus B$; if $x \notin C$, then $x \in A \setminus C$. Either way $x$ lies in the union.</p>
+    </div>
+    <div class="box note">
+      <span class="tag">The step to watch</span>
+      Negating "and" produced "or". That single move is De Morgan — two slides away, with a name.
+    </div>
+  </div>
+  <div class="notes">
+    Board example one from the course spec. Do this half live and slowly, in full sentences, and leave it
+    on the board when you turn the slide — the second half is easier to follow with this still visible.
+    The step students skip is the negation: "not (P and Q)" becomes "not P or not Q".
+  </div>
+  <script type="application/x-hs-check">
+    claim("the negation step: not(P and Q) = (not P) or (not Q)", () => {
+      for (const P of [true,false]) for (const Q of [true,false])
+        if (!(P && Q) !== (!P || !Q)) return false;
+      return true;
+    });
+    claim("the inclusion (subset direction) holds on 300 random triples", () => {
+      const U = [1,2,3,4,5,6];
+      for (let i = 0; i < 300; i++) {
+        const A = new Set(U.filter(() => Math.random() < 0.5));
+        const B = new Set(U.filter(() => Math.random() < 0.5));
+        const C = new Set(U.filter(() => Math.random() < 0.5));
+        if (!subset(diff(A, inter(B,C)), union(diff(A,B), diff(A,C)))) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 16b -->
+<section class="slide">
+  <span class="kicker">Concept II · worked proof, second half</span>
+  <h2>…and the inclusion back again</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">$(\supseteq)$ — right into left</span>
+      <p>Let $x \in (A \setminus B) \cup (A \setminus C)$ be arbitrary, so $x$ is in at least one part.</p>
+      <p><em>Case 1:</em> $x \in A \setminus B$. Then $x \in A$, $x \notin B$, so $x \notin B \cap C$.</p>
+      <p><em>Case 2:</em> $x \in A \setminus C$. Then $x \in A$, $x \notin C$, so $x \notin B \cap C$.</p>
+      <p style="margin-bottom:0">Both give $x \in A \setminus (B \cap C)$. With the first half: equal. $\;\blacksquare$</p>
+    </div>
+    <div class="box note">
+      <span class="tag">Why two cases</span>
+      "Or" hands you one of two situations, not a specific one. Handle each, and both must land in the
+      same place.
+    </div>
+  </div>
+  <div class="notes">
+    Ask the room why the case split is forced before you write it: a union hypothesis tells you $x$ is in
+    at least one part, but not which, so a proof that assumes it is in $A \setminus B$ has covered only
+    half the possibilities. Then close the argument explicitly — both inclusions shown, therefore equal —
+    because students routinely prove both halves and forget to say the conclusion.
+  </div>
+  <script type="application/x-hs-check">
+    setIdentity("A \\ (B n C) = (A \\ B) u (A \\ C)",
+      (A,B,C) => diff(A, inter(B,C)),
+      (A,B,C) => union(diff(A,B), diff(A,C)), { arity: 3 });
+    claim("concrete instance: A={1,2,3}, B={2,3}, C={3,4}", () => {
+      const A = S(1,2,3), B = S(2,3), C = S(3,4);
+      return seteq(diff(A, inter(B,C)), S(1,2)) &&
+             seteq(union(diff(A,B), diff(A,C)), S(1,2));
+    });
+    claim("a single case would NOT suffice: x in A\\C but not in A\\B exists", () => {
+      const A = S(1,2), B = S(1), C = S(2);
+      return diff(A,C).has(1) && !diff(A,B).has(1);
+    });
+  </script>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <span class="kicker">Concept II · the named theorem</span>
+  <h2>De Morgan's laws</h2>
+  <div class="s-body cols-2">
+    <div class="box thm">
+      <span class="tag">Theorem · De Morgan's laws</span>
+      For all $A, B \subseteq U$:
+      $$(A \cup B)^{c} = A^{c} \cap B^{c}$$
+      $$(A \cap B)^{c} = A^{c} \cup B^{c}$$
+    </div>
+    <div class="box proof">
+      <span class="tag">Proof of the first</span>
+      <p>$(\subseteq)$ Let $x \in (A \cup B)^c$: then not ($x \in A$ or $x \in B$), so $x \notin A$ <strong>and</strong> $x \notin B$, i.e. $x \in A^c \cap B^c$.</p>
+      <p style="margin-bottom:0">$(\supseteq)$ Let $x \in A^c \cap B^c$: then $x$ is in neither, so $x \notin A \cup B$. $\;\blacksquare$</p>
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">In English</span>
+      "Not (even or a multiple of three)" $=$ "not even <strong>and</strong> not a multiple of three" —
+      your Activity 2 sentence. Negation swaps <em>and</em> with <em>or</em>.
+    </div>
+  </div>
+  <div class="notes">
+    Call back to Activity 2 explicitly: they already proved an instance of this in English without knowing
+    its name. Prove the first law on the board and set the second as a thirty-second exercise — it is the
+    same argument with the connectives swapped, and noticing that is worth more than watching you do it.
+    De Morgan returns in Session 5 for quantifiers and in Session 10 for logic; flag that.
+  </div>
+  <script type="application/x-hs-check">
+    const U6 = [1,2,3,4,5,6];
+    const comp = X => diff(S(U6), X);
+    setIdentity("De Morgan: (A u B)^c = A^c n B^c",
+      (A,B) => comp(union(A,B)), (A,B) => inter(comp(A), comp(B)), { arity: 2 });
+    setIdentity("De Morgan: (A n B)^c = A^c u B^c",
+      (A,B) => comp(inter(A,B)), (A,B) => union(comp(A), comp(B)), { arity: 2 });
+    claim("logic form: not(P or Q) = (not P) and (not Q)", () => {
+      for (const P of [true,false]) for (const Q of [true,false])
+        if (!(P || Q) !== (!P && !Q)) return false;
+      return true;
+    });
+    claim("Activity 2 was an instance: (E u T)^c = E^c n T^c in U = {1..10}", () => {
+      const U = [1,2,3,4,5,6,7,8,9,10], c = X => diff(S(U), X);
+      const E = S(2,4,6,8,10), T = S(3,6,9);
+      return seteq(c(union(E,T)), inter(c(E), c(T))) && seteq(c(union(E,T)), S(1,5,7));
+    });
+  </script>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <span class="kicker">Concept II · the other direction</span>
+  <h2>Disproving a set identity</h2>
+  <div class="s-body cols-7-5">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">What a disproof needs</span>
+        An identity is <strong>universal</strong>. To destroy it, produce <em>one</em> triple where it fails.
+      </div>
+      <div class="box example">
+        <span class="tag">Worked · is $A \setminus (B \setminus C) = (A \setminus B) \setminus C$?</span>
+        <p>Take $A = B = C = \{1\}$.</p>
+        <p>Left: $B \setminus C = \varnothing$, so $A \setminus \varnothing = \{1\}$.</p>
+        <p style="margin-bottom:0">Right: $A \setminus B = \varnothing$, so $\varnothing \setminus C = \varnothing$.<br>
+        $\{1\} \neq \varnothing$: <strong>false</strong>.</p>
+      </div>
+    </div>
+    <div class="box pitfall">
+      <span class="tag">Trap</span>
+      <p>"It failed when I drew it" is not a disproof.</p>
+      <p style="margin-bottom:0">Name the sets, compute both sides, point at the element on one side and
+      not the other — here, $1$.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Set difference is not associative and this is the smallest witness. Make them see the asymmetry:
+    the search for a counterexample is not random, you look where the operations disagree — sets that
+    overlap heavily, or the extremes $\varnothing$ and $A$ itself. Tell them homework has three
+    disprove items and this is the format expected: named sets, both sides computed, offending element named.
+  </div>
+  <script type="application/x-hs-check">
+    counterexample("A \\ (B \\ C) = (A \\ B) \\ C is FALSE at A=B=C={1}",
+      ([A,B,C]) => seteq(diff(A, diff(B,C)), diff(diff(A,B), C)), [S(1), S(1), S(1)]);
+    claim("left side is {1}", () => seteq(diff(S(1), diff(S(1), S(1))), S(1)));
+    claim("right side is empty", () => diff(diff(S(1), S(1)), S(1)).size, 0);
+    claim("the witnessing element is 1", () => diff(S(1), diff(S(1),S(1))).has(1));
+    counterexample("also false: A u (B n C) = (A u B) n C, at A={1}, B={}, C={}",
+      ([A,B,C]) => seteq(union(A, inter(B,C)), inter(union(A,B), C)), [S(1), S(), S()]);
+  </script>
+</section>
+
+<!-- 19 · ACTIVITY 3 -->
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>Prove it or break it</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">groups of three</span><span class="time">15 min</span></header>
+      <div class="a-body">
+        Three are true, two are false. Prove by double inclusion, or kill it with named sets and both sides computed.
+        <ol>
+          <li>$A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$</li>
+          <li>$(A \setminus B) \cup B = A \cup B$</li>
+          <li>$(A \cup B) \setminus B = A$</li>
+          <li>$A \triangle A = \varnothing$</li>
+          <li>$A \cup (B \cap C) = (A \cup B) \cap C$</li>
+        </ol>
+        <div class="share"><b>Share:</b> two groups present, one proof and one disproof. The room checks that the proof says "arbitrary" and the disproof names its element.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    True: 1 (distributivity), 2, 4. False: 3 and 5. For 3, take $A = \{1\}$, $B = \{1\}$: left is $\varnothing$,
+    right is $\{1\}$ — it only holds when $A$ and $B$ are disjoint, and asking a group to find that repair
+    is the good follow-up. For 5, take $A = \{1\}$, $B = C = \varnothing$: left $\{1\}$, right $\varnothing$.
+    Do not let a group claim 1 by Venn diagram; that is the pitfall from before the break and this is
+    where it gets tested.
+  </div>
+  <script type="application/x-hs-check">
+    setIdentity("1 TRUE · A n (B u C) = (A n B) u (A n C)",
+      (A,B,C) => inter(A, union(B,C)),
+      (A,B,C) => union(inter(A,B), inter(A,C)), { arity: 3 });
+    setIdentity("2 TRUE · (A \\ B) u B = A u B",
+      (A,B) => union(diff(A,B), B), (A,B) => union(A,B), { arity: 2 });
+    counterexample("3 FALSE · (A u B) \\ B = A fails at A = B = {1}",
+      ([A,B]) => seteq(diff(union(A,B), B), A), [S(1), S(1)]);
+    claim("3 repaired: it holds when A and B are disjoint", () => {
+      const U = [1,2,3,4,5,6];
+      for (let i = 0; i < 300; i++) {
+        const A = new Set(U.filter(() => Math.random() < 0.4));
+        const B = new Set(U.filter(x => !A.has(x) && Math.random() < 0.4));
+        if (!seteq(diff(union(A,B), B), A)) return false;
+      }
+      return true;
+    });
+    setIdentity("4 TRUE · A sym-diff A = empty",
+      A => symdiff(A,A), () => S(), { arity: 1 });
+    counterexample("5 FALSE · A u (B n C) = (A u B) n C fails at A={1}, B=C={}",
+      ([A,B,C]) => seteq(union(A, inter(B,C)), inter(union(A,B), C)), [S(1), S(), S()]);
+  </script>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <span class="kicker">Concept II · ordered pairs</span>
+  <h2>The Cartesian product</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition · Cartesian product</span>
+        The <strong>Cartesian product</strong> of $A$ and $B$ is
+        $$A \times B = \{\, (a,b) : a \in A \text{ and } b \in B \,\}$$
+        Its elements are <strong>ordered pairs</strong>: $(a,b) = (c,d)$ exactly when $a = c$ and $b = d$.
+      </div>
+      <div class="box note">
+        <span class="tag">Ordered, unlike a set</span>
+        $\{1,2\} = \{2,1\}$, but $(1,2) \neq (2,1)$ — the difference that makes coordinates, and
+        tomorrow's functions, possible.
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Worked · $A = \{1,2\}$, $B = \{x, y\}$</span>
+        $$A \times B = \{(1,x), (1,y), (2,x), (2,y)\}$$
+        $$B \times A = \{(x,1), (x,2), (y,1), (y,2)\}$$
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        $A \times B \neq B \times A$ in general. Witness: $A = \{1\}$, $B = \{2\}$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Board example three from the spec. The point to make: $\mathbb{R} \times \mathbb{R} = \mathbb{R}^2$ is
+    the plane they have used since school, and they have been taking ordered pairs for granted for years.
+    Ask when $A \times B = B \times A$ actually does hold — the answer ($A = B$, or one of them empty) is a
+    nice small proof and a good homework item.
+  </div>
+  <script type="application/x-hs-check">
+    const prod = (A,B) => { const o = []; for (const a of A) for (const b of B) o.push(a+"|"+b); return S(o); };
+    claim("A x B for A={1,2}, B={x,y} has the four expected pairs", () =>
+      seteq(prod(S(1,2), S("x","y")), S("1|x","1|y","2|x","2|y")));
+    counterexample("A x B = B x A is FALSE at A={1}, B={2}",
+      ([A,B]) => seteq(prod(A,B), prod(B,A)), [S(1), S(2)]);
+    claim("(1,2) != (2,1) as ordered pairs", () => "1|2" !== "2|1");
+    claim("{1,2} = {2,1} as sets", () => seteq(S(1,2), S(2,1)));
+    claim("A x B = B x A when A = B", () => seteq(prod(S(1,2), S(1,2)), prod(S(1,2), S(1,2))));
+    claim("A x B is empty when either factor is empty", () =>
+      prod(S(), S(1,2)).size === 0 && prod(S(1,2), S()).size === 0);
+  </script>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <span class="kicker">Concept II · counting</span>
+  <h2>How big is $A \times B$?</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box thm">
+        <span class="tag">Theorem</span>
+        <p style="margin-bottom:0">If $A$ and $B$ are finite, then $\;|A \times B| = |A| \cdot |B|$.</p>
+      </div>
+      <div class="box proof">
+        <span class="tag">Proof</span>
+        Every pair $(a,b)$ comes from two independent choices: $|A|$ ways to pick $a$, then $|B|$ ways to
+        pick $b$. Distinct choices give distinct pairs, since pairs match only when both coordinates do.
+        So the count is $|A| \cdot |B|$. $\;\blacksquare$
+      </div>
+    </div>
+    <div class="box note">
+      <span class="tag">You have just used the product rule</span>
+      That argument — independent choices multiply — is the foundation of Session 7's combinatorics.
+      Notice it now, so it is familiar when it gets a name.
+    </div>
+  </div>
+  <div class="notes">
+    Verify it on the $2 \times 2$ example from the previous slide before proving it in general — concrete
+    first, then the abstraction, which is the order this cohort needs. Flag honestly that "distinct choices
+    give distinct pairs" is the step doing the real work, and that in Session 7 this becomes the product
+    rule with a proper name.
+  </div>
+  <script type="application/x-hs-check">
+    const prod = (A,B) => { const o = []; for (const a of A) for (const b of B) o.push(a+"|"+b); return S(o); };
+    counts("|A x B| = |A|*|B| for |A|=2, |B|=2",
+      () => 2 * 2, () => prod(S(1,2), S("x","y")).size);
+    counts("|A x B| = |A|*|B| for |A|=3, |B|=4",
+      () => 3 * 4, () => prod(S(1,2,3), S("a","b","c","d")).size);
+    counts("|A x B| = 0 when B is empty", () => 3 * 0, () => prod(S(1,2,3), S()).size);
+    forallInt("|A x B| = |A|*|B| for A = {1..n}, B = {1..n}", n => {
+      const A = S(Array.from({length:n}, (_,i) => i+1));
+      return prod(A,A).size === n * n;
+    }, { lo: 0, hi: 30 });
+  </script>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <span class="kicker">Concept II · sets of sets</span>
+  <h2>The power set</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition · power set</span>
+        The <strong>power set</strong> of $A$ is the set of all subsets of $A$:
+        $$\mathcal{P}(A) = \{\, X : X \subseteq A \,\}$$
+        Its elements are themselves sets.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Trap</span>
+        Members of $\mathcal{P}(A)$ are related to $A$ by $\subseteq$, but to $\mathcal{P}(A)$ by $\in$.
+        So $\{1\} \in \mathcal{P}(A)$ and $\{1\} \subseteq A$ — both true, different statements.
+      </div>
+    </div>
+    <div class="box example">
+      <span class="tag">Worked · $\mathcal{P}(\{1,2,3\})$</span>
+      <p style="margin-bottom:6px">Organised by size:</p>
+      <p style="margin-bottom:4px">$\varnothing$</p>
+      <p style="margin-bottom:4px">$\{1\},\ \{2\},\ \{3\}$</p>
+      <p style="margin-bottom:4px">$\{1,2\},\ \{1,3\},\ \{2,3\}$</p>
+      <p style="margin-bottom:6px">$\{1,2,3\}$</p>
+      <p style="margin-bottom:0">Eight subsets: $1 + 3 + 3 + 1 = 8 = 2^3$. Both $\varnothing$ and $A$
+      itself are always in there.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Board example two from the spec — list all eight live, in that order, and make them tell you what is
+    missing when you deliberately leave out $\varnothing$. The rows $1,3,3,1$ are a row of Pascal's triangle;
+    do not explain it, just point at it and say Session 7. The $\in$ versus $\subseteq$ box is pitfall one
+    returning in a harder costume, which is exactly why power sets are where students lose it.
+  </div>
+  <script type="application/x-hs-check">
+    /* subsets of {1,2,3}, each encoded as a sorted string */
+    const powerset = (arr) => {
+      const out = [];
+      for (let m = 0; m < (1 << arr.length); m++) {
+        const s = arr.filter((_, i) => m & (1 << i));
+        out.push("{" + s.join(",") + "}");
+      }
+      return S(out);
+    };
+    claim("P({1,2,3}) has exactly 8 elements", () => powerset([1,2,3]).size, 8);
+    claim("P({1,2,3}) is the expected list", () => seteq(powerset([1,2,3]),
+      S("{}", "{1}", "{2}", "{3}", "{1,2}", "{1,3}", "{2,3}", "{1,2,3}")));
+    claim("the empty set is always in P(A)", () => powerset([1,2,3]).has("{}"));
+    claim("A itself is always in P(A)", () => powerset([1,2,3]).has("{1,2,3}"));
+    claim("sizes by row: 1 + 3 + 3 + 1 = 8", () => 1 + 3 + 3 + 1, 8);
+    claim("the row counts are binomial coefficients C(3,k)", () =>
+      C(3,0) === 1n && C(3,1) === 3n && C(3,2) === 3n && C(3,3) === 1n);
+  </script>
+</section>
+
+<!-- 23 -->
+<section class="slide">
+  <span class="kicker">Concept II · the count</span>
+  <h2>$|\mathcal{P}(A)| = 2^{|A|}$</h2>
+  <div class="s-body cols-7-5">
+    <div class="stack">
+      <div class="box thm">
+        <span class="tag">Theorem</span>
+        If $|A| = n$ then $\mathcal{P}(A)$ has exactly $2^{n}$ elements.
+      </div>
+      <div class="box proof">
+        <span class="tag">Proof · one binary choice per element</span>
+        <p>To build a subset $X \subseteq A$, walk the $n$ elements of $A$ and for each decide:
+        <strong>in $X$, or not in $X$</strong>. Two options, $n$ times, independently.</p>
+        <p style="margin-bottom:0">Every subset arises from exactly one such sequence of decisions, so
+        there are $2 \times 2 \times \cdots \times 2 = 2^n$ of them. $\;\blacksquare$</p>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Check it</span>
+        $|A| = 0$: only $\varnothing$, and $2^0 = 1$. &nbsp;$|A| = 3$: the eight we listed, $2^3 = 8$.
+      </div>
+      <div class="box note">
+        <span class="tag">Grows fast</span>
+        $|A| = 10$ gives $1024$ subsets; $|A| = 20$, over a million. Session 4 names this: exponential.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The bijection with binary strings is worth drawing: $\{1,3\} \subseteq \{1,2,3\}$ is $101$. That picture
+    makes $2^n$ obvious rather than memorised, and it comes back in Session 7. Note the $n = 0$ case out
+    loud — the empty set has exactly one subset, itself — because students expect zero and it is a classic
+    exam slip.
+  </div>
+  <script type="application/x-hs-check">
+    const powerCount = n => {
+      let c = 0;
+      for (let m = 0; m < (1 << n); m++) c++;
+      return c;
+    };
+    forallInt("|P(A)| = 2^n by enumeration, n = 0..16",
+      n => powerCount(n) === Math.pow(2, n), { lo: 0, hi: 16 });
+    claim("n = 0: the empty set has exactly one subset", () => powerCount(0), 1);
+    claim("n = 3: eight subsets", () => powerCount(3), 8);
+    claim("n = 10: 1024 subsets", () => powerCount(10), 1024);
+    claim("subsets correspond to binary strings: {1,3} of {1,2,3} is 101", () => {
+      const A = [1,2,3], X = S(1,3);
+      return A.map(a => X.has(a) ? "1" : "0").join("") === "101";
+    });
+    counts("the subsets of size k sum to 2^n: sum C(4,k) = 16",
+      () => 16, () => Number(C(4,0)+C(4,1)+C(4,2)+C(4,3)+C(4,4)));
+  </script>
+</section>
+
+<!-- 24 · ACTIVITY 4 -->
+<section class="slide">
+  <span class="kicker">Activity 4</span>
+  <h2>Products and power sets</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Let $A = \{1, 2\}$ and $B = \{a\}$.
+        <ol>
+          <li>List $A \times B$ and $B \times A$. Are they equal? Justify from the definition of an ordered pair.</li>
+          <li>List $\mathcal{P}(A)$ in full. How many elements does $\mathcal{P}(\mathcal{P}(A))$ have? Do not list it.</li>
+          <li>Is $\mathcal{P}(A \cap B) = \mathcal{P}(A) \cap \mathcal{P}(B)$? Prove it or break it.</li>
+          <li>Is $\mathcal{P}(A \cup B) = \mathcal{P}(A) \cup \mathcal{P}(B)$? Prove it or break it.</li>
+        </ol>
+        <div class="share"><b>Share:</b> one pair presents (3), another (4). The room decides why one direction of (4) survives and the other does not.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    (1) Not equal: $(1,a) \neq (a,1)$. (2) $\mathcal{P}(A)$ has 4 elements, so $\mathcal{P}(\mathcal{P}(A))$
+    has $2^4 = 16$ — several pairs will try to list it and lose five minutes; let one of them, it teaches
+    the point about growth. (3) is TRUE for all sets. (4) is FALSE: with $A=\{1\}$, $B=\{2\}$, the set
+    $\{1,2\}$ is in the left but in neither part of the right. Only $\supseteq$ holds. That asymmetry
+    between (3) and (4) is the best thing in this activity — make sure it gets said out loud.
+  </div>
+  <script type="application/x-hs-check">
+    const prod = (A,B) => { const o=[]; for (const a of A) for (const b of B) o.push(a+"|"+b); return S(o); };
+    const psetOf = (A) => { const arr=[...A].sort(); const o=[];
+      for (let m=0; m<(1<<arr.length); m++) o.push("{"+arr.filter((_,i)=>m&(1<<i)).join(",")+"}");
+      return S(o); };
+    claim("Q1: A x B = {(1,a),(2,a)}", () => seteq(prod(S(1,2), S("a")), S("1|a","2|a")));
+    counterexample("Q1: A x B = B x A is false here",
+      ([A,B]) => seteq(prod(A,B), prod(B,A)), [S(1,2), S("a")]);
+    claim("Q2: |P(A)| = 4 for A = {1,2}", () => psetOf(S(1,2)).size, 4);
+    claim("Q2: |P(P(A))| = 2^4 = 16", () => Math.pow(2, 4), 16);
+    setIdentity("Q3 TRUE: P(A n B) = P(A) n P(B)",
+      (A,B) => psetOf(inter(A,B)),
+      (A,B) => inter(psetOf(A), psetOf(B)), { arity: 2, universe: [1,2,3] });
+    counterexample("Q4 FALSE: P(A u B) = P(A) u P(B) fails at A={1}, B={2}",
+      ([A,B]) => seteq(psetOf(union(A,B)), union(psetOf(A), psetOf(B))), [S(1), S(2)]);
+    claim("Q4: the offending element is {1,2}", () => {
+      const L = psetOf(union(S(1), S(2))), R = union(psetOf(S(1)), psetOf(S(2)));
+      return L.has("{1,2}") && !R.has("{1,2}");
+    });
+    claim("Q4: one inclusion DOES hold, P(A) u P(B) subset P(A u B)", () => {
+      const U = [1,2,3];
+      for (let i = 0; i < 200; i++) {
+        const A = new Set(U.filter(() => Math.random() < 0.5));
+        const B = new Set(U.filter(() => Math.random() < 0.5));
+        if (!subset(union(psetOf(A), psetOf(B)), psetOf(union(A,B)))) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <span class="kicker">Watch out</span>
+  <h2>The three ways today goes wrong</h2>
+  <div class="s-body cols-3">
+    <div class="box pitfall">
+      <span class="tag">1 · Confusing $\in$ with $\subseteq$</span>
+      Is $\{1\} \in \{\{1\},2\}$? Yes. Is $\{1\} \subseteq \{1,2\}$? Yes. Different relations, different
+      questions.
+    </div>
+    <div class="box pitfall">
+      <span class="tag">2 · The diagram is not the proof</span>
+      A Venn diagram shows one configuration; the claim quantifies over all sets. Draw to guess, write
+      the inclusion to prove.
+    </div>
+    <div class="box pitfall">
+      <span class="tag">3 · Forgetting $\varnothing$</span>
+      $\varnothing \subseteq A$ for every $A$, vacuously. It is in every power set — and it is the case
+      people drop when listing subsets.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">The fix for all three</span>
+      Go back to the definition and read it as a sentence about an arbitrary element. All three errors
+      come from reasoning off the shape of the notation instead.
+    </div>
+  </div>
+  <div class="notes">
+    All three are the spec's pitfalls, and each has already appeared today — call back to where.
+    The unifying fix in the note box is the sentence to leave them with: when stuck, unfold the definition
+    and talk about an arbitrary element. Two minutes; they are tired by now and this is a checklist,
+    not new material.
+  </div>
+  <script type="application/x-hs-check">
+    claim("1 · {1} in {{1},2} is true, {1} subset {1,2} is true, and they are different questions", () =>
+      S("{1}", 2).has("{1}") && subset(S(1), S(1,2)) && !subset(S(1), S("{1}", 2)));
+    claim("3 · the empty set is in every power set", () => {
+      const psetOf = (A) => { const arr=[...A]; const o=[];
+        for (let m=0; m<(1<<arr.length); m++) o.push("{"+arr.filter((_,i)=>m&(1<<i)).join(",")+"}");
+        return S(o); };
+      return psetOf(S(1,2,3)).has("{}") && psetOf(S()).has("{}");
+    });
+  </script>
+</section>
+
+<!-- 26 · EXIT TICKET -->
+<section class="slide">
+  <span class="kicker">Exit ticket · 10 minutes</span>
+  <h2>On your own, before you leave</h2>
+  <div class="s-body cols-3">
+    <div class="box try">
+      <span class="tag">1</span>
+      With $U = \{1,\dots,8\}$, $A = \{2,4,6,8\}$, $B = \{1,2,3,4\}$: compute
+      $A \triangle B$ and $(A \cap B)^c$.
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      Prove $(A \cap B) \subseteq A$ for all sets $A, B$. Two lines, and the word
+      <em>arbitrary</em> must appear.
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      Disprove: $\mathcal{P}(A) \cup \mathcal{P}(B) = \mathcal{P}(A \cup B)$. Name your sets and the
+      element that breaks it.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule for today</span>
+      One sentence of justification under every answer. Hand it in on the way out — not graded, but it
+      tells us who to sit with tomorrow.
+    </div>
+  </div>
+  <div class="notes">
+    Individual and silent. Expected: (1) $A \triangle B = \{1,3,6,8\}$ and $(A \cap B)^c = \{1,3,5,6,7,8\}$;
+    (2) let $x \in A \cap B$ be arbitrary, then $x \in A$ and $x \in B$, in particular $x \in A$;
+    (3) $A = \{1\}$, $B = \{2\}$, and $\{1,2\}$ is in the right side but neither part of the left — the same
+    fact as Activity 4 question 4, so watch whether they transfer it. Collect these; they are your read on
+    who understood double inclusion before homework lands.
+  </div>
+  <script type="application/x-hs-check">
+    const U8 = [1,2,3,4,5,6,7,8];
+    const A = S(2,4,6,8), B = S(1,2,3,4), comp = X => diff(S(U8), X);
+    claim("Q1: A sym-diff B = {1,3,6,8}", () => seteq(symdiff(A,B), S(1,3,6,8)));
+    claim("Q1: (A n B)^c = {1,3,5,6,7,8}", () => seteq(comp(inter(A,B)), S(1,3,5,6,7,8)));
+    setIdentity("Q2: (A n B) subset A, for all A and B",
+      (X,Y) => inter(inter(X,Y), X), (X,Y) => inter(X,Y), { arity: 2 });
+    claim("Q2 stated as an inclusion, on 300 random pairs", () => {
+      const U = [1,2,3,4,5,6];
+      for (let i = 0; i < 300; i++) {
+        const X = new Set(U.filter(() => Math.random() < 0.5));
+        const Y = new Set(U.filter(() => Math.random() < 0.5));
+        if (!subset(inter(X,Y), X)) return false;
+      }
+      return true;
+    });
+    counterexample("Q3: P(A) u P(B) = P(A u B) fails at A={1}, B={2}", ([X,Y]) => {
+      const psetOf = (Z) => { const arr=[...Z].sort(); const o=[];
+        for (let m=0; m<(1<<arr.length); m++) o.push("{"+arr.filter((_,i)=>m&(1<<i)).join(",")+"}");
+        return S(o); };
+      return seteq(union(psetOf(X), psetOf(Y)), psetOf(union(X,Y)));
+    }, [S(1), S(2)]);
+  </script>
+</section>
+
+<!-- 27 · WRAP-UP -->
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was actually about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>A set is determined by <strong>what is in it</strong> — not by order, repetition, or the notation you wrote it in.</li>
+        <li>Every operation is a logical connective in disguise: $\cup$ is <em>or</em>, $\cap$ is <em>and</em>, $\setminus$ is <em>and not</em>.</li>
+        <li><strong>Double inclusion</strong> proves an equality; <strong>one counterexample</strong> destroys one.</li>
+      </ul>
+      <div class="chips" style="margin-top:18px">
+        <span class="chip">set</span>
+        <span class="chip">element</span>
+        <span class="chip">subset</span>
+        <span class="chip hot">double inclusion</span>
+        <span class="chip">power set</span>
+        <span class="chip">De Morgan</span>
+        <span class="chip">Cartesian product</span>
+        <span class="chip">Venn diagram</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Homework 2</h3>
+      <p class="small">Set identities: <strong>6 to prove</strong> by double inclusion, <strong>3 to disprove</strong> by counterexample. Every proof must say "arbitrary"; every disproof must name its sets and its element.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>Functions</strong> — which are built from today's Cartesian product, and are the reason ordered pairs mattered.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Close on the three bullets, especially the middle one — if they remember only that operations are
+    connectives, they can reconstruct every proof from today. Brief Homework 2 concretely and repeat the
+    two format rules, because that is where marks go. Then the hook for tomorrow: a function is a special
+    subset of $A \times B$, so today's last hour was the groundwork.
+  </div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>
