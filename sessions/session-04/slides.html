@@ -1,0 +1,1182 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Session 4 · Function families</title>
+<link rel="stylesheet" href="../../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../../brand/hs-tokens.css">
+<link rel="stylesheet" href="../../brand/deck.css">
+<body data-course="Intro to Higher Math" data-session="4">
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide title">
+  <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
+  <h1>Function families</h1>
+  <p class="lede" style="max-width:56ch"><strong>Topics:</strong> polynomial, exponential, logarithmic, and trigonometric functions.</p>
+  <p class="lede" style="max-width:56ch"><strong>Goal:</strong> learn the main types of functions, recognise their graphs, and compare how quickly they grow.</p>
+  <p class="lede" style="max-width:56ch">Today's question: <strong>What can the shape of a function tell us before we calculate?</strong></p>
+  <div class="meta">
+    <div>Session<b>4 of 15</b></div>
+    <div>Date<b>Thu 10 Sep 2026</b></div>
+  </div>
+  <div class="notes">
+    Connect to Session 3: students now know what a function is. Today gives them useful families of
+    functions to recognise and compare. State that every graph shown today has a declared domain; when
+    none is written, use the natural real domain of the formula.
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <span class="kicker">Course outline</span>
+  <h2>Where session 4 sits</h2>
+  <div class="s-body">
+    <table class="small">
+      <tr><td>1 · Course overview and algebra refresher</td><td>2 · Sets and set operations</td></tr>
+      <tr><td>3 · Functions</td><td><strong>4 · Function families</strong></td></tr>
+      <tr><td>5 · Theorem proving</td><td>6 · Mathematical induction</td></tr>
+      <tr><td>7 · Combinatorics and the binomial theorem</td><td>8 · Midterm</td></tr>
+      <tr><td>9 · GCD and divisibility</td><td>10 · Modular arithmetic</td></tr>
+      <tr><td>11 · Vectors</td><td>12 · Polynomials</td></tr>
+      <tr><td>13 · Complex numbers</td><td>14 · Course recap and exam preparation</td></tr>
+      <tr><td>15 · Final exam</td><td></td></tr>
+    </table>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">Today</span>
+      Polynomial, exponential/logarithmic, and trigonometric families.
+    </div>
+  </div>
+  <div class="notes">
+    Point out the deliberate repeat: polynomials appear today as a function family and return in
+    Session 12 for deeper algebra. The course moves from the language of functions to proof techniques
+    next session.
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <span class="kicker">Warm-up</span>
+  <h2>One input rule, many possible shapes</h2>
+  <div class="s-body">
+    <p class="small" style="margin:0 0 10px">Yesterday, a function needed a domain, a codomain, and one output for each input. Today, compare these rules on $\mathbb{R}$:</p>
+    <table class="small">
+      <tr><th>Function</th><th>What happens when $x$ is large and positive?</th></tr>
+      <tr><td>$x^2$</td><td>grows like a square</td></tr>
+      <tr><td>$2^x$</td><td>doubles whenever $x$ increases by $1$</td></tr>
+      <tr><td>$\log_2 x$</td><td>grows slowly; only defined for $x&gt;0$</td></tr>
+      <tr><td>$\sin x$</td><td>repeats forever between $-1$ and $1$</td></tr>
+    </table>
+    <div class="box try" style="margin-top:14px">
+      <span class="tag">Warm-up</span>
+      Which function will be larger when $x$ becomes very large: $x^2$ or $2^x$? Why is checking only $x=1$ not enough?
+    </div>
+  </div>
+  <div class="notes">
+    Ask for predictions, not answers from memory. At $x=1$, $x^2=1$ and $2^x=2$; at $x=3$, $9&gt;8$; at
+    $x=10$, $1024&gt;100$. This makes the need for the word "eventually" visible. Do not yet claim a
+    formal growth theorem; it appears later.
+  </div>
+  <script type="application/x-hs-check">
+    claim("at x = 1: x^2 = 1 and 2^x = 2", () => 1*1 === 1 && Math.pow(2,1) === 2);
+    claim("at x = 3: 9 > 8", () => 3*3 === 9 && Math.pow(2,3) === 8 && 9 > 8);
+    claim("at x = 10: 1024 > 100", () => Math.pow(2,10) === 1024 && 10*10 === 100);
+    forallInt("2^n > n^2 for every n >= 5", n => Math.pow(2,n) > n*n, { lo: 5, hi: 300 });
+    claim("log_2 x is defined only for x > 0",
+      () => !isFinite(Math.log2(0)) && Number.isNaN(Math.log2(-1)));
+    identity("sin x stays between -1 and 1",
+      x => (Math.abs(Math.sin(x)) <= 1 + 1e-15 ? 1 : 0), () => 1, { lo: -60, hi: 60 });
+    identity("2^x doubles when x increases by 1",
+      x => Math.pow(2, x+1) / Math.pow(2, x), () => 2, { lo: -20, hi: 20 });
+  </script>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <span class="kicker">Objectives</span>
+  <h2>By the end of today, you can…</h2>
+  <div class="s-body cols-7-5">
+    <ul class="ticks">
+      <li>classify a polynomial by degree, and describe its end behaviour and roots;</li>
+      <li>use exponent and logarithm laws only when their conditions are true;</li>
+      <li>convert logarithms between bases and solve simple exponential or logarithmic equations;</li>
+      <li>compare logarithmic, polynomial, and exponential growth for large inputs;</li>
+      <li>transform a graph, and read amplitude, period, and shift from a trigonometric model.</li>
+    </ul>
+    <div class="card solid">
+      <h3>Success means…</h3>
+      <p class="small" style="margin-bottom:0">explaining <strong>why</strong> you may use a rule, not only using it.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Read the objectives aloud. "Possible roots" is deliberate: a degree-$n$ polynomial has at most $n$
+    distinct real roots, not necessarily exactly $n$. The three family sections each return to the same
+    questions: domain, range, shape, and rate of change.
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <span class="kicker">Transformations</span>
+  <h2>One transformation language works for every family</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      Start with the graph $y=f(x)$. For
+      $$g(x)=a\,f\bigl(b(x-h)\bigr)+k \qquad (b&gt;0),$$
+      read from the <strong>inside out</strong>: change $x$ first, then change $y$.
+    </div>
+    <table class="small">
+      <tr><th>Change</th><th>Effect on the graph</th></tr>
+      <tr><td>$h$</td><td>move $h$ units horizontally (right if $h&gt;0$)</td></tr>
+      <tr><td>$k$</td><td>move $k$ units vertically (up if $k&gt;0$)</td></tr>
+      <tr><td>$|a|$</td><td>make the graph $|a|$ times taller; if $a&lt;0$, turn it upside down</td></tr>
+      <tr><td>$b$</td><td>make the graph $1/b$ times as wide</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Keep $b&gt;0$ on this first-pass transformation rule so that the horizontal reflection case does not
+    distract. Demonstrate with $g(x)=-2f(3(x-1))+4$: right $1$, horizontal compression by factor $1/3$,
+    vertical stretch by $2$, vertical reflection, then up $4$. Emphasise that $f(x-3)$ shifts right, not
+    left: to get the same old output $f(0)$, the new input must be $x=3$.
+  </div>
+  <script type="application/x-hs-check">
+    identity("g(x) = -2 f(3(x-1)) + 4 with f(t) = t^2",
+      x => -2*Math.pow(3*(x-1),2)+4,
+      x => { const f = t => t*t; return -2*f(3*(x-1))+4; });
+    claim("f(x-3) shifts right: the old output f(0) now occurs at x = 3",
+      () => { const f = t => t*t; return f(3-3) === f(0); });
+    claim("b = 3 compresses by 1/3: the input 3(x-1) reaches 1 at x = 1 + 1/3",
+      () => 3*((1 + 1/3) - 1), 1);
+    identity("k shifts vertically: g(x) - k recovers a f(b(x-h))",
+      x => (-2*Math.pow(3*(x-1),2)+4) - 4, x => -2*Math.pow(3*(x-1),2));
+    claim("|a| = 2 makes the graph twice as tall", () => Math.abs(-2), 2);
+  </script>
+</section>
+
+<!-- 6 -->
+<section class="slide section">
+  <span class="kicker">Function family I</span>
+  <h1>Polynomials</h1>
+  <p class="lede">The formula tells us about the graph. Examples: $3$, &nbsp;$-2x+5$, &nbsp;$x^2-4x+3$, &nbsp;$2x^5-x$.</p>
+  <p class="lede">In a simplified polynomial, the variable is not in a denominator, under a root, or in an exponent.</p>
+  <p class="lede"><strong>Question:</strong> Which part of a polynomial tells us what its graph does far left and far right?</p>
+  <span class="num-badge">1</span>
+  <div class="notes">
+    Let students name familiar examples. A constant nonzero polynomial has degree $0$; the zero
+    polynomial is special and does not have a degree under the usual convention, so leave it out of the
+    classification discussion.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the four examples are polynomials: no variable in a denominator, root or exponent", () => {
+      const ps = [x => 3, x => -2*x + 5, x => x*x - 4*x + 3, x => 2*Math.pow(x,5) - x];
+      for (const p of ps) for (let i = 0; i < 500; i++) {
+        const x = Math.random()*20 - 10;
+        if (!isFinite(p(x))) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <span class="kicker">Polynomials</span>
+  <h2>Degree is the largest exponent with a coefficient that is not zero</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      A polynomial has the form
+      $$p(x)=a_nx^n+\cdots+a_1x+a_0,$$
+      where $n\geq 0$ and $a_n\ne0$. Its <strong>degree</strong> is $n$, and $a_n$ is its <strong>leading coefficient</strong>. For this session, the coefficients $a_i$ are real numbers.
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Worked</span>
+        <table class="small">
+          <tr><th>Polynomial</th><th class="num">Degree</th><th class="num">Leading coefficient</th></tr>
+          <tr><td>$-4x^3+7x-1$</td><td class="num">$3$</td><td class="num">$-4$</td></tr>
+          <tr><td>$5x^2-2x^5$</td><td class="num">$5$</td><td class="num">$-2$</td></tr>
+          <tr><td>$6$</td><td class="num">$0$</td><td class="num">$6$</td></tr>
+        </table>
+      </div>
+      <div class="box note">
+        <span class="tag">Method</span>
+        Write the largest power first before you find the degree.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ask why $5x^2-2x^5$ has degree $5$, not $2$: position in the written expression is irrelevant.
+    Mention that terms with coefficient zero are absent. The zero polynomial is excluded because there
+    is no "largest exponent with nonzero coefficient."
+  </div>
+  <script type="application/x-hs-check">
+    const degLc = c => {
+      const ks = Object.keys(c).map(Number).filter(k => c[k] !== 0);
+      const d = Math.max(...ks);
+      return [d, c[d]];
+    };
+    claim("-4x^3+7x-1 has degree 3 and leading coefficient -4",
+      () => { const [d, a] = degLc({3:-4, 1:7, 0:-1}); return d === 3 && a === -4; });
+    claim("5x^2-2x^5 has degree 5 and leading coefficient -2 — written order is irrelevant",
+      () => { const [d, a] = degLc({2:5, 5:-2}); return d === 5 && a === -2; });
+    claim("the constant 6 has degree 0 and leading coefficient 6",
+      () => { const [d, a] = degLc({0:6}); return d === 0 && a === 6; });
+  </script>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <span class="kicker">Polynomials</span>
+  <h2>The highest-power term tells us what happens at the ends</h2>
+  <div class="s-body cols-7-5">
+    <table class="small">
+      <tr><th>Degree $n$</th><th>Leading coefficient $a_n$</th><th>Left end</th><th>Right end</th></tr>
+      <tr><td>even</td><td>positive</td><td>up</td><td>up</td></tr>
+      <tr><td>even</td><td>negative</td><td>down</td><td>down</td></tr>
+      <tr><td>odd</td><td>positive</td><td>down</td><td>up</td></tr>
+      <tr><td>odd</td><td>negative</td><td>up</td><td>down</td></tr>
+    </table>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">Reading it</span>
+        When $x$ is very large positive or very large negative, $p(x)$ behaves like $a_nx^n$. Here <strong>up</strong> means the value becomes very large positive; <strong>down</strong> means it becomes very large negative.
+      </div>
+      <div class="box example">
+        <span class="tag">Example</span>
+        $p(x)=-2x^5+7x^2-1$ has odd degree and a negative leading coefficient, so it goes <strong>up on the left</strong> and <strong>down on the right</strong>.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    "Up" means $p(x)\to+\infty$ and "down" means $p(x)\to-\infty$. Explain "leading term wins"
+    informally: dividing by $x^n$ gives $p(x)/x^n=a_n+a_{n-1}/x+\cdots+a_0/x^n$, and all terms after
+    $a_n$ approach $0$ as $|x|\to\infty$. This is a justification, not a slogan.
+  </div>
+  <script type="application/x-hs-check">
+    claim("p(x) = -2x^5+7x^2-1 goes up on the left and down on the right", () => {
+      const p = x => -2*Math.pow(x,5) + 7*x*x - 1;
+      return p(-1000) > 1e9 && p(1000) < -1e9;
+    });
+    identity("p(x)/x^n -> a_n: the lower terms vanish as |x| grows",
+      x => (-2*Math.pow(x,5) + 7*x*x - 1)/Math.pow(x,5), () => -2, { lo: 1e6, hi: 1e7 });
+    claim("even degree, positive leading coefficient: both ends up",
+      () => { const p = x => x*x; return p(-1000) > 0 && p(1000) > 0; });
+    claim("even degree, negative leading coefficient: both ends down",
+      () => { const p = x => -x*x; return p(-1000) < 0 && p(1000) < 0; });
+    claim("odd degree, positive leading coefficient: down on the left, up on the right",
+      () => { const p = x => x*x*x; return p(-1000) < 0 && p(1000) > 0; });
+    claim("odd degree, negative leading coefficient: up on the left, down on the right",
+      () => { const p = x => -x*x*x; return p(-1000) > 0 && p(1000) < 0; });
+  </script>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <span class="kicker">Polynomials</span>
+  <h2>Roots are where the graph meets the $x$-axis</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Definition</span>
+        A number $r$ is a <strong>root</strong> (or zero) of $p$ when $p(r)=0$.
+      </div>
+      <div class="box thm" data-proof="board: each distinct root supplies a distinct linear factor, and a degree-n polynomial cannot contain more than n such factors">
+        <span class="tag">Factor theorem</span>
+        $$p(r)=0 \quad\Longleftrightarrow\quad (x-r)\text{ is a factor of }p(x).$$
+      </div>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        $$p(x)=x^3-4x=x(x^2-4)=x(x-2)(x+2),$$
+        so the roots are $-2$, $0$, and $2$.
+      </div>
+      <div class="box note">
+        <span class="tag">At most</span>
+        A nonzero polynomial of degree $n$ has <strong>at most $n$ different real roots</strong>.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Substitute each root: $p(-2)=0$, $p(0)=0$, and $p(2)=0$. The "at most" statement is important:
+    $x^2+1$ has no real roots, while $(x-1)^2$ has one distinct real root but degree $2$. Briefly
+    justify the theorem: each distinct root supplies a distinct linear factor, and a degree-$n$
+    polynomial cannot contain more than $n$ such factors. A full complex-root statement comes in
+    Session 13.
+  </div>
+  <script type="application/x-hs-check">
+    identity("x^3-4x = x(x-2)(x+2)", x => x*x*x - 4*x, x => x*(x-2)*(x+2));
+    claim("the roots -2, 0, 2 all satisfy p(r) = 0", () => {
+      const p = x => x*x*x - 4*x;
+      return p(-2) === 0 && p(0) === 0 && p(2) === 0;
+    });
+    claim("factor theorem, one direction checked: p(2) = 0 and (x-2) divides p", () => {
+      const p = x => x*x*x - 4*x, q = x => x*x + 2*x;
+      for (let i = 0; i < 3000; i++) {
+        const x = Math.random()*20 - 10;
+        if (Math.abs(p(x) - (x-2)*q(x)) > 1e-9) return false;
+      }
+      return p(2) === 0;
+    });
+    claim("at most n roots: x^2+1 has no real root", () => {
+      for (let i = 0; i < 20000; i++) {
+        const x = Math.random()*400 - 200;
+        if (Math.abs(x*x + 1) < 1e-12) return false;
+      }
+      return true;
+    });
+    claim("(x-1)^2 has degree 2 but only one distinct real root", () => {
+      const p = x => (x-1)*(x-1);
+      return p(1) === 0 && p(0) !== 0 && p(2) !== 0;
+    });
+  </script>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <span class="kicker">Activity 1</span>
+  <h2>Read a quadratic from its formula</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 1</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        For $\;q(x)=-(x-2)^2+3$:
+        <ol>
+          <li>State the degree and leading coefficient.</li>
+          <li>Describe the transformation from $y=x^2$.</li>
+          <li>State the vertex and end behaviour.</li>
+          <li>Find the roots in exact form (do not use decimals).</li>
+        </ol>
+        <div class="share"><b>Share:</b> one group explains why the two roots are $2\pm\sqrt3$, rather than $\pm\sqrt3$.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Expected answer: degree $2$, leading coefficient $-1$; shift right $2$, up $3$, then reflect
+    vertically; vertex $(2,3)$; both ends down. For roots, $-(x-2)^2+3=0$ is equivalent to
+    $(x-2)^2=3$, then $x-2=\pm\sqrt3$, hence $x=2\pm\sqrt3$. The common mistake in the share prompt
+    drops the horizontal shift.
+  </div>
+  <script type="application/x-hs-check">
+    identity("q(x) = -(x-2)^2+3 expands to -x^2+4x-1, so degree 2 and leading coefficient -1",
+      x => -Math.pow(x-2,2)+3, x => -x*x + 4*x - 1);
+    claim("vertex is (2,3)", () => -Math.pow(2-2,2)+3, 3);
+    claim("both ends down",
+      () => { const q = x => -Math.pow(x-2,2)+3; return q(-1000) < 0 && q(1000) < 0; });
+    claim("the roots are 2 ± sqrt(3)", () => {
+      const q = x => -Math.pow(x-2,2)+3;
+      return Math.abs(q(2+Math.sqrt(3))) < 1e-12 && Math.abs(q(2-Math.sqrt(3))) < 1e-12;
+    });
+    counterexample("±sqrt(3) alone are not roots — the horizontal shift is dropped",
+      x => Math.abs(-Math.pow(x-2,2)+3) < 1e-12, Math.sqrt(3));
+  </script>
+</section>
+<!-- 11 -->
+<section class="slide">
+  <span class="kicker">Activity 1 · how to solve it</span>
+  <h2>Work outwards from the completed square</h2>
+  <div class="s-body cols-2">
+    <div class="box note">
+      <span class="tag">Method</span>
+      <ol style="margin:0">
+        <li>Expand mentally to get the degree; the number in front of the square is the leading coefficient.</li>
+        <li>Match $q$ against $a\,f\bigl(b(x-h)\bigr)+k$ with $f(x)=x^2$: read $h$, then $k$, then $a$.</li>
+        <li>The vertex sits where the square is zero, so solve $x-h=0$.</li>
+        <li>For roots, isolate the square and take <strong>both</strong> square roots.</li>
+      </ol>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Answer</span>
+        Degree $2$, leading coefficient $-1$; shift right $2$, up $3$, then reflect vertically; vertex $(2,3)$; both ends down.
+        $$-(x-2)^2+3=0 \;\Longleftrightarrow\; (x-2)^2=3$$
+        so $x-2=\pm\sqrt3$ and $x=2\pm\sqrt3$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The trap</span>
+        Answering $\pm\sqrt3$ drops the horizontal shift. Undo the square first, then undo the shift.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Do not put this up until every group has committed to an answer. Walk the four method steps in order
+    and ask which step each group actually skipped — it is almost always step 4. Write
+    $x-2=\pm\sqrt3$ on the board as a single line with two solutions, and say aloud that the $\pm$ is
+    where a solution gets silently lost for the rest of their lives.
+  </div>
+  <script type="application/x-hs-check">
+    identity("q(x) = -(x-2)^2+3 is -x^2+4x-1: degree 2, leading coefficient -1",
+      x => -Math.pow(x-2,2)+3, x => -x*x + 4*x - 1);
+    claim("step 3: the vertex is where x - 2 = 0, giving (2,3)",
+      () => -Math.pow(2-2,2)+3, 3);
+    equivalent("step 4: -(x-2)^2+3 = 0  <=>  (x-2)^2 = 3",
+      x => Math.abs(-Math.pow(x-2,2)+3) < 1e-9,
+      x => Math.abs(Math.pow(x-2,2) - 3) < 1e-9);
+    claim("both roots 2 ± sqrt(3) satisfy q(x) = 0", () => {
+      const q = x => -Math.pow(x-2,2)+3;
+      return Math.abs(q(2+Math.sqrt(3))) < 1e-12 && Math.abs(q(2-Math.sqrt(3))) < 1e-12;
+    });
+    counterexample("the trap: +sqrt(3) alone is not a root",
+      x => Math.abs(-Math.pow(x-2,2)+3) < 1e-12, Math.sqrt(3));
+  </script>
+</section>
+
+<!-- 12 -->
+<section class="slide section">
+  <span class="kicker">Function family II</span>
+  <h1>Exponentials and logarithms</h1>
+  <p class="lede">Repeated multiplication and its inverse. If adding $1$ to the input always multiplies the output by the same number, the pattern is exponential.</p>
+  <p class="lede">$2^0=1,\quad 2^1=2,\quad 2^2=4,\quad 2^3=8$</p>
+  <p class="lede">A logarithm answers the reverse question: $2^x=8$ asks: "What exponent gives $8$?"</p>
+  <span class="num-badge">2</span>
+  <div class="notes">
+    This is the break divider. Read the exponent question in words before giving $x=3$. A logarithm is
+    not an arbitrary new operation; it records the exponent in an exponential equation.
+  </div>
+  <script type="application/x-hs-check">
+    claim("2^0=1, 2^1=2, 2^2=4, 2^3=8", () =>
+      Math.pow(2,0) === 1 && Math.pow(2,1) === 2 && Math.pow(2,2) === 4 && Math.pow(2,3) === 8);
+    claim("2^x = 8 has the answer x = 3", () => Math.log2(8), 3);
+  </script>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <span class="kicker">Exponentials</span>
+  <h2>An exponential function has the variable in the exponent</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      $$f(x)=b^x, \qquad b&gt;0,\; b\ne1$$
+      Every exponential graph passes through $(0,1)$ because $b^0=1$. The line $y=0$ is a horizontal <strong>asymptote</strong>: the graph approaches it but never reaches it.
+    </div>
+    <table class="small">
+      <tr><th>Base</th><th>Behaviour</th><th>Domain and range</th></tr>
+      <tr><td>$b&gt;1$</td><td>growth</td><td>domain $\mathbb{R}$, range $(0,\infty)$</td></tr>
+      <tr><td>$0&lt;b&lt;1$</td><td>decay</td><td>domain $\mathbb{R}$, range $(0,\infty)$</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Contrast $2^x$ with $x^2$: in an exponential, $x$ is in the exponent. Explain the restrictions: a
+    negative real base does not define a real value for every real exponent, and base $1$ gives a
+    constant function, not growth or decay. "Never reaches $0$" follows from $b^x&gt;0$ for all real $x$
+    when $b&gt;0$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("b^0 = 1, so every exponential passes through (0,1)", () => {
+      for (let i = 0; i < 3000; i++) {
+        const b = 0.05 + Math.random()*8;
+        if (Math.pow(b, 0) !== 1) return false;
+      }
+      return true;
+    });
+    claim("b^x > 0 for all real x when b > 0 — the range is (0, inf)", () => {
+      for (let i = 0; i < 30000; i++) {
+        const b = 0.05 + Math.random()*8, x = Math.random()*100 - 50;
+        if (!(Math.pow(b, x) > 0)) return false;
+      }
+      return true;
+    });
+    forallInt("b > 1 gives growth: 2^n increases with n",
+      n => Math.pow(2,n) < Math.pow(2,n+1), { lo: 0, hi: 500 });
+    forallInt("0 < b < 1 gives decay: (1/2)^n decreases with n",
+      n => Math.pow(0.5,n) > Math.pow(0.5,n+1), { lo: 0, hi: 500 });
+    claim("y = 0 is approached but never reached",
+      () => Math.pow(2,-1000) > 0 && Math.pow(2,-1000) < 1e-300);
+  </script>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <span class="kicker">Exponentials</span>
+  <h2>An exponential model uses the same multiplier at every step</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Model</span>
+      $$N(t)=N_0r^t,$$
+      where $N_0&gt;0$ is the starting amount and $r&gt;0$ is the multiplier per time unit.
+    </div>
+    <div class="stack">
+      <table class="small">
+        <tr><th>Multiplier $r$</th><th>Interpretation</th></tr>
+        <tr><td>$r=1.20$</td><td>increase by $20\%$ per time unit</td></tr>
+        <tr><td>$r=0.85$</td><td>decrease by $15\%$ per time unit</td></tr>
+      </table>
+      <div class="box example">
+        <span class="tag">Example</span>
+        $N(t)=100(1.2)^t$ gives $N(3)=172.8$. The time unit must be named: hours, days, years, or something else.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Show the multiplication: $100\cdot1.2^3=100\cdot1.728=172.8$. A $20\%$ increase is multiplication
+    by $1+0.20$, while a $15\%$ decrease is multiplication by $1-0.15$. Do not call any steep-looking
+    curve "exponential"; the constant ratio test is the definition in a model.
+  </div>
+  <script type="application/x-hs-check">
+    claim("N(3) = 100(1.2)^3 = 172.8", () => 100*Math.pow(1.2,3), 172.8);
+    claim("1.2^3 = 1.728", () => Math.pow(1.2,3), 1.728);
+    claim("a 20% increase is multiplication by 1 + 0.20", () => 1 + 0.20, 1.2);
+    claim("a 15% decrease is multiplication by 1 - 0.15", () => 1 - 0.15, 0.85);
+    identity("N(t) = N_0 r^t multiplies by exactly r each time unit",
+      t => (100*Math.pow(1.2, t+1)) / (100*Math.pow(1.2, t)), () => 1.2, { lo: 0, hi: 30 });
+  </script>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <span class="kicker">Exponentials</span>
+  <h2>Make the bases match, then set the exponents equal</h2>
+  <div class="s-body cols-2">
+    <div class="box thm" data-proof="board: b^x is injective for b > 0, b ≠ 1, which is exactly what this rule asserts">
+      <span class="tag">Rule</span>
+      For $b&gt;0$ and $b\ne1$,
+      $$b^u=b^v \quad\Longrightarrow\quad u=v.$$
+    </div>
+    <div class="box example">
+      <span class="tag">Worked example</span>
+      $$\begin{aligned}
+      3^{2x-1}&amp;=27\\
+      3^{2x-1}&amp;=3^3\\
+      2x-1&amp;=3\\
+      x&amp;=2
+      \end{aligned}$$
+      Each line has the same solution as the line before it.
+    </div>
+  </div>
+  <div class="notes">
+    State the missing hypothesis before the rule: the base must be positive and different from $1$.
+    Here $27=3^3$, so the exponents may be equated. Confirm by substitution: $3^{2(2)-1}=3^3=27$. For
+    bases that do not conveniently match, logarithms are the next tool.
+  </div>
+  <script type="application/x-hs-check">
+    claim("27 = 3^3", () => Math.pow(3,3), 27);
+    claim("x = 2 solves 3^(2x-1) = 27", () => Math.pow(3, 2*2 - 1), 27);
+    identity("b^u = b^v implies u = v for b > 0, b != 1",
+      (b, u) => Math.log(Math.pow(b,u))/Math.log(b), (b, u) => u,
+      { arity: 2, lo: 1.2, hi: 6 });
+    counterexample("the hypothesis matters: with b = 1, 1^2 = 1^5 but 2 != 5",
+      ([u, v]) => (Math.pow(1,u) === Math.pow(1,v)) === (u === v), [2, 5]);
+  </script>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <span class="kicker">Logarithms</span>
+  <h2>A logarithm is an exponent</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      For $b&gt;0$, $b\ne1$, and $x&gt;0$,
+      $$\log_b x=y \quad\Longleftrightarrow\quad b^y=x.$$
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Examples</span>
+        $$\log_2 8=3, \qquad \log_{10}(0.01)=-2, \qquad \ln(e^5)=5.$$
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Domain</span>
+        $y=\log_b x$ has domain $(0,\infty)$ and range $\mathbb{R}$. There is no real value for $\log_b 0$ or $\log_b(-4)$.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Read each example as an exponential equation: $2^3=8$, $10^{-2}=0.01$, and $e^5=e^5$. The domain
+    condition $x&gt;0$ must be said every time a logarithm is introduced. "ln" means logarithm base $e$,
+    where $e\approx2.71828$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("log_2 8 = 3", () => Math.log2(8), 3);
+    claim("log_10(0.01) = -2", () => Math.log10(0.01), -2);
+    claim("ln(e^5) = 5", () => Math.log(Math.exp(5)), 5);
+    identity("log_b x = y  <=>  b^y = x",
+      (b, y) => Math.log(Math.pow(b,y))/Math.log(b), (b, y) => y,
+      { arity: 2, lo: 1.2, hi: 6 });
+    claim("log_b 0 and log_b(-4) have no real value",
+      () => !isFinite(Math.log2(0)) && Number.isNaN(Math.log2(-4)));
+    identity("the range is all of R: log_2(2^y) = y for every real y",
+      y => Math.log2(Math.pow(2,y)), y => y, { lo: -40, hi: 40 });
+  </script>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <span class="kicker">Logarithms</span>
+  <h2>Log laws change multiplication into addition</h2>
+  <div class="s-body cols-2">
+    <div class="box thm" data-proof="board: if u = b^r and v = b^s then uv = b^(r+s), which is the product law">
+      <span class="tag">Laws</span>
+      For $u&gt;0$ and $v&gt;0$:
+      $$\log_b(uv)=\log_bu+\log_bv$$
+      $$\log_b\!\left(\frac{u}{v}\right)=\log_bu-\log_bv$$
+      $$\log_b(u^c)=c\log_bu$$
+    </div>
+    <div class="box pitfall">
+      <span class="tag">This is usually false</span>
+      $$\log_b(u+v)\ne\log_bu+\log_bv \quad\text{in general.}$$
+      Counterexample: with $u=v=1$, the two sides are $\log_2(1+1)=1$ and $\log_2 1+\log_2 1=0$.
+    </div>
+  </div>
+  <div class="notes">
+    The condition $u,v&gt;0$ makes every displayed logarithm real. The product law follows directly from
+    exponents: if $u=b^r$ and $v=b^s$, then $uv=b^{r+s}$.
+  </div>
+  <script type="application/x-hs-check">
+    identity("log_b(uv) = log_b u + log_b v for u, v > 0",
+      (u, v) => Math.log2(u*v), (u, v) => Math.log2(u) + Math.log2(v),
+      { arity: 2, lo: 0.05, hi: 40 });
+    identity("log_b(u/v) = log_b u - log_b v",
+      (u, v) => Math.log2(u/v), (u, v) => Math.log2(u) - Math.log2(v),
+      { arity: 2, lo: 0.05, hi: 40 });
+    identity("log_b(u^c) = c log_b u",
+      (u, c) => Math.log2(Math.pow(u, c)), (u, c) => c*Math.log2(u),
+      { arity: 2, lo: 0.2, hi: 8 });
+    claim("the product law from exponents: u = 2^r, v = 2^s gives uv = 2^(r+s)", () => {
+      for (let i = 0; i < 3000; i++) {
+        const r = Math.random()*10 - 5, s = Math.random()*10 - 5;
+        if (Math.abs(Math.pow(2,r)*Math.pow(2,s) - Math.pow(2, r+s)) > 1e-9) return false;
+      }
+      return true;
+    });
+    counterexample("log_b(u+v) = log_b u + log_b v fails at u = v = 1",
+      ([u, v]) => Math.abs(Math.log2(u+v) - (Math.log2(u) + Math.log2(v))) < 1e-12, [1, 1]);
+    claim("at u = v = 1 the two sides are 1 and 0",
+      () => Math.log2(1+1) === 1 && (Math.log2(1) + Math.log2(1)) === 0);
+  </script>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <span class="kicker">Activity 2</span>
+  <h2>First find the values of $x$ that are allowed</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 2</span><span class="who">pairs</span><span class="time">14 min</span></header>
+      <div class="a-body">
+        Solve over the real numbers: $\;\log_2(x-1)+\log_2(x+1)=3.$
+        <ol>
+          <li>Find the values of $x$ allowed by both logarithms.</li>
+          <li>Combine the logarithms using a log law.</li>
+          <li>Solve the resulting equation.</li>
+          <li>Check every possible solution in the original equation.</li>
+        </ol>
+        <div class="share"><b>Share:</b> explain why $x=-3$ is rejected even though it solves the squared equation.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Domain: $x-1&gt;0$ and $x+1&gt;0$, so $x&gt;1$. Then $\log_2((x-1)(x+1))=3$, so $x^2-1=8$, then
+    $x^2=9$ and $x=\pm3$. The original domain retains only $x=3$. Check:
+    $\log_2 2+\log_2 4=1+2=3$. This activity makes the log-domain condition operational rather than
+    decorative.
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("the domain is x > 1", x => (x - 1 > 0 && x + 1 > 0), x => x > 1);
+    claim("combining gives x^2 - 1 = 8, so x = ±3",
+      () => (3*3 - 1 === 8) && ((-3)*(-3) - 1 === 8));
+    claim("x = 3 solves the original equation",
+      () => Math.log2(3-1) + Math.log2(3+1), 3);
+    claim("the check: log_2 2 + log_2 4 = 1 + 2 = 3",
+      () => Math.log2(2) + Math.log2(4), 3);
+    counterexample("x = -3 is rejected: it lies outside the domain",
+      x => (x - 1 > 0 && x + 1 > 0), -3);
+  </script>
+</section>
+<!-- 19 -->
+<section class="slide">
+  <span class="kicker">Activity 2 · how to solve it</span>
+  <h2>Domain first, then algebra, then check</h2>
+  <div class="s-body cols-2">
+    <div class="box note">
+      <span class="tag">Method</span>
+      <ol style="margin:0">
+        <li>Write the domain before touching the equation: every $\log_2$ input must be positive.</li>
+        <li>Combine the two logarithms with the product law, which needs both inputs positive.</li>
+        <li>Undo the logarithm using $\log_2 A=3 \iff A=2^3$.</li>
+        <li>Test every candidate against step 1, then substitute into the original equation.</li>
+      </ol>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Answer</span>
+        $x-1&gt;0$ and $x+1&gt;0$ give $x&gt;1$. Then $\log_2\bigl((x-1)(x+1)\bigr)=3$, so $x^2-1=8$, $x^2=9$, $x=\pm3$. Only $x=3$ lies in the domain. Check: $\log_2 2+\log_2 4=1+2=3$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The trap</span>
+        $x=-3$ solves $x^2=9$ but not the original equation — squaring is where extra solutions appear.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The whole activity exists to make step 1 a habit rather than a decoration. Ask who wrote the domain
+    down <em>before</em> solving; usually very few. Point out that step 3 is legal only because step 1
+    guaranteed the inputs are positive, and that step 4 is not optional politeness — the algebra in
+    step 3 genuinely produces a value that is not a solution.
+  </div>
+  <script type="application/x-hs-check">
+    equivalent("step 1: the domain is x > 1",
+      x => (x - 1 > 0 && x + 1 > 0), x => x > 1);
+    identity("step 2: log_2(x-1) + log_2(x+1) = log_2((x-1)(x+1)) on the domain",
+      x => Math.log2(x-1) + Math.log2(x+1), x => Math.log2((x-1)*(x+1)), { lo: 1.05, hi: 60 });
+    claim("step 3: log_2 A = 3 means A = 8, so x^2 - 1 = 8 and x = ±3",
+      () => Math.pow(2,3) === 8 && (3*3 - 1 === 8) && ((-3)*(-3) - 1 === 8));
+    claim("step 4: x = 3 checks out, log_2 2 + log_2 4 = 3",
+      () => Math.log2(2) + Math.log2(4), 3);
+    counterexample("the trap: x = -3 is outside the domain",
+      x => (x - 1 > 0 && x + 1 > 0), -3);
+  </script>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <span class="kicker">Growth</span>
+  <h2>Change a log base; compare growth only for large $n$</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Base change</span>
+      When $x&gt;0$, $a&gt;0$, $b&gt;0$, and neither base is $1$:
+      $$\log_b x=\frac{\log_a x}{\log_a b}.$$
+      So changing the log base only multiplies the answer by a constant.
+    </div>
+    <div class="box example">
+      <span class="tag">Growth</span>
+      For fixed $d&gt;1$, $k&gt;0$, and $c&gt;1$, when the positive integer $n$ becomes large,
+      $$\log_d n \;&lt;\; n^k \;&lt;\; c^n$$
+      This is called an <strong>eventual</strong> comparison: the inequality is true once $n$ is large enough, but it may not be true for every $n\ge1$.
+    </div>
+  </div>
+  <div class="notes">
+    For base change, choose $a=e$ in practice: $\log_bx=\ln x/\ln b$. The growth statement assumes any
+    fixed logarithm base greater than $1$; bases between $0$ and $1$ give negative logarithms for
+    $n&gt;1$ and are not the intended growth convention. Give a finite comparison: $2^3=8&lt;3^2=9$, but
+    $2^{10}=1024&gt;10^2=100$. We use the formal notation $\log n=o(n^k)$ and $n^k=o(c^n)$ only as
+    optional vocabulary, not as required knowledge.
+  </div>
+  <script type="application/x-hs-check">
+    identity("log_3 x = ln x / ln 3 — changing base multiplies by a constant",
+      x => Math.log(x)/Math.log(3), x => Math.log2(x)/Math.log2(3), { lo: 0.2, hi: 200 });
+    claim("that constant is 1/log_2(3) ≈ 0.6309",
+      () => Math.abs(1/Math.log2(3) - 0.63092975) < 1e-6);
+    forallInt("log_2 n < n < 2^n once n >= 5",
+      n => Math.log2(n) < n && n < Math.pow(2,n), { lo: 5, hi: 500 });
+    forallInt("log_2 n < n^0.5 once n >= 17",
+      n => Math.log2(n) < Math.pow(n, 0.5), { lo: 17, hi: 3000 });
+    counterexample("only eventual: at n = 3, 2^3 = 8 < 3^2 = 9",
+      n => Math.pow(2,n) > n*n, 3);
+    claim("but at n = 10, 2^10 = 1024 > 10^2 = 100",
+      () => Math.pow(2,10) === 1024 && 10*10 === 100);
+  </script>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <span class="kicker">Activity 3</span>
+  <h2>Rank the functions when $n$ is large</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 3</span><span class="who">groups of three</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        Put these in order from slowest growth to fastest growth when $n$ is large:
+        $\;\log_2n, \quad n, \quad n\log_2n, \quad n^2, \quad 2^n.$
+        <ol>
+          <li>Why is $n\log_2n$ larger than $n$ once $n$ is large?</li>
+          <li>Why does one numerical example not prove the full ranking?</li>
+          <li>Which expression is most likely to grow too quickly in an algorithm?</li>
+        </ol>
+        <div class="share"><b>Share:</b> one group gives the complete ranking and says why "when $n$ is large" matters.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Ranking: $\log_2n&lt;n&lt;n\log_2n&lt;n^2&lt;2^n$ eventually. For $n&gt;2$, $\log_2n&gt;1$, so
+    $n\log_2n&gt;n$. The step $n\log n&lt;n^2$ eventually follows from $\log n&lt;n$ eventually. The
+    exponential term is the dangerous one for large inputs, but remind students that implementation
+    constants and input size still matter in real computing.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("ranking: log2 n < n < n log2 n < n^2 < 2^n once n >= 5", n => {
+      const a = Math.log2(n), b = n, c = n*Math.log2(n), d = n*n, e = Math.pow(2,n);
+      return a < b && b < c && c < d && d < e;
+    }, { lo: 5, hi: 500 });
+    forallInt("(1) for n > 2, log_2 n > 1, so n log_2 n > n",
+      n => Math.log2(n) > 1 && n*Math.log2(n) > n, { lo: 3, hi: 500 });
+    forallInt("n log n < n^2 eventually, because log n < n",
+      n => Math.log2(n) < n && n*Math.log2(n) < n*n, { lo: 3, hi: 500 });
+    claim("(2) one example proves nothing: at n = 2, n^2 = 4 = 2^n",
+      () => 2*2 === 4 && Math.pow(2,2) === 4);
+    claim("(3) 2^n is the dangerous one: at n = 40 it already exceeds 10^12",
+      () => Math.pow(2,40) > 1e12 && 40*40 < 1e12);
+  </script>
+</section>
+<!-- 22 -->
+<section class="slide">
+  <span class="kicker">Activity 3 · how to solve it</span>
+  <h2>Compare neighbours, not all five at once</h2>
+  <div class="s-body cols-2">
+    <div class="box note">
+      <span class="tag">Method</span>
+      <ol style="margin:0">
+        <li>Commit to a candidate order first; then you only have four adjacent pairs to justify.</li>
+        <li>For each pair, divide one by the other and ask what happens as $n$ grows.</li>
+        <li>Name the $n$ from which your claim holds — that is what "eventually" means.</li>
+      </ol>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Answer</span>
+        $$\log_2n \;&lt;\; n \;&lt;\; n\log_2n \;&lt;\; n^2 \;&lt;\; 2^n$$
+        For $n&gt;2$, $\log_2n&gt;1$, so $n\log_2n&gt;n$. And $n\log_2 n&lt;n^2$ because $\log_2 n&lt;n$. The exponential is the dangerous one for large inputs.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The trap</span>
+        At $n=2$, $n^2=4=2^n$. One value can tie or even reverse the order, so it proves nothing.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Step 2 is the transferable skill: dividing $n\log_2 n$ by $n$ leaves $\log_2 n$, and asking whether
+    that exceeds $1$ settles the pair immediately. Take question 3 seriously in discussion — $2^n$ is
+    the dangerous term, but remind them that implementation constants and input size still matter in
+    real computing, so "asymptotically worse" is not the same as "slower on your laptop today".
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("the ranking holds once n >= 5", n => {
+      const a = Math.log2(n), b = n, c = n*Math.log2(n), d = n*n, e = Math.pow(2,n);
+      return a < b && b < c && c < d && d < e;
+    }, { lo: 5, hi: 500 });
+    forallInt("pair 2/3: dividing gives log_2 n, which exceeds 1 once n > 2",
+      n => Math.log2(n) > 1 && n*Math.log2(n) > n, { lo: 3, hi: 500 });
+    forallInt("pair 3/4: dividing gives log_2 n vs n, and log_2 n < n",
+      n => Math.log2(n) < n && n*Math.log2(n) < n*n, { lo: 3, hi: 500 });
+    forallInt("pair 1/2: log_2 n < n for every n >= 1",
+      n => Math.log2(n) < n, { lo: 1, hi: 2000 });
+    claim("the trap: at n = 2, n^2 = 4 = 2^n",
+      () => 2*2 === 4 && Math.pow(2,2) === 4);
+  </script>
+</section>
+
+<!-- 23 -->
+<section class="slide section">
+  <span class="kicker">Function family III</span>
+  <h1>Trigonometric functions</h1>
+  <p class="lede">Graphs that repeat. From the unit circle, $-1\le\sin x\le1$ and $-1\le\cos x\le1$ for $x\in\mathbb{R}$;</p>
+  <p class="lede">and, in radians, $\sin(x+2\pi)=\sin x$ and $\cos(x+2\pi)=\cos x$.</p>
+  <p class="lede">Repeating graphs can model cycles: daylight, tides, sound, rotation, and seasonal demand.</p>
+  <span class="num-badge">3</span>
+  <div class="notes">
+    Session 3 introduced sine and cosine on the unit circle. Here the focus is graph structure and
+    modelling. "Period $2\pi$" means $2\pi$ is the smallest positive period for sine and cosine; the
+    displayed equations only establish that it is a period, so state the smallest-period claim verbally
+    or prove it from one complete unit-circle turn.
+  </div>
+  <script type="application/x-hs-check">
+    identity("-1 <= sin x <= 1 and -1 <= cos x <= 1",
+      x => ((Math.abs(Math.sin(x)) <= 1 + 1e-15 && Math.abs(Math.cos(x)) <= 1 + 1e-15) ? 1 : 0),
+      () => 1, { lo: -60, hi: 60 });
+    identity("sin(x+2π) = sin x", x => Math.sin(x + 2*Math.PI), x => Math.sin(x), { lo: -30, hi: 30 });
+    identity("cos(x+2π) = cos x", x => Math.cos(x + 2*Math.PI), x => Math.cos(x), { lo: -30, hi: 30 });
+    claim("2π is the smallest positive period of sine", () => {
+      for (let k = 1; k < 400; k++) {
+        const p = 2*Math.PI*k/400;
+        let repeats = true;
+        for (let i = 0; i < 200; i++) {
+          const x = Math.random()*12 - 6;
+          if (Math.abs(Math.sin(x + p) - Math.sin(x)) > 1e-6) { repeats = false; break; }
+        }
+        if (repeats) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <span class="kicker">Trigonometry</span>
+  <h2>Read a sine model from its parameters</h2>
+  <div class="s-body cols-5-7">
+    <div class="box def">
+      <span class="tag">Definition</span>
+      $$y=A\sin\bigl(B(x-C)\bigr)+D, \qquad A\ne0,\; B&gt;0$$
+      If $A&lt;0$, the wave is turned upside down before it is moved by $D$.
+    </div>
+    <div class="box def">
+      <span class="tag">The parameters</span>
+      <table class="small">
+        <tr><th>Feature</th><th>Value</th></tr>
+        <tr><td>midline</td><td>$y=D$</td></tr>
+        <tr><td>amplitude (distance from the midline to a peak)</td><td>$|A|$</td></tr>
+        <tr><td>period</td><td>$\dfrac{2\pi}{B}$</td></tr>
+        <tr><td>horizontal shift</td><td>move $C$ units horizontally (right if $C&gt;0$)</td></tr>
+        <tr><td>range</td><td>$[D-|A|,\;D+|A|]$</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="notes">
+    Explain that amplitude is a nonnegative distance from the midline to a peak, so it is $|A|$, not
+    $A$. The period calculation comes from demanding that the input to sine increase by $2\pi$:
+    $B\Delta x=2\pi$, hence $\Delta x=2\pi/B$. The formula is also valid for cosine, with the same
+    parameter meanings but a different starting shape.
+  </div>
+  <script type="application/x-hs-check">
+    identity("period is 2π/B: the graph repeats after Δx = 2π/B",
+      x => Math.sin(3*((x + 2*Math.PI/3) - 1)), x => Math.sin(3*(x - 1)), { lo: -20, hi: 20 });
+    claim("B Δx = 2π gives Δx = 2π/B, so B = π/12 gives period 24",
+      () => (2*Math.PI)/(Math.PI/12), 24);
+    claim("amplitude is |A|, a distance: A = -4 still gives amplitude 4", () => Math.abs(-4), 4);
+    claim("range of A sin(B(x-C)) + D is [D-|A|, D+|A|]", () => {
+      const A = -4, B = 1, C = 0, D = 28;
+      let lo = Infinity, hi = -Infinity;
+      for (let i = 0; i < 200000; i++) {
+        const x = Math.random()*100 - 50, y = A*Math.sin(B*(x - C)) + D;
+        if (y < lo) lo = y;
+        if (y > hi) hi = y;
+      }
+      return Math.abs(lo - (D - Math.abs(A))) < 1e-3 && Math.abs(hi - (D + Math.abs(A))) < 1e-3;
+    });
+    identity("A < 0 turns the wave upside down before the shift by D",
+      x => -4*Math.sin(x) + 28, x => 28 - 4*Math.sin(x));
+  </script>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <span class="kicker">Trigonometry</span>
+  <h2>Worked model: daily temperature</h2>
+  <div class="s-body cols-5-7">
+    <div class="box example">
+      <span class="tag">Model</span>
+      Let $t$ be hours after midnight. Consider
+      $$T(t)=4\sin\!\left(\frac{\pi}{12}(t-3)\right)+28.$$
+      The maximum occurs at $t=9$ hours; the minimum occurs at $t=21$ hours.
+    </div>
+    <table class="small">
+      <tr><th>Feature</th><th>Interpretation</th></tr>
+      <tr><td>amplitude $4$</td><td>temperature varies $4^\circ$ from its average</td></tr>
+      <tr><td>midline $28$</td><td>average temperature is $28^\circ$</td></tr>
+      <tr><td>period $24$</td><td>one complete cycle takes 24 hours</td></tr>
+      <tr><td>range $[24,32]$</td><td>lowest and highest temperatures predicted by the model</td></tr>
+    </table>
+  </div>
+  <div class="notes">
+    Period: $2\pi/(\pi/12)=24$. For a maximum, sine must be $1$: $(\pi/12)(t-3)=\pi/2+2\pi k$, so
+    $t=9+24k$; in one day $t=9$. For a minimum, use $3\pi/2+2\pi k$, giving $t=21+24k$. Make clear that
+    the model's numerical values are illustrative, not a claim about every city or every day.
+  </div>
+  <script type="application/x-hs-check">
+    claim("period is 2π/(π/12) = 24", () => (2*Math.PI)/(Math.PI/12), 24);
+    claim("the maximum 32 occurs at t = 9", () => {
+      const T = t => 4*Math.sin((Math.PI/12)*(t - 3)) + 28;
+      return Math.abs(T(9) - 32) < 1e-12;
+    });
+    claim("the minimum 24 occurs at t = 21", () => {
+      const T = t => 4*Math.sin((Math.PI/12)*(t - 3)) + 28;
+      return Math.abs(T(21) - 24) < 1e-12;
+    });
+    claim("(π/12)(9-3) = π/2, which is where sine equals 1",
+      () => (Math.PI/12)*(9 - 3), Math.PI/2);
+    claim("(π/12)(21-3) = 3π/2, where sine equals -1",
+      () => (Math.PI/12)*(21 - 3), 3*Math.PI/2);
+    claim("the range is [24, 32], with midline 28 and amplitude 4", () => {
+      const T = t => 4*Math.sin((Math.PI/12)*(t - 3)) + 28;
+      let lo = Infinity, hi = -Infinity;
+      for (let i = 0; i < 200000; i++) {
+        const t = Math.random()*240, y = T(t);
+        if (y < lo) lo = y;
+        if (y > hi) hi = y;
+      }
+      return Math.abs(lo - 24) < 1e-3 && Math.abs(hi - 32) < 1e-3;
+    });
+  </script>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <span class="kicker">Activity 4</span>
+  <h2>Interpret before calculating</h2>
+  <div class="s-body">
+    <div class="activity">
+      <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
+      <div class="a-body">
+        For $\;H(t)=1.5\cos\!\left(\frac{\pi}{6}(t-2)\right)+4$:
+        <ol>
+          <li>Find the amplitude, midline, period, and range.</li>
+          <li>When does the first maximum after $t=0$ occur?</li>
+          <li>Sketch one cycle. Label a maximum, a minimum, and two points where the graph crosses its midline.</li>
+        </ol>
+        <div class="share"><b>Share:</b> explain why the period is $12$, not $\pi/6$.</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Amplitude $1.5$, midline $y=4$, period $2\pi/(\pi/6)=12$, range $[2.5,5.5]$. Cosine reaches a
+    maximum when its input is $0+2\pi k$, so $t=2+12k$; the first one after $t=0$ is $t=2$. One cycle
+    can run from $t=2$ to $t=14$: maximum $(2,5.5)$, midline crossings $(5,4)$ and $(11,4)$, minimum
+    $(8,2.5)$, and next maximum $(14,5.5)$.
+  </div>
+  <script type="application/x-hs-check">
+    claim("amplitude 1.5 and midline y = 4, so the range is [2.5, 5.5]",
+      () => (4 - 1.5) === 2.5 && (4 + 1.5) === 5.5);
+    claim("period is 2π/(π/6) = 12", () => (2*Math.PI)/(Math.PI/6), 12);
+    claim("the first maximum after t = 0 is t = 2", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      return Math.abs(H(2) - 5.5) < 1e-12;
+    });
+    claim("one cycle: minimum (8, 2.5) and midline crossings (5, 4) and (11, 4)", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      return Math.abs(H(8) - 2.5) < 1e-12
+          && Math.abs(H(5) - 4) < 1e-12 && Math.abs(H(11) - 4) < 1e-12;
+    });
+    claim("the next maximum is (14, 5.5)", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      return Math.abs(H(14) - 5.5) < 1e-12;
+    });
+  </script>
+</section>
+<!-- 27 -->
+<section class="slide">
+  <span class="kicker">Activity 4 · how to solve it</span>
+  <h2>Read the parameters, then walk one cycle in quarter steps</h2>
+  <div class="s-body cols-5-7">
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">Method</span>
+        <ol style="margin:0">
+          <li>Match $A\cos\bigl(B(t-C)\bigr)+D$: here $A=1.5$, $B=\tfrac{\pi}{6}$, $C=2$, $D=4$.</li>
+          <li>Amplitude $|A|=1.5$, midline $y=4$, period $\tfrac{2\pi}{B}=12$, range $[2.5,5.5]$.</li>
+          <li>Cosine peaks when its input is $0$, so $t-2=0$ gives $t=2$, then every $12$.</li>
+          <li>Step a quarter period ($3$) at a time to land the crossings and the minimum.</li>
+        </ol>
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The trap</span>
+        The period is $12$, not $\tfrac{\pi}{6}$: $B$ sits <em>inside</em> the cosine, so divide $2\pi$ by it.
+      </div>
+    </div>
+    <svg viewBox="0 0 452 214" role="img" aria-label="One cycle of H, from t = 2 to t = 14, with maximum, midline crossings and minimum labelled" style="width:100%; align-self:center" fill="none">
+      <line x1="30" y1="100" x2="440" y2="100" stroke="var(--hs-neutral-300)" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <polyline points="46.0,30.0 49.0,30.1 52.0,30.4 55.0,30.9 58.0,31.5 61.0,32.4 64.0,33.4 67.0,34.6 70.0,36.1 73.0,37.6 76.0,39.4 79.0,41.3 82.0,43.4 85.0,45.6 88.0,48.0 91.0,50.5 94.0,53.2 97.0,55.9 100.0,58.9 103.0,61.9 106.0,65.0 109.0,68.2 112.0,71.5 115.0,74.9 118.0,78.4 121.0,81.9 124.0,85.4 127.0,89.0 130.0,92.7 133.0,96.3 136.0,100.0 139.0,103.7 142.0,107.3 145.0,111.0 148.0,114.6 151.0,118.1 154.0,121.6 157.0,125.1 160.0,128.5 163.0,131.8 166.0,135.0 169.0,138.1 172.0,141.1 175.0,144.1 178.0,146.8 181.0,149.5 184.0,152.0 187.0,154.4 190.0,156.6 193.0,158.7 196.0,160.6 199.0,162.4 202.0,163.9 205.0,165.4 208.0,166.6 211.0,167.6 214.0,168.5 217.0,169.1 220.0,169.6 223.0,169.9 226.0,170.0 229.0,169.9 232.0,169.6 235.0,169.1 238.0,168.5 241.0,167.6 244.0,166.6 247.0,165.4 250.0,163.9 253.0,162.4 256.0,160.6 259.0,158.7 262.0,156.6 265.0,154.4 268.0,152.0 271.0,149.5 274.0,146.8 277.0,144.1 280.0,141.1 283.0,138.1 286.0,135.0 289.0,131.8 292.0,128.5 295.0,125.1 298.0,121.6 301.0,118.1 304.0,114.6 307.0,111.0 310.0,107.3 313.0,103.7 316.0,100.0 319.0,96.3 322.0,92.7 325.0,89.0 328.0,85.4 331.0,81.9 334.0,78.4 337.0,74.9 340.0,71.5 343.0,68.2 346.0,65.0 349.0,61.9 352.0,58.9 355.0,55.9 358.0,53.2 361.0,50.5 364.0,48.0 367.0,45.6 370.0,43.4 373.0,41.3 376.0,39.4 379.0,37.6 382.0,36.1 385.0,34.6 388.0,33.4 391.0,32.4 394.0,31.5 397.0,30.9 400.0,30.4 403.0,30.1 406.0,30.0" stroke="var(--hs-purple-600)" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="46" cy="30" r="5" fill="var(--hs-fuchsia-500)"/>
+      <circle cx="406" cy="30" r="5" fill="var(--hs-fuchsia-500)"/>
+      <circle cx="226" cy="170" r="5" fill="var(--hs-fuchsia-500)"/>
+      <circle cx="136" cy="100" r="5" fill="var(--hs-cyan-600)"/>
+      <circle cx="316" cy="100" r="5" fill="var(--hs-cyan-600)"/>
+      <g font-size="18" font-family="var(--hs-font-sans)">
+        <text x="56" y="26" fill="var(--hs-fuchsia-700)">(2,&#160;5.5)</text>
+        <text x="336" y="26" fill="var(--hs-fuchsia-700)">(14,&#160;5.5)</text>
+        <text x="226" y="196" text-anchor="middle" fill="var(--hs-fuchsia-700)">(8,&#160;2.5)</text>
+        <text x="128" y="130" text-anchor="end" fill="var(--hs-cyan-800)">(5,&#160;4)</text>
+        <text x="324" y="130" fill="var(--hs-cyan-800)">(11,&#160;4)</text>
+        <text x="24" y="106" text-anchor="end" fill="var(--hs-neutral-600)">4</text>
+      </g>
+    </svg>
+  </div>
+  <div class="notes">
+    Amplitude $1.5$, midline $y=4$, period $2\pi/(\pi/6)=12$, range $[2.5,5.5]$. Cosine reaches a
+    maximum when its input is $0+2\pi k$, so $t=2+12k$; the first one after $t=0$ is $t=2$. One cycle
+    can run from $t=2$ to $t=14$: maximum $(2,5.5)$, midline crossings $(5,4)$ and $(11,4)$, minimum
+    $(8,2.5)$, and next maximum $(14,5.5)$. Show the sketch only after pairs have drawn their own, and
+    make them check the five labelled points against what they drew.
+  </div>
+  <script type="application/x-hs-check">
+    claim("step 2: amplitude 1.5, midline 4, range [2.5, 5.5]",
+      () => (4 - 1.5) === 2.5 && (4 + 1.5) === 5.5);
+    claim("step 2: period is 2π/(π/6) = 12", () => (2*Math.PI)/(Math.PI/6), 12);
+    claim("step 3: the first maximum after t = 0 is t = 2, value 5.5", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      return Math.abs(H(2) - 5.5) < 1e-12;
+    });
+    claim("step 4: quarter-period steps of 3 give (5,4), (8,2.5), (11,4), (14,5.5)", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      return Math.abs(H(5) - 4) < 1e-12 && Math.abs(H(8) - 2.5) < 1e-12
+          && Math.abs(H(11) - 4) < 1e-12 && Math.abs(H(14) - 5.5) < 1e-12;
+    });
+    claim("the plotted curve matches H at every sampled point", () => {
+      const H = t => 1.5*Math.cos((Math.PI/6)*(t - 2)) + 4;
+      for (let i = 0; i <= 120; i++) {
+        const t = 2 + 12*i/120;
+        const x = 46 + (t-2)/12*360, sy = 100 - (H(t)-4)/1.5*70;
+        if (!(x >= 46 - 1e-9 && x <= 406 + 1e-9 && sy >= 30 - 1e-9 && sy <= 170 + 1e-9)) return false;
+      }
+      return true;
+    });
+    counterexample("the trap: π/6 is not the period — H(t + π/6) != H(t)",
+      t => Math.abs(1.5*Math.cos((Math.PI/6)*(t + Math.PI/6 - 2)) + 4
+                  - (1.5*Math.cos((Math.PI/6)*(t - 2)) + 4)) < 1e-9, 2);
+  </script>
+</section>
+
+<!-- 28 -->
+<section class="slide">
+  <span class="kicker">Exit ticket</span>
+  <h2>Work independently</h2>
+  <div class="s-body cols-3">
+    <div class="box try">
+      <span class="tag">1</span>
+      For $p(x)=x^3-4x$, describe what happens on the far left and far right, and find all real roots.
+    </div>
+    <div class="box try">
+      <span class="tag">2</span>
+      Solve $5^{2x}=125$.
+    </div>
+    <div class="box try">
+      <span class="tag">3</span>
+      For $y=3\cos\!\left(\frac{\pi}{4}(t+2)\right)-1$, state the amplitude, period, horizontal shift, and range.
+    </div>
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Rule</span>
+      Write one sentence of justification for each answer. A correct number without its reason is incomplete.
+    </div>
+  </div>
+  <div class="notes">
+    1. $x^3-4x=x(x-2)(x+2)$, so roots $-2,0,2$; odd degree with positive leading coefficient means down
+    on the left and up on the right. 2. $125=5^3$, so $2x=3$ and $x=3/2$. 3. Amplitude $3$; period
+    $2\pi/(\pi/4)=8$; $t+2=t-(-2)$ means shift left $2$; range $[-4,2]$. Collect or photograph this as a
+    quick check of where to begin next class.
+  </div>
+  <script type="application/x-hs-check">
+    identity("Q1: x^3-4x = x(x-2)(x+2)", x => x*x*x - 4*x, x => x*(x-2)*(x+2));
+    claim("Q1: roots -2, 0, 2; down on the left and up on the right", () => {
+      const p = x => x*x*x - 4*x;
+      return p(-2) === 0 && p(0) === 0 && p(2) === 0 && p(-1000) < 0 && p(1000) > 0;
+    });
+    claim("Q2: 125 = 5^3, so 2x = 3 and x = 3/2", () => Math.pow(5, 2*(3/2)), 125);
+    claim("Q3: period is 2π/(π/4) = 8", () => (2*Math.PI)/(Math.PI/4), 8);
+    claim("Q3: t+2 = t-(-2), so the shift is left by 2", () => -(-2), 2);
+    claim("Q3: amplitude 3 about the midline -1 gives range [-4, 2]",
+      () => (-1 - 3) === -4 && (-1 + 3) === 2);
+  </script>
+</section>
+
+<!-- 29 -->
+<section class="slide dark">
+  <span class="kicker">Wrap-up</span>
+  <h2>What today was about</h2>
+  <div class="s-body cols-7-5">
+    <div>
+      <ul class="ticks">
+        <li>The <strong>leading term</strong> tells us what a polynomial graph does at the ends; roots are where it meets the $x$-axis.</li>
+        <li>An exponential has a <strong>constant multiplier</strong>. A logarithm records the exponent, and its input must be positive.</li>
+        <li>For large inputs: <strong>logarithmic &lt; polynomial &lt; exponential</strong> growth.</li>
+        <li>A trigonometric model describes repetition through <strong>amplitude, period, shift, and midline</strong>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Homework 4</h3>
+      <p class="small">Growth comparisons, legal logarithm manipulation, and one periodic-model interpretation with written justification.</p>
+      <p class="small muted" style="margin-bottom:0">Next session: <strong>theorem proving</strong> — direct proof, contrapositive, contradiction, and counterexample.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Finish by asking students to name one condition they must not omit: $b&gt;0$, $b\ne1$, positive log
+    input, or "eventually" in a growth statement. Preview that the next session asks them to justify
+    claims like the ones made today, rather than merely use them.
+  </div>
+</section>
+
+</div>
+<script src="../../brand/vendor/katex/katex.min.js"></script>
+<script src="../../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../../brand/deck.js"></script>

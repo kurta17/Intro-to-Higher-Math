@@ -268,6 +268,9 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 /* ---------- dark content slide ---------- */
 .slide.dark { background: var(--hs-neutral-950); color: var(--hs-white); }
 .slide.dark h2, .slide.dark h3, .slide.dark strong { color: var(--hs-white); }
+/* strong/b default to purple-800 - 1.4:1 on the purple-950 title and section grounds. */
+.slide.title strong, .slide.title b,
+.slide.section strong, .slide.section b { color: var(--hs-white); }
 /* em is neutral-800 by default - 1.6:1 on the dark ground, invisible. The
    title and section slides share that background, so they need it too. */
 .slide.dark em, .slide.title em, .slide.section em { color: var(--hs-neutral-200); }

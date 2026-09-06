@@ -32,7 +32,8 @@ PNGs of it in `build/session-01/`. Match that density and voice. Machinery
 3 contact hours, and nobody absorbs three hours of lecture. The rhythm in
 `course.json → sessionShape` is: warm-up 10 · concept 45 · practice 25 ·
 break 10 · concept 40 · practice 30 · wrap-up 15. A deck that mirrors it runs
-roughly 12–18 slides:
+roughly 16–22 slides — the three or four activities each carry a walkthrough
+slide behind them, so budget two slides per activity, not one:
 
 | Slides | Purpose |
 |---|---|
@@ -43,7 +44,7 @@ roughly 12–18 slides:
 | 8 | `.slide.section` divider (this is where the break falls) |
 | 9–12 | Concept II, same arc |
 | 13 | Pitfalls, straight from `course.json → pitfalls` |
-| 14 | `.box.try` practice — what students do in the room |
+| 14 | `.box.try` practice — what students do in the room, each `.activity` followed by its walkthrough slide |
 | 15 | `.slide.dark` wrap-up: three takeaways, key terms as chips, homework brief |
 
 ## Rules that make it this course and not a generic maths deck
@@ -91,6 +92,45 @@ roughly 12–18 slides:
    Put the expected answers in `<div class="notes">` **and** verify them with
    a check block — an activity whose answer you have not verified is an
    activity that will go wrong in front of twenty people.
+
+   **Every `.activity` is followed by a walkthrough slide.** One slide, straight
+   after the activity, that shows the room *how to solve it* — not just the
+   answer. This is the slide you put up once every group has committed, and it
+   is where the teaching actually lands: students who got it check their
+   reasoning, students who did not get a method they can reuse.
+
+   ```html
+   <section class="slide">
+     <span class="kicker">Activity 2 · how to solve it</span>
+     <h2>Domain first, then algebra, then check</h2>
+     <div class="s-body cols-2">
+       <div class="box note"><span class="tag">Method</span>
+         <ol>…the transferable steps, in the order you would do them…</ol>
+       </div>
+       <div class="stack">
+         <div class="box example"><span class="tag">Answer</span> …worked through…</div>
+         <div class="box pitfall"><span class="tag">The trap</span> …the mistake the share prompt targets…</div>
+       </div>
+     </div>
+     <div class="notes">When to reveal it, and what to ask the room first.</div>
+   </section>
+   ```
+
+   Three rules for it:
+
+   - **Method before answer.** The numbered steps must be reusable on a
+     different problem. "Write the domain before touching the equation" is a
+     method; "the domain is $x>1$" is an answer. A slide with only the answer
+     teaches nothing the notes did not already.
+   - **Name the trap.** It is the mistake the activity's `.share` line was
+     designed to surface, stated as a `.box.pitfall`, with the witness.
+   - **`.box.note` for Method, not `.box.proof`.** `.box.proof` auto-appends
+     the ∎ tombstone, which claims a completed proof; a solving strategy is not
+     one.
+
+   Where the activity asks for a drawing, the walkthrough shows the finished
+   drawing with its points labelled — an inline SVG on the brand tokens, so
+   students can check their own sketch against it.
 5. **Justification is the assessed object.** Where a worked example has a
    subtle step, name it on the slide ("every step here is an equivalence, so
    nothing is gained or lost"). 60% of the grade is homework marked this way.
