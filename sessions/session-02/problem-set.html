@@ -18,20 +18,6 @@
   </div>
 </div>
 
-<div class="rubric">
-  <span class="tag">How to answer</span>
-  <b>Every answer carries one sentence of justification.</b> A value on its own is not a solution — say
-  why it is right. You may discuss problems with anyone and may use AI tools, but you must be able to
-  explain every line you submit.
-</div>
-
-<div class="note-box">
-  <span class="tag">Two formats, and both are required exactly</span>
-  <b>To prove an identity:</b> double inclusion. Take an <b>arbitrary</b> element of one side, show it
-  lies in the other, then do the reverse. The word "arbitrary" must appear.<br>
-  <b>To disprove one:</b> name your sets explicitly, compute <b>both</b> sides, and point at the element
-  that is in one and not the other. A Venn diagram is not a proof and is not a disproof.
-</div>
 
 <h2 class="section-title">Part A · Notation and computation</h2>
 
@@ -89,11 +75,6 @@
 
 <h2 class="section-title">Part B · Six identities to prove</h2>
 
-<div class="note-box">
-  <span class="tag">For every problem in this part</span>
-  Prove by double inclusion — both directions are required. A proof that verifies the identity on one
-  example is <b>not a proof</b>, however carefully the example is computed.
-</div>
 
 <div class="problem">
   <div class="p-head"><span class="n">4</span><span class="topic">Distributivity</span></div>
@@ -185,65 +166,6 @@
   </div>
 </div>
 
-<h2 class="section-title">Part C · Three to disprove, and one to write</h2>
-
-<div class="problem">
-  <div class="p-head"><span class="n">10</span><span class="topic">Disproof</span></div>
-  <div class="body">
-    Each statement below is <b>false</b>. For each, give explicit sets, compute both sides, and name an
-    element that is in one side and not the other.
-    <ol class="parts">
-      <li>$(A \cup B) \setminus B = A$ &nbsp; for all sets $A, B$.</li>
-      <li>$\mathcal{P}(A \cup B) = \mathcal{P}(A) \cup \mathcal{P}(B)$ &nbsp; for all sets $A, B$.</li>
-      <li>$A \times B = B \times A$ &nbsp; for all sets $A, B$.</li>
-    </ol>
-    <div class="solution"><span class="tag">Solution</span>
-      (a) $A = B = \{1\}$: left is $\{1\}\setminus\{1\} = \varnothing$, right is $\{1\}$. The element $1$
-      is in the right and not the left. (It holds precisely when $A \cap B = \varnothing$.)<br>
-      (b) $A = \{1\}$, $B = \{2\}$: left is $\mathcal{P}(\{1,2\})$, which contains $\{1,2\}$; right is
-      $\{\varnothing,\{1\}\} \cup \{\varnothing,\{2\}\}$, which does not. The element $\{1,2\}$ separates
-      them. (Only $\supseteq$ holds in general.)<br>
-      (c) $A = \{1\}$, $B = \{2\}$: left is $\{(1,2)\}$, right is $\{(2,1)\}$, and $(1,2) \neq (2,1)$
-      since ordered pairs agree only when both coordinates do.
-    </div>
-  </div>
-</div>
-
-<div class="problem">
-  <div class="p-head"><span class="n">11</span><span class="topic">Find the error</span></div>
-  <div class="body">
-    A student submits the following. Identify the first step that is wrong, say why it is wrong, and state
-    whether the claimed identity is nevertheless true.
-    <div class="note-box" style="margin:8px 0">
-      <b>Claim.</b> $A \setminus (B \setminus C) = (A \setminus B) \cup C$ for all sets $A,B,C$.<br>
-      <b>"Proof."</b> Let $x \in A \setminus (B \setminus C)$. Then $x \in A$ and $x \notin B \setminus C$.
-      Now $x \notin B\setminus C$ means $x \notin B$ or $x \in C$. So $x \in A \setminus B$ or $x \in C$,
-      hence $x \in (A\setminus B) \cup C$. Therefore the two sets are equal. $\blacksquare$
-    </div>
-    <div class="solution"><span class="tag">Solution</span>
-      The individual steps of the displayed argument are correct, and they establish
-      $A \setminus (B\setminus C) \subseteq (A\setminus B)\cup C$. The error is the final sentence:
-      only <b>one inclusion</b> was proved, and equality requires both. In fact the identity is
-      <b>false</b> — take $A = \varnothing$, $C = \{1\}$: the left side is $\varnothing$ and the right
-      side is $\{1\}$.
-    </div>
-  </div>
-</div>
-
-<div class="problem">
-  <div class="p-head"><span class="n">12</span><span class="topic">Reflection</span></div>
-  <div class="body">
-    In no more than five sentences: a Venn diagram convinced you that some identity was true, and then you
-    were asked to prove it by double inclusion anyway. What does the proof give you that the picture does
-    not? You are not being asked to prove anything here.
-    <div class="space tall"></div>
-    <div class="solution"><span class="tag">What a good answer does</span>
-      Look for the idea that the diagram shows one configuration while the claim quantifies over all sets,
-      and/or that a diagram cannot be drawn faithfully for four or more sets. Credit any answer that
-      distinguishes "I am convinced" from "it is established". There is no single correct answer.
-    </div>
-  </div>
-</div>
 
 <div class="foot">
   <span>Intro to Higher Math · Problem Set 2</span>

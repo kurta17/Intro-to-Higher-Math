@@ -20,11 +20,11 @@ an implementation of it.
 ```bash
 D=.claude/skills/run-intro-to-higher-math/driver.mjs
 node $D list                                  # where this session sits
-node $D shot brand/components.html all        # what you can build with
+node $D contact brand/components.html         # what you can build with
 ```
 
-Then read `sessions/session-01/slides.html` — the reference deck — and the
-PNGs of it in `build/session-01/`. Match that density and voice. Machinery
+Then read `sessions/session-01/slides.html` — the reference deck — and its
+contact sheet in `build/session-01/`. Match that density and voice. Machinery
 (commands, modes, troubleshooting) lives in **`/run-intro-to-higher-math`**.
 
 ## Shape of a session
@@ -182,7 +182,9 @@ Every mathematical claim on a slide must carry an executable check in a
 carry `<div class="notes">`. **`/lecture-content`** owns that contract and the
 assertion vocabulary — read it before writing the maths.
 
-Then **read the PNGs**. `check` proves the maths rendered and nothing
+Then **read the contact sheet**. `check` proves the maths rendered and nothing
 overflows; only your eyes catch a slide that is technically valid and
 pedagogically empty. Ask of each one: *could a student who missed this class
-reconstruct the argument from this slide alone?*
+reconstruct the argument from this slide alone?* Shoot a single slide with
+`shot <n>` only when the contact sheet leaves something genuinely unreadable —
+do not render the whole deck to PNG as a routine step.

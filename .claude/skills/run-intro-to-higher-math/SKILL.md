@@ -38,9 +38,9 @@ D=.claude/skills/run-intro-to-higher-math/driver.mjs
 
 node $D list                                       # all 15 sessions, which have decks
 node $D check sessions/session-01/slides.html      # lint: renders it, reports problems
-node $D shot  sessions/session-01/slides.html all  # PNG per slide -> build/session-01/
-node $D shot  sessions/session-01/slides.html 9    # just slide 9
 node $D contact sessions/session-01/slides.html    # whole deck in ONE tall PNG
+node $D shot  sessions/session-01/slides.html 9    # just slide 9, when you must
+node $D shot  sessions/session-01/slides.html all  # PNG per slide - slow, rarely needed
 node $D pdf   sessions/session-01/slides.html      # -> build/session-01/…-slides.pdf
 node $D pptx  sessions/session-01/slides.html      # PowerPoint, with speaker notes
 node $D new   6                                    # scaffold session 6 from the template
@@ -54,8 +54,9 @@ per deck is what makes a session easy to hand over, zip, or delete:
 
 ```
 build/session-04/
-  slide-01.png … slide-29.png        one per slide, 1280x720
   session-04-slides-contact.png      the whole deck as a thumbnail grid
+  slide-01.png … slide-29.png        one per slide, 1280x720 — only from
+                                     `shot`, or as a by-product of `pptx`
   session-04-slides.pdf              print export
   session-04-slides.pptx             PowerPoint + speaker notes
   session-04-problem-set.pdf         student copy
@@ -98,13 +99,16 @@ errors: none
 OK
 ```
 
-**Always look at the PNGs you generate** (`Read` them). `check` catches
-broken maths and overflow; it cannot tell you a slide is ugly or empty.
+**Always look at what you generate** (`Read` it). `check` catches broken maths
+and overflow; it cannot tell you a slide is ugly or empty.
 
-`shot all` is one Chrome process **per slide**: on a 21-slide deck that is
-minutes, and it will blow a 120-second command timeout. Use `contact` for a
-single tall image of the whole deck when you just want to see that nothing
-is broken, and `shot <n>` for the slides you actually need to inspect.
+**Use `contact` for that, not `shot all`.** One tall image of the whole deck is
+the routine visual check; rendering a PNG per slide is not part of building a
+session. `shot all` is one Chrome process **per slide** — on a 21-slide deck
+that is minutes, and it will blow a 120-second command timeout. Reach for
+`shot <n>` only when the contact sheet leaves one slide genuinely unreadable.
+`pptx` re-shoots internally, so a PowerPoint export still refreshes the PNGs
+in `build/<session>/` as a side effect.
 
 ### Problem sets
 
@@ -123,10 +127,10 @@ node $D pdf sessions/session-01/problem-set.html solutions  # marker's copy
 
 `brand/components.html` renders every available building block — the seven
 callout boxes, cards, chips, tables, grid classes, maths, dark and section
-slides. Screenshot it before authoring so you pick from what exists:
+slides. Look at it before authoring so you pick from what exists:
 
 ```bash
-node $D shot brand/components.html all       # -> build/brand/
+node $D contact brand/components.html        # -> build/brand/
 ```
 
 ## Run (human path)
@@ -178,10 +182,10 @@ which executes every claim in the deck. Run both before teaching.
   cost real time; `check` now reports it as the first error.
 - **`<` inside maths must be written `&lt;`.** `$x < 0$` in an HTML file
   truncates the formula at the `<`. Same for `&` outside a `\begin{}` block.
-- **Screenshots are one Chrome process per slide, and they go stale.** After
-  a CSS change, re-run `shot ... all` — not the single slide you were
-  inspecting. Reviewing stale PNGs sent me chasing a layout bug that was
-  already fixed.
+- **Renders go stale.** After a CSS change, re-run `contact` — and if PNGs are
+  present in `build/<session>/`, they are now stale too. Reviewing a stale PNG
+  sent me chasing a layout bug that was already fixed. Delete them
+  (`rm build/<session>/slide-*.png`) rather than reading one by accident.
 - **Grid items hug their content by default** (`align-content/items: start`).
   That is deliberate: stretched boxes leave big dead gaps under short text.
   Add `.even` (`<div class="s-body cols-2 even">`) when you want equal-height

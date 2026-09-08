@@ -46,51 +46,78 @@
 </section>
 
 <section class="slide">
-  <span class="kicker">Recap</span>
-  <h2>Yesterday gave us the containers; today we move between them</h2>
+  <span class="kicker">Recap · Session 2</span>
+  <h2>Set theory, in one page</h2>
   <div class="s-body cols-2">
-    <ul class="ticks">
-      <li>Sets, and $\in$ against $\subseteq$</li>
-      <li>$\cup$, $\cap$, $\setminus$, complement, $\times$</li>
-      <li>Ordered pairs, so $A \times B$ makes sense</li>
-      <li>Proof by double inclusion</li>
-    </ul>
-    <div class="box note">
+    <table class="small">
+      <tr><th>Objects</th><th></th></tr>
+      <tr><td><strong>set</strong></td><td>Unordered, no repeats: $\{1,2,2\}=\{1,2\}$</td></tr>
+      <tr><td>$x\in A$</td><td><strong>Element of</strong> a set</td></tr>
+      <tr><td>$\{1,2,3\}$</td><td><strong>Roster</strong>; or <strong>set-builder</strong> $\{x\in\mathbb{Z}:x^2&lt;10\}$</td></tr>
+      <tr><td>$\varnothing$</td><td><strong>Empty:</strong> no elements. $\{\varnothing\}$ has one</td></tr>
+      <tr><td>$A\subseteq B$</td><td><strong>Subset:</strong> all of $A$ lies in $B$</td></tr>
+      <tr><td>$A=B$</td><td>$A\subseteq B$ and $B\subseteq A$: <strong>double inclusion</strong></td></tr>
+      <tr><td>$\mathcal{P}(A)$</td><td><strong>Power set:</strong> all subsets. $|\mathcal{P}(A)|=2^{|A|}$</td></tr>
+    </table>
+    <table class="small">
+      <tr><th>Operations</th><th></th></tr>
+      <tr><td>$A\cup B$</td><td><strong>Union:</strong> $A$ or $B$ (inclusive)</td></tr>
+      <tr><td>$A\cap B$</td><td><strong>Intersection:</strong> in both. Empty: <strong>disjoint</strong></td></tr>
+      <tr><td>$A\setminus B$</td><td><strong>Difference:</strong> $A$ without $B$. Asymmetric</td></tr>
+      <tr><td>$A^{c}$</td><td><strong>Complement</strong> $U\setminus A$; name $U$ first</td></tr>
+      <tr><td>$A\mathbin{\triangle}B$</td><td><strong>Symmetric difference:</strong> exactly one</td></tr>
+      <tr><td><strong>De Morgan</strong></td><td>$(A\cup B)^{c}=A^{c}\cap B^{c}$, $(A\cap B)^{c}=A^{c}\cup B^{c}$</td></tr>
+      <tr><td>$A\times B$</td><td><strong>Ordered pairs</strong> $(a,b)$; $|A\times B|=|A||B|$</td></tr>
+    </table>
+    <div class="box note" style="grid-column: 1 / -1">
       <span class="tag">Today's question</span>
-      <p>You have written $x^2$ a thousand times. Is $x^2$ a function?</p>
-      <p style="margin-bottom:0">And if it is — can you run it backwards?</p>
+      Is $x^2$ a function? Can you run it backwards?
     </div>
   </div>
   <div class="notes">
-    Ask the box before you answer it, and let them commit out loud. Most of the room says yes.
-    A more precise answer is "not completely specified — you have given me a rule but not its domain and codomain", and by the end of the
-    first hour they will see that the same rule $x^2$ is four different functions depending on the
-    sets you attach. Also flag the sets link: a function has a graph that is a special subset of
-    $A \times B$, so yesterday was not a detour.
+    This slide replaces the recap and the objectives, so it has to do both jobs in ten minutes. Do not read
+    the tables out. Put them up, give the room ninety seconds to find the one line they cannot explain, and
+    take three of those. The two lines worth defending out loud are $\in$ against $\subseteq$ — object to set
+    versus set to set — and double inclusion, because that is the proof method today's injectivity and
+    surjectivity arguments are built on.
+    Then ask the question in the box and let them commit out loud. Most of the room says yes. A more precise
+    answer is "not completely specified — you have given me a rule but not its domain and codomain", and by
+    the end of the first hour they will see that the same rule $x^2$ is four different functions depending on
+    the sets you attach. Today's assessed skill is proving injectivity, surjectivity and bijectivity: a
+    verdict without a proof scores nothing.
   </div>
-</section>
-
-<section class="slide">
-  <span class="kicker">Objectives</span>
-  <h2>By the end of today you can…</h2>
-  <div class="s-body cols-7-5">
-    <ul class="ticks">
-      <li>Define a function as a rule with a stated domain and codomain, and tell codomain from image</li>
-      <li>Decide and <strong>prove</strong> injectivity, surjectivity, bijectivity</li>
-      <li>Compose functions, and construct the inverse of a bijection</li>
-      <li>Define sine, cosine and tangent on the unit circle, and read off period, range and the identities</li>
-    </ul>
-    <div class="card">
-      <h3>How today runs</h3>
-      <p class="small">Two concepts, four group activities, one exit ticket. You will be at the board.</p>
-      <p class="small muted" style="margin-bottom:0">Objective 2 is the assessed one: a verdict without a proof scores nothing.</p>
-    </div>
-  </div>
-  <div class="notes">
-    Read them out. Objective 2 is the one that matters — the problem set is eight classification items and each
-    needs a proof or a counterexample, not a verdict. Objectives 3 and 4 join up at the end of the day:
-    $\arcsin$ exists only because we restrict $\sin$ until it is a bijection.
-  </div>
+  <script type="application/x-hs-check">
+    const U = [1,2,3,4,5,6];
+    const comp = X => diff(S(U), X);
+    const A = S(1,2,3,4), B = S(3,4,5);
+    claim("{x in Z : x^2 < 10} = {-3,...,3}", () => {
+      const out = []; for (let x = -20; x <= 20; x++) if (x*x < 10) out.push(x);
+      return seteq(S(out), S(-3,-2,-1,0,1,2,3));
+    });
+    claim("{1,2,2} = {2,1} = {1,2} as sets", () => seteq(S(1,2,2), S(2,1)) && seteq(S(2,1), S(1,2)));
+    claim("the empty set has no elements, but {empty set} has one", () => S().size === 0 && S("0").size === 1);
+    claim("A = B iff A subset B and B subset A", () =>
+      seteq(A, B) === (subset(A, B) && subset(B, A)));
+    claim("|P(A)| = 2^|A| for A = {1,2,3}", () => {
+      const arr = [1,2,3], out = [];
+      for (let m = 0; m < (1 << arr.length); m++) out.push(arr.filter((_, i) => m & (1 << i)).join(","));
+      return S(out).size === Math.pow(2, arr.length);
+    });
+    claim("union is inclusive: A u B = {1,2,3,4,5}", () => seteq(union(A,B), S(1,2,3,4,5)));
+    claim("A n B = {3,4}", () => seteq(inter(A,B), S(3,4)));
+    counterexample("difference is NOT symmetric", ([X,Y]) => seteq(diff(X,Y), diff(Y,X)), [A,B]);
+    claim("A^c = {5,6} in U = {1..6}", () => seteq(comp(A), S(5,6)));
+    setIdentity("A sym-diff B = (A \\ B) u (B \\ A)",
+      (X,Y) => symdiff(X,Y), (X,Y) => union(diff(X,Y), diff(Y,X)), { arity: 2 });
+    setIdentity("De Morgan: (A u B)^c = A^c n B^c",
+      (X,Y) => comp(union(X,Y)), (X,Y) => inter(comp(X), comp(Y)), { arity: 2 });
+    setIdentity("De Morgan: (A n B)^c = A^c u B^c",
+      (X,Y) => comp(inter(X,Y)), (X,Y) => union(comp(X), comp(Y)), { arity: 2 });
+    claim("|A x B| = |A||B| for A={1,2}, B={x,y}", () => {
+      const prod = []; for (const a of S(1,2)) for (const b of S("x","y")) prod.push(a+"|"+b);
+      return S(prod).size === 2 * 2;
+    });
+  </script>
 </section>
 
 <section class="slide">

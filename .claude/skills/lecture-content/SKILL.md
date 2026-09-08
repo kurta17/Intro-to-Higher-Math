@@ -138,7 +138,7 @@ Speaker notes are not optional. Two people teach this course; a deck with no
 
 ## 3 · What the machine cannot check
 
-Run these by hand, on the screenshots, before you teach:
+Run these by hand, on the contact sheet, before you teach:
 
 1. **Is every symbol introduced before it is used?** The commonest reason a
    student loses the thread is a letter that appeared without being named.
@@ -163,7 +163,7 @@ node $D new 9                       # scaffold from the template
 # … write the slides, with a check block on every claim …
 node $V sessions/session-09/slides.html --strict    # true and explained
 node $D check sessions/session-09/slides.html       # renders, nothing overflows
-node $D shot  sessions/session-09/slides.html all   # then READ the PNGs
+node $D contact sessions/session-09/slides.html    # then READ the contact sheet
 ```
 
 Both gates must pass before a deck is taught. `verify` says the mathematics
