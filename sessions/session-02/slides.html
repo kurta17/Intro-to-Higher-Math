@@ -324,7 +324,6 @@
           <li>$\{1, 2\} \subseteq A$</li>
           <li>$|A| = 4$</li>
         </ol>
-        <div class="share"><b>Share:</b> each pair takes one line and reads their justification to the room. Where two pairs disagree, settle it from the definition, not by vote.</div>
       </div>
     </div>
   </div>
@@ -534,44 +533,6 @@
   </script>
 </section>
 
-<!-- 12b -->
-<section class="slide">
-  <span class="kicker">Concept I · pictures</span>
-  <h2>…and why it is not a proof</h2>
-  <div class="s-body cols-7-5">
-    <div class="box pitfall">
-      <span class="tag">Trap · a real exam trap</span>
-      <p>One picture shows <em>one</em> configuration. A claim about <strong>all</strong> sets is not
-      settled by one picture.</p>
-      <p style="margin-bottom:0">Three sets need $2^3 = 8$ regions, and a hand-drawn diagram routinely
-      omits some. With four, no diagram of circles can show all $16$.</p>
-    </div>
-    <div class="box note">
-      <span class="tag">The honest workflow</span>
-      <ol style="margin:6px 0 0">
-        <li>Draw the diagram to <em>guess</em> the identity.</li>
-        <li>Write the double-inclusion proof to <em>establish</em> it.</li>
-        <li>Hand in step 2.</li>
-      </ol>
-    </div>
-  </div>
-  <div class="notes">
-    Pitfall two from the spec. Do not ban diagrams — they are genuinely how working mathematicians find
-    the statement. Ban them as the final answer. The four-set fact is the argument that lands: ask the room
-    to draw four overlapping circles showing all sixteen regions, let them fail for a minute, then tell
-    them it is impossible with circles. That is a memorable reason to distrust the picture.
-  </div>
-  <script type="application/x-hs-check">
-    claim("3 sets carve the universe into 2^3 = 8 regions", () => Math.pow(2,3), 8);
-    claim("4 sets would need 2^4 = 16 regions", () => Math.pow(2,4), 16);
-    claim("a picture of ONE configuration cannot settle a universal claim: " +
-          "A n B = empty looks true if you only draw disjoint circles", () => {
-      const A = S(1,2), B = S(2,3);
-      return inter(A,B).size !== 0;   // the overlapping case exists
-    });
-  </script>
-</section>
-
 <!-- 13 · ACTIVITY 2 -->
 <section class="slide">
   <span class="kicker">Activity 2</span>
@@ -587,7 +548,6 @@
           <li>Turn into notation: "the numbers in $U$ that are even but not multiples of three".</li>
           <li>Turn into plain English: $\;(E \cup T)^c$.</li>
         </ol>
-        <div class="share"><b>Share:</b> one group reads their sentence for (4) aloud; the room checks it against the roster list they computed.</div>
       </div>
     </div>
   </div>
@@ -905,7 +865,6 @@
           <li>$A \triangle A = \varnothing$</li>
           <li>$A \cup (B \cap C) = (A \cup B) \cap C$</li>
         </ol>
-        <div class="share"><b>Share:</b> two groups present, one proof and one disproof. The room checks that the proof says "arbitrary" and the disproof names its element.</div>
       </div>
     </div>
   </div>
@@ -1214,7 +1173,6 @@
           <li>Is $\mathcal{P}(A \cap B) = \mathcal{P}(A) \cap \mathcal{P}(B)$? Prove it or break it.</li>
           <li>Is $\mathcal{P}(A \cup B) = \mathcal{P}(A) \cup \mathcal{P}(B)$? Prove it or break it.</li>
         </ol>
-        <div class="share"><b>Share:</b> one pair presents (3), another (4). The room decides why one direction of (4) survives and the other does not.</div>
       </div>
     </div>
   </div>
