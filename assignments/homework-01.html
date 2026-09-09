@@ -1,0 +1,271 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Homework 1 · Intro to Higher Math</title>
+<link rel="stylesheet" href="../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../brand/hs-tokens.css">
+<link rel="stylesheet" href="../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Homework 1 — Sessions 1 &amp; 2</h1>
+    <div class="sub">Algebra, order and justification · Sets, operations and double inclusion</div>
+  </div>
+  <div class="meta">
+    <b>Set</b> Tue 8 Sep 2026
+  </div>
+</div>
+
+<h2 class="section-title">Part A · Session 1 — algebra, order and justification</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Exponents</span></div>
+  <div class="body">
+    Simplify $\dfrac{16^{3/4} \cdot 2^{-3}}{8^{1/3}}$, naming the exponent law used at each step.
+    <div class="solution"><span class="tag">Solution</span>
+      $16^{3/4} = (2^{4})^{3/4} = 2^{3} = 8$ by $(a^m)^n = a^{mn}$; $\;2^{-3} = \tfrac18$ by
+      $a^{-n} = 1/a^{n}$; $\;8^{1/3} = (2^{3})^{1/3} = 2$ by the same power law. So the expression is
+      $\dfrac{8 \cdot \tfrac18}{2} = \dfrac{1}{2}$.<br>
+      The two uses of $(a^m)^n = a^{mn}$ are the fragile steps: that law was stated for $a &gt; 0$. With
+      $a = -1$, $m = 2$, $n = \tfrac12$ it fails, since $\left((-1)^{2}\right)^{1/2} = 1$ but
+      $(-1)^{2 \cdot 1/2} = -1$. Here the base is $2 &gt; 0$, so the steps are legal.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">Missing hypothesis</span></div>
+  <div class="body">
+    Each line below is wrong as written. For each, give a counterexample, then either add a hypothesis
+    that makes it true or explain why no such repair exists.
+    <ol class="parts">
+      <li>$\sqrt{ab} = \sqrt{a}\,\sqrt{b}$</li>
+      <li>$\dfrac{1}{a+b} = \dfrac{1}{a} + \dfrac{1}{b}$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) At $a = b = -1$ the left side is $\sqrt{1} = 1$ while the right side is not defined in
+      $\mathbb{R}$. Repair: require $a, b \ge 0$; then both sides are the non-negative number whose
+      square is $ab$.<br>
+      (b) At $a = b = 1$ the left side is $\tfrac12$ and the right side is $2$. No hypothesis repairs it
+      into a law — clearing denominators shows the two sides agree only when $(a+b)^{2} = ab$, a
+      scattered family of exceptional pairs, not a rule.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">Absolute value</span></div>
+  <div class="body">
+    Write &ldquo;$x$ is at least $5$ away from $-2$&rdquo; as an absolute-value inequality and solve it. Explain why the solution set splits into two pieces.
+    <div class="solution"><span class="tag">Solution</span>
+      Distance from $-2$ is $|x - (-2)| = |x+2|$, so the sentence is $|x + 2| \ge 5$.
+      $|x+2| \ge 5 \iff x + 2 \ge 5$ or $x + 2 \le -5$ (equivalence: reading the definition of $|\cdot|$
+      by cases) $\iff x \ge 3$ or $x \le -7$ (equivalence: adding $-2$ preserves order and is
+      reversible).<br>
+      The endpoints are included, since &ldquo;at least $5$ away&rdquo; allows a distance of exactly $5$.
+      The set splits because distance ignores direction: a point can be far from $-2$ on either side of
+      it.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Completing the square</span></div>
+  <div class="body">
+    Write $2x^{2} - 12x + 23$ in the form $a(x-h)^{2} + k$. 
+    <div class="solution"><span class="tag">Solution</span>
+      $2x^{2} - 12x + 23 = 2(x^{2} - 6x) + 23 = 2\left[(x-3)^{2} - 9\right] + 23 = 2(x-3)^{2} + 5$.
+      Since $(x-3)^{2} \ge 0$ for every real $x$, the expression is at least $5$, with equality exactly
+      when $x = 3$. So the minimum value is $5$, attained at $x = 3$.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">Rational inequality</span></div>
+  <div class="body">
+    Find all real $x$ with $\dfrac{2}{x-1} \le 1$. Handle the sign of $x - 1$ explicitly; do not multiply
+    through by an expression whose sign you do not know.
+    <div class="solution"><span class="tag">Solution</span>
+      First, $x = 1$ is excluded — the left side is undefined there.<br>
+      <b>Case $x &gt; 1$.</b> Then $x - 1 &gt; 0$, so multiplying preserves the direction:
+      $2 \le x - 1$, i.e. $x \ge 3$. Combined with $x &gt; 1$ this gives $x \ge 3$.<br>
+      <b>Case $x &lt; 1$.</b> Then $x - 1 &lt; 0$, so multiplying reverses the direction:
+      $2 \ge x - 1$, i.e. $x \le 3$, which every $x &lt; 1$ already satisfies. So the whole ray works —
+      as it must, since a negative number is certainly $\le 1$.<br>
+      Solution set: $x &lt; 1$ or $x \ge 3$.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">Quadratic reasoning</span></div>
+  <div class="body">
+    Solve
+    $$2x^2 - 8x + 3 = 0$$
+    by completing the square. Do not use the quadratic formula.
+    <ol class="parts">
+      <li>Calculate the discriminant and state what it tells you about the number of real solutions.</li>
+      <li>Find the roots by completing the square, writing each line as an equivalence.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Here $a=2$, $b=-8$, and $c=3$, so
+      $$
+      \Delta=b^2-4ac=(-8)^2-4(2)(3)=40>0.
+      $$
+      Therefore the equation has two distinct real roots.<br>
+      (b)
+      $$
+      2x^2-8x+3=0
+      \iff x^2-4x+\tfrac32=0
+      \iff x^2-4x=-\tfrac32
+      $$
+      $$
+      \iff (x-2)^2-4=-\tfrac32
+      \iff (x-2)^2=\tfrac52.
+      $$
+      Therefore,
+      $$
+      x-2=\pm\sqrt{\tfrac52},
+      \qquad
+      x=2\pm\sqrt{\tfrac52}
+      =2\pm\frac{\sqrt{10}}2.
+      $$
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Session 2 — sets, operations and double inclusion</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">∈ vs ⊆</span></div>
+  <div class="body">
+    Let $C = \{\, 1,\ \{1\},\ \{1,2\},\ \varnothing \,\}$. Decide true or false, and in each case quote the
+    definition that settles it:
+    $\;1 \in C$, $\;\{1\} \subseteq C$, $\;\{1,2\} \subseteq C$, $\;\varnothing \subseteq C$.
+    <div class="solution"><span class="tag">Solution</span>
+      $1 \in C$: true — $1$ is listed as an element.
+      $\{1\} \subseteq C$: true — the only element of $\{1\}$ is $1$, and $1 \in C$, which is what
+      $\subseteq$ demands.
+      $\{1,2\} \subseteq C$: false — it would need $2 \in C$, and $2$ is not an element of $C$ (the set
+      $\{1,2\}$ is, which is a different statement).
+      $\varnothing \subseteq C$: true — vacuously, for every set: $\varnothing$ has no element that could
+      fail to lie in $C$.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">Operations</span></div>
+  <div class="body">
+    Let $U = \{1,2,\dots,15\}$, $\;A = \{\, x \in U : x \text{ is a multiple of } 3 \,\}$ and
+    $B = \{\, x \in U : x \text{ is odd} \,\}$. Write $A$ and $B$ in roster notation, compute
+    $A \triangle B$ and $(A \cup B)^{c}$, then describe $(A \cup B)^{c}$ in plain English and name the law
+    that turns &ldquo;not (a multiple of $3$ or odd)&rdquo; into a statement with &ldquo;and&rdquo; in it.
+    <div class="solution"><span class="tag">Solution</span>
+      $A = \{3,6,9,12,15\}$ and $B = \{1,3,5,7,9,11,13,15\}$.<br>
+      $A \setminus B = \{6,12\}$ and $B \setminus A = \{1,5,7,11,13\}$, so
+      $A \triangle B = \{1,5,6,7,11,12,13\}$. Since $A \cup B = \{1,3,5,6,7,9,11,12,13,15\}$, the
+      complement is $(A \cup B)^{c} = \{2,4,8,10,14\}$.<br>
+      In words: the numbers in $U$ that are even and not a multiple of $3$. The rewriting is De Morgan's
+      law $(A \cup B)^{c} = A^{c} \cap B^{c}$ — negating an &ldquo;or&rdquo; produces an
+      &ldquo;and&rdquo;.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">9</span><span class="topic">Power set</span></div>
+  <div class="body">
+    <ol class="parts">
+      <li>With $A = \{a,b\}$ and $B = \{b,c\}$, list $\mathcal{P}(A \cap B)$ and
+          $\mathcal{P}(A) \cap \mathcal{P}(B)$ in full, and check they agree.</li>
+      <li>Prove that $\mathcal{P}(A \cap B) = \mathcal{P}(A) \cap \mathcal{P}(B)$ for <em>all</em> sets
+          $A, B$, by double inclusion.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $A \cap B = \{b\}$, so $\mathcal{P}(A\cap B) = \{\varnothing, \{b\}\}$. Also
+      $\mathcal{P}(A) = \{\varnothing,\{a\},\{b\},\{a,b\}\}$ and
+      $\mathcal{P}(B) = \{\varnothing,\{b\},\{c\},\{b,c\}\}$, whose intersection is
+      $\{\varnothing, \{b\}\}$ — the same set.<br>
+      (b) $(\subseteq)$ Let $X \in \mathcal{P}(A \cap B)$ be arbitrary, so $X \subseteq A \cap B$. Every
+      element of $X$ then lies in $A$ and in $B$, so $X \subseteq A$ and $X \subseteq B$, i.e.
+      $X \in \mathcal{P}(A) \cap \mathcal{P}(B)$.<br>
+      $(\supseteq)$ Let $X \in \mathcal{P}(A) \cap \mathcal{P}(B)$ be arbitrary, so $X \subseteq A$ and
+      $X \subseteq B$. Let $x \in X$ be arbitrary; then $x \in A$ and $x \in B$, so $x \in A \cap B$.
+      Hence $X \subseteq A \cap B$, i.e. $X \in \mathcal{P}(A \cap B)$. $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">10</span><span class="topic">De Morgan</span></div>
+  <div class="body">
+    Let $A, B \subseteq U$. Prove that $\;(A \cap B)^{c} = A^{c} \cup B^{c}$, by double inclusion. The
+    word <b>arbitrary</b> must appear in each direction.
+    <div class="solution"><span class="tag">Solution</span>
+      $(\subseteq)$ Let $x \in (A \cap B)^c$ be arbitrary. Then $x \in U$ and $x \notin A \cap B$, i.e.
+      it is not the case that both $x \in A$ and $x \in B$. So $x \notin A$ or $x \notin B$, giving
+      $x \in A^c$ or $x \in B^c$, hence $x \in A^c \cup B^c$.<br>
+      $(\supseteq)$ Let $x \in A^c \cup B^c$ be arbitrary. Then $x \notin A$ or $x \notin B$, so it is not
+      the case that $x$ lies in both, i.e. $x \notin A \cap B$. As $x \in U$, $x \in (A\cap B)^c$.
+      $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">11</span><span class="topic">Disprove, then repair</span></div>
+  <div class="body">
+    <ol class="parts">
+      <li>Disprove: $\;(A \cup B) \setminus B = A\;$ for all sets $A, B$. Name your sets, compute both
+          sides, and point at an element that separates them.</li>
+      <li>State the extra condition on $A$ and $B$ that makes the identity true, and prove it under that
+          condition.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Take $A = B = \{1\}$. Then $A \cup B = \{1\}$ and $(A \cup B)\setminus B = \varnothing$, while
+      $A = \{1\}$. The element $1$ is in the right side and not the left, so the claim fails.<br>
+      (b) The condition is $A \cap B = \varnothing$. Assume it. $(\subseteq)$ Let
+      $x \in (A \cup B)\setminus B$ be arbitrary: then $x \in A \cup B$ and $x \notin B$, so $x \in A$.
+      $(\supseteq)$ Let $x \in A$ be arbitrary: then $x \in A \cup B$, and $x \notin B$, since
+      $A \cap B = \varnothing$ leaves no element in both. So $x \in (A \cup B)\setminus B$.
+      $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">12</span><span class="topic">Application · campus data</span></div>
+  <div class="body">
+    A campus card system records, for one week, which of the $200$ students used the gym and which used
+    the library. Take $U$ to be the set of all $200$ students, $G \subseteq U$ those who used the gym and
+    $L \subseteq U$ those who used the library. The logs give
+    $$|G| = 120, \qquad |L| = 95, \qquad |G \cap L| = 60.$$
+    <ol class="parts">
+      <li>The two sets cut $U$ into four regions. Name each one in set notation and give its size,
+          explaining where each number comes from.</li>
+      <li>Every visit is logged as an ordered pair (student, facility), the facility drawn from
+          $F = \{\text{gym}, \text{library}, \text{pool}\}$. How many such pairs are possible in
+          principle? Name the theorem that gives the count, and say why the pairs must be ordered.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $G \cap L$: both, $60$ students, given. $G \setminus L$: gym only, $120 - 60 = 60$, since the
+      $120$ gym users split into those who also used the library and those who did not.
+      $L \setminus G$: library only, $95 - 60 = 35$, by the same argument. $(G \cup L)^{c}$: neither,
+      $200 - (60 + 60 + 35) = 45$, because the four regions are disjoint and every student lies in
+      exactly one of them.<br>
+      (b) The possible pairs are the elements of $U \times F$, and
+      $|U \times F| = |U|\cdot|F| = 200 \cdot 3 = 600$, by the theorem that a finite Cartesian product
+      has size the product of the sizes — two independent choices multiply. The pairs must be ordered
+      because the coordinates play different roles: $(a,b) = (c,d)$ only when $a = c$ and $b = d$, so
+      (student, facility) is a different record from (facility, student).
+    </div>
+  </div>
+</div>
+
+<script src="../brand/vendor/katex/katex.min.js"></script>
+<script src="../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../brand/handout.js"></script>

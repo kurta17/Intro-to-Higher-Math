@@ -59,6 +59,13 @@ body {
 .problem ol.parts { margin: 6px 0 0; padding-left: 1.5em; list-style: lower-alpha; }
 .problem ol.parts > li { margin-bottom: 5px; }
 
+/* a quoted (usually wrong) argument, for "find the error" items */
+.quote-proof {
+  border: 1px dashed var(--hs-neutral-400); background: var(--hs-neutral-50);
+  border-radius: var(--hs-radius-s); padding: 9px 13px; margin: 7px 0 0;
+  font-size: 10.5pt; color: var(--hs-neutral-800);
+}
+
 /* answer space that survives printing */
 .space { border-bottom: 1px solid var(--hs-neutral-300); height: 22mm; margin: 8px 0 0; }
 .space.tall { height: 45mm; }

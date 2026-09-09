@@ -44,9 +44,12 @@
     Let $C = \{\, 1,\ \{1\},\ \{1,2\},\ \varnothing \,\}$. Decide true or false, and in each case quote the
     definition that settles it.
     <ol class="parts">
-      <li>$1 \in C$ &nbsp;&nbsp; (b) $\{1\} \in C$ &nbsp;&nbsp; (c) $\{1\} \subseteq C$
-          &nbsp;&nbsp; (d) $\{1,2\} \subseteq C$ &nbsp;&nbsp; (e) $\varnothing \subseteq C$
-          &nbsp;&nbsp; (f) $|C| = 4$</li>
+      <li>$1 \in C$</li>
+      <li>$\{1\} \in C$</li>
+      <li>$\{1\} \subseteq C$</li>
+      <li>$\{1,2\} \subseteq C$</li>
+      <li>$\varnothing \subseteq C$</li>
+      <li>$|C| = 4$</li>
     </ol>
     <div class="solution"><span class="tag">Solution</span>
       (a) True — $1$ is listed. (b) True — $\{1\}$ is listed as an element. (c) True — the only element of
@@ -66,9 +69,53 @@
           <em>any</em> finite $A$.</li>
     </ol>
     <div class="solution"><span class="tag">Solution</span>
-      (a) $\varnothing$; $\{a\},\{b\},\{c\}$; $\{a,b\},\{a,c\},\{b,c\}$; $\{a,b,c\}$.<br>
+      (a) $\mathcal{P}(A) = \{\varnothing,\{a\},\{b\},\{c\},\{a,b\},\{a,c\},\{b,c\},\{a,b,c\}\}$.<br>
       (b) $|\mathcal{P}(A)| = 8 = 2^3$. Building a subset means deciding, independently for each of the
       $n$ elements, whether it is in or out — two choices $n$ times, so $2^n$ subsets.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Set-builder</span></div>
+  <div class="body">
+    Let $S = \{\, x \in \mathbb{Z} : x^{2} &lt; 10 \,\}$.
+    <ol class="parts">
+      <li>Write $S$ in roster notation, and say in one sentence how you know the list stops where it does.</li>
+      <li>Write $\{2,4,6,8\}$ in set-builder notation.</li>
+      <li>Is $-3 \in S$? Is $\{0,1\} \subseteq S$? Justify each from the definition.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $S = \{-3,-2,-1,0,1,2,3\}$. For an integer, $x^{2} &lt; 10$ says $|x| \le 3$, since $3^{2} = 9 &lt; 10$
+      but $4^{2} = 16 &gt; 10$ — and the condition depends only on $|x|$, so the list is symmetric about $0$.<br>
+      (b) $\{\, x \in \mathbb{Z} : x \text{ is even and } 0 &lt; x &lt; 10 \,\}$, or equivalently
+      $\{\, 2k : k \in \mathbb{Z},\ 1 \le k \le 4 \,\}$.<br>
+      (c) Yes, $-3 \in S$: $(-3)^2 = 9 &lt; 10$, so $-3$ satisfies the defining condition. Yes,
+      $\{0,1\} \subseteq S$: every element of $\{0,1\}$ — namely $0$ and $1$ — lies in $S$, which is
+      exactly what $\subseteq$ demands.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">The empty set</span></div>
+  <div class="body">
+    Decide true or false, and in each case name the definition that settles it.
+    <ol class="parts">
+      <li>$\varnothing \in \{\varnothing\}$</li>
+      <li>$\varnothing \subseteq \{\varnothing\}$</li>
+      <li>$|\{\varnothing\}| = 1$</li>
+      <li>$\varnothing = \{\varnothing\}$</li>
+      <li>$\mathcal{P}(\varnothing) = \{\varnothing\}$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) True — $\{\varnothing\}$ has exactly one element listed, and that element is $\varnothing$.
+      (b) True — $\varnothing \subseteq X$ for every set $X$, vacuously: there is no element of
+      $\varnothing$ that could fail to be in $X$.
+      (c) True — one element, namely $\varnothing$.
+      (d) False — $\varnothing$ has no elements and $\{\varnothing\}$ has one, so by extensionality they
+      are different sets. An empty box inside a box is not the same as an empty box.
+      (e) True — the only subset of $\varnothing$ is $\varnothing$ itself, and $2^{0} = 1$ agrees.
     </div>
   </div>
 </div>
@@ -77,7 +124,7 @@
 
 
 <div class="problem">
-  <div class="p-head"><span class="n">4</span><span class="topic">Distributivity</span></div>
+  <div class="p-head"><span class="n">6</span><span class="topic">Distributivity</span></div>
   <div class="body">
     Prove that $\;A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\;$ for all sets $A, B, C$.
     <div class="solution"><span class="tag">Solution</span>
@@ -93,7 +140,7 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">5</span><span class="topic">De Morgan</span></div>
+  <div class="p-head"><span class="n">7</span><span class="topic">De Morgan</span></div>
   <div class="body">
     Let $A, B \subseteq U$. Prove that $\;(A \cap B)^{c} = A^{c} \cup B^{c}$.
     <div class="solution"><span class="tag">Solution</span>
@@ -108,7 +155,7 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">6</span><span class="topic">Difference</span></div>
+  <div class="p-head"><span class="n">8</span><span class="topic">Difference</span></div>
   <div class="body">
     Prove that $\;A \setminus (B \cup C) = (A \setminus B) \cap (A \setminus C)\;$ for all sets $A, B, C$.
     <div class="solution"><span class="tag">Solution</span>
@@ -123,7 +170,7 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">7</span><span class="topic">Symmetric difference</span></div>
+  <div class="p-head"><span class="n">9</span><span class="topic">Symmetric difference</span></div>
   <div class="body">
     Prove that $\;A \triangle B = (A \cup B) \setminus (A \cap B)\;$ for all sets $A, B$.
     <div class="solution"><span class="tag">Solution</span>
@@ -139,7 +186,7 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">8</span><span class="topic">Subsets</span></div>
+  <div class="p-head"><span class="n">10</span><span class="topic">Subsets</span></div>
   <div class="body">
     Prove that for all sets $A, B$: $\;A \subseteq B \;\Longleftrightarrow\; A \cup B = B$.
     <div class="solution"><span class="tag">Solution</span>
@@ -153,7 +200,7 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">9</span><span class="topic">Cartesian product</span></div>
+  <div class="p-head"><span class="n">11</span><span class="topic">Cartesian product</span></div>
   <div class="body">
     Prove that $\;A \times (B \cap C) = (A \times B) \cap (A \times C)\;$ for all sets $A, B, C$.
     <div class="solution"><span class="tag">Solution</span>
@@ -166,6 +213,62 @@
   </div>
 </div>
 
+
+<h2 class="section-title">Part C · Counterexamples and writing</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">12</span><span class="topic">Disprove</span></div>
+  <div class="body">
+    Each claim below is false in general. For each one: name explicit finite sets, compute
+    <b>both</b> sides, and point at an element that is in one side and not the other.
+    <ol class="parts">
+      <li>$A \setminus (B \setminus C) = (A \setminus B) \setminus C$</li>
+      <li>$A \times B = B \times A$</li>
+      <li>$\mathcal{P}(A \cup B) = \mathcal{P}(A) \cup \mathcal{P}(B)$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Take $A = B = C = \{1\}$. Then $B \setminus C = \varnothing$, so the left side is
+      $A \setminus \varnothing = \{1\}$; and $A \setminus B = \varnothing$, so the right side is
+      $\varnothing$. The element $1$ is in the left side and not the right.<br>
+      (b) Take $A = \{1\}$, $B = \{2\}$. Then $A \times B = \{(1,2)\}$ and $B \times A = \{(2,1)\}$, and
+      $(1,2) \neq (2,1)$ because ordered pairs are equal only when they agree coordinate by coordinate.
+      So $(1,2)$ is in the left side and not the right. (Any counterexample needs $A \neq B$ and both
+      non-empty — if either is empty both products are $\varnothing$.)<br>
+      (c) Take $A = \{1\}$, $B = \{2\}$. Then $\{1,2\} \subseteq A \cup B$, so
+      $\{1,2\} \in \mathcal{P}(A\cup B)$. But $\mathcal{P}(A) = \{\varnothing,\{1\}\}$ and
+      $\mathcal{P}(B) = \{\varnothing,\{2\}\}$, whose union contains only $\varnothing, \{1\}, \{2\}$ —
+      not $\{1,2\}$. Note the $\cap$ version <em>is</em> true: a set is a subset of both $A$ and $B$
+      exactly when it is a subset of $A \cap B$.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">13</span><span class="topic">Find the error</span></div>
+  <div class="body">
+    A student hands in the following.
+    <div class="quote-proof">
+      <b>Claim.</b> $A \cap (B \cup C) = (A \cap B) \cup C$ for all sets $A, B, C$.<br>
+      <b>Proof.</b> Draw three overlapping circles. Shade $A \cap (B \cup C)$, then shade
+      $(A \cap B) \cup C$. Both shadings cover the region in the middle where all three circles meet,
+      so the two sets are equal. $\blacksquare$
+    </div>
+    <ol class="parts">
+      <li>Which step of this argument fails, and why? Answer in one or two sentences.</li>
+      <li>Give a counterexample to the claim.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) The step that fails is the conclusion: agreeing on <em>one</em> region does not make two sets
+      equal — set equality requires that they agree on <b>every</b> element, so every region would have
+      to match. If $C$ contains a point outside $A$, that point is shaded on the right and not on the
+      left.<br>
+      (b) Take $A = \varnothing$, $B = \varnothing$, $C = \{1\}$. Then
+      $A \cap (B \cup C) = \varnothing \cap \{1\} = \varnothing$, while
+      $(A \cap B) \cup C = \varnothing \cup \{1\} = \{1\}$. The element $1$ is in the right side and not
+      the left, so the claim is false.
+    </div>
+  </div>
+</div>
 
 <div class="foot">
   <span>Intro to Higher Math · Problem Set 2</span>
