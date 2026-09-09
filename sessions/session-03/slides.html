@@ -5,6 +5,27 @@
 <link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="../../brand/hs-tokens.css">
 <link rel="stylesheet" href="../../brand/deck.css">
+
+<style>
+  /* Larger type for the room: students reported the projected text was hard to
+     read from the back. The deck averaged 28% ink with ~200px unused below the
+     content, so the body scale is raised ~15% here — the same scale as
+     session 2. Headings, kickers and slide chrome keep the brand sizes; only
+     reading text grows. */
+  .s-body                    { font-size: 24px; }
+  .lede                      { font-size: 26px; }
+  .box                       { font-size: 23px; }
+  .activity .a-body          { font-size: 23px; }
+  .activity .share           { font-size: 19px; }
+  .activity header           { font-size: 15px; }
+  table                      { font-size: 21px; }
+  th                         { font-size: 15px; }
+  .small                     { font-size: 19px; }
+  .card p, .card .cap        { font-size: 17px; }
+  .chip                      { font-size: 17px; }
+  .box .tag                  { font-size: 12px; }
+  .mathline                  { font-size: 29px; }
+</style>
 <body data-course="Intro to Higher Math" data-session="3">
 <div class="deck">
 
@@ -239,7 +260,6 @@
           <li>$f : \mathbb{R} \to [0, \infty)$, $f(x) = x^2$</li>
           <li>$f : \mathbb{R} \to \mathbb{R}$ defined by the condition $f(x)^2 = x$</li>
         </ol>
-        <div class="share"><b>Share:</b> each group takes one line and names the failure — <em>not total</em>, <em>not single-valued</em>, <em>lands outside the codomain</em>, or <em>fine</em>.</div>
       </div>
     </div>
   </div>
@@ -326,45 +346,112 @@
 
 <section class="slide">
   <span class="kicker">Concept I</span>
-  <h2>Injective, surjective, bijective — three questions about hitting</h2>
-  <div class="s-body cols-2">
-    <div class="box def">
-      <span class="tag">Definition</span>
-      <p><strong>Injective:</strong> $f(a_1) = f(a_2) \Longrightarrow a_1 = a_2$. Nothing in $B$ is hit twice.</p>
-      <p><strong>Surjective:</strong> $\forall b \in B\;\exists a \in A$ with $f(a) = b$. Nothing in $B$ is missed.</p>
-      <p style="margin-bottom:0"><strong>Bijective:</strong> both. Every $b$ hit exactly once.</p>
+  <h2>Look at the arrows arriving in $B$</h2>
+  <div class="s-body">
+    <div class="cols-3">
+      <div class="box def">
+        <span class="tag">Injective</span>
+        <p class="small" style="margin:4px 0 0"><strong>No output is hit twice.</strong></p>
+        <svg viewBox="0 0 280 168" role="img" aria-label="An injective mapping from A to B: each output has at most one arrow, but one output is unused" style="display:block; width:100%; height:164px">
+          <defs>
+            <marker id="arrow-injective" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--hs-purple-700)"></path>
+            </marker>
+          </defs>
+          <text x="44" y="19" font-size="18" font-weight="700" fill="var(--hs-cyan-700)">A</text>
+          <text x="218" y="19" font-size="18" font-weight="700" fill="var(--hs-yellow-700)">B</text>
+          <g fill="var(--hs-cyan-100)" stroke="var(--hs-cyan-700)" stroke-width="1.8">
+            <circle cx="52" cy="43" r="7"></circle><circle cx="52" cy="75" r="7"></circle>
+            <circle cx="52" cy="107" r="7"></circle><circle cx="52" cy="139" r="7"></circle>
+          </g>
+          <g fill="var(--hs-yellow-100)" stroke="var(--hs-yellow-700)" stroke-width="1.8">
+            <circle cx="228" cy="34" r="7"></circle><circle cx="228" cy="60" r="7"></circle>
+            <circle cx="228" cy="86" r="7"></circle><circle cx="228" cy="112" r="7"></circle>
+            <circle cx="228" cy="139" r="7" stroke-dasharray="3 2"></circle>
+          </g>
+          <g fill="none" stroke="var(--hs-purple-700)" stroke-width="2" marker-end="url(#arrow-injective)">
+            <path d="M61 43 L218 58"></path><path d="M61 75 L218 32"></path>
+            <path d="M61 107 L218 84"></path><path d="M61 139 L218 110"></path>
+          </g>
+        </svg>
+        <p class="small muted" style="margin:0">One $B$ is unused, so this example is <strong>not</strong> surjective.</p>
+      </div>
+
+      <div class="box example">
+        <span class="tag">Surjective</span>
+        <p class="small" style="margin:4px 0 0"><strong>No output is missed.</strong></p>
+        <svg viewBox="0 0 280 168" role="img" aria-label="A surjective mapping from A to B: every output has an arrow, but one output has two arrows" style="display:block; width:100%; height:164px">
+          <defs>
+            <marker id="arrow-surjective" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--hs-purple-700)"></path>
+            </marker>
+          </defs>
+          <text x="44" y="19" font-size="18" font-weight="700" fill="var(--hs-cyan-700)">A</text>
+          <text x="218" y="19" font-size="18" font-weight="700" fill="var(--hs-yellow-700)">B</text>
+          <g fill="var(--hs-cyan-100)" stroke="var(--hs-cyan-700)" stroke-width="1.8">
+            <circle cx="52" cy="43" r="7"></circle><circle cx="52" cy="75" r="7"></circle>
+            <circle cx="52" cy="107" r="7"></circle><circle cx="52" cy="139" r="7"></circle>
+          </g>
+          <g fill="var(--hs-yellow-100)" stroke="var(--hs-yellow-700)" stroke-width="1.8">
+            <circle cx="228" cy="43" r="7"></circle><circle cx="228" cy="88" r="7"></circle>
+            <circle cx="228" cy="133" r="7"></circle>
+          </g>
+          <g fill="none" stroke="var(--hs-purple-700)" stroke-width="2" marker-end="url(#arrow-surjective)">
+            <path d="M61 43 L218 42"></path><path d="M61 75 L218 86"></path>
+            <path d="M61 107 L218 88"></path><path d="M61 139 L218 132"></path>
+          </g>
+        </svg>
+        <p class="small muted" style="margin:0">The middle $B$ is hit twice, so this example is <strong>not</strong> injective.</p>
+      </div>
+
+      <div class="box def">
+        <span class="tag">Bijective</span>
+        <p class="small" style="margin:4px 0 0"><strong>Every output is hit exactly once.</strong></p>
+        <svg viewBox="0 0 280 168" role="img" aria-label="A bijective mapping from A to B: every output has exactly one arrow" style="display:block; width:100%; height:164px">
+          <defs>
+            <marker id="arrow-bijective" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--hs-purple-700)"></path>
+            </marker>
+          </defs>
+          <text x="44" y="19" font-size="18" font-weight="700" fill="var(--hs-cyan-700)">A</text>
+          <text x="218" y="19" font-size="18" font-weight="700" fill="var(--hs-yellow-700)">B</text>
+          <g fill="var(--hs-cyan-100)" stroke="var(--hs-cyan-700)" stroke-width="1.8">
+            <circle cx="52" cy="48" r="7"></circle><circle cx="52" cy="88" r="7"></circle>
+            <circle cx="52" cy="128" r="7"></circle>
+          </g>
+          <g fill="var(--hs-yellow-100)" stroke="var(--hs-yellow-700)" stroke-width="1.8">
+            <circle cx="228" cy="48" r="7"></circle><circle cx="228" cy="88" r="7"></circle>
+            <circle cx="228" cy="128" r="7"></circle>
+          </g>
+          <g fill="none" stroke="var(--hs-purple-700)" stroke-width="2" marker-end="url(#arrow-bijective)">
+            <path d="M61 48 L218 86"></path><path d="M61 88 L218 126"></path><path d="M61 128 L218 50"></path>
+          </g>
+        </svg>
+        <p class="small muted" style="margin:0">It is injective <strong>and</strong> surjective.</p>
+      </div>
     </div>
-    <div class="box example">
-      <span class="tag">Same rule, opposite answers</span>
-      <p>$f : \mathbb{R} \to \mathbb{R}$, $f(x) = x^2$: injective fails at $f(-2) = f(2)$; surjective fails at $-1$.</p>
-      <p style="margin-bottom:0">$f : [0,\infty) \to [0,\infty)$, $f(x) = x^2$: <strong>both</strong> hold. Nothing about the rule changed.</p>
+    <div class="box note" style="margin-top:14px">
+      <span class="tag">One rule to remember</span>
+      Look only at the dots in $B$: injective means <strong>at most one</strong> arrow arrives; surjective means
+      <strong>at least one</strong> arrives; bijective means <strong>exactly one</strong> arrives.
     </div>
   </div>
   <div class="notes">
-    Draw the two arrow pictures on the board — dots in $A$, dots in $B$, arrows — before any symbols.
-    Injective = no two arrows meet; surjective = no dot in $B$ is arrow-free. Then read the symbolic
-    definitions back off the pictures. Stress that surjectivity is a statement about the <em>codomain</em>,
-    so shrinking the codomain can create it out of nothing; that is what the second example does.
+    Start with the right-hand set, B. Ask students to count the arrows arriving at each yellow dot.
+    For injective, every dot has zero or one arrow; for surjective, every dot has one or more; for
+    bijective, every dot has exactly one. Then point out the separate rule that makes these diagrams
+    functions in the first place: every dot in A has exactly one arrow leaving it. Do not begin with
+    the symbolic definitions; use the final rule box to turn the pictures into the words.
   </div>
   <script type="application/x-hs-check">
-    counterexample("x^2 on R is not injective: -2 and 2 have the same square",
-      ([a, b]) => (a * a === b * b) === (a === b), [-2, 2]);
-    claim("x^2 : R -> R is not surjective: -1 is never attained", () => {
-      for (let i = 0; i < 5000; i++) {
-        const x = Math.random() * 400 - 200;
-        if (Math.abs(x * x + 1) < 1e-12) return false;
-      }
-      return true;
-    });
-    claim("x^2 on [0,inf) is injective: a^2 = b^2 with a,b >= 0 forces a = b", () => {
-      for (let i = 0; i < 5000; i++) {
-        const a = Math.random() * 100, b = Math.random() * 100;
-        if (Math.abs(a * a - b * b) < 1e-12 && Math.abs(a - b) > 1e-6) return false;
-      }
-      return true;
-    });
-    identity("x^2 : [0,inf) -> [0,inf) is surjective: y = (sqrt y)^2",
-      y => Math.sqrt(y) * Math.sqrt(y), y => y, { lo: 0, hi: 100 });
+    claim("injective diagram: four arrows have four different outputs",
+      () => new Set([2, 1, 3, 4]).size, 4);
+    claim("surjective diagram: all three outputs are reached",
+      () => new Set([1, 2, 2, 3]).size, 3);
+    claim("surjective diagram is not injective: output 2 is reached twice",
+      () => [1, 2, 2, 3].filter(y => y === 2).length, 2);
+    claim("bijective diagram: three inputs hit three different outputs",
+      () => new Set([2, 3, 1]).size, 3);
   </script>
 </section>
 
@@ -423,7 +510,6 @@
           <li>$f : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$, $f(a,b) = a - b$</li>
           <li>$f : \mathbb{R} \to (0, \infty)$, $f(x) = 2^x$</li>
         </ol>
-        <div class="share"><b>Share:</b> one group gives a <em>positive</em> proof, one a counterexample. The room votes first.</div>
       </div>
     </div>
   </div>
@@ -745,7 +831,6 @@
           <li>Add the smallest hypothesis on $f$ that repairs the proof.</li>
           <li>State and prove the companion result for $g \circ f$ <em>surjective</em>.</li>
         </ol>
-        <div class="share"><b>Share:</b> one group presents the counterexample, another the repaired statement. The room decides if step 3 is the smallest fix.</div>
       </div>
     </div>
   </div>
@@ -1014,7 +1099,6 @@
           <li>From the picture alone, argue $\sin(\theta + \pi) = -\sin\theta$.</li>
           <li>$2\pi$ is a period of $\tan$. Is it the <em>smallest</em> one? Justify.</li>
         </ol>
-        <div class="share"><b>Share:</b> one pair draws the circle and defends step 4 at the board.</div>
       </div>
     </div>
   </div>
