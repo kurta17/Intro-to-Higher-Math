@@ -18,35 +18,29 @@
   </div>
 </div>
 
-<div class="rubric">
-  <span class="tag">How to answer</span>
-  <b>Every answer carries one sentence of justification.</b> A value on its own is not a solution — say
-  why it is right. You may discuss problems with anyone and may use AI tools, but you must be able to
-  explain every line you submit.
-</div>
-
-<div class="note-box">
-  <span class="tag">Before you start</span>
-  Conditions are part of an answer. Before using a logarithm, state which inputs are allowed. When you
-  compare growth, say <em>for sufficiently large $n$</em>; one numerical example does not prove a growth claim.
-</div>
-
 <h2 class="section-title">Part A · Mechanics</h2>
 
 <div class="problem">
   <div class="p-head"><span class="n">1</span><span class="topic">Polynomial shape</span></div>
   <div class="body">
-    Let $p(x)=-3x^4+2x-7$.
+    Let $p(x)=-x^2+2x+3$.
     <ol class="parts">
       <li>State the degree and leading coefficient of $p$.</li>
       <li>Describe what the graph does at its left and right ends.</li>
+      <li>Sketch the graph. Give the intercepts with both axes and the vertex, and say how you found
+          each one.</li>
     </ol>
-    Give one sentence explaining why the lower-power terms do not change your answer to part (b).
     <div class="solution"><span class="tag">Solution</span>
-      The degree is $4$ and the leading coefficient is $-3$. The degree is even and the leading
-      coefficient is negative, so the graph goes down at both ends: $p(x)\to-\infty$ as
-      $x\to-\infty$ and as $x\to\infty$. When $|x|$ is large, the leading term $-3x^4$ is much
-      larger in size than $2x-7$, so it determines the end behaviour.
+      (a) The degree is $2$ and the leading coefficient is $-1$.<br>
+      (b) The degree is even and the leading coefficient is negative, so the graph goes down at both
+      ends: $p(x)\to-\infty$ as $x\to-\infty$ and as $x\to\infty$.<br>
+      (c) <em>$x$-intercepts:</em> factor. $-x^2+2x+3=-(x^2-2x-3)=-(x+1)(x-3)$, so $p(x)=0$ exactly
+      when $x=-1$ or $x=3$, giving $(-1,0)$ and $(3,0)$.<br>
+      <em>$y$-intercept:</em> set $x=0$, so $p(0)=3$ and the point is $(0,3)$.<br>
+      <em>Vertex:</em> complete the square, $-x^2+2x+3=-(x-1)^2+4$. Since $(x-1)^2\geq0$ with equality
+      only at $x=1$, the maximum is $4$ at $x=1$: the vertex is $(1,4)$.
+      (Equivalently $x=-\tfrac{b}{2a}=-\tfrac{2}{-2}=1$, then $p(1)=4$.)<br>
+      The sketch is a downward parabola through $(-1,0)$, $(0,3)$, $(3,0)$, peaking at $(1,4)$.
     </div>
   </div>
 </div>
@@ -72,10 +66,20 @@
 <div class="problem">
   <div class="p-head"><span class="n">3</span><span class="topic">Exponential equation</span></div>
   <div class="body">
-    Solve $5^{2x-1}=125$. Rewrite $125$ with base $5$, then state why you may set the exponents equal.
+    Solve
+    $$5^{2x}-30\cdot5^{x}+125=0.$$
+    Give all real solutions and justify each step.
     <div class="solution"><span class="tag">Solution</span>
-      Since $125=5^3$, we have $5^{2x-1}=5^3$. The base $5$ is positive and is not $1$, so the
-      exponential function $5^t$ is one-to-one and $2x-1=3$. Hence $x=2$.
+      Put $u=5^{x}$. Then $5^{2x}=(5^{x})^{2}=u^{2}$, and the equation becomes the quadratic
+      $$u^{2}-30u+125=0.$$
+      The substitution is legitimate because $5^{x}$ is defined for every real $x$, and it takes
+      <strong>only positive values</strong> — which matters when we come back at the end.<br>
+      Factoring, $u^{2}-30u+125=(u-25)(u-5)$, so $u=25$ or $u=5$. Both are positive, so each gives a
+      genuine solution.<br>
+      Returning to $x$: since $5^{t}$ is one-to-one (the base $5$ is positive and not $1$),
+      $$5^{x}=25=5^{2}\Longrightarrow x=2,\qquad 5^{x}=5=5^{1}\Longrightarrow x=1.$$
+      The real solutions are $x=2$ and $x=1$.<br>
+      <em>Check.</em> At $x=2$: $625-750+125=0$. At $x=1$: $25-150+125=0$. ✓
     </div>
   </div>
 </div>
@@ -83,11 +87,18 @@
 <div class="problem">
   <div class="p-head"><span class="n">4</span><span class="topic">Change of base</span></div>
   <div class="body">
-    Use the change-of-base formula to calculate $\log_4 32$. Show the formula you use and give the exact answer.
+    Solve exactly for $x$:
+    $$\log_2(x-1)+\log_4(x-1)=6.$$
+    Use the change-of-base formula, and state the domain restriction before solving.
     <div class="solution"><span class="tag">Solution</span>
-      $$\log_4 32=\frac{\ln 32}{\ln 4}=\frac{\ln(2^5)}{\ln(2^2)}=\frac{5\ln2}{2\ln2}=\frac52.$$
-      The formula is valid because the input $32$ is positive and the bases $4$ and $e$ are positive
-      and not equal to $1$.
+      <em>Domain first.</em> Both logarithms take the input $x-1$, which must be positive, so
+      $x-1&gt;0$, that is $x&gt;1$. Everything below is carried out on that domain.<br>
+      <em>Change of base.</em> Writing $\log_4 t=\dfrac{\log_2 t}{\log_2 4}=\dfrac{\log_2 t}{2}$
+      puts both terms in base $2$. With $t=x-1$ the equation becomes
+      $$\log_2(x-1)+\tfrac12\log_2(x-1)=6\Longleftrightarrow\tfrac32\log_2(x-1)=6
+        \Longleftrightarrow\log_2(x-1)=4.$$
+      Hence $x-1=2^4=16$, so $x=17$, which satisfies $x&gt;1$.<br>
+      <em>Check.</em> $\log_2 16+\log_4 16=4+2=6$. ✓
     </div>
   </div>
 </div>
