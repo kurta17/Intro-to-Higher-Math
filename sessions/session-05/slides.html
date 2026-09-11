@@ -5,6 +5,26 @@
 <link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="../../brand/hs-tokens.css">
 <link rel="stylesheet" href="../../brand/deck.css">
+
+<style>
+  /* Larger type for the room: students reported the projected text was hard to
+     read. The deck averaged 25% ink with ~227px unused below the content, so
+     the body scale is raised ~15% here. Headings, kickers and slide chrome keep
+     the brand sizes; only reading text grows. */
+  .s-body                    { font-size: 24px; }
+  .lede                      { font-size: 26px; }
+  .box                       { font-size: 23px; }
+  .activity .a-body          { font-size: 23px; }
+  .activity .share           { font-size: 19px; }
+  .activity header           { font-size: 15px; }
+  table                      { font-size: 21px; }
+  th                         { font-size: 15px; }
+  .small                     { font-size: 19px; }
+  .card p, .card .cap        { font-size: 17px; }
+  .chip                      { font-size: 17px; }
+  .box .tag                  { font-size: 12px; }
+  .mathline                  { font-size: 29px; }
+</style>
 <body data-course="Intro to Higher Math" data-session="5">
 <div class="deck">
 
@@ -13,15 +33,16 @@
   <span class="kicker">Math102BKK · Harbour.Space Bangkok</span>
   <h1>Theorem proving</h1>
   <p class="lede" style="max-width:60ch"><strong>Direct proof · contrapositive · contradiction · disproof by counterexample</strong></p>
-  <p class="lede" style="max-width:60ch"><strong>Topics:</strong> direct proof, contrapositive, proof by contradiction, and disproof by counterexample.</p>
-  <p class="lede" style="max-width:60ch">Today's goal: turn a mathematical statement into a clear argument that shows <strong>why it must be true</strong>.</p>
+  <p class="lede" style="max-width:60ch">Today's goal: turn a mathematical statement into a clear argument that shows <strong>why it must be true in every case it claims</strong>.</p>
+  <p class="lede" style="max-width:60ch">A proof is not a list of examples. It is a chain of valid deductions from stated assumptions, definitions, and previously known facts.</p>
   <div class="meta">
     <div>Session<b>5 of 15</b></div>
     <div>Date<b>Fri 11 Sep 2026</b></div>
   </div>
   <div class="notes">
-    Set the tone: an answer is not yet a proof. In this session, students learn a small number of
-    dependable proof structures and practise choosing between them.
+    Set the tone: an answer is not yet a proof. A proof must cover its stated domain, not merely some
+    convenient examples. In this session, students learn a small number of dependable proof structures
+    and practise choosing between them.
   </div>
 </section>
 
@@ -42,7 +63,8 @@
     </table>
     <div class="box note" style="margin-top:14px">
       <span class="tag">Today</span>
-      Direct proof, contrapositive, contradiction, and counterexamples.
+      Direct proof, contrapositive, contradiction, and counterexamples — the tools used to justify the
+      precise claims introduced in earlier sessions.
     </div>
   </div>
   <div class="notes">
@@ -54,59 +76,115 @@
 
 <!-- 3 -->
 <section class="slide">
-  <span class="kicker">Warm-up</span>
-  <h2>From precise language to proof</h2>
-  <div class="s-body cols-7-5">
-    <div>
-      <p class="small" style="margin:0 0 10px">In earlier sessions, we learned to name objects precisely:</p>
-      <ul class="ticks small">
-        <li>a set has elements;</li>
-        <li>a function has a domain, codomain, and rule;</li>
-        <li>a formula may be true for some inputs and false for others.</li>
-      </ul>
+  <span class="kicker">Recap · Session 4</span>
+  <h2>Function families, in four ideas</h2>
+  <div class="s-body cols-2 even">
+    <div class="box note">
+      <span class="tag">Transformations · sine</span>
+      <strong>Inside moves the input; outside moves the output.</strong>
+      In <span style="white-space:nowrap">$A\sin\bigl(B(t-h)\bigr)+D$</span> with $B&gt;0$: amplitude $|A|$, period $2\pi/B$, midline $y=D$.
     </div>
-    <div class="card solid">
-      <h3>Today's question</h3>
-      <p class="small" style="margin-bottom:0">Once a statement is written clearly, how do we show it is true in every case it claims?</p>
+    <div class="box note">
+      <span class="tag">Polynomials</span>
+      <strong>The leading term decides the ends; roots give factors.</strong>
+      <span style="white-space:nowrap">$p(r)=0 \iff (x-r)$</span> is a factor, so degree $n$ means at most $n$ real roots.
+    </div>
+    <div class="box def">
+      <span class="tag">Exponentials &amp; logs</span>
+      <strong>A log is an exponent:</strong> <span style="white-space:nowrap">$\log_bx=y \iff b^y=x$</span>, so its input must be positive.
+      <span style="white-space:nowrap">$\log(uv)=\log u+\log v$</span> <strong>only if</strong> $u,v&gt;0$; $\log(u+v)$ does not split in general.
+    </div>
+    <div class="box def">
+      <span class="tag">Growth</span>
+      <strong>"Eventually" means from some point on.</strong>
+      $\log_2n&lt;n^2&lt;2^n$ for every $n\geq5$, not for every $n$: at $n=2$, $n^2=2^n$.
+    </div>
+    <div class="box try" style="grid-column: 1 / -1">
+      <span class="tag">Warm-up</span>
+      One pair disproves the $\log_2(u+v)$ rule. Why can't examples prove the $\log_2(uv)$ law?
     </div>
   </div>
   <div class="notes">
-    Ask students for the difference between checking three examples and proving a statement. Accept the
-    idea that examples can suggest a pattern, but the proof must cover every allowed case.
+    This slide replaces the warm-up and the objectives, so give it about ten minutes. Do not read the
+    boxes out. Ask pairs to explain each box to each other in one sentence, then take one explanation per
+    box. The two purple boxes are the ones that carry today, so land them explicitly.
+    <strong>Transformations · sine.</strong> One language works for every family. A change inside the
+    function acts on the input, so $f(x-h)$ moves the graph right by $h$ — the direction students most
+    often get wrong. A change outside acts on the output: $+k$ moves the graph up, and the factor $a$
+    stretches it, or flips it when $a&lt;0$. A sine model reads the same way: in
+    $1.5\cos\bigl(\tfrac{\pi}{6}(t-2)\bigr)+4$ the amplitude is $1.5$, the period is $2\pi/(\pi/6)=12$, and
+    the midline is $y=4$.
+    <strong>Polynomials.</strong> For large $|x|$ the leading term $a_nx^n$ dominates, so the parity of $n$
+    and the sign of $a_n$ decide both ends: $-2x^5+7x^2-1$ rises on the left and falls on the right. Each
+    root $r$ gives a factor $(x-r)$ — for example $x^3-4x=x(x-2)(x+2)$ has roots $-2,0,2$ — and a
+    degree-$n$ polynomial cannot have more than $n$ such factors.
+    <strong>Exponentials &amp; logs (purple).</strong> $\log_2 8=3$ because $2^3=8$. Since $b^y$ is always
+    positive, $\log_b x$ exists only for $x&gt;0$. Every log law is an implication: <em>if</em> $u,v&gt;0$,
+    <em>then</em> $\log(uv)=\log u+\log v$. The hypothesis is part of the theorem, which is exactly today's
+    anatomy of "if … then …". The sum does not split in general: $u=v=1$ gives $\log_2 2=1$ against
+    $\log_2 1+\log_2 1=0$ (it happens to agree at $u=v=2$, which is why "in general" matters). In Activity 2,
+    combining the logs was a one-way step: $\log_2(x-1)+\log_2(x+1)=3 \Rightarrow
+    \log_2\bigl((x-1)(x+1)\bigr)=3$, but not back again, because the combined form also accepts $x&lt;-1$. So
+    $x=-3$ appeared without being a solution — the converse trap in disguise: $P\Rightarrow Q$ does not
+    give $Q\Rightarrow P$.
+    <strong>Growth (purple).</strong> "Eventually" hides two quantifiers: <em>there exists</em> an $N$ such
+    that <em>for every</em> $n\ge N$ the inequality holds; here $N=5$ works, and $N=4$ does not, since
+    $4^2=2^4$. At $n=2$, $n^2=2^n=4$, so "for every $n$" is false even though the eventual statement is
+    true. Students will negate statements like this at the end of today.
+    Then run the warm-up. The point is the asymmetry: one counterexample ($u=v=1$) destroys a "for every"
+    claim, but no number of agreeing examples proves one, because infinitely many pairs remain unchecked.
+    A proof has to handle an <em>arbitrary</em> $u,v&gt;0$ — which is what the rest of the session teaches.
+    If time allows, show the proof: write $u=2^s$, $v=2^t$, so $uv=2^{s+t}$ and $\log_2(uv)=s+t$.
+    Today's objectives, since they no longer have their own slide: state the domain of a claim, and read
+    "for every" ($\forall$) and "there exists" ($\exists$); read an "if … then …" statement and tell it
+    apart from its converse and contrapositive; write a direct proof with a visible hypothesis and
+    conclusion; use the contrapositive when its starting point is simpler; use contradiction to rule out an
+    impossible assumption; disprove a "for every" claim with one valid counterexample; and write the
+    negation of statements containing "for every" and "there exists". Success today means every line has
+    a reason, and the last line proves exactly the claim that was asked. Students do not need to memorise
+    a proof word for word; they need to recognise the shape of the argument, keep its domain visible, and
+    explain why each line follows.
   </div>
   <script type="application/x-hs-check">
-    claim("a formula may be true for some inputs and false for others: x + 1 = 4 holds at x = 3 only",
-      () => (3 + 1 === 4) && (2 + 1 !== 4));
-    claim("three passing examples do not settle a universal claim: n^2 + n + 41 is prime at n = 0,1,2 but not at n = 40",
-      () => isPrime(41) && isPrime(43) && isPrime(47) && !isPrime(40*40 + 40 + 41));
+    claim("inside moves the input: -(x-2)^2+3 has its maximum 3 at x = 2", () => {
+      const q = x => -Math.pow(x-2,2) + 3;
+      for (let i = 0; i < 3000; i++) { const x = Math.random()*40 - 20; if (q(x) > 3 + 1e-12) return false; }
+      return q(2) === 3;
+    });
+    identity("sine period 2pi/B: 1.5cos(pi/6 (t-2))+4 repeats every 12",
+      t => 1.5*Math.cos(Math.PI/6*(t+12-2)) + 4, t => 1.5*Math.cos(Math.PI/6*(t-2)) + 4, { lo: -50, hi: 50 });
+    claim("amplitude 1.5 and midline 4: the model ranges from 2.5 to 5.5", () => {
+      const f = t => 1.5*Math.cos(Math.PI/6*(t-2)) + 4;
+      return eq(f(2), 5.5) && eq(f(8), 2.5) && eq((5.5 - 2.5)/2, 1.5) && eq((5.5 + 2.5)/2, 4);
+    });
+    claim("the leading term decides the ends: -2x^5+7x^2-1 is up on the left and down on the right", () => {
+      const p = x => -2*Math.pow(x,5) + 7*x*x - 1;
+      return p(-100) > 1e6 && p(100) < -1e6;
+    });
+    claim("roots give factors: x^3-4x vanishes at -2, 0 and 2", () => [-2,0,2].every(r => r*r*r - 4*r === 0));
+    identity("x^3-4x = x(x-2)(x+2)", x => x*x*x - 4*x, x => x*(x-2)*(x+2));
+    claim("a log is an exponent: log_2 8 = 3 because 2^3 = 8", () => Math.log2(8), 3);
+    claim("b^y is always positive, so log_b needs a positive input", () => {
+      for (let i = 0; i < 3000; i++) { const y = Math.random()*60 - 30;
+        if (!(Math.pow(2,y) > 0 && Math.pow(0.5,y) > 0)) return false; }
+      return true;
+    });
+    identity("log(uv) = log u + log v for u, v > 0",
+      (u, v) => Math.log2(u*v), (u, v) => Math.log2(u) + Math.log2(v), { lo: 0.2, hi: 50, arity: 2 });
+    counterexample("log(u+v) = log u + log v fails at u = v = 1",
+      ([u, v]) => eq(Math.log2(u+v), Math.log2(u) + Math.log2(v)), [1, 1]);
+    claim("'does not split in general' (not 'never'): it happens to hold at u = v = 2",
+      () => eq(Math.log2(2+2), Math.log2(2) + Math.log2(2)));
+    claim("Activity 2: x = -3 solves x^2 = 9 but is outside the domain of log_2(x-1)", () => (-3)*(-3) === 9 && (-3) - 1 <= 0);
+    forallInt("growth: log_2 n < n^2 < 2^n for every n >= 5", n => Math.log2(n) < n*n && n*n < Math.pow(2,n), { lo: 5, hi: 300 });
+    counterexample("not for every n: n^2 < 2^n fails at n = 2, where n^2 = 2^n = 4", n => n*n < Math.pow(2,n), 2);
+    counterexample("N = 4 does not work: 4^2 = 2^4", n => n*n < Math.pow(2,n), 4);
+    identity("warm-up: log_2(uv) = log_2 u + log_2 v on sampled positive pairs",
+      (u, v) => Math.log2(u*v), (u, v) => Math.log2(u) + Math.log2(v), { lo: 0.1, hi: 100, arity: 2 });
   </script>
 </section>
 
 <!-- 4 -->
-<section class="slide">
-  <span class="kicker">Objectives</span>
-  <h2>By the end of today, you can…</h2>
-  <div class="s-body cols-7-5">
-    <ul class="ticks">
-      <li>read an "if … then …" statement and distinguish it from its converse and contrapositive;</li>
-      <li>write a direct proof with a visible hypothesis and conclusion;</li>
-      <li>use a contrapositive when its starting point is simpler;</li>
-      <li>use contradiction to rule out an impossible assumption;</li>
-      <li>disprove a "for every" statement with one valid counterexample;</li>
-      <li>write the opposite of statements involving "for every" and "there exists."</li>
-    </ul>
-    <div class="card solid">
-      <h3>Success</h3>
-      <p class="small" style="margin-bottom:0">every line of a proof has a reason.</p>
-    </div>
-  </div>
-  <div class="notes">
-    Explain that students do not need to memorise a proof word for word. They need to recognise the
-    shape of the argument and explain why each line follows.
-  </div>
-</section>
-
-<!-- 5 -->
 <section class="slide">
   <span class="kicker">Statements</span>
   <h2>A theorem is more than a pattern</h2>
@@ -114,33 +192,43 @@
     <div class="stack">
       <div class="box def">
         <span class="tag">Definition</span>
-        A <strong>statement</strong> is a sentence that is either true or false.
+        A <strong>mathematical statement</strong> is a declarative sentence with a definite truth value:
+        once all variables, domains, and quantifiers are fixed, it is either true or false.
       </div>
       <div class="box def">
         <span class="tag">Definition</span>
-        A <strong>theorem</strong> is a true mathematical statement with a proof.
+        A <strong>theorem</strong> is a mathematical statement established by a valid proof from accepted
+        definitions, axioms, and earlier results.
       </div>
     </div>
-    <table class="small">
-      <tr><th>Sentence</th><th style="text-align:right">Statement?</th><th>Why?</th></tr>
-      <tr><td>"$x+1=4$"</td><td style="text-align:right">No</td><td>The value of $x$ is not specified.</td></tr>
-      <tr><td>"For every real $x$, $x^2\geq0$"</td><td style="text-align:right">Yes</td><td>It makes one claim about all real numbers.</td></tr>
-      <tr><td>"There is an integer $n$ with $n^2=9$"</td><td style="text-align:right">Yes</td><td>It says that at least one integer works.</td></tr>
-    </table>
+    <div class="stack">
+      <table class="small">
+        <tr><th>Sentence</th><th style="text-align:right">Statement?</th><th>Why?</th></tr>
+        <tr><td>"$x+1=4$"</td><td style="text-align:right">No</td><td>It is an <strong>open sentence</strong>: its truth depends on the unspecified value of $x$.</td></tr>
+        <tr><td>"For every real $x$, $x^2\geq0$"</td><td style="text-align:right">Yes</td><td>It makes one claim about all real numbers.</td></tr>
+        <tr><td>"There is an integer $n$ with $n^2=9$"</td><td style="text-align:right">Yes</td><td>It says that at least one integer works.</td></tr>
+      </table>
+      <div class="box note">
+        <span class="tag">Quantifiers</span>
+        "For every" means <strong>all allowed values</strong>; "there is" means <strong>at least one allowed value</strong>.
+      </div>
+    </div>
   </div>
   <div class="notes">
-    Read the quantifiers in ordinary English. For the last row, ask for a witness such as $n=3$ or
-    $n=-3$. Do not present a proof of $x^2\geq0$ here; it is used as a familiar fact about real numbers.
+    Read the quantifiers in ordinary English. For the last row, ask for a <strong>witness</strong> such as
+    $n=3$ or $n=-3$. Explain that assigning $x=3$ would turn the first row into the true statement $3+1=4$,
+    whereas placing a quantifier in front of $x$ makes a different statement. Do not present a proof of
+    $x^2\geq0$ here; it is used as a familiar fact about real numbers.
   </div>
   <script type="application/x-hs-check">
-    claim("x + 1 = 4 is not a statement: its truth depends on x", () => (3 + 1 === 4) && (5 + 1 !== 4));
+    claim("x + 1 = 4 is an open sentence: true at x = 3, false at x = 5", () => (3 + 1 === 4) && (5 + 1 !== 4));
     identity("for every real x, x^2 >= 0", x => (x*x >= 0 ? 1 : 0), () => 1, { lo: -1000, hi: 1000 });
     claim("there is an integer n with n^2 = 9: the witness n = 3", () => 3*3, 9);
     claim("n = -3 is also a witness", () => (-3)*(-3), 9);
   </script>
 </section>
 
-<!-- 6 -->
+<!-- 5 -->
 <section class="slide">
   <span class="kicker">Implications</span>
   <h2>An implication has a hypothesis and a conclusion</h2>
@@ -157,26 +245,35 @@
     </div>
     <div class="stack">
       <div class="box example">
-        <span class="tag">Example</span>
-        <strong>If an integer $n$ is a multiple of $4$, then $n$ is even.</strong>
+        <span class="tag">Example · with its domain</span>
+        <strong>For every $n\in\mathbb Z$, if $n$ is a multiple of $4$, then $n$ is even.</strong>
       </div>
       <div class="box note">
         <span class="tag">The words, in algebra</span>
-        Here, "multiple of $4$" means $n=4k$ for some integer $k$; "even" means $n=2m$ for some integer $m$.
+        $\mathbb Z$ is the set of integers. "Multiple of $4$" means $n=4k$ for some $k\in\mathbb Z$;
+        "even" means $n=2m$ for some $m\in\mathbb Z$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">One direction only</span>
+        An implication only tells us what follows <strong>when its hypothesis holds</strong>. It does not
+        say that every even integer is a multiple of $4$.
       </div>
     </div>
   </div>
   <div class="notes">
-    Ask students to identify $P$ and $Q$ in the example. The definitions at the bottom prepare a direct
-    proof without using unfamiliar divisibility notation.
+    Ask students to identify $P$ and $Q$ in the example. The definitions prepare a direct proof without
+    using unfamiliar divisibility notation. Stress that the claim is about every integer satisfying $P$,
+    not about the integers for which $P$ fails.
   </div>
   <script type="application/x-hs-check">
     forallInt("if n = 4k then n = 2(2k), so n is even", k => (4*k) % 2 === 0, { lo: -500, hi: 500 });
     identity("n = 4k can be written as 2m with m = 2k", k => 4*k, k => 2*(2*k));
+    counterexample("the implication does not say 'every even integer is a multiple of 4': 2 is even and not a multiple of 4",
+      n => n % 2 === 0 ? n % 4 === 0 : true, 2);
   </script>
 </section>
 
-<!-- 7 -->
+<!-- 6 -->
 <section class="slide">
   <span class="kicker">Converse and contrapositive</span>
   <h2>Do not confuse an implication with its converse</h2>
@@ -184,7 +281,7 @@
     <div class="stack">
       <div class="box note">
         <span class="tag">Notation</span>
-        For an implication $P\Rightarrow Q$. Here, $\neg P$ means "not $P$."
+        Fix one domain and consider an implication $P\Rightarrow Q$ in that domain. Here, $\neg P$ means "not $P$."
       </div>
       <table class="small">
         <tr><th>Name</th><th>Form</th></tr>
@@ -194,18 +291,22 @@
       </table>
     </div>
     <div class="stack">
-      <div class="box thm" data-proof="slide 15: both statements fail only when P is true and Q is false, so they are true in exactly the same cases">
+      <div class="box thm" data-proof="slide 14: both statements fail only when P is true and Q is false, so they are true in exactly the same cases">
         <span class="tag">Theorem</span>
-        The original statement and its contrapositive are always either both true or both false.
+        The original statement and its contrapositive are <strong>logically equivalent</strong>: over the
+        same domain, they are always both true or both false. The converse is a different statement and
+        may have a different truth value.
       </div>
       <div class="box example">
         <span class="tag">Example</span>
-        "multiple of $4\Rightarrow$ even" is true, but its converse is false: $2$ is even and is not a multiple of $4$.
+        "multiple of $4\Rightarrow$ even" is true. Its converse, "even $\Rightarrow$ multiple of $4$," is
+        false: $2$ is even and is not a multiple of $4$.
       </div>
     </div>
   </div>
   <div class="notes">
-    The counterexample $2$ is enough because the converse makes a claim about every even integer. Leave
+    The counterexample $2$ is enough because the converse makes a claim about every even integer. Keep the
+    domain $\mathbb Z$ in view: words such as "even" and "multiple of $4$" have been defined there. Leave
     the inverse form for a later logic course; it is not needed for today's proof methods.
   </div>
   <script type="application/x-hs-check">
@@ -215,6 +316,10 @@
         if (imp(p, q) !== imp(!q, !p)) return false;
       return true;
     });
+    claim("the converse can have a different truth value: P = false, Q = true makes P => Q true and Q => P false", () => {
+      const imp = (p, q) => (!p || q);
+      return imp(false, true) === true && imp(true, false) === false;
+    });
     forallInt("'multiple of 4 => even' is true", n => (n % 4 === 0 ? n % 2 === 0 : true), { lo: -500, hi: 500 });
     counterexample("its converse 'even => multiple of 4' is false: 2 is even and is not a multiple of 4",
       n => n % 4 === 0, 2);
@@ -222,7 +327,7 @@
   </script>
 </section>
 
-<!-- 8 -->
+<!-- 7 -->
 <section class="slide">
   <span class="kicker">Activity 1</span>
   <h2>Read the logical direction</h2>
@@ -230,39 +335,46 @@
     <div class="activity">
       <header><span>Activity 1</span><span class="who">pairs</span><span class="time">10 min</span></header>
       <div class="a-body">
-        Let $P$ be "$n$ is even" and $Q$ be "$n^2$ is even," where $n$ is an integer.
+        Let $P(n)$ mean "$n$ is even" and $Q(n)$ mean "$n^2$ is even," where $n\in\mathbb Z$.
         <ol>
-          <li>Write the converse of $P\Rightarrow Q$ in words.</li>
-          <li>Write the contrapositive of $P\Rightarrow Q$ in words.</li>
-          <li>For "if $n$ is a multiple of $4$, then $n$ is even," test its converse. Is it true or false? Justify your answer.</li>
+          <li>Write the converse of $P(n)\Rightarrow Q(n)$ in words.</li>
+          <li>Write the contrapositive of $P(n)\Rightarrow Q(n)$ in words.</li>
+          <li>For "if $n$ is a multiple of $4$, then $n$ is even," test its converse over $\mathbb Z$. Is it true or false? Justify your answer.</li>
         </ol>
-        <div class="share"><b>Share:</b> explain why a counterexample to a converse does not disprove the original implication.</div>
       </div>
     </div>
   </div>
   <div class="notes">
-    Pairs should write complete sentences, not only symbols. Encourage them to keep $P$ and $Q$ visible
-    while reversing and negating them.
+    Pairs should write complete sentences, not only symbols. Encourage them to keep $P(n)$, $Q(n)$, and
+    the domain visible while reversing and negating them. Close by asking why a counterexample to a
+    converse does not disprove the original implication.
   </div>
   <script type="application/x-hs-check">
-    forallInt("P => Q: if n is even then n^2 is even", n => (n % 2 === 0 ? (n*n) % 2 === 0 : true), { lo: -300, hi: 300 });
+    forallInt("P(n) => Q(n): if n is even then n^2 is even", n => (n % 2 === 0 ? (n*n) % 2 === 0 : true), { lo: -300, hi: 300 });
     forallInt("its converse 'if n^2 is even then n is even' is also true here", n => ((n*n) % 2 === 0 ? n % 2 === 0 : true), { lo: -300, hi: 300 });
     counterexample("the converse of 'multiple of 4 => even' is false at n = 2", n => n % 4 === 0, 2);
   </script>
 </section>
 
-<!-- 9 -->
+<!-- 8 -->
 <section class="slide">
-  <span class="kicker">Activity 1 · how to solve it</span>
-  <h2>Keep the order when you negate</h2>
+  <span class="kicker">Activity 1 · how to change an implication</span>
+  <h2>Converse: swap. Contrapositive: swap and negate.</h2>
   <div class="s-body cols-5-7">
-    <div class="box note">
-      <span class="tag">Method</span>
-      For $P\Rightarrow Q$:
-      <ol style="margin:8px 0 0">
-        <li><strong>Converse:</strong> swap the two parts: $Q\Rightarrow P$.</li>
-        <li><strong>Contrapositive:</strong> swap the parts <strong>and</strong> negate both: $\neg Q\Rightarrow\neg P$.</li>
-      </ol>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">Method</span>
+        For $P\Rightarrow Q$:
+        <ol style="margin:8px 0 0">
+          <li><strong>Converse:</strong> swap the two parts: $Q\Rightarrow P$.</li>
+          <li><strong>Contrapositive:</strong> swap the parts <strong>and</strong> negate both: $\neg Q\Rightarrow\neg P$.</li>
+        </ol>
+      </div>
+      <div class="box note">
+        <span class="tag">Parity of integers</span>
+        For $t\in\mathbb Z$, "$t$ is odd" means $t=2k+1$ for some $k\in\mathbb Z$. Every integer is either
+        even or odd, not both. So "not even" means "odd," and "not odd" means "even."
+      </div>
     </div>
     <div class="stack">
       <table class="small">
@@ -273,85 +385,98 @@
       </table>
       <div class="box pitfall">
         <span class="tag">Key point</span>
-        Proving a converse proves a different statement. To prove $P\Rightarrow Q$, prove $P\Rightarrow Q$ itself or prove $\neg Q\Rightarrow\neg P$.
+        Proving a converse proves a different statement. To prove $P\Rightarrow Q$, prove $P\Rightarrow Q$
+        itself or prove its equivalent contrapositive $\neg Q\Rightarrow\neg P$.
       </div>
     </div>
   </div>
   <div class="notes">
-    Reveal the answers only after pairs have committed. "Not even" and "odd" are equivalent for
-    integers; say that this equivalence is special to integers, not to all number systems.
+    Reveal the answers only after pairs have committed. Point to the parity fact: the replacement of "not
+    even" by "odd" is justified because the domain is the integers, not because negations can always be
+    replaced by a convenient word.
   </div>
   <script type="application/x-hs-check">
     forallInt("the contrapositive of 'even => square even' is 'if n^2 is odd then n is odd'",
       n => (Math.abs(n*n) % 2 === 1 ? Math.abs(n) % 2 === 1 : true), { lo: -300, hi: 300 });
-    claim("for integers, 'not even' and 'odd' are the same property", () => {
-      for (let n = -300; n <= 300; n++) if ((n % 2 !== 0) !== (Math.abs(n) % 2 === 1)) return false;
-      return true;
-    });
+    forallInt("every integer is even or odd, not both: exactly one of n = 2k, n = 2k+1 holds",
+      n => (n % 2 === 0) !== (Math.abs(n) % 2 === 1), { lo: -300, hi: 300 });
+    forallInt("'t is odd' means t = 2k+1 for an integer k", t => Math.abs(t) % 2 === 1 ? Number.isInteger((t - 1) / 2) : true, { lo: -300, hi: 300 });
     counterexample("n = 2 is a counterexample to the converse 'even => multiple of 4'", n => n % 4 === 0, 2);
   </script>
 </section>
 
-<!-- 10 -->
+<!-- 9 -->
 <section class="slide">
   <span class="kicker">Direct proof</span>
   <h2>Direct proof: start from the hypothesis</h2>
   <div class="s-body cols-5-7">
-    <div class="box note">
-      <span class="tag">The shape</span>
-      To prove
-      $$\text{for every object, if }P\text{ then }Q,$$
-      use this reliable structure:
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">The shape</span>
+        To prove a universal implication
+        $$\text{for every }x\in D,\quad P(x)\Rightarrow Q(x),$$
+        use this reliable structure.
+      </div>
+      <div class="box example">
+        <span class="tag">New numbers</span>
+        The hypothesis may provide new numbers: "$a$ is even" supplies an integer $r$ with $a=2r$. That
+        $r$ is not a conveniently chosen value.
+      </div>
     </div>
     <div class="stack">
       <div class="box note">
         <span class="tag">Method</span>
         <ol style="margin:0">
-          <li>Choose any allowed object that satisfies $P$.</li>
-          <li>Replace words in $P$ by their definitions.</li>
-          <li>Use algebra or known facts.</li>
-          <li>Reach $Q$ and say why it is true for this object.</li>
+          <li>Let $x\in D$ be <strong>arbitrary</strong>, and assume $P(x)$.</li>
+          <li>Replace words in the hypothesis by their definitions.</li>
+          <li>Use algebra or facts already known to be true.</li>
+          <li>Show $Q(x)$. Because $x$ was arbitrary, the claim holds for every $x\in D$.</li>
         </ol>
       </div>
       <div class="box pitfall">
         <span class="tag">Never</span>
-        Never assume $Q$ at the start: that is the conclusion you are trying to prove.
+        Never assume $Q(x)$ at the start: that is the conclusion you are trying to prove.
       </div>
     </div>
   </div>
   <div class="notes">
     The word "arbitrary" is essential: a proof about every integer cannot secretly choose a convenient
-    integer. Point out that definitions turn informal labels such as "even" into algebra that can be used.
+    integer. Point out that definitions turn informal labels such as "even" into algebra that can be used,
+    and that the new letters introduced by a definition are witnesses guaranteed by the hypothesis.
   </div>
   <script type="application/x-hs-check">
     counterexample("a convenient object is not an arbitrary one: 'every integer n has n^2 = n' survives n = 1 but fails at n = 2",
       n => n*n === n, 2);
-    claim("step 2 in action: replacing 'even' by n = 2m makes the hypothesis usable",
-      () => { for (let m = -200; m <= 200; m++) if ((2*m) % 2 !== 0) return false; return true; });
+    claim("step 2 in action: replacing 'even' by a = 2r makes the hypothesis usable",
+      () => { for (let r = -200; r <= 200; r++) if ((2*r) % 2 !== 0) return false; return true; });
+    forallInt("'a is even' supplies the integer r = a/2", a => a % 2 === 0 ? Number.isInteger(a / 2) && 2*(a/2) === a : true, { lo: -300, hi: 300 });
   </script>
 </section>
 
-<!-- 11 -->
+<!-- 10 -->
 <section class="slide">
   <span class="kicker">Direct proof · worked example</span>
   <h2>The sum of two even integers is even</h2>
   <div class="s-body cols-5-7">
     <div class="box thm">
       <span class="tag">Claim</span>
-      If $a$ and $b$ are even integers, then $a+b$ is even.
+      For every $a,b\in\mathbb Z$, if $a$ and $b$ are even, then $a+b$ is even.
     </div>
     <div class="box proof">
       <span class="tag">Proof</span>
-      Let $a$ and $b$ be any even integers. Then
-      $$a=2r \quad\text{and}\quad b=2s$$
-      for some integers $r$ and $s$. Therefore
+      Let $a,b\in\mathbb Z$ be arbitrary and assume that both are even. By the definition of even, there
+      are integers $r$ and $s$ such that
+      $$a=2r \quad\text{and}\quad b=2s.$$
+      Therefore
       $$a+b=2r+2s=2(r+s).$$
-      Since $r+s$ is an integer, $a+b$ is $2$ times an integer. Hence $a+b$ is even.
+      Since $r+s\in\mathbb Z$, the number $a+b$ is $2$ times an integer. This is exactly the definition of
+      "$a+b$ is even."
     </div>
   </div>
   <div class="notes">
-    Trace the proof's shape: the hypothesis supplies $a=2r$ and $b=2s$; the calculation produces the
-    definition of "even" for $a+b$. The sentence "$r+s$ is an integer" closes a common hidden gap.
+    Trace the proof's shape: the hypothesis supplies the witnesses $r,s\in\mathbb Z$; the calculation
+    produces the definition of "even" for $a+b$. The sentence "$r+s$ is an integer" closes a common
+    hidden gap.
   </div>
   <script type="application/x-hs-check">
     identity("2r + 2s = 2(r+s)", (r, s) => 2*r + 2*s, (r, s) => 2*(r+s), { arity: 2 });
@@ -367,7 +492,7 @@
   </script>
 </section>
 
-<!-- 12 -->
+<!-- 11 -->
 <section class="slide">
   <span class="kicker">Activity 2</span>
   <h2>Write a short direct proof</h2>
@@ -379,17 +504,17 @@
         <p style="margin:8px 0"><em>If $a$ is an even integer and $b$ is an integer, then $ab$ is even.</em></p>
         Use this checklist:
         <ol>
-          <li>Start with any $a$ and $b$ that satisfy the hypothesis.</li>
-          <li>Write $a=2k$ for an integer $k$.</li>
+          <li>Let $a,b\in\mathbb Z$ be arbitrary and assume that $a$ is even.</li>
+          <li>Use the definition: write $a=2k$ for some $k\in\mathbb Z$.</li>
           <li>Rewrite $ab$ in the form $2\times(\text{an integer})$.</li>
         </ol>
-        <div class="share"><b>Share:</b> name the expression that must be an integer before the proof is complete.</div>
       </div>
     </div>
   </div>
   <div class="notes">
     Do not give the answer immediately. If a pair writes $a=2k$ but does not say $k\in\mathbb Z$, prompt
-    them to make the definition explicit.
+    them to make the definition explicit. Ask why $a$ and $b$ must be arbitrary rather than selected
+    examples. Close by asking which expression must be an integer before the proof is complete.
   </div>
   <script type="application/x-hs-check">
     claim("a = 2k and any integer b give ab = 2(kb), which is even", () => {
@@ -404,7 +529,7 @@
   </script>
 </section>
 
-<!-- 13 -->
+<!-- 12 -->
 <section class="slide">
   <span class="kicker">Activity 2 · how to solve it</span>
   <h2>A direct-proof walkthrough</h2>
@@ -412,7 +537,7 @@
     <div class="box note">
       <span class="tag">Method</span>
       <ol style="margin:0">
-        <li>Open with the hypothesis, not the conclusion.</li>
+        <li>Open with arbitrary allowed values and the hypothesis, not the conclusion.</li>
         <li>Substitute the definition into the expression you need to study.</li>
         <li>Finish by showing that your answer has the form required by the conclusion.</li>
       </ol>
@@ -420,9 +545,11 @@
     <div class="stack">
       <div class="box proof">
         <span class="tag">Proof</span>
-        Let $a$ be an even integer and let $b$ be an integer. Since $a$ is even, $a=2k$ for some $k\in\mathbb Z$. Thus
+        Let $a,b\in\mathbb Z$ be arbitrary, and assume $a$ is even. Since $a$ is even, $a=2k$ for some
+        $k\in\mathbb Z$. Thus
         $$ab=(2k)b=2(kb).$$
-        Because $k,b\in\mathbb Z$, we have $kb\in\mathbb Z$. Therefore $ab$ is even.
+        Because $k,b\in\mathbb Z$, we have $kb\in\mathbb Z$. Therefore $ab$ is $2$ times an integer, so
+        $ab$ is even.
       </div>
       <div class="box pitfall">
         <span class="tag">The trap</span>
@@ -432,7 +559,7 @@
   </div>
   <div class="notes">
     Ask one pair to identify the exact line that uses the hypothesis. Emphasise that the proof works for
-    every integer $b$, including negative values and zero.
+    every integer $b$, including negative values and zero, because no special property of $b$ was assumed.
   </div>
   <script type="application/x-hs-check">
     identity("(2k)b = 2(kb)", (k, b) => (2*k)*b, (k, b) => 2*(k*b), { arity: 2 });
@@ -445,52 +572,65 @@
   </script>
 </section>
 
-<!-- 14 -->
+<!-- 13 -->
 <section class="slide section">
   <span class="kicker">Section 2</span>
   <h1>When a direct proof is not the clearest route</h1>
-  <p class="lede">Sometimes it is hard to work forwards from the hypothesis to the conclusion. Then we change the viewpoint:</p>
-  <p class="lede">· prove the <strong>contrapositive</strong>;</p>
-  <p class="lede">· or assume the claim is false and reach a <strong>contradiction</strong>.</p>
+  <p class="lede" style="max-width:62ch">Sometimes it is hard to work forwards from the hypothesis to the conclusion. For a claim $P\Rightarrow Q$, compare the starting points:</p>
+  <p class="lede" style="max-width:62ch">· <strong>direct proof</strong>: assume $P$, derive $Q$;<br>
+  · <strong>contrapositive</strong>: assume $\neg Q$, derive $\neg P$;<br>
+  · <strong>contradiction</strong>: assume $P$ and $\neg Q$, derive something impossible.</p>
+  <p class="lede" style="max-width:62ch">The last route works because the negation of $P\Rightarrow Q$ is "$P$ is true <strong>and</strong> $Q$ is false."</p>
   <span class="num-badge">2</span>
   <div class="notes">
     Take the scheduled break before this section. On return, connect the new methods to the same goal:
-    make an implication unavoidable.
+    make an implication unavoidable. These are choices of route, not different standards of proof; each
+    must still use valid definitions and deductions.
   </div>
+  <script type="application/x-hs-check">
+    claim("the negation of P => Q is 'P and not Q' on all four truth assignments", () => {
+      const imp = (p, q) => (!p || q);
+      for (const p of [true, false]) for (const q of [true, false])
+        if (!imp(p, q) !== (p && !q)) return false;
+      return true;
+    });
+  </script>
 </section>
 
-<!-- 15 -->
+<!-- 14 -->
 <section class="slide">
   <span class="kicker">Contrapositive</span>
   <h2>Contrapositive: prove the equivalent statement</h2>
-  <div class="s-body cols-5-7">
-    <div class="box thm" data-proof="on this slide: both implications fail in exactly one situation - P true and Q false - so they are true in exactly the same cases">
+  <div class="s-body cols-7-5">
+    <div class="box thm" data-proof="on this slide: both implications fail in exactly one situation - P(x) true and Q(x) false - so they are true in exactly the same cases">
       <span class="tag">Equivalence</span>
-      The statements
-      $$P\Rightarrow Q \qquad\text{and}\qquad \neg Q\Rightarrow\neg P$$
+      For each $x$ in a fixed domain $D$, the statements
+      $$P(x)\Rightarrow Q(x) \qquad\text{and}\qquad \neg Q(x)\Rightarrow\neg P(x)$$
       say the same thing in a different form: they are both true or both false.
-      <p style="margin:10px 0 0">They fail only when $P$ is true and $Q$ is false.</p>
+      <p style="margin:10px 0 0">The original fails exactly when $P(x)$ is true and $Q(x)$ is false. The
+      contrapositive fails in exactly that same situation.</p>
     </div>
     <div class="stack">
       <div class="box note">
         <span class="tag">Method</span>
-        So, to prove $P\Rightarrow Q$ by contraposition:
+        To prove a universal implication by contraposition:
         <ol style="margin:8px 0 0">
-          <li>Assume $\neg Q$.</li>
-          <li>Deduce $\neg P$.</li>
-          <li>Conclude that $P\Rightarrow Q$ is true.</li>
+          <li>Let $x\in D$ be arbitrary and assume $\neg Q(x)$.</li>
+          <li>Deduce $\neg P(x)$.</li>
+          <li>Because $x$ was arbitrary, conclude $P(x)\Rightarrow Q(x)$ for every $x\in D$.</li>
         </ol>
       </div>
       <div class="box example">
         <span class="tag">When to use it</span>
-        Use this method when "not $Q$" is easier to work with than $P$.
+        When "not $Q$" is easier to work with than $P$. You prove the contrapositive, not the converse.
       </div>
     </div>
   </div>
   <div class="notes">
     The "same failure situation" is a compact proof of the equivalence: the contrapositive fails when
     $\neg Q$ is true and $\neg P$ is false, which means $Q$ is false and $P$ is true. Do not call
-    contraposition a trick; it is an equivalence.
+    contraposition a trick; it is an equivalence. Make students state the domain before swapping and
+    negating.
   </div>
   <script type="application/x-hs-check">
     claim("P => Q and ¬Q => ¬P have the same truth value in all four cases", () => {
@@ -501,85 +641,110 @@
     });
     claim("both fail only when P is true and Q is false", () => {
       const imp = (p, q) => (!p || q);
-      return imp(true, false) === false && imp(false, true) && imp(false, false) && imp(true, true);
+      return imp(true, false) === false && imp(false, true) && imp(false, false) && imp(true, true)
+        && imp(!false, !true) === false;
     });
   </script>
 </section>
 
-<!-- 16 -->
+<!-- 15 -->
 <section class="slide">
   <span class="kicker">Contrapositive · worked example</span>
   <h2>If $n^2$ is even, then $n$ is even</h2>
   <div class="s-body cols-5-7">
-    <div class="box note">
-      <span class="tag">Change the viewpoint</span>
-      Instead of starting from "$n^2$ is even," prove the contrapositive:
-      <p style="margin:10px 0 0"><em>If $n$ is odd, then $n^2$ is odd.</em></p>
+    <div class="stack">
+      <div class="box thm">
+        <span class="tag">Claim</span>
+        For every $n\in\mathbb Z$, if $n^2$ is even, then $n$ is even.
+      </div>
+      <div class="box note">
+        <span class="tag">Change the viewpoint</span>
+        Instead of starting from "$n^2$ is even," prove the contrapositive:
+        <p style="margin:8px 0"><em>If $n$ is odd, then $n^2$ is odd.</em></p>
+        For integers, "not even" means "odd," and "not odd" means "even."
+      </div>
     </div>
     <div class="box proof">
       <span class="tag">Proof</span>
-      Let $n$ be odd. Then $n=2k+1$ for some $k\in\mathbb Z$. Hence
+      Let $n$ be an arbitrary odd integer. By definition, $n=2k+1$ for some $k\in\mathbb Z$. Hence
       $$\begin{aligned}
       n^2&amp;=(2k+1)^2\\
       &amp;=4k^2+4k+1\\
       &amp;=2(2k^2+2k)+1.
       \end{aligned}$$
-      The number $2k^2+2k$ is an integer, so $n^2$ is odd. Therefore, if $n^2$ is even, then $n$ is even.
+      Because $k\in\mathbb Z$, we have $k^2\in\mathbb Z$, and hence $j=2k^2+2k\in\mathbb Z$. Thus
+      $n^2=2j+1$, so $n^2$ is odd. This proves the contrapositive; therefore the original claim is true.
     </div>
   </div>
   <div class="notes">
     Define odd as "$2k+1$ for an integer $k$." The last sentence is not a new, unsupported jump: it uses
-    the logical equivalence on the previous slide.
+    the logical equivalence on the previous slide and the fact that every integer is even or odd.
   </div>
   <script type="application/x-hs-check">
     identity("(2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2+2k) + 1",
       k => Math.pow(2*k + 1, 2), k => 2*(2*k*k + 2*k) + 1);
     identity("(2k+1)^2 = 4k^2 + 4k + 1", k => Math.pow(2*k + 1, 2), k => 4*k*k + 4*k + 1);
+    forallInt("j = 2k^2 + 2k is an integer and n^2 = 2j + 1", k => {
+      const j = 2*k*k + 2*k; return Number.isInteger(j) && (2*k + 1)*(2*k + 1) === 2*j + 1;
+    }, { lo: -300, hi: 300 });
     forallInt("if n is odd then n^2 is odd", n => (Math.abs(n) % 2 === 1 ? Math.abs(n*n) % 2 === 1 : true), { lo: -300, hi: 300 });
     forallInt("therefore if n^2 is even then n is even", n => (Math.abs(n*n) % 2 === 0 ? Math.abs(n) % 2 === 0 : true), { lo: -300, hi: 300 });
   </script>
 </section>
 
-<!-- 17 -->
+<!-- 16 -->
 <section class="slide">
   <span class="kicker">Contradiction</span>
   <h2>Proof by contradiction: an impossible assumption</h2>
-  <div class="s-body cols-5-7">
+  <div class="s-body cols-7-5">
     <div class="box note">
       <span class="tag">Method</span>
-      To prove a statement $P$ by contradiction:
+      To prove a target statement $S$ by contradiction:
       <ol style="margin:8px 0 0">
-        <li>Assume that $P$ is false; that is, assume $\neg P$.</li>
+        <li>Assume that $S$ is false; that is, assume $\neg S$.</li>
         <li>Reason carefully from that assumption.</li>
-        <li>Reach a contradiction: for example, a statement and "not that statement," or a fact known to be impossible.</li>
-        <li>Therefore the assumption $\neg P$ was false, so $P$ is true.</li>
+        <li>Reach a contradiction: for example, both $R$ and $\neg R$, or a fact known to be impossible.</li>
+        <li>Therefore the assumption $\neg S$ was false, so $S$ is true.</li>
       </ol>
     </div>
-    <div class="box pitfall">
-      <span class="tag">The condition</span>
-      The contradiction must be a consequence of the assumption, not merely a surprising result.
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Conditional targets</span>
+        For a target $P\Rightarrow Q$, assuming its negation means assuming <strong>both</strong> $P$ and $\neg Q$.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The condition</span>
+        The contradiction must be a consequence of the assumption, not merely a surprising result.
+      </div>
     </div>
   </div>
   <div class="notes">
     Point out the difference between a contradiction proof and an invalid proof that quietly assumes two
-    incompatible things. The goal is to show that the chosen negation cannot occur.
+    incompatible things. The goal is to show that the chosen negation cannot occur. A contradiction can
+    be a violation of a definition, a known theorem, or the simultaneous conclusion of $R$ and $\neg R$.
   </div>
   <script type="application/x-hs-check">
-    claim("if ¬P implies a false statement, then P is true", () => {
-      for (const p of [true, false]) {
-        const negPimpliesFalse = (!(!p)) || false;
-        if (negPimpliesFalse !== p) return false;
+    claim("if ¬S implies a false statement, then S is true", () => {
+      for (const s of [true, false]) {
+        const negSimpliesFalse = (!(!s)) || false;
+        if (negSimpliesFalse !== s) return false;
       }
       return true;
     });
-    claim("a statement and its negation cannot both hold", () => {
-      for (const s of [true, false]) if (s && !s) return false;
+    claim("R and ¬R cannot both hold", () => {
+      for (const r of [true, false]) if (r && !r) return false;
+      return true;
+    });
+    claim("the negation of P => Q is P and ¬Q", () => {
+      const imp = (p, q) => (!p || q);
+      for (const p of [true, false]) for (const q of [true, false])
+        if (!imp(p, q) !== (p && !q)) return false;
       return true;
     });
   </script>
 </section>
 
-<!-- 18 -->
+<!-- 17 -->
 <section class="slide">
   <span class="kicker">Contradiction · worked example (1 of 2)</span>
   <h2>Set up $\sqrt2$</h2>
@@ -591,29 +756,38 @@
       </div>
       <div class="box def">
         <span class="tag">Definition</span>
-        A rational number can be written as $p/q$, where $p,q\in\mathbb Z$ and $q\ne0$.
-        <p style="margin:10px 0 0"><strong>Irrational</strong> means "not rational."</p>
+        A real number is <strong>rational</strong> if it can be written as $p/q$, where $p,q\in\mathbb Z$
+        and $q\ne0$. It is <strong>irrational</strong> if it is not rational.
+        <p style="margin:10px 0 0"><strong>Lowest terms:</strong> no positive integer greater than $1$
+        divides both numerator and denominator. Any rational number can be written this way.</p>
       </div>
     </div>
     <div class="box example">
       <span class="tag">Assume, for contradiction</span>
-      Assume, for contradiction, that
-      $$\sqrt2=\frac{p}{q}$$
-      where $p$ and $q$ have no common whole-number factor greater than $1$ (the fraction is in lowest terms). Squaring gives
-      $$2q^2=p^2.$$
-      Thus $p^2$ is even. By the previous theorem, $p$ is even.
+      Assume that $\sqrt2$ is rational.
+      <ol style="margin:8px 0 0">
+        <li>Choose $p,q\in\mathbb Z$ with $q\ne0$, no common positive divisor greater than $1$, and $\sqrt2=\dfrac pq$.</li>
+        <li>Square both sides and use $(\sqrt2)^2=2$:
+          $$2=\frac{p^2}{q^2},\qquad\text{so}\qquad 2q^2=p^2.$$</li>
+        <li>Since $q^2\in\mathbb Z$, this shows that $p^2$ is even. By the contrapositive theorem ($n^2$ even
+          $\Rightarrow n$ even), $p$ is even.</li>
+      </ol>
     </div>
   </div>
   <div class="notes">
     Explain why squaring is legal: both sides of $\sqrt2=p/q$ are equal, so their squares are equal. The
     "lowest terms" condition is the fact we will contradict; students should see it before the algebra
-    begins.
+    begins. Explain that choosing such a fraction is legitimate because common factors can be divided out
+    of any rational representation.
   </div>
   <script type="application/x-hs-check">
     identity("squaring sqrt(2) = p/q gives 2 = p^2/q^2, that is 2q^2 = p^2",
       q => 2*q*q, q => Math.pow(Math.sqrt(2)*q, 2), { lo: 1, hi: 500 });
-    forallInt("p^2 even => p even (the previous theorem)",
+    claim("(sqrt 2)^2 = 2", () => Math.pow(Math.sqrt(2), 2), 2);
+    forallInt("p^2 even => p even (the contrapositive theorem)",
       p => (Math.abs(p*p) % 2 === 0 ? Math.abs(p) % 2 === 0 : true), { lo: -300, hi: 300 });
+    claim("any fraction reduces to lowest terms by dividing out the gcd: 6/4 = 3/2 with gcd(3,2) = 1",
+      () => { const g = gcd(6, 4); return 6/g === 3 && 4/g === 2 && gcd(3, 2) === 1; });
     claim("no integers p, q with q <= 4000 satisfy p^2 = 2q^2 (other than p = q = 0)", () => {
       for (let q = 1; q <= 4000; q++) {
         const p = Math.round(Math.sqrt(2) * q);
@@ -624,28 +798,29 @@
   </script>
 </section>
 
-<!-- 19 -->
+<!-- 18 -->
 <section class="slide">
   <span class="kicker">Contradiction · worked example (2 of 2)</span>
   <h2>Finish $\sqrt2$</h2>
   <div class="s-body cols-7-5">
     <div class="box proof">
       <span class="tag">Proof, continued</span>
-      Since $p$ is even, write $p=2k$ for some $k\in\mathbb Z$. From $2q^2=p^2$,
-      $$2q^2=(2k)^2=4k^2,$$
-      so
-      $$q^2=2k^2.$$
-      Thus $q^2$ is even, and therefore $q$ is even as well.
-      <p style="margin:10px 0 0">Both $p$ and $q$ are divisible by $2$. This contradicts that $p/q$ was in lowest terms. Therefore $\sqrt2$ is irrational.</p>
+      Since $p$ is even, write $p=2k$ for some $k\in\mathbb Z$. Substitute this into $2q^2=p^2$:
+      $$2q^2=(2k)^2=4k^2,\qquad\text{so}\qquad q^2=2(k^2).$$
+      Since $k^2\in\mathbb Z$, the number $q^2$ is even. Because $q\in\mathbb Z$, the same theorem tells us
+      that $q$ is even as well.
+      <p style="margin:10px 0 0">Both $p$ and $q$ are divisible by $2$. This contradicts the choice of a
+      fraction in lowest terms. Therefore the assumption that $\sqrt2$ is rational is false, and $\sqrt2$
+      is irrational.</p>
     </div>
     <div class="box pitfall">
       <span class="tag">The contradiction</span>
-      "No common factor greater than $1$" conflicts with "both $p$ and $q$ are divisible by $2$."
+      "No common positive divisor greater than $1$" conflicts with "both $p$ and $q$ are divisible by $2$."
     </div>
   </div>
   <div class="notes">
-    Make the contradiction explicit: "no common factor greater than $1$" conflicts with "both are
-    divisible by $2$." The proof uses the contrapositive theorem twice; this shows that proof methods
+    Make the contradiction explicit: "no common positive divisor greater than $1$" conflicts with "both
+    are divisible by $2$." The proof uses the contrapositive theorem twice; this shows that proof methods
     can support each other.
   </div>
   <script type="application/x-hs-check">
@@ -658,12 +833,12 @@
       return true;
     });
     forallInt("q^2 even => q even", q => (Math.abs(q*q) % 2 === 0 ? Math.abs(q) % 2 === 0 : true), { lo: -300, hi: 300 });
-    claim("if p and q are both divisible by 2 then gcd(p,q) > 1, contradicting lowest terms",
+    claim("if p and q are both divisible by 2 then 2 is a common positive divisor greater than 1",
       () => gcd(2*3, 2*5) > 1 && gcd(2*7, 2*9) > 1);
   </script>
 </section>
 
-<!-- 20 -->
+<!-- 19 -->
 <section class="slide">
   <span class="kicker">Activity 3</span>
   <h2>Choose a proof method before writing</h2>
@@ -671,21 +846,22 @@
     <div class="activity">
       <header><span>Activity 3</span><span class="who">groups of three</span><span class="time">12 min</span></header>
       <div class="a-body">
-        For each claim, choose the proof method that makes the starting condition easiest to use. Then write the first two lines.
+        For each claim, choose the proof method that makes the starting condition easiest to use. Then
+        write the first two lines, including the domain and the assumption.
         <table class="small" style="margin:10px 0 0">
           <tr><th>Claim</th><th>Your method</th></tr>
-          <tr><td>If $a$ and $b$ are odd integers, then $a+b$ is even.</td><td>?</td></tr>
-          <tr><td>If $n^2$ is odd, then $n$ is odd.</td><td>?</td></tr>
+          <tr><td>If $a,b\in\mathbb Z$ are odd, then $a+b$ is even.</td><td>?</td></tr>
+          <tr><td>For every $n\in\mathbb Z$, if $n^2$ is odd, then $n$ is odd.</td><td>?</td></tr>
           <tr><td>$\sqrt2$ is irrational.</td><td>?</td></tr>
         </table>
-        <div class="share"><b>Share:</b> one group explains the method choice, not only the first calculation.</div>
       </div>
     </div>
   </div>
   <div class="notes">
     Explain that more than one method can sometimes work; students should select the method that makes
-    the hypothesis usable. The expected choices are direct proof, contrapositive, and contradiction
-    respectively.
+    the starting assumption usable. The efficient choices are direct proof, contrapositive, and
+    contradiction respectively. Ask one group to explain its method choice, not only the first
+    calculation.
   </div>
   <script type="application/x-hs-check">
     claim("odd a, odd b => a+b even", () => {
@@ -706,26 +882,27 @@
   </script>
 </section>
 
-<!-- 21 -->
+<!-- 20 -->
 <section class="slide">
   <span class="kicker">Activity 3 · how to solve it</span>
   <h2>Why these methods fit</h2>
   <div class="s-body">
     <table class="small">
       <tr><th>Claim</th><th>Good way to start</th></tr>
-      <tr><td>odd $a$, odd $b\Rightarrow a+b$ even</td><td><strong>Direct:</strong> let $a=2r+1$ and $b=2s+1$.</td></tr>
-      <tr><td>$n^2$ odd $\Rightarrow n$ odd</td><td><strong>Contrapositive:</strong> assume $n$ is even, so $n=2k$ and $n^2=2(2k^2)$ is even.</td></tr>
-      <tr><td>$\sqrt2$ irrational</td><td><strong>Contradiction:</strong> assume $\sqrt2=p/q$ in lowest terms.</td></tr>
+      <tr><td>odd $a,b\in\mathbb Z\Rightarrow a+b$ even</td><td><strong>Direct:</strong> let $a=2r+1$ and $b=2s+1$ for $r,s\in\mathbb Z$.</td></tr>
+      <tr><td>$n^2$ odd $\Rightarrow n$ odd, $n\in\mathbb Z$</td><td><strong>Contrapositive:</strong> prove "$n$ even $\Rightarrow n^2$ even." Let $n=2k$ for $k\in\mathbb Z$; then $n^2=2(2k^2)$ and $2k^2\in\mathbb Z$.</td></tr>
+      <tr><td>$\sqrt2$ irrational</td><td><strong>Contradiction:</strong> assume it is rational and choose $\sqrt2=p/q$ in lowest terms.</td></tr>
     </table>
     <div class="box note" style="margin-top:14px">
       <span class="tag">Method</span>
-      <strong>Choosing a method is part of writing a proof.</strong> Ask: which assumption gives me algebra I can use straight away?
+      <strong>Choosing a method is part of writing a proof.</strong> Ask: which starting assumption gives me
+      algebra I can use straight away, and what definition will my final line need?
     </div>
   </div>
   <div class="notes">
-    For the first row, invite the room to finish: $a+b=2(r+s+1)$. For the second, point out that the
-    contrapositive does not require expanding an odd square. For the third, state that the rest of the
-    proof was just completed.
+    For the first row, invite the room to finish: $a+b=2(r+s+1)$. For the second, point out that
+    $2k^2\in\mathbb Z$, so the displayed equation really proves evenness; the contrapositive avoids
+    expanding an odd square. For the third, state that the rest of the proof was just completed.
   </div>
   <script type="application/x-hs-check">
     identity("row 1: (2r+1) + (2s+1) = 2(r+s+1)", (r, s) => (2*r + 1) + (2*s + 1), (r, s) => 2*(r + s + 1), { arity: 2 });
@@ -735,16 +912,22 @@
   </script>
 </section>
 
-<!-- 22 -->
+<!-- 21 -->
 <section class="slide">
   <span class="kicker">Counterexamples</span>
   <h2>A counterexample can disprove a "for every" claim</h2>
   <div class="s-body cols-5-7">
-    <div class="box def">
-      <span class="tag">Definition</span>
-      To disprove a statement that says
-      $$\text{"for every }x\in D,\ P(x)\text{"},$$
-      find one allowed value $a\in D$ for which $P(a)$ is false. Here, $D$ is the set of allowed values.
+    <div class="stack">
+      <div class="box def">
+        <span class="tag">Negation rules</span>
+        <p style="margin:0 0 8px">$\neg$(for every $x\in D$, $P(x)$) $\iff$ there exists $x\in D$ with $P(x)$ false.</p>
+        <p style="margin:0">$\neg$(there exists $x\in D$ with $P(x)$) $\iff$ for every $x\in D$, $P(x)$ is false.</p>
+      </div>
+      <div class="box def">
+        <span class="tag">Counterexample</span>
+        To disprove "for every $x\in D$, $P(x)$," give a value $a$ with (1) $a\in D$ and (2) $P(a)$ false.
+        Here, $D$ is the set of allowed values.
+      </div>
     </div>
     <div class="stack">
       <div class="box example">
@@ -757,16 +940,30 @@
       </div>
       <div class="box pitfall">
         <span class="tag">Both directions</span>
-        One example that works does <strong>not</strong> prove a statement about every value. To disprove a statement that says "there exists," show that no allowed value works.
+        One allowed $a\in D$ with $P(a)$ true proves "there exists $x\in D$ with $P(x)$," but normally does
+        <strong>not</strong> prove a claim about every value. To disprove "there exists," show that no allowed value works.
       </div>
     </div>
   </div>
   <div class="notes">
     Read the domain carefully before accepting a counterexample. For example, $x=-1$ would not disprove a
     claim only about positive real numbers. Contrast the two directions of quantifiers: one witness
-    disproves "for every," but does not disprove "there exists."
+    disproves "for every," but does not disprove "there exists." In the negation rules, explain that
+    "there exists" is the logical negation of "for every," with the property also negated.
   </div>
   <script type="application/x-hs-check">
+    claim("negation rule 1: not (every x in D has P(x)) iff some x in D has P(x) false", () => {
+      const D = [-2, -1, 0, 1, 2, 3];
+      for (const P of [x => x < 3, x => x*x >= 0, x => x > 0, x => x % 2 === 0])
+        if ((!D.every(P)) !== D.some(x => !P(x))) return false;
+      return true;
+    });
+    claim("negation rule 2: not (some x in D has P(x)) iff every x in D has P(x) false", () => {
+      const D = [-2, -1, 0, 1, 2, 3];
+      for (const P of [x => x > 10, x => x*x === -1, x => x === 0, x => x > 2])
+        if ((!D.some(P)) !== D.every(x => !P(x))) return false;
+      return true;
+    });
     counterexample("'every prime number is odd' fails at 2", n => isPrime(n) && n % 2 === 1, 2);
     claim("2 is prime and even", () => isPrime(2) && 2 % 2 === 0);
     counterexample("'for every real x, x^2 >= x' fails at x = 1/2", x => x*x >= x, 0.5);
@@ -776,7 +973,7 @@
   </script>
 </section>
 
-<!-- 23 -->
+<!-- 22 -->
 <section class="slide">
   <span class="kicker">Activity 4</span>
   <h2>Disprove, prove, or explain why one example is not enough</h2>
@@ -784,20 +981,23 @@
     <div class="activity">
       <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
       <div class="a-body">
-        For each statement, decide whether it is true or false. Give the requested justification.
+        For each statement, decide whether it is true or false. Give the requested justification. When
+        using a counterexample, name the value, confirm that it is in the domain, and show the failed
+        equality or inequality.
         <ol>
           <li>For every real $x$, $x^2\geq0$. If true, state the known fact you use.</li>
           <li>For every integer $n$, $n^2+n$ is odd. If false, give a counterexample.</li>
           <li>For every real $x$, $(x+1)^2=x^2+1$. If false, give a counterexample.</li>
-          <li>There exists a real $x$ with $x^2=-1$. Explain why checking a few values is not a disproof.</li>
+          <li>There exists a real $x$ with $x^2=-1$. Explain why checking a few values is not a disproof; use a fact about <strong>every</strong> real $x$ instead.</li>
         </ol>
-        <div class="share"><b>Share:</b> give one valid counterexample and name the statement type it disproves.</div>
       </div>
     </div>
   </div>
   <div class="notes">
     Students may use $n=1$ or $n=0$ in item 2. For item 4, encourage the class to use the universal fact
-    from item 1, rather than a list of unsuccessful trials.
+    from item 1, rather than a list of unsuccessful trials. Remind them that "there exists" is not refuted
+    until all allowed values have been ruled out. Close by asking for one valid counterexample and the
+    type of statement it disproves.
   </div>
   <script type="application/x-hs-check">
     identity("item 1: for every real x, x^2 >= 0", x => (x*x >= 0 ? 1 : 0), () => 1, { lo: -1000, hi: 1000 });
@@ -811,77 +1011,77 @@
   </script>
 </section>
 
-<!-- 24 -->
+<!-- 23 -->
 <section class="slide">
   <span class="kicker">Activity 4 · how to solve it</span>
   <h2>Check "every" or "there exists" first</h2>
   <div class="s-body cols-7-5">
     <table class="small">
       <tr><th>Item</th><th>Reasoning</th></tr>
-      <tr><td>1</td><td>True. For every real $x$, the square $x^2$ is non-negative.</td></tr>
-      <tr><td>2</td><td>False. At $n=1$, $n^2+n=2$, which is even.</td></tr>
-      <tr><td>3</td><td>False. At $x=1$, the left side is $4$ and the right side is $2$.</td></tr>
-      <tr><td>4</td><td>False. Since every real square is at least $0$, no real square can equal $-1$.</td></tr>
+      <tr><td>1</td><td>True. A square of a real number is non-negative: $x^2\geq0$ for every $x\in\mathbb R$.</td></tr>
+      <tr><td>2</td><td>False. The allowed integer $n=1$ gives $n^2+n=2$, which is even, not odd.</td></tr>
+      <tr><td>3</td><td>False. The allowed real number $x=1$ gives left side $4$ and right side $2$.</td></tr>
+      <tr><td>4</td><td>False. For every $x\in\mathbb R$, $x^2\geq0&gt;-1$, so no real $x$ can satisfy $x^2=-1$.</td></tr>
     </table>
     <div class="box note">
       <span class="tag">Method</span>
-      For item 4, a single failed trial is not enough: the claim says <strong>there exists</strong> a value. We disprove it by showing that <strong>every</strong> real value fails.
+      For item 4, a single failed trial is not enough: the claim says <strong>there exists</strong> a value.
+      We disprove it by showing that <strong>every</strong> real value fails.
     </div>
   </div>
   <div class="notes">
-    Make students say the domain in item 4: real numbers. The final sentence is a preview of the
-    quantifier-negation rule on the next slide.
+    Make students say the domain in item 4: real numbers. Connect the final sentence directly to the
+    negation rules on the counterexample slide: it is a proof of the negation of an existential statement.
   </div>
   <script type="application/x-hs-check">
     identity("item 1: x^2 is non-negative for every real x", x => (x*x >= 0 ? 1 : 0), () => 1, { lo: -1000, hi: 1000 });
     claim("item 2: at n = 1, n^2+n = 2, which is even", () => 1*1 + 1, 2);
     claim("item 3: at x = 1 the left side is 4 and the right side is 2",
       () => Math.pow(1 + 1, 2) === 4 && (1*1 + 1) === 2);
-    claim("item 4: every real square is at least 0, so none equals -1", () => {
-      for (let i = 0; i < 20000; i++) { const x = Math.random()*2000 - 1000; if (x*x === -1 || x*x < 0) return false; }
-      return true;
-    });
+    identity("item 4: x^2 >= 0 > -1 for every real x", x => (x*x > -1 ? 1 : 0), () => 1, { lo: -1000, hi: 1000 });
   </script>
 </section>
 
-<!-- 25 -->
+<!-- 24 -->
 <section class="slide">
   <span class="kicker">Pitfalls</span>
   <h2>Four common proof mistakes</h2>
-  <div class="s-body cols-2">
-    <div class="box pitfall">
-      <span class="tag">Pitfall</span>
-      <ol style="margin:0">
-        <li>Proving $Q\Rightarrow P$ when the question asks for $P\Rightarrow Q$.</li>
-        <li>Assuming the conclusion.</li>
-        <li>Negating "every" or "there exists" incorrectly.</li>
-        <li>Giving a few examples as a proof for all values.</li>
-      </ol>
+  <div class="s-body">
+    <div class="box note" style="margin-bottom:14px">
+      <span class="tag">Recall</span>
+      For the same domain, <strong>not (every value has the property)</strong> means <strong>there exists a
+      failure</strong>; <strong>not (there exists a value with the property)</strong> means <strong>every
+      value fails</strong>.
     </div>
-    <div class="box note">
-      <span class="tag">Fix</span>
-      <ol style="margin:0">
-        <li>Label the hypothesis and conclusion before you start.</li>
-        <li>Begin with $P$, or with $\neg Q$ in a contrapositive proof.</li>
-        <li>"Not every $x\in D$ has $P(x)$" means that at least one $x\in D$ makes $P(x)$ false. "No $x\in D$ has $P(x)$" means $P(x)$ is false for every $x\in D$.</li>
-        <li>Examples test an idea; a proof must cover every case.</li>
-      </ol>
-    </div>
+    <table class="small">
+      <tr><th>Pitfall</th><th>Fix</th></tr>
+      <tr><td>Proving $Q\Rightarrow P$ when the question asks for $P\Rightarrow Q$.</td><td>Label the hypothesis and conclusion before you start.</td></tr>
+      <tr><td>Assuming the conclusion.</td><td>Begin with $P$ in a direct proof, with $\neg Q$ in a contrapositive proof, or with the negation of the whole target in a contradiction proof.</td></tr>
+      <tr><td>Negating "every" or "there exists" incorrectly.</td><td>Use the recall above: "for every" becomes "there exists" and vice versa, and the property itself is negated.</td></tr>
+      <tr><td>Giving a few examples as a proof for all values.</td><td>Examples test an idea; a proof must cover every case.</td></tr>
+    </table>
   </div>
   <div class="notes">
     For the last row, add the boundary: checking every member can prove a statement when the stated
     domain is finite. In this course, "a few examples" is never a proof of an infinite universal
-    statement.
+    statement. In a contradiction proof of $P\Rightarrow Q$, the full negation is $P\land\neg Q$, not
+    merely an unlabelled "opposite."
   </div>
   <script type="application/x-hs-check">
     counterexample("pitfall 1: Q => P is a different statement — 'even => multiple of 4' fails at 2", n => n % 4 === 0, 2);
-    claim("fix 3: 'not every x in D has P(x)' means at least one x in D makes P(x) false", () => {
+    claim("recall: 'not every x in D has P(x)' means at least one x in D makes P(x) false", () => {
       const D = [1, 2, 3, 4], P = x => x < 4;
       return (!D.every(P)) === D.some(x => !P(x));
     });
-    claim("fix 3: 'no x in D has P(x)' means P(x) is false for every x in D", () => {
+    claim("recall: 'no x in D has P(x)' means P(x) is false for every x in D", () => {
       const D = [1, 2, 3, 4], P = x => x > 10;
       return (!D.some(P)) === D.every(x => !P(x));
+    });
+    claim("fix 2: the negation of P => Q is P and ¬Q", () => {
+      const imp = (p, q) => (!p || q);
+      for (const p of [true, false]) for (const q of [true, false])
+        if (!imp(p, q) !== (p && !q)) return false;
+      return true;
     });
     counterexample("pitfall 4: n^2+n+41 is prime for n = 0..39 yet the universal claim is false at n = 40",
       n => isPrime(n*n + n + 41), 40);
@@ -890,18 +1090,22 @@
   </script>
 </section>
 
-<!-- 26 -->
+<!-- 25 -->
 <section class="slide">
   <span class="kicker">Exit ticket</span>
   <h2>Work independently</h2>
   <div class="s-body cols-2">
+    <div class="box note" style="grid-column: 1 / -1">
+      <span class="tag">Task</span>
+      Complete questions 3 and 4. Then choose <strong>one</strong> full proof from questions 1 and 2.
+    </div>
     <div class="box try">
       <span class="tag">1</span>
-      Prove directly: if $m$ and $n$ are odd integers, then $m+n$ is even.
+      Prove directly: if $m,n\in\mathbb Z$ are odd, then $m+n$ is even.
     </div>
     <div class="box try">
       <span class="tag">2</span>
-      Prove by contraposition: if $n^2$ is even, then $n$ is even.
+      Prove by contraposition: for every $n\in\mathbb Z$, if $n^2$ is even, then $n$ is even.
     </div>
     <div class="box try">
       <span class="tag">3</span>
@@ -909,56 +1113,61 @@
     </div>
     <div class="box try">
       <span class="tag">4</span>
-      Write the opposite statement: "For every real $x$, $x^2&gt;x$."
+      Write the <strong>logical negation</strong> of: "For every real $x$, $x^2&gt;x$."
     </div>
     <div class="box note" style="grid-column: 1 / -1">
       <span class="tag">Rule</span>
       Write the method name and at least one sentence explaining why your proof or counterexample works.
+      For a counterexample, state why the chosen value belongs to the stated domain.
     </div>
   </div>
   <div class="notes">
-    Expected results: 1. $m+n=2(r+s+1)$ after writing $m=2r+1$, $n=2s+1$. 2. Use the proof from Slide 16.
-    3. $x=1$ gives $2&gt;2$, which is false. 4. "There exists a real $x$ such that $x^2\leq x$." Collect a
-    small sample before students leave.
+    Expected proof options: 1. $m+n=2(r+s+1)$ after writing $m=2r+1$, $n=2s+1$. 2. Use the worked
+    contrapositive proof (slide 15). Quick checks: 3. At $x=1$, both sides equal $2$, so the strict
+    inequality fails. 4. "There exists a real $x$ such that $x^2\leq x$." Collect a small sample before
+    students leave.
   </div>
   <script type="application/x-hs-check">
     identity("Q1: m = 2r+1 and n = 2s+1 give m+n = 2(r+s+1)", (r, s) => (2*r + 1) + (2*s + 1), (r, s) => 2*(r + s + 1), { arity: 2 });
     forallInt("Q2: if n^2 is even then n is even", n => (Math.abs(n*n) % 2 === 0 ? Math.abs(n) % 2 === 0 : true), { lo: -300, hi: 300 });
     counterexample("Q3: 'x^2+1 > 2x' fails at x = 1, where both sides equal 2", x => x*x + 1 > 2*x, 1);
     claim("Q3: at x = 1 both sides equal 2", () => (1*1 + 1) === 2 && (2*1) === 2);
-    claim("Q4: the opposite is 'there exists a real x with x^2 <= x'; x = 1/2 is such an x",
+    claim("Q4: the negation is 'there exists a real x with x^2 <= x'; x = 1/2 is such an x",
       () => 0.5*0.5 <= 0.5);
   </script>
 </section>
 
-<!-- 27 -->
+<!-- 26 -->
 <section class="slide dark">
   <span class="kicker">Wrap-up</span>
   <h2>What today was about</h2>
-  <div class="s-body cols-7-5">
+  <div class="s-body cols-7-5" style="grid-template-columns: 2fr 1fr">
     <div>
       <ul class="ticks">
-        <li>An implication has a <strong>hypothesis</strong> and a <strong>conclusion</strong>. Its converse is a different statement; its contrapositive is true in exactly the same cases.</li>
-        <li>A <strong>direct proof</strong> starts from the hypothesis and reaches the conclusion.</li>
-        <li>A <strong>contradiction proof</strong> assumes the claim is false and shows that assumption is impossible.</li>
-        <li>One valid <strong>counterexample</strong> disproves a statement that claims something is true for every allowed value.</li>
+        <li>State the <strong>domain</strong> and quantifier first. An implication has a <strong>hypothesis</strong> and a <strong>conclusion</strong>.</li>
+        <li>Its converse is a different statement; over the same domain, its contrapositive is true in exactly the same cases.</li>
+        <li>A <strong>direct proof</strong> starts from the hypothesis; a <strong>contrapositive proof</strong> starts from "not the conclusion"; a <strong>contradiction proof</strong> starts from the negation of the whole target.</li>
+        <li>One valid <strong>counterexample</strong> — an allowed value where the property fails — disproves a statement that claims something is true for every allowed value.</li>
+        <li>Remember: "not every" means "there exists a failure," and "not 'there exists'" means "every value fails."</li>
       </ul>
-      <div class="chips" style="margin-top:14px">
+    </div>
+    <div class="stack">
+      <div class="card">
+        <h3>Homework 5</h3>
+        <p class="small">Eight statements to prove or disprove. Name the method at the top of each solution and explain each key step.</p>
+        <p class="small muted" style="margin-bottom:0">Next session: <strong>mathematical induction</strong> — a method for proving a statement for infinitely many integers.</p>
+      </div>
+      <div class="chips">
         <span class="chip">implication</span><span class="chip">converse</span><span class="chip hot">contrapositive</span>
         <span class="chip">negation</span><span class="chip">quantifier</span><span class="chip hot">contradiction</span>
         <span class="chip">counterexample</span>
       </div>
     </div>
-    <div class="card">
-      <h3>Problem Set 5</h3>
-      <p class="small">Eight statements to prove or disprove. Name the method at the top of each solution and explain each key step.</p>
-      <p class="small muted" style="margin-bottom:0">Next session: <strong>mathematical induction</strong> — a method for proving a statement for infinitely many integers.</p>
-    </div>
   </div>
   <div class="notes">
     Close by asking students to name one situation in which they would choose a counterexample rather
-    than a proof. Remind them the problem set is practice, not assessment — but the reasoning is the
-    whole point of doing it.
+    than a proof. Remind them that the homework mark is for reasoning as well as the final answer, and
+    that Session 6 will apply the same explicit-assumption discipline to infinitely many integer cases.
   </div>
 </section>
 

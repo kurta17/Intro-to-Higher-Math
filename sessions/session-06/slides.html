@@ -5,6 +5,26 @@
 <link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="../../brand/hs-tokens.css">
 <link rel="stylesheet" href="../../brand/deck.css">
+
+<style>
+  /* Larger type for the room: students reported the projected text was hard to
+     read. The deck averaged 25% ink with ~227px unused below the content, so
+     the body scale is raised ~15% here. Headings, kickers and slide chrome keep
+     the brand sizes; only reading text grows. */
+  .s-body                    { font-size: 24px; }
+  .lede                      { font-size: 26px; }
+  .box                       { font-size: 23px; }
+  .activity .a-body          { font-size: 23px; }
+  .activity .share           { font-size: 19px; }
+  .activity header           { font-size: 15px; }
+  table                      { font-size: 21px; }
+  th                         { font-size: 15px; }
+  .small                     { font-size: 19px; }
+  .card p, .card .cap        { font-size: 17px; }
+  .chip                      { font-size: 17px; }
+  .box .tag                  { font-size: 12px; }
+  .mathline                  { font-size: 29px; }
+</style>
 <body data-course="Intro to Higher Math" data-session="6">
 <div class="deck">
 
@@ -82,29 +102,6 @@
 
 <!-- 4 -->
 <section class="slide">
-  <span class="kicker">Objectives</span>
-  <h2>By the end of today, you can…</h2>
-  <div class="s-body cols-7-5">
-    <ul class="ticks">
-      <li>state the induction principle and name its three parts;</li>
-      <li>prove a formula about a sum by induction;</li>
-      <li>prove a claim about multiples by induction;</li>
-      <li>use strong induction when one earlier case is not enough;</li>
-      <li>find the first wrong line in a failed induction proof.</li>
-    </ul>
-    <div class="card solid">
-      <h3>Success</h3>
-      <p class="small" style="margin-bottom:0">the base case, the assumption, and the next case are all visible.</p>
-    </div>
-  </div>
-  <div class="notes">
-    The phrase "all visible" is deliberate. Students often write correct algebra but hide the logical
-    structure that makes it an induction proof.
-  </div>
-</section>
-
-<!-- 5 -->
-<section class="slide">
   <span class="kicker">Why induction is needed</span>
   <h2>A pattern suggests a formula; it does not prove it</h2>
   <div class="s-body cols-5-7">
@@ -147,7 +144,7 @@
   </script>
 </section>
 
-<!-- 6 -->
+<!-- 5 -->
 <section class="slide">
   <span class="kicker">The idea</span>
   <h2>The domino picture</h2>
@@ -193,7 +190,7 @@
   </script>
 </section>
 
-<!-- 7 -->
+<!-- 6 -->
 <section class="slide">
   <span class="kicker">The principle</span>
   <h2>The principle of mathematical induction</h2>
@@ -235,7 +232,7 @@
   </script>
 </section>
 
-<!-- 8 -->
+<!-- 7 -->
 <section class="slide">
   <span class="kicker">Worked example · step 0</span>
   <h2>First name the statement $P(n)$</h2>
@@ -271,7 +268,7 @@
   </script>
 </section>
 
-<!-- 9 -->
+<!-- 8 -->
 <section class="slide">
   <span class="kicker">Worked example · base case</span>
   <h2>Base case: start at the stated first value</h2>
@@ -302,7 +299,7 @@
   </script>
 </section>
 
-<!-- 10 -->
+<!-- 9 -->
 <section class="slide">
   <span class="kicker">Worked example · hypothesis</span>
   <h2>Inductive hypothesis: one temporary assumption</h2>
@@ -340,7 +337,7 @@
   </script>
 </section>
 
-<!-- 11 -->
+<!-- 10 -->
 <section class="slide">
   <span class="kicker">Worked example · inductive step</span>
   <h2>Inductive step: use the hypothesis once</h2>
@@ -379,7 +376,7 @@
   </script>
 </section>
 
-<!-- 12 -->
+<!-- 11 -->
 <section class="slide">
   <span class="kicker">Worked example · conclusion</span>
   <h2>Finish the proof with the induction principle</h2>
@@ -417,7 +414,7 @@
   </script>
 </section>
 
-<!-- 13 -->
+<!-- 12 -->
 <section class="slide">
   <span class="kicker">Activity 1</span>
   <h2>Build an induction proof</h2>
@@ -433,7 +430,6 @@
           <li>State the inductive hypothesis.</li>
           <li>Add the next odd number and prove $P(k+1)$.</li>
         </ol>
-        <div class="share"><b>Share:</b> point to the line where the inductive hypothesis is used.</div>
       </div>
     </div>
   </div>
@@ -453,7 +449,7 @@
   </script>
 </section>
 
-<!-- 14 -->
+<!-- 13 -->
 <section class="slide">
   <span class="kicker">Activity 1 · how to solve it</span>
   <h2>A complete walkthrough</h2>
@@ -477,7 +473,7 @@
     </div>
   </div>
   <div class="notes">
-    Reveal this after the share. Ask why $2k+1$ appears: replacing $n$ by $k+1$ in $2n-1$ gives
+    Reveal this once the groups have worked it. Ask why $2k+1$ appears: replacing $n$ by $k+1$ in $2n-1$ gives
     $2(k+1)-1=2k+1$.
   </div>
   <script type="application/x-hs-check">
@@ -494,7 +490,7 @@
   </script>
 </section>
 
-<!-- 15 -->
+<!-- 14 -->
 <section class="slide section">
   <span class="kicker">Section 2</span>
   <h1>Induction can prove more than sum formulas</h1>
@@ -507,7 +503,7 @@
   </div>
 </section>
 
-<!-- 16 -->
+<!-- 15 -->
 <section class="slide">
   <span class="kicker">Divisibility · base case</span>
   <h2>Make the required multiple appear</h2>
@@ -539,7 +535,7 @@
   </script>
 </section>
 
-<!-- 17 -->
+<!-- 16 -->
 <section class="slide">
   <span class="kicker">Divisibility · inductive step</span>
   <h2>The inductive step</h2>
@@ -577,7 +573,7 @@
   </script>
 </section>
 
-<!-- 18 -->
+<!-- 17 -->
 <section class="slide">
   <span class="kicker">Activity 2</span>
   <h2>Find the first wrong line</h2>
@@ -594,7 +590,6 @@
           <li>Explain why the base case does not save the proof.</li>
           <li>State the correct formula for $1+2+\cdots+n$.</li>
         </ol>
-        <div class="share"><b>Share:</b> explain the error in one complete sentence.</div>
       </div>
     </div>
   </div>
@@ -613,7 +608,7 @@
   </script>
 </section>
 
-<!-- 19 -->
+<!-- 18 -->
 <section class="slide">
   <span class="kicker">Activity 2 · how to solve it</span>
   <h2>Diagnose and repair</h2>
@@ -654,7 +649,7 @@
   </script>
 </section>
 
-<!-- 20 -->
+<!-- 19 -->
 <section class="slide">
   <span class="kicker">Strong induction</span>
   <h2>Use all earlier cases when needed</h2>
@@ -702,7 +697,7 @@
   </script>
 </section>
 
-<!-- 21 -->
+<!-- 20 -->
 <section class="slide">
   <span class="kicker">Strong induction · the statement</span>
   <h2>Prime factorisation: the statement and its words</h2>
@@ -748,7 +743,7 @@
   </script>
 </section>
 
-<!-- 22 -->
+<!-- 21 -->
 <section class="slide">
   <span class="kicker">Strong induction · the proof</span>
   <h2>Strong-induction proof · prime factorisation</h2>
@@ -796,7 +791,7 @@
   </script>
 </section>
 
-<!-- 23 -->
+<!-- 22 -->
 <section class="slide">
   <span class="kicker">Activity 3</span>
   <h2>When strong induction is useful</h2>
@@ -812,7 +807,6 @@
           <li>State a strong inductive hypothesis.</li>
           <li>For $k\geq15$, make $k+1$ by adding $4$ to the earlier amount $k-3$.</li>
         </ol>
-        <div class="share"><b>Share:</b> explain why knowing only $P(k)$ does not help with $k-3$.</div>
       </div>
     </div>
   </div>
@@ -836,7 +830,7 @@
   </script>
 </section>
 
-<!-- 24 -->
+<!-- 23 -->
 <section class="slide">
   <span class="kicker">Activity 3 · how to solve it</span>
   <h2>A strong-induction walkthrough</h2>
@@ -874,7 +868,7 @@
   </script>
 </section>
 
-<!-- 25 -->
+<!-- 24 -->
 <section class="slide">
   <span class="kicker">Pitfalls</span>
   <h2>Five induction mistakes to catch early</h2>
@@ -922,7 +916,7 @@
   </script>
 </section>
 
-<!-- 26 -->
+<!-- 25 -->
 <section class="slide">
   <span class="kicker">Exit ticket</span>
   <h2>Work independently</h2>
@@ -968,7 +962,7 @@
   </script>
 </section>
 
-<!-- 27 -->
+<!-- 26 -->
 <section class="slide dark">
   <span class="kicker">Wrap-up</span>
   <h2>What today was about</h2>

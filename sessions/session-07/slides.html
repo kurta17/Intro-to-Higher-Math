@@ -5,6 +5,26 @@
 <link rel="stylesheet" href="../../brand/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="../../brand/hs-tokens.css">
 <link rel="stylesheet" href="../../brand/deck.css">
+
+<style>
+  /* Larger type for the room: students reported the projected text was hard to
+     read. The deck averaged 25% ink with ~227px unused below the content, so
+     the body scale is raised ~15% here. Headings, kickers and slide chrome keep
+     the brand sizes; only reading text grows. */
+  .s-body                    { font-size: 24px; }
+  .lede                      { font-size: 26px; }
+  .box                       { font-size: 23px; }
+  .activity .a-body          { font-size: 23px; }
+  .activity .share           { font-size: 19px; }
+  .activity header           { font-size: 15px; }
+  table                      { font-size: 21px; }
+  th                         { font-size: 15px; }
+  .small                     { font-size: 19px; }
+  .card p, .card .cap        { font-size: 17px; }
+  .chip                      { font-size: 17px; }
+  .box .tag                  { font-size: 12px; }
+  .mathline                  { font-size: 29px; }
+</style>
 <body data-course="Intro to Higher Math" data-session="7">
 <div class="deck">
 
@@ -90,30 +110,6 @@
 
 <!-- 4 -->
 <section class="slide">
-  <span class="kicker">Objectives</span>
-  <h2>By the end of today, you can…</h2>
-  <div class="s-body cols-7-5">
-    <ul class="ticks">
-      <li>use the <strong>sum rule</strong> for separate cases that do not overlap;</li>
-      <li>use the <strong>product rule</strong> for a sequence of choices;</li>
-      <li>distinguish <strong>permutations</strong> from <strong>combinations</strong>;</li>
-      <li>calculate $\binom{n}{k}$ and explain what it counts;</li>
-      <li>use Pascal's triangle and the <strong>binomial theorem</strong>;</li>
-      <li>prove a simple counting identity by counting the same set in two ways.</li>
-    </ul>
-    <div class="card solid">
-      <h3>Success</h3>
-      <p class="small" style="margin-bottom:0">your solution says what is being counted and explains why every outcome is counted once.</p>
-    </div>
-  </div>
-  <div class="notes">
-    Read "disjoint" in everyday language: one outcome cannot belong to two cases at the same time. This
-    is the condition students often omit when using addition.
-  </div>
-</section>
-
-<!-- 5 -->
-<section class="slide">
   <span class="kicker">Choose or arrange</span>
   <h2>A small example: choose or arrange?</h2>
   <div class="s-body">
@@ -148,7 +144,7 @@
   </script>
 </section>
 
-<!-- 6 -->
+<!-- 5 -->
 <section class="slide">
   <span class="kicker">Sum rule</span>
   <h2>Sum rule: count one disjoint case or another</h2>
@@ -183,7 +179,7 @@
   </script>
 </section>
 
-<!-- 7 -->
+<!-- 6 -->
 <section class="slide">
   <span class="kicker">Product rule</span>
   <h2>Product rule: count a sequence of choices</h2>
@@ -225,7 +221,7 @@
   </script>
 </section>
 
-<!-- 8 -->
+<!-- 7 -->
 <section class="slide">
   <span class="kicker">Activity 1</span>
   <h2>Build a code carefully</h2>
@@ -239,7 +235,6 @@
           <li>How many codes are possible if no letter repeats and no digit repeats?</li>
         </ol>
         Assume there are $26$ letters and $10$ digits. The first digit position may be $0$.
-        <div class="share"><b>Share:</b> name the choice at each of the five positions.</div>
       </div>
     </div>
   </div>
@@ -264,7 +259,7 @@
   </script>
 </section>
 
-<!-- 9 -->
+<!-- 8 -->
 <section class="slide">
   <span class="kicker">Activity 1 · how to solve it</span>
   <h2>Count the code positions</h2>
@@ -296,7 +291,7 @@
   </script>
 </section>
 
-<!-- 10 -->
+<!-- 9 -->
 <section class="slide">
   <span class="kicker">Factorials</span>
   <h2>Factorials count arrangements</h2>
@@ -343,7 +338,7 @@
   </script>
 </section>
 
-<!-- 11 -->
+<!-- 10 -->
 <section class="slide">
   <span class="kicker">Permutations</span>
   <h2>Permutations: arrange some of the objects</h2>
@@ -385,7 +380,7 @@
   </script>
 </section>
 
-<!-- 12 -->
+<!-- 11 -->
 <section class="slide">
   <span class="kicker">Activity 2</span>
   <h2>Which counting model?</h2>
@@ -400,7 +395,6 @@
           <li>From $6$ students, assign president, secretary, and treasurer.</li>
         </ol>
         Then calculate the answers for questions 1 and 3.
-        <div class="share"><b>Share:</b> say "order matters" or "order does not matter" before naming any formula.</div>
       </div>
     </div>
   </div>
@@ -425,7 +419,7 @@
   </script>
 </section>
 
-<!-- 13 -->
+<!-- 12 -->
 <section class="slide">
   <span class="kicker">Activity 2 · how to solve it</span>
   <h2>Answers and the key distinction</h2>
@@ -454,7 +448,7 @@
   </script>
 </section>
 
-<!-- 14 -->
+<!-- 13 -->
 <section class="slide section">
   <span class="kicker">Section 2</span>
   <h1>Combinations: select without order</h1>
@@ -478,7 +472,7 @@
   </script>
 </section>
 
-<!-- 15 -->
+<!-- 14 -->
 <section class="slide">
   <span class="kicker">Combinations</span>
   <h2>Combinations and binomial coefficients</h2>
@@ -527,7 +521,7 @@
   </script>
 </section>
 
-<!-- 16 -->
+<!-- 15 -->
 <section class="slide">
   <span class="kicker">Worked example</span>
   <h2>A five-card hand with exactly two aces</h2>
@@ -573,7 +567,7 @@
   </script>
 </section>
 
-<!-- 17 -->
+<!-- 16 -->
 <section class="slide">
   <span class="kicker">Activity 3</span>
   <h2>Order or no order?</h2>
@@ -587,7 +581,6 @@
           <li>From $20$ candidates, choose a chairperson, a secretary, and a treasurer. How many assignments are possible?</li>
         </ol>
         For each answer, write the rule or formula you used.
-        <div class="share"><b>Share:</b> why items 2 and 3 use the same $20$ people but give different counts.</div>
       </div>
     </div>
   </div>
@@ -612,7 +605,7 @@
   </script>
 </section>
 
-<!-- 18 -->
+<!-- 17 -->
 <section class="slide">
   <span class="kicker">Activity 3 · how to solve it</span>
   <h2>Answers</h2>
@@ -642,7 +635,7 @@
   </script>
 </section>
 
-<!-- 19 -->
+<!-- 18 -->
 <section class="slide">
   <span class="kicker">An identity, two ways</span>
   <h2>A useful identity: choose or leave out</h2>
@@ -698,7 +691,7 @@
   </script>
 </section>
 
-<!-- 20 -->
+<!-- 19 -->
 <section class="slide">
   <span class="kicker">Double counting</span>
   <h2>Double counting: all subsets of an $n$-element set</h2>
@@ -748,7 +741,7 @@
   </script>
 </section>
 
-<!-- 21 -->
+<!-- 20 -->
 <section class="slide section">
   <span class="kicker">Section 3</span>
   <h1>Pascal's triangle and the binomial theorem</h1>
@@ -765,7 +758,7 @@
   </script>
 </section>
 
-<!-- 22 -->
+<!-- 21 -->
 <section class="slide">
   <span class="kicker">Pascal's triangle</span>
   <h2>Pascal's triangle</h2>
@@ -813,7 +806,7 @@
   </script>
 </section>
 
-<!-- 23 -->
+<!-- 22 -->
 <section class="slide">
   <span class="kicker">The binomial theorem</span>
   <h2>The binomial theorem</h2>
@@ -862,7 +855,7 @@
   </script>
 </section>
 
-<!-- 24 -->
+<!-- 23 -->
 <section class="slide">
   <span class="kicker">Worked expansion</span>
   <h2>Worked expansion: $(x+2)^5$</h2>
@@ -906,7 +899,7 @@
   </script>
 </section>
 
-<!-- 25 -->
+<!-- 24 -->
 <section class="slide">
   <span class="kicker">Why the coefficient</span>
   <h2>Why is the coefficient $\binom nk$?</h2>
@@ -957,7 +950,7 @@
   </script>
 </section>
 
-<!-- 26 -->
+<!-- 25 -->
 <section class="slide">
   <span class="kicker">Activity 4</span>
   <h2>Expand with the theorem</h2>
@@ -973,7 +966,6 @@
           <li>Keep the negative sign with $-3$.</li>
           <li>Write the whole term before you simplify it.</li>
         </ol>
-        <div class="share"><b>Share:</b> which coefficients are negative, and why?</div>
       </div>
     </div>
   </div>
@@ -997,7 +989,7 @@
   </script>
 </section>
 
-<!-- 27 -->
+<!-- 26 -->
 <section class="slide">
   <span class="kicker">Activity 4 · how to solve it</span>
   <h2>Walkthrough</h2>
@@ -1034,7 +1026,7 @@
   </script>
 </section>
 
-<!-- 28 -->
+<!-- 27 -->
 <section class="slide">
   <span class="kicker">Pigeonhole</span>
   <h2>Pigeonhole principle</h2>
@@ -1082,7 +1074,7 @@
   </script>
 </section>
 
-<!-- 29 -->
+<!-- 28 -->
 <section class="slide">
   <span class="kicker">Exit ticket</span>
   <h2>Explain your method</h2>
@@ -1126,7 +1118,7 @@
   </script>
 </section>
 
-<!-- 30 -->
+<!-- 29 -->
 <section class="slide dark">
   <span class="kicker">Wrap-up</span>
   <h2>What today was about</h2>
