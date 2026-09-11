@@ -193,12 +193,12 @@
       <div class="box def">
         <span class="tag">Definition</span>
         A <strong>mathematical statement</strong> is a declarative sentence with a definite truth value:
-        once all variables, domains, and quantifiers are fixed, it is either true or false.
+        once variables, domains and quantifiers are fixed, it is true or false.
       </div>
       <div class="box def">
         <span class="tag">Definition</span>
-        A <strong>theorem</strong> is a mathematical statement established by a valid proof from accepted
-        definitions, axioms, and earlier results.
+        A <strong>theorem</strong> is such a statement established by proof from definitions, axioms and
+        earlier results.
       </div>
     </div>
     <div class="stack">
@@ -273,6 +273,103 @@
   </script>
 </section>
 
+<section class="slide">
+  <span class="kicker">Implications · vacuous truth</span>
+  <h2>An implication with no cases to check is true</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">Vacuous truth</span>
+      <p>$P\Rightarrow Q$ claims there is <strong>no case</strong> where $P$ holds and $Q$ fails.</p>
+      <p style="margin-bottom:0">If $P$ never holds, there is nothing to check — the implication is true
+      <em>vacuously</em>.</p>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Example</span>
+        "Every integer $n$ with $n^2&lt;0$ is prime" is <strong>true</strong>. No such $n$ exists.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Why it matters</span>
+        A vacuously true statement tells you nothing. If your proof works only because the hypothesis is
+        never satisfied, you have proved nothing useful.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    Vacuous truth already did real work in Session 2, where it proved $\varnothing\subseteq A$ for every
+    set $A$ — call that back explicitly, since students meet the idea twice and rarely connect them.
+    The pitfall box is the point: vacuous truth is a convention that keeps the logic consistent, not a
+    way to win an argument.
+  </div>
+  <script type="application/x-hs-check">
+    claim("no integer has n^2 < 0, so the implication holds for every n", () => {
+      for (let n = -500; n <= 500; n++) if (n*n < 0) return false;
+      return true;
+    });
+    claim("the implication table makes a false hypothesis give a true implication", () => {
+      const imp = (p, q) => !p || q;
+      return imp(false, true) === true && imp(false, false) === true
+          && imp(true, false) === false && imp(true, true) === true;
+    });
+    claim("Session 2 used it: the empty set is a subset of every set", () => {
+      const U = [1,2,3,4,5,6];
+      for (let i = 0; i < 200; i++) {
+        const A = new Set(U.filter(() => Math.random() < 0.5));
+        if (!subset(S(), A)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Implications · WLOG</span>
+  <h2>"Without loss of generality" must be earned</h2>
+  <div class="s-body cols-2">
+    <div class="box def">
+      <span class="tag">WLOG</span>
+      <p>Write <strong>WLOG</strong> when a symmetry lets you assume one of several cases, because the
+      others follow by relabelling.</p>
+      <p style="margin-bottom:0">It shortens a proof. It never skips one.</p>
+    </div>
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">Legitimate</span>
+        To prove $|a+b|\leq|a|+|b|$, say "WLOG $|a|\geq|b|$" — swapping the names $a$ and $b$ changes
+        neither side.
+      </div>
+      <div class="box pitfall">
+        <span class="tag">The test</span>
+        You must be able to <strong>name the relabelling</strong>. "WLOG $a$ is even" is illegal unless
+        something genuinely makes the odd case identical.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The honest test is in the pitfall box: if a student cannot state the symmetry that licenses the WLOG,
+    they are hiding a case rather than eliminating it — the commonest abuse of the phrase in submitted
+    work. Ask the room to check the legitimate example by swapping the letters and confirming both sides
+    are unchanged.
+  </div>
+  <script type="application/x-hs-check">
+    identity("WLOG is licensed here because |a+b| is symmetric in a and b",
+      (a, b) => Math.abs(a + b), (a, b) => Math.abs(b + a), { arity: 2 });
+    identity("and so is |a| + |b|",
+      (a, b) => Math.abs(a) + Math.abs(b), (a, b) => Math.abs(b) + Math.abs(a), { arity: 2 });
+    claim("the triangle inequality holds, so the example is a real one", () => {
+      for (let i = 0; i < 5000; i++) {
+        const a = Math.random()*40 - 20, b = Math.random()*40 - 20;
+        if (Math.abs(a + b) > Math.abs(a) + Math.abs(b) + 1e-12) return false;
+      }
+      return true;
+    });
+    claim("'WLOG a is even' is NOT licensed: parity is not a symmetry of a+b", () => {
+      // swapping names cannot turn an odd a into an even one
+      return (3 + 4) === (4 + 3) && (3 % 2) !== (4 % 2);
+    });
+  </script>
+</section>
+
 <!-- 6 -->
 <section class="slide">
   <span class="kicker">Converse and contrapositive</span>
@@ -341,6 +438,7 @@
           <li>Write the contrapositive of $P(n)\Rightarrow Q(n)$ in words.</li>
           <li>For "if $n$ is a multiple of $4$, then $n$ is even," test its converse over $\mathbb Z$. Is it true or false? Justify your answer.</li>
         </ol>
+        <div class="share"><b>Share:</b> one pair reads their converse aloud; the room decides whether it is true, and names the witness if not.</div>
       </div>
     </div>
   </div>
@@ -367,13 +465,14 @@
         For $P\Rightarrow Q$:
         <ol style="margin:8px 0 0">
           <li><strong>Converse:</strong> swap the two parts: $Q\Rightarrow P$.</li>
-          <li><strong>Contrapositive:</strong> swap the parts <strong>and</strong> negate both: $\neg Q\Rightarrow\neg P$.</li>
+          <li><strong>Contrapositive:</strong> swap <strong>and</strong> negate both: 
+eg Q\Rightarrow\neg P1</li>
         </ol>
       </div>
       <div class="box note">
         <span class="tag">Parity of integers</span>
-        For $t\in\mathbb Z$, "$t$ is odd" means $t=2k+1$ for some $k\in\mathbb Z$. Every integer is either
-        even or odd, not both. So "not even" means "odd," and "not odd" means "even."
+        For \in\mathbb Z " odd" means =2k+11 Every integer is even or odd, never both — so
+        "not even" means "odd".
       </div>
     </div>
     <div class="stack">
@@ -508,6 +607,7 @@
           <li>Use the definition: write $a=2k$ for some $k\in\mathbb Z$.</li>
           <li>Rewrite $ab$ in the form $2\times(\text{an integer})$.</li>
         </ol>
+        <div class="share"><b>Share:</b> one pair writes their proof on the board; the room checks that the definition of "even" is actually used.</div>
       </div>
     </div>
   </div>
@@ -838,6 +938,172 @@
   </script>
 </section>
 
+<section class="slide">
+  <span class="kicker">Contradiction · uniqueness</span>
+  <h2>Contradiction is how you prove something is <em>unique</em></h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Division algorithm · the $q$ and $r$ are unique</span>
+      <p style="margin-bottom:6px">For $a$ and $b&gt;0$, suppose two pairs worked:</p>
+      $$a=qb+r,\qquad a=q'b+r',\qquad 0\leq r,r'&lt;b.$$
+      <p style="margin-bottom:6px">Subtracting, $b(q-q')=r'-r$, so $b$ divides $r'-r$. The bounds force</p>
+      $$-b&lt;r'-r&lt;b.$$
+      <p style="margin-bottom:0">The only multiple of $b$ strictly inside is $0$. So $r'=r$, and then
+      $b(q-q')=0$ with $b&gt;0$ gives $q'=q$. $\;\blacksquare$</p>
+    </div>
+    <div class="box note">
+      <span class="tag">The shape to copy</span>
+      <p>To prove <strong>at most one</strong> object qualifies: assume two do, show they are equal.</p>
+      <p style="margin-bottom:0">Divisibility plus a bound on size leaves one option.</p>
+    </div>
+  </div>
+  <div class="notes">
+    This is the first uniqueness proof of the course, and the template returns in Session 9 for the
+    Euclidean algorithm and Session 10 for modular inverses. Say explicitly that "assume two, show they
+    coincide" is <em>not</em> the same shape as the $\sqrt2$ proof: nothing absurd happens here, we simply
+    discover the two objects were never distinct. Draw the interval $(-b, b)$ on the board and mark the
+    multiples of $b$ — only $0$ is inside.
+  </div>
+  <script type="application/x-hs-check">
+    claim("a = qb + r with 0 <= r < b holds for a in [-200,200], b in [1,20]", () => {
+      for (let a = -200; a <= 200; a++) for (let b = 1; b <= 20; b++) {
+        const q = Math.floor(a/b), r = a - q*b;
+        if (!(a === q*b + r && 0 <= r && r < b)) return false;
+      }
+      return true;
+    });
+    claim("the only multiple of b strictly between -b and b is 0", () => {
+      for (let b = 1; b <= 40; b++) for (let d = -b+1; d <= b-1; d++)
+        if (d % b === 0 && d !== 0) return false;
+      return true;
+    });
+    claim("so r and r' must coincide: no two valid remainders differ", () => {
+      for (let b = 1; b <= 20; b++) for (let r = 0; r < b; r++) for (let rp = 0; rp < b; rp++)
+        if (r !== rp && (rp - r) % b === 0) return false;
+      return true;
+    });
+    claim("b(q-q') = 0 with b > 0 forces q = q'", () => {
+      for (let b = 1; b <= 30; b++) for (let d = -10; d <= 10; d++)
+        if (b*d === 0 && d !== 0) return false;
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Contradiction · cases</span>
+  <h2>When one contradiction is not enough, split into cases</h2>
+  <div class="s-body">
+    <div class="box thm" data-proof="the three cases below exhaust every possibility">
+      <span class="tag">Claim</span>
+      If $p$, $q$ and $r$ are prime, then $p^2+q^2\neq r^2$.
+    </div>
+    <div class="cols-3" style="margin-top:14px">
+      <div class="box proof">
+        <span class="tag">1 · both odd</span>
+        Then $p^2+q^2$ is even, so $r^2$ is even and $r$ is even. The only even prime is $2$, so
+        $p^2+q^2=4$. But $p,q\geq3$ gives $p^2+q^2\geq18$. Contradiction.
+      </div>
+      <div class="box proof">
+        <span class="tag">2 · both even</span>
+        The only even prime is $2$, so $p=q=2$ and $r^2=8$. Then $r$ is even, so $r=2$ and $r^2=4\neq8$.
+        Contradiction.
+      </div>
+      <div class="box proof">
+        <span class="tag">3 · one of each</span>
+        Say $p=2$, $q=2q_1+1$. Then $r$ is odd, $r=2r_1+1$, and expanding gives
+        $q_1(q_1+1)+1=r_1(r_1+1)$. Both products are even, so their difference is even — but it equals
+        $1$. Contradiction.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    The point is structural, not arithmetic: a single argument does not reach every case, so you
+    enumerate the cases and contradict each one. Stress that the three cases must be
+    <strong>exhaustive</strong> — every pair of primes is odd-odd, even-even, or one of each — otherwise
+    the proof has a hole. Case 3 uses the fact that $n(n+1)$ is always even, which is worth doing on the
+    board: one of two consecutive integers is even.
+  </div>
+  <script type="application/x-hs-check">
+    claim("no prime triple satisfies p^2 + q^2 = r^2 (primes below 400)", () => {
+      const isP = n => { if (n < 2) return false; for (let d = 2; d*d <= n; d++) if (n % d === 0) return false; return true; };
+      const ps = []; for (let n = 2; n < 400; n++) if (isP(n)) ps.push(n);
+      for (const p of ps) for (const q of ps) for (const r of ps)
+        if (p*p + q*q === r*r) return false;
+      return true;
+    });
+    claim("case 1: two odd primes give p^2+q^2 >= 18, which exceeds 4", () => 3*3 + 3*3 >= 18 && 18 > 4);
+    claim("case 2: p=q=2 gives 8, and no integer squares to 8", () => {
+      if (2*2 + 2*2 !== 8) return false;
+      for (let r = 0; r <= 100; r++) if (r*r === 8) return false;
+      return true;
+    });
+    identity("case 3: 4+(2q+1)^2 = (2r+1)^2 is equivalent to q(q+1)+1 = r(r+1)",
+      (q, r) => (4 + Math.pow(2*q+1, 2)) - Math.pow(2*r+1, 2),
+      (q, r) => 4*((q*(q+1) + 1) - r*(r+1)), { arity: 2, domain: 'int', lo: -30, hi: 30 });
+    forallInt("n(n+1) is always even, so the two products in case 3 are even",
+      n => (n*(n+1)) % 2 === 0, { lo: 0, hi: 500 });
+    claim("case 3 contradiction: an even number cannot equal 1", () => 1 % 2 !== 0);
+    claim("the three cases are exhaustive for any two primes", () => {
+      const isP = n => { if (n < 2) return false; for (let d = 2; d*d <= n; d++) if (n % d === 0) return false; return true; };
+      for (let p = 2; p < 120; p++) for (let q = 2; q < 120; q++) {
+        if (!isP(p) || !isP(q)) continue;
+        const bothOdd = p%2 && q%2, bothEven = !(p%2) && !(q%2), mixed = (p%2) !== (q%2);
+        if (!(bothOdd || bothEven || mixed)) return false;
+      }
+      return true;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Contradiction · Euclid</span>
+  <h2>There are infinitely many primes</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      <p>Suppose not: the primes are exactly $p_1&lt;p_2&lt;\dots&lt;p_n$, a finite list. Consider</p>
+      $$N=p_1p_2\cdots p_n+1.$$
+      <p>$N$ is larger than every $p_i$, so it is not on the list; being greater than $1$ it still has
+      some prime divisor, which must therefore be one of the $p_i$.</p>
+      <p style="margin-bottom:0">But dividing $N$ by $p_i$ leaves remainder <strong>$1$</strong>, since
+      $p_i$ divides the product. So $p_i \nmid N$ — contradiction. The list can never be complete.
+      $\;\blacksquare$</p>
+    </div>
+    <div class="box pitfall">
+      <span class="tag">The step everybody gets wrong</span>
+      <p>The proof does <em>not</em> claim $N$ is prime.</p>
+      <p style="margin-bottom:0">$2\cdot3\cdot5\cdot7\cdot11\cdot13+1=30031=59\times509$, which is
+      composite. The argument only needs that $N$ has <strong>some</strong> prime factor outside the list.</p>
+    </div>
+  </div>
+  <div class="notes">
+    Euclid's proof, and the most famous contradiction argument in mathematics. Put $30031$ on the board
+    and let someone try to factor it — the misreading "therefore $N$ is prime" is extremely common and
+    this single counterexample kills it permanently. Note the structure is the same as $\sqrt2$: assume
+    a complete list, construct an object the list cannot account for.
+  </div>
+  <script type="application/x-hs-check">
+    claim("N = p1...pn + 1 leaves remainder 1 on division by each pi", () => {
+      for (const ps of [[2],[2,3],[2,3,5],[2,3,5,7],[2,3,5,7,11],[2,3,5,7,11,13]]) {
+        const N = ps.reduce((a,b) => a*b, 1) + 1;
+        for (const p of ps) if (N % p !== 1) return false;
+      }
+      return true;
+    });
+    claim("2*3*5*7*11*13 + 1 = 30031 is NOT prime: it is 59 x 509", () => {
+      const N = 2*3*5*7*11*13 + 1;
+      return N === 30031 && 59*509 === 30031 && isPrime(59) && isPrime(509);
+    });
+    claim("59 and 509 are both outside the list {2,3,5,7,11,13}", () =>
+      ![2,3,5,7,11,13].includes(59) && ![2,3,5,7,11,13].includes(509));
+    claim("every integer greater than 1 has a prime divisor", () => {
+      for (let n = 2; n <= 2000; n++) if (primeFactors(n).length === 0) return false;
+      return true;
+    });
+  </script>
+</section>
+
 <!-- 19 -->
 <section class="slide">
   <span class="kicker">Activity 3</span>
@@ -854,6 +1120,7 @@
           <tr><td>For every $n\in\mathbb Z$, if $n^2$ is odd, then $n$ is odd.</td><td>?</td></tr>
           <tr><td>$\sqrt2$ is irrational.</td><td>?</td></tr>
         </table>
+        <div class="share"><b>Share:</b> each group defends one row. Where two groups picked different methods, both are presented and compared.</div>
       </div>
     </div>
   </div>
@@ -925,8 +1192,7 @@
       </div>
       <div class="box def">
         <span class="tag">Counterexample</span>
-        To disprove "for every $x\in D$, $P(x)$," give a value $a$ with (1) $a\in D$ and (2) $P(a)$ false.
-        Here, $D$ is the set of allowed values.
+        To disprove "for every \in D (x) , give an  \in D (a).
       </div>
     </div>
     <div class="stack">
@@ -981,15 +1247,15 @@
     <div class="activity">
       <header><span>Activity 4</span><span class="who">pairs</span><span class="time">12 min</span></header>
       <div class="a-body">
-        For each statement, decide whether it is true or false. Give the requested justification. When
-        using a counterexample, name the value, confirm that it is in the domain, and show the failed
-        equality or inequality.
+        Decide true or false, with the requested justification. For a counterexample: name the value,
+        confirm it is in the domain, show what fails.
         <ol>
           <li>For every real $x$, $x^2\geq0$. If true, state the known fact you use.</li>
           <li>For every integer $n$, $n^2+n$ is odd. If false, give a counterexample.</li>
           <li>For every real $x$, $(x+1)^2=x^2+1$. If false, give a counterexample.</li>
           <li>There exists a real $x$ with $x^2=-1$. Explain why checking a few values is not a disproof; use a fact about <strong>every</strong> real $x$ instead.</li>
         </ol>
+        <div class="share"><b>Share:</b> one pair gives a counterexample, another explains why checking values cannot settle the last item.</div>
       </div>
     </div>
   </div>
@@ -1042,6 +1308,111 @@
   </script>
 </section>
 
+<section class="slide">
+  <span class="kicker">Looking ahead · the limit of today's methods</span>
+  <h2>None of these three proves infinitely many statements at once</h2>
+  <div class="s-body cols-2">
+    <div class="stack">
+      <div class="box example">
+        <span class="tag">The problem</span>
+        <p style="margin-bottom:6px">Consider the claim: for every $n\geq1$,</p>
+        $$1+2+\dots+n=\frac{n(n+1)}{2}.$$
+        <p style="margin-bottom:0">This is not one statement. It is a statement $S(1)$, and $S(2)$, and
+        $S(3)$, … — infinitely many, one for each $n$.</p>
+      </div>
+      <div class="box pitfall">
+        <span class="tag">Why checking does not finish</span>
+        Verifying $S(1),\dots,S(5)$ proves exactly five of them. That is the "examples are not a proof"
+        rule from this morning, and no amount of further checking escapes it.
+      </div>
+    </div>
+    <div class="box def">
+      <span class="tag">Well-ordering principle</span>
+      <p>Every non-empty set of positive integers has a <strong>least element</strong>.</p>
+      <p style="margin-bottom:0">Obvious-looking, and it is exactly the tool that turns "infinitely many
+      statements" into a single proof by contradiction — on the next slide.</p>
+    </div>
+  </div>
+  <div class="notes">
+    This slide names the gap rather than filling it. Ask the room how many cases they would have to check
+    to be sure, and let them arrive at "all of them, and there are infinitely many". Then offer
+    well-ordering as something they already believe: any non-empty collection of positive integers has a
+    smallest member. Do not mention dominoes — that picture belongs to tomorrow.
+  </div>
+  <script type="application/x-hs-check">
+    forallInt("the summation claim holds for n = 1..500, but checking is not proving",
+      n => { let s = 0; for (let k = 1; k <= n; k++) s += k; return s === n*(n+1)/2; },
+      { lo: 1, hi: 500 });
+    claim("every non-empty set of positive integers has a least element (sampled)", () => {
+      for (let t = 0; t < 300; t++) {
+        const S = []; for (let i = 0; i < 8; i++) S.push(1 + Math.floor(Math.random()*60));
+        const m = Math.min(...S);
+        if (!S.every(x => x >= m) || !S.includes(m)) return false;
+      }
+      return true;
+    });
+    claim("checking five cases leaves infinitely many unchecked", () => {
+      let s = 0; for (let k = 1; k <= 5; k++) s += k;
+      return s === 15 && 15 === 5*6/2;
+    });
+  </script>
+</section>
+
+<section class="slide">
+  <span class="kicker">Looking ahead · why induction is legitimate</span>
+  <h2>Induction is a proof by contradiction in disguise</h2>
+  <div class="s-body cols-7-5">
+    <div class="box proof">
+      <span class="tag">Proof</span>
+      <p style="margin-bottom:6px">Suppose $S(1)$ holds, and $S(k)$ always forces $S(k+1)$.</p>
+      <p style="margin-bottom:6px">Assume $S(n)$ fails somewhere. Those failures form a non-empty set,
+      so by well-ordering it has a least element $m$.</p>
+      <p style="margin-bottom:6px">$m\neq1$, since $S(1)$ holds. So $m-1\geq1$.</p>
+      <p style="margin-bottom:6px">$m$ is the <strong>smallest</strong> failure, so $S(m-1)$ is true —
+      and the second hypothesis then forces $S(m)$.</p>
+      <p style="margin-bottom:0">$S(m)$ is true and false. There were no failures. $\;\blacksquare$</p>
+    </div>
+    <div class="stack">
+      <div class="box note">
+        <span class="tag">What this buys you</span>
+        Two finite checks replace infinitely many verifications.
+      </div>
+      <div class="box note">
+        <span class="tag">Tomorrow</span>
+        Session 6 makes this a template: base case, hypothesis, step.
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    This is the payoff of the whole session: induction is not a fourth unrelated trick, it is the
+    contradiction method applied to a smallest counterexample. Students who ask "but why are we allowed
+    to assume $S(k)$?" — and someone always does — get their answer here, before they ever write an
+    induction proof. Walk the four steps slowly and point out that "let $m$ be the smallest failure" is
+    the only place well-ordering is used.
+  </div>
+  <script type="application/x-hs-check">
+    claim("the argument is valid on a concrete S(n): 'n(n+1) is even'", () => {
+      const S = n => (n*(n+1)) % 2 === 0;
+      if (!S(1)) return false;                       // base case
+      for (let k = 1; k <= 500; k++) if (S(k) && !S(k+1)) return false;  // the implication
+      for (let n = 1; n <= 500; n++) if (!S(n)) return false;            // conclusion
+      return true;
+    });
+    claim("a least failure cannot be 1 when S(1) is true", () => {
+      const fails = [4, 9, 25];
+      return Math.min(...fails) !== 1;
+    });
+    claim("without the base case the argument collapses: S(n) = 'n > 100' inherits upward but fails at 1", () => {
+      const S = n => n > 100;
+      let inherits = true;
+      for (let k = 101; k <= 300; k++) if (S(k) && !S(k+1)) inherits = false;
+      return inherits && !S(1);
+    });
+    claim("without the implication it also collapses: S(n) = 'n = 1' has a true base and no inheritance",
+      () => { const S = n => n === 1; return S(1) && S(1) && !S(2); });
+  </script>
+</section>
+
 <!-- 24 -->
 <section class="slide">
   <span class="kicker">Pitfalls</span>
@@ -1049,15 +1420,14 @@
   <div class="s-body">
     <div class="box note" style="margin-bottom:14px">
       <span class="tag">Recall</span>
-      For the same domain, <strong>not (every value has the property)</strong> means <strong>there exists a
-      failure</strong>; <strong>not (there exists a value with the property)</strong> means <strong>every
-      value fails</strong>.
+      <strong>Not (every value has it)</strong> means <strong>there exists a failure</strong>;
+      <strong>not (there exists one with it)</strong> means <strong>every value fails</strong>.
     </div>
     <table class="small">
       <tr><th>Pitfall</th><th>Fix</th></tr>
       <tr><td>Proving $Q\Rightarrow P$ when the question asks for $P\Rightarrow Q$.</td><td>Label the hypothesis and conclusion before you start.</td></tr>
-      <tr><td>Assuming the conclusion.</td><td>Begin with $P$ in a direct proof, with $\neg Q$ in a contrapositive proof, or with the negation of the whole target in a contradiction proof.</td></tr>
-      <tr><td>Negating "every" or "there exists" incorrectly.</td><td>Use the recall above: "for every" becomes "there exists" and vice versa, and the property itself is negated.</td></tr>
+      <tr><td>Assuming the conclusion.</td><td>Begin with $P$ (direct), $\neg Q$ (contrapositive), or the negated target (contradiction).</td></tr>
+      <tr><td>Negating "every" or "there exists" incorrectly.</td><td>Use the recall above: the quantifier flips and the property is negated.</td></tr>
       <tr><td>Giving a few examples as a proof for all values.</td><td>Examples test an idea; a proof must cover every case.</td></tr>
     </table>
   </div>
@@ -1144,30 +1514,30 @@
   <div class="s-body cols-7-5" style="grid-template-columns: 2fr 1fr">
     <div>
       <ul class="ticks">
-        <li>State the <strong>domain</strong> and quantifier first. An implication has a <strong>hypothesis</strong> and a <strong>conclusion</strong>.</li>
-        <li>Its converse is a different statement; over the same domain, its contrapositive is true in exactly the same cases.</li>
-        <li>A <strong>direct proof</strong> starts from the hypothesis; a <strong>contrapositive proof</strong> starts from "not the conclusion"; a <strong>contradiction proof</strong> starts from the negation of the whole target.</li>
-        <li>One valid <strong>counterexample</strong> — an allowed value where the property fails — disproves a statement that claims something is true for every allowed value.</li>
-        <li>Remember: "not every" means "there exists a failure," and "not 'there exists'" means "every value fails."</li>
+        <li>State the <strong>domain</strong> and quantifier first.</li>
+        <li>A converse is a different statement; a contrapositive is true in exactly the same cases.</li>
+        <li><strong>Direct</strong> starts from the hypothesis; <strong>contrapositive</strong> from "not the conclusion"; <strong>contradiction</strong> from the negated target.</li>
+        <li>One <strong>counterexample</strong> disproves a claim about every allowed value.</li>
+        <li>Contradiction also proves <strong>uniqueness</strong>, and handles <strong>exhaustive cases</strong>.</li>
       </ul>
     </div>
     <div class="stack">
       <div class="card">
-        <h3>Homework 5</h3>
+        <h3>Problem Set 5</h3>
         <p class="small">Eight statements to prove or disprove. Name the method at the top of each solution and explain each key step.</p>
-        <p class="small muted" style="margin-bottom:0">Next session: <strong>mathematical induction</strong> — a method for proving a statement for infinitely many integers.</p>
+        <p class="small muted" style="margin-bottom:0">Next session: <strong>mathematical induction</strong> — the template built on the well-ordering argument we just saw.</p>
       </div>
       <div class="chips">
         <span class="chip">implication</span><span class="chip">converse</span><span class="chip hot">contrapositive</span>
         <span class="chip">negation</span><span class="chip">quantifier</span><span class="chip hot">contradiction</span>
-        <span class="chip">counterexample</span>
+        <span class="chip">counterexample</span><span class="chip">uniqueness</span><span class="chip">well-ordering</span>
       </div>
     </div>
   </div>
   <div class="notes">
     Close by asking students to name one situation in which they would choose a counterexample rather
-    than a proof. Remind them that the homework mark is for reasoning as well as the final answer, and
-    that Session 6 will apply the same explicit-assumption discipline to infinitely many integer cases.
+    than a proof. Then point back at the last two slides: induction is not a fourth method, it is
+    contradiction applied to a smallest counterexample, and Session 6 turns it into a template.
   </div>
 </section>
 
