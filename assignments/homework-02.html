@@ -359,28 +359,27 @@
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">15</span><span class="topic">Quantifiers and WLOG</span></div>
+  <div class="p-head"><span class="n">15</span><span class="topic">Quantifiers</span></div>
   <div class="body">
+    Write the negation of each statement below in words, without using the phrase "it is not the case
+    that".
     <ol class="parts">
-      <li>Write the negation of each statement, in words, without using the phrase "it is not the case
-          that": (i) for every real $x$, there exists an integer $n$ with $n &gt; x$;
-          (ii) there exists a real $x$ such that for every real $y$, $xy = y$.</li>
-      <li>Prove: for all real $a, b$, equality holds in $|a+b| \leq |a| + |b|$ if and only if
-          $ab \geq 0$. You may use "without loss of generality" — if you do, name the symmetry that
-          licenses it.</li>
+      <li>For every real $x$, there exists an integer $n$ with $n &gt; x$.</li>
+      <li>There exists a real $x$ such that for every real $y$, $xy = y$.</li>
+      <li>Decide whether each of the two original statements is true or false, and justify each answer
+          in a sentence.</li>
     </ol>
     <div class="solution"><span class="tag">Solution</span>
-      (a)(i) There exists a real $x$ such that for every integer $n$, $n \leq x$. (ii) For every real
-      $x$, there exists a real $y$ with $xy \neq y$. In each case the quantifiers flip and the innermost
-      property is negated.<br>
-      (b) Both sides are non-negative, so the equality is equivalent to the equality of their squares:
-      $$|a+b|^{2} = (|a|+|b|)^{2} \iff a^{2} + 2ab + b^{2} = a^{2} + 2|a||b| + b^{2}
-        \iff ab = |ab|.$$
-      And $ab = |ab|$ holds exactly when $ab \geq 0$. $\blacksquare$<br>
-      A WLOG is available but not needed here. The statement is symmetric in $a$ and $b$, so one could
-      assume $|a| \geq |b|$ after swapping their names if needed. One could also assume $a \geq 0$:
-      when $a&lt;0$, replacing $(a,b)$ by $(-a,-b)$ preserves both sides of the equality and the sign of
-      $ab$. In each case, the named symmetry is what makes the WLOG step valid.
+      (a) There exists a real $x$ such that for every integer $n$, $n \leq x$.<br>
+      (b) For every real $x$, there exists a real $y$ with $xy \neq y$.<br>
+      In both cases the rule is the same: each quantifier flips — $\forall$ becomes $\exists$ and
+      $\exists$ becomes $\forall$, in the order they appear — and the innermost property is negated.<br>
+      (c) Both are <strong>true</strong>. For the first, given any real $x$ the integer
+      $n = \lfloor x \rfloor + 1$ satisfies $n &gt; x$, so no real number bounds all the integers from
+      above. For the second, $x = 1$ works, since $1 \cdot y = y$ for every real $y$. Note that each
+      statement is established in the shape its quantifiers demand: the $\forall x \exists n$ statement
+      needs an $n$ built from an arbitrary $x$, while the $\exists x \forall y$ statement needs only one
+      explicit witness.
     </div>
   </div>
 </div>
