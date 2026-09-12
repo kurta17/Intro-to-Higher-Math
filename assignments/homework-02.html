@@ -1,0 +1,390 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Homework 2 · Intro to Higher Math</title>
+<link rel="stylesheet" href="../brand/vendor/manrope/manrope.css">
+<link rel="stylesheet" href="../brand/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../brand/hs-tokens.css">
+<link rel="stylesheet" href="../brand/handout.css">
+<body>
+
+<div class="head">
+  <div>
+    <div class="who">Math102BKK · Harbour.Space Bangkok</div>
+    <h1>Homework 2 — Sessions 3, 4 &amp; 5</h1>
+    <div class="sub">Functions · Function families · Proof techniques</div>
+  </div>
+  <div class="meta">
+    <b>Set</b> Fri 11 Sep 2026
+  </div>
+</div>
+
+<h2 class="section-title">Part A · Session 3 — functions, composition and the unit circle</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">1</span><span class="topic">Image and preimage</span></div>
+  <div class="body">
+    Let $f : \mathbb{R} \to \mathbb{R}$ be given by $f(x) = x^{2} - 6x + 5$.
+    <ol class="parts">
+      <li>Find the image of $f$ and prove your answer. State clearly which part of the argument shows
+          the image is contained in your set, and which shows every element of your set is attained.</li>
+      <li>Compute $f^{-1}(\{0\})$ and $f^{-1}(\{-5\})$. Explain in one sentence what the second answer
+          says about the relationship between the image and the codomain.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Complete the square: $f(x) = (x-3)^{2} - 4$. Since $(x-3)^{2} \geq 0$ for every real $x$, we
+      get $f(x) \geq -4$, so the image is contained in $[-4, \infty)$. Conversely, given any $y \geq -4$,
+      put $x = 3 + \sqrt{y+4}$ — which is real because $y + 4 \geq 0$ — and then $f(x) = y$. Hence the
+      image is exactly $[-4,\infty)$. The first half is the containment; the second is attainment.<br>
+      (b) $f(x) = 0$ means $(x-3)^{2} = 4$, so $x - 3 = \pm 2$ and $f^{-1}(\{0\}) = \{1, 5\}$.
+      For $-5$: since $f(x) \geq -4 &gt; -5$ for every $x$, no input maps to $-5$, so
+      $f^{-1}(\{-5\}) = \varnothing$. An empty preimage is exactly what it means for a codomain element
+      to lie outside the image — the codomain is declared, the image is computed.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">2</span><span class="topic">Restriction and inverse</span></div>
+  <div class="body">
+    Keep $f(x) = x^{2} - 6x + 5$.
+    <ol class="parts">
+      <li>Show that $f : \mathbb{R} \to \mathbb{R}$ is not injective, with an explicit witness.</li>
+      <li>Choose a domain $D$ and codomain $C$ making $f : D \to C$ a bijection, and prove
+          <em>both</em> halves.</li>
+      <li>Write down the inverse function explicitly, and verify one composite.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $f(1) = 0 = f(5)$ while $1 \neq 5$, so $f$ is not injective. (Any pair symmetric about
+      $x = 3$ works.)<br>
+      (b) Take $D = [3,\infty)$ and $C = [-4,\infty)$.
+      <em>Injective:</em> suppose $a, b \in D$ with $f(a) = f(b)$. Then $(a-3)^{2} = (b-3)^{2}$, so
+      $|a-3| = |b-3|$; as $a, b \geq 3$ both quantities are non-negative, giving $a - 3 = b - 3$ and
+      $a = b$. <em>Surjective:</em> given $y \in C$, the value $x = 3 + \sqrt{y+4}$ lies in $D$ (the
+      square root is $\geq 0$) and satisfies $f(x) = y$, by part 1(a).<br>
+      (c) $f^{-1}(y) = 3 + \sqrt{y+4}$ for $y \geq -4$. Check:
+      $f\bigl(f^{-1}(y)\bigr) = \bigl(3+\sqrt{y+4}-3\bigr)^{2} - 4 = (y+4) - 4 = y$.
+      <div class="note-box" style="margin-top:8px">The choice $D = (-\infty, 3]$ with
+      $f^{-1}(y) = 3 - \sqrt{y+4}$ is equally correct — but the domain must be stated, because "the
+      function $x^2-6x+5$" names no single function.</div>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">Composition</span></div>
+  <div class="body">
+    Let $g(x) = 2x - 1$ and $h(x) = x^{2} + 1$, both from $\mathbb{R}$ to $\mathbb{R}$.
+    <ol class="parts">
+      <li>Compute $h \circ g$ and $g \circ h$ as explicit formulas, and give a value of $x$ at which
+          they differ. What does this show about composition?</li>
+      <li>Prove that $g$ is a bijection and find $g^{-1}$.</li>
+      <li>Prove or disprove: $h \circ g$ is injective on $\mathbb{R}$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $(h \circ g)(x) = (2x-1)^{2} + 1 = 4x^{2} - 4x + 2$, and
+      $(g \circ h)(x) = 2(x^{2}+1) - 1 = 2x^{2} + 1$. At $x = 1$ the first gives $2$ and the second
+      gives $3$. So composition is <strong>not commutative</strong>: the order of the maps matters.<br>
+      (b) <em>Injective:</em> $2a - 1 = 2b - 1 \Rightarrow a = b$. <em>Surjective:</em> given $y$, take
+      $x = \tfrac{y+1}{2}$. So $g$ is a bijection with $g^{-1}(y) = \tfrac{y+1}{2}$.<br>
+      (c) <strong>Disproved.</strong> $(h \circ g)(x) = 4x^{2} - 4x + 2 = (2x-1)^{2} + 1$, so
+      $(h \circ g)(0) = 2 = (h \circ g)(1)$ while $0 \neq 1$. Note $g$ <em>is</em> injective — so an
+      injective first map does not make the composite injective. (The implication runs the other way:
+      if $h \circ g$ is injective, then $g$ must be.)
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Unit circle</span></div>
+  <div class="body">
+    Derive each value from the unit circle. For each, state the quadrant and the reference angle before
+    giving the number; a recalled value with no working is not a derivation.
+    <ol class="parts">
+      <li>$\cos\dfrac{5\pi}{6}$</li>
+      <li>$\sin\dfrac{7\pi}{4}$</li>
+      <li>$\tan\dfrac{2\pi}{3}$</li>
+      <li>$\cos\dfrac{11\pi}{6}$</li>
+    </ol>
+    Then explain, in one sentence each, why $\sin$ is not injective on $\mathbb{R}$ and what restriction
+    of its domain makes it so.
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Quadrant II, reference $\tfrac{\pi}{6}$; cosine is the $x$-coordinate and is negative there, so
+      $-\tfrac{\sqrt3}{2}$.<br>
+      (b) Quadrant IV, reference $\tfrac{\pi}{4}$; sine is the $y$-coordinate and is negative there, so
+      $-\tfrac{\sqrt2}{2}$.<br>
+      (c) Quadrant II, reference $\tfrac{\pi}{3}$; $\tan = \tfrac{\sin}{\cos}$ is negative there, so
+      $-\sqrt3$.<br>
+      (d) Quadrant IV, reference $\tfrac{\pi}{6}$; cosine is positive there, so $\tfrac{\sqrt3}{2}$.<br>
+      $\sin$ is not injective because it is periodic: $\sin(\theta + 2\pi) = \sin\theta$, so for instance
+      $\sin 0 = \sin 2\pi = 0$ with $0 \neq 2\pi$. Restricting the domain to
+      $\left[-\tfrac{\pi}{2}, \tfrac{\pi}{2}\right]$ makes it injective (and onto $[-1,1]$), which is
+      exactly how $\arcsin$ is defined.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">Classification</span></div>
+  <div class="body">
+    For each function, decide whether it is injective, surjective, both, or neither. Prove every positive
+    claim; disprove every negative one with an explicit witness.
+    <ol class="parts">
+      <li>$f : \mathbb{Z} \to \mathbb{Z}$, $\;f(n) = 3n - 7$</li>
+      <li>$f : \mathbb{R} \to \mathbb{R}$, $\;f(x) = x^{3} + x$</li>
+      <li>$f : \mathbb{R}\setminus\{2\} \to \mathbb{R}\setminus\{1\}$, $\;f(x) = \dfrac{x+3}{x-2}$</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) <strong>Injective, not surjective.</strong> $3a - 7 = 3b - 7 \Rightarrow a = b$. Not onto:
+      $f(n) = 0$ would need $n = \tfrac73 \notin \mathbb{Z}$; more simply every output is
+      $\equiv -7 \equiv 2 \pmod 3$, so $0$ is never attained.<br>
+      (b) <strong>Bijective.</strong> Injective: if $a &lt; b$ then $a^{3} &lt; b^{3}$ and $a &lt; b$, so
+      $f(a) &lt; f(b)$ — a strictly increasing function is injective. Surjective: $f$ is continuous with
+      $f(x) \to \pm\infty$ as $x \to \pm\infty$, so by the intermediate value theorem every real is
+      attained.<br>
+      (c) <strong>Bijective.</strong> Injective: $\tfrac{a+3}{a-2} = \tfrac{b+3}{b-2}$ cross-multiplies to
+      $(a+3)(b-2) = (b+3)(a-2)$, i.e. $ab - 2a + 3b - 6 = ab - 2b + 3a - 6$, giving $5b = 5a$ and
+      $a = b$. Surjective: solving $y = \tfrac{x+3}{x-2}$ gives $x = \tfrac{2y+3}{y-1}$, defined for
+      every $y \neq 1$. This $x$ cannot equal $2$, since $\tfrac{2y+3}{y-1}=2$ would give
+      $2y+3=2y-2$. Thus the preimage lies in the stated domain; this is exactly why $1$ was removed
+      from the codomain.
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Session 4 — polynomials, exponentials, logarithms and models</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">Polynomial structure</span></div>
+  <div class="body">
+    Let $p(x) = 2x^{3} - 3x^{2} - 11x + 6$.
+    <ol class="parts">
+      <li>State the degree and leading coefficient, and describe the end behaviour with a reason.</li>
+      <li>Given that $x = 3$ is a root, factor $p$ completely over $\mathbb{R}$ and list all roots.</li>
+      <li>Sketch the graph, marking every $x$-intercept and the $y$-intercept.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Degree $3$, leading coefficient $2$. The degree is odd and the leading coefficient positive, so
+      $p(x)\to-\infty$ as $x\to-\infty$ and $p(x)\to+\infty$ as $x\to+\infty$: down on the left, up on
+      the right. For large $|x|$ the term $2x^{3}$ dominates the rest.<br>
+      (b) Dividing by $(x-3)$ gives $p(x) = (x-3)(2x^{2} + 3x - 2) = (x-3)(2x-1)(x+2)$. The roots are
+      $x = 3$, $x = \tfrac12$ and $x = -2$, each of multiplicity one.<br>
+      (c) $y$-intercept $p(0) = 6$. The curve crosses at $-2$, $\tfrac12$ and $3$ — it crosses rather
+      than touches at each, because every factor occurs once.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">Exponential equation</span></div>
+  <div class="body">
+    Solve over the reals:
+    $$3^{2x} - 12\cdot 3^{x} + 27 = 0.$$
+    Justify the substitution you use, and say why <em>both</em> resulting values must be checked before
+    you convert back.
+    <div class="solution"><span class="tag">Solution</span>
+      Put $u = 3^{x}$, so $3^{2x} = (3^{x})^{2} = u^{2}$ and the equation becomes $u^{2} - 12u + 27 = 0$.
+      The substitution is legitimate because $3^{x}$ is defined for every real $x$ — but it takes
+      <strong>only positive values</strong>, which is why each root must be tested: a non-positive root
+      would correspond to no real $x$ at all.<br>
+      Factoring, $u^{2} - 12u + 27 = (u-3)(u-9)$, so $u = 3$ or $u = 9$. Both are positive, so both
+      survive. Since $3^{t}$ is one-to-one (base $3$ is positive and $\neq 1$),
+      $$3^{x} = 3 \Rightarrow x = 1, \qquad 3^{x} = 9 = 3^{2} \Rightarrow x = 2.$$
+      Check: at $x=1$, $9 - 36 + 27 = 0$; at $x=2$, $81 - 108 + 27 = 0$. ✓
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">Logarithmic equation</span></div>
+  <div class="body">
+    Solve exactly for $x$:
+    $$\log_3(x+6) - \log_3(x-2) = 2.$$
+    State the domain restriction <em>before</em> you combine the logarithms, and check your answer in the
+    original equation.
+    <div class="solution"><span class="tag">Solution</span>
+      <em>Domain first.</em> Both inputs must be positive: $x + 6 &gt; 0$ and $x - 2 &gt; 0$, so
+      $x &gt; 2$ (the stronger condition). Everything below happens on that domain.<br>
+      By the quotient law, $\log_3\!\left(\dfrac{x+6}{x-2}\right) = 2$, so
+      $\dfrac{x+6}{x-2} = 3^{2} = 9$. Then $x + 6 = 9(x-2) = 9x - 18$, giving $24 = 8x$ and $x = 3$.<br>
+      $3 &gt; 2$, so the answer is admissible. Check: $\log_3 9 - \log_3 1 = 2 - 0 = 2$. ✓
+      <div class="note-box" style="margin-top:8px">Stating the domain is not bookkeeping:
+      combining two logarithms into one <em>enlarges</em> the set of $x$ the equation makes sense for, so
+      an answer found after combining can easily be outside the original domain.</div>
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">9</span><span class="topic">Change of base</span></div>
+  <div class="body">
+    <ol class="parts">
+      <li>Compute $\log_8 32$ and $\log_9 27$ exactly, showing the change-of-base step.</li>
+      <li>Prove that $\log_a b \cdot \log_b a = 1$ for all valid bases $a, b$, and state exactly which
+          conditions on $a$ and $b$ the proof needs.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $\log_8 32 = \dfrac{\ln 32}{\ln 8} = \dfrac{5\ln 2}{3\ln 2} = \dfrac53$.
+      $\;\log_9 27 = \dfrac{\ln 27}{\ln 9} = \dfrac{3\ln 3}{2\ln 3} = \dfrac32$.
+      Both work because each pair is a power of a common base.<br>
+      (b) By change of base, $\log_a b = \dfrac{\ln b}{\ln a}$ and $\log_b a = \dfrac{\ln a}{\ln b}$, so
+      the product is $\dfrac{\ln b}{\ln a}\cdot\dfrac{\ln a}{\ln b} = 1$.
+      The proof needs $a, b &gt; 0$ so the logarithms exist, and $a \neq 1$, $b \neq 1$ so that
+      $\ln a \neq 0$ and $\ln b \neq 0$ — otherwise a denominator vanishes.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">10</span><span class="topic">Growth comparison</span></div>
+  <div class="body">
+    Consider $2^{n}$ and $n^{3}$ for positive integers $n$.
+    <ol class="parts">
+      <li>Find the smallest $n_0$ such that $2^{n} &gt; n^{3}$ for every $n \geq n_0$. Give the two
+          computations either side of the crossover, then give a short argument that the inequality
+          continues to hold for every later $n$.</li>
+      <li>Explain why checking a handful of values does not establish the claim for all $n \geq n_0$,
+          and name the proof technique that would.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $n_0 = 10$. At $n = 9$: $2^{9} = 512$ while $9^{3} = 729$, so the inequality fails.
+      At $n = 10$: $2^{10} = 1024$ while $10^{3} = 1000$, so it holds. Beyond $n = 10$ the gap only
+      widens, since doubling outpaces the cube's growth factor $\left(\tfrac{n+1}{n}\right)^{3}$, which
+      drops below $2$ once $n \geq 4$.<br>
+      (b) A finite check covers finitely many $n$; the claim is about infinitely many. Each verification
+      is one instance of a universally quantified statement, and instances never exhaust a "for every"
+      claim. The technique that does settle it is <strong>induction</strong> — prove the base case
+      $n = 10$, then show $2^{k} &gt; k^{3}$ forces $2^{k+1} &gt; (k+1)^{3}$. That is Session 6.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">11</span><span class="topic">Application · periodic model</span></div>
+  <div class="body">
+    Bangkok's temperature over one day is modelled by
+    $$T(t) = 8\sin\!\left(\frac{\pi(t-9)}{12}\right) + 22,$$
+    with $T$ in °C and $t$ the hour, $0 \leq t \leq 24$.
+    <ol class="parts">
+      <li>State the amplitude, midline and period, showing how you get the period from the coefficient.</li>
+      <li>Give the maximum and minimum temperatures and the times at which they occur.</li>
+      <li>The model has period $24$ hours. What does that say about $T(0)$ and $T(24)$, and is that
+          physically reasonable?</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Amplitude $|A| = 8$, midline $y = 22$. The coefficient of $t$ inside the sine is
+      $B = \tfrac{\pi}{12}$, and the period is $\tfrac{2\pi}{B} = \tfrac{2\pi}{\pi/12} = 24$ hours —
+      $B$ sits <em>inside</em> the function, so you divide $2\pi$ by it rather than multiply.<br>
+      (b) Sine reaches $1$ when its input is $\tfrac{\pi}{2}$: $\tfrac{\pi(t-9)}{12} = \tfrac{\pi}{2}$
+      gives $t - 9 = 6$, so $t = 15$ and $T = 8 + 22 = 30$°C. Sine reaches $-1$ when the input is
+      $-\tfrac{\pi}{2}$, giving $t = 3$ and $T = 22 - 8 = 14$°C. Maximum $30$°C at 15:00, minimum
+      $14$°C at 03:00.<br>
+      (c) Periodicity forces $T(24) = T(0) = 8\sin(-\tfrac{3\pi}{4}) + 22 \approx 16.3$°C. That is
+      reasonable as a modelling assumption — midnight tonight should resemble midnight last night — but
+      it is an assumption, not a fact about weather: a real cold front breaks it.
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part C · Session 5 — proof techniques</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">12</span><span class="topic">Contrapositive</span></div>
+  <div class="body">
+    Prove that for every integer $n$, if $n^{3}$ is odd then $n$ is odd.
+    <ol class="parts">
+      <li>State the contrapositive of the claim.</li>
+      <li>Prove the contrapositive, and say in one sentence why proving it settles the original.</li>
+      <li>Would a direct proof have been harder? Say why.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Contrapositive: for every integer $n$, if $n$ is <strong>even</strong> then $n^{3}$ is
+      <strong>even</strong>.<br>
+      (b) Let $n$ be an arbitrary even integer. By definition $n = 2k$ for some $k \in \mathbb{Z}$. Then
+      $n^{3} = (2k)^{3} = 8k^{3} = 2(4k^{3})$, and $4k^{3} \in \mathbb{Z}$, so $n^{3}$ is even.
+      $\blacksquare$ An implication and its contrapositive are true in exactly the same cases, so proving
+      one proves the other.<br>
+      (c) Yes. A direct proof starts from "$n^{3}$ is odd", i.e. $n^{3} = 2m+1$, and must extract
+      information about $n$ from a statement about its cube — there is no convenient factorisation to
+      use. The contrapositive starts from $n = 2k$, which is a usable formula immediately. That is the
+      general rule: contrapose when the negated conclusion is the more workable hypothesis.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">13</span><span class="topic">Contradiction</span></div>
+  <div class="body">
+    Prove that $\sqrt{3}$ is irrational.
+    <ol class="parts">
+      <li>Write out the proof by contradiction in full.</li>
+      <li>Your argument will use the fact that if $3 \mid a^{2}$ then $3 \mid a$. State where you used
+          it, and why the analogous step would fail if $3$ were replaced by $4$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Suppose $\sqrt3$ is rational. Then $\sqrt3 = \tfrac{a}{b}$ with $a \in \mathbb{Z}$,
+      $b \in \mathbb{N}$, and $a, b$ sharing no common factor greater than $1$. Squaring,
+      $a^{2} = 3b^{2}$, so $3 \mid a^{2}$ and therefore $3 \mid a$. Write $a = 3a_1$. Substituting,
+      $9a_1^{2} = 3b^{2}$, so $b^{2} = 3a_1^{2}$ and by the same fact $3 \mid b$. But then $3$ divides
+      both $a$ and $b$, contradicting that they share no factor above $1$. So $\sqrt3$ is irrational.
+      $\blacksquare$<br>
+      (b) The fact is used twice: once to get $3 \mid a$ from $3 \mid a^{2}$, and once to get
+      $3 \mid b$ from $3 \mid b^{2}$. It holds because $3$ is <strong>prime</strong>. For $4$ it fails:
+      $4 \mid 2^{2}$ but $4 \nmid 2$. And indeed the conclusion would be false —
+      $\sqrt4 = 2$ is rational.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">14</span><span class="topic">Counterexample</span></div>
+  <div class="body">
+    Consider the claim: <em>for every non-negative integer $n$, the value $n^{2} - n + 41$ is prime.</em>
+    <ol class="parts">
+      <li>Verify the claim for $n = 0, 1, 2$ and $3$.</li>
+      <li>The claim is nevertheless false. Find a counterexample and show it fails.</li>
+      <li>In two or three sentences, say what this example shows about the relationship between
+          evidence and proof.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) $n=0$: $41$. $n=1$: $41$. $n=2$: $43$. $n=3$: $47$. All four are prime.<br>
+      (b) Take $n = 41$. Then
+      $$41^{2} - 41 + 41 = 41^{2} = 1681 = 41 \times 41,$$
+      which is composite. So the claim is false, and $n = 41$ is a counterexample.<br>
+      (c) The formula is prime for every $n$ from $0$ to $40$ — forty-one consecutive successes — and
+      still the universal claim is false. No finite amount of confirming evidence establishes a "for
+      every" statement; it only fails to refute it. One counterexample, by contrast, settles the matter
+      permanently. This is why the course insists on proof rather than checking.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">15</span><span class="topic">Quantifiers and WLOG</span></div>
+  <div class="body">
+    <ol class="parts">
+      <li>Write the negation of each statement, in words, without using the phrase "it is not the case
+          that": (i) for every real $x$, there exists an integer $n$ with $n &gt; x$;
+          (ii) there exists a real $x$ such that for every real $y$, $xy = y$.</li>
+      <li>Prove: for all real $a, b$, equality holds in $|a+b| \leq |a| + |b|$ if and only if
+          $ab \geq 0$. You may use "without loss of generality" — if you do, name the symmetry that
+          licenses it.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a)(i) There exists a real $x$ such that for every integer $n$, $n \leq x$. (ii) For every real
+      $x$, there exists a real $y$ with $xy \neq y$. In each case the quantifiers flip and the innermost
+      property is negated.<br>
+      (b) Both sides are non-negative, so the equality is equivalent to the equality of their squares:
+      $$|a+b|^{2} = (|a|+|b|)^{2} \iff a^{2} + 2ab + b^{2} = a^{2} + 2|a||b| + b^{2}
+        \iff ab = |ab|.$$
+      And $ab = |ab|$ holds exactly when $ab \geq 0$. $\blacksquare$<br>
+      A WLOG is available but not needed here. The statement is symmetric in $a$ and $b$, so one could
+      assume $|a| \geq |b|$ after swapping their names if needed. One could also assume $a \geq 0$:
+      when $a&lt;0$, replacing $(a,b)$ by $(-a,-b)$ preserves both sides of the equality and the sign of
+      $ab$. In each case, the named symmetry is what makes the WLOG step valid.
+    </div>
+  </div>
+</div>
+
+<script src="../brand/vendor/katex/katex.min.js"></script>
+<script src="../brand/vendor/katex/contrib/auto-render.min.js"></script>
+<script src="../brand/handout.js"></script>
