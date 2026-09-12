@@ -1,8 +1,8 @@
 <!doctype html>
 <!-- Problem set / exam handout. A4, print-first.
-     Preview:   node .claude/skills/run-intro-to-higher-math/driver.mjs open  sessions/session-NN/problem-set.html
-     Student:   node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-NN/problem-set.html
-     Marker:    node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-NN/problem-set.html solutions
+     Preview:   node .claude/skills/run-intro-to-higher-math/driver.mjs open  sessions/session-05/problem-set.html
+     Student:   node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-05/problem-set.html
+     Marker:    node .claude/skills/run-intro-to-higher-math/driver.mjs pdf   sessions/session-05/problem-set.html solutions
      .solution blocks are hidden unless ?solutions=1 - always write them. -->
 <meta charset="utf-8">
 <title>Problem Set 5 · Intro to Higher Math</title>
@@ -15,37 +15,291 @@
 <div class="head">
   <div>
     <div class="who">Math102BKK · Harbour.Space Bangkok</div>
-    <h1>Problem Set 5</h1>
-    <div class="sub">Session 5 · Theorem proving (direct, contrapositive, contradiction - disproof by counterexample)</div>
+    <h1>Problem Set 5 — Proof and disproof</h1>
+    <div class="sub">Session 5 · Theorem proving (direct, contrapositive, contradiction, counterexample)</div>
   </div>
   <div class="meta"><b>Set</b> Fri, 11 Sep 2026</div>
 </div>
 
-<div class="rubric">
-  <span class="tag">How to answer</span>
-  <b>Every answer carries one sentence of justification.</b> A value on its own is not a solution — say
-  why it is right. You may discuss problems with anyone and may use AI tools, but you must be able to
-  explain every line you submit.
-</div>
-
-<h2 class="section-title">Part A · …</h2>
+<h2 class="section-title">Part A · Reading a statement precisely</h2>
 
 <div class="problem">
-  <div class="p-head"><span class="n">1</span><span class="topic">Topic</span></div>
+  <div class="p-head"><span class="n">1</span><span class="topic">Statements</span></div>
   <div class="body">
-    Question text. Inline maths $x^2$, display maths $$\int_0^1 x\,dx = \tfrac12$$
+    Decide which of these are <b>statements</b> (they have a definite truth value) and which are
+    <b>open sentences</b>. For each statement, say whether it is true or false and give the reason. For
+    each open sentence, say what you would have to add to turn it into a statement.
+    <ol class="parts">
+      <li>$x + 1 = 4$.</li>
+      <li>For every real $x$, $\;x^{2} \ge 0$.</li>
+      <li>There exists an integer $n$ with $n^{2} = 9$.</li>
+      <li>There exists a real $x$ with $x^{2} = -1$.</li>
+    </ol>
     <div class="solution"><span class="tag">Solution</span>
-      Full worked solution.
+      (a) Open sentence: its truth depends on the unspecified $x$ — true at $x = 3$, false at $x = 0$.
+      Fixing a value of $x$, or putting a quantifier in front of it ("for every real $x$…", "there
+      exists a real $x$…"), turns it into a statement.<br>
+      (b) Statement, and <b>true</b>: the square of a real number is never negative.<br>
+      (c) Statement, and <b>true</b>: $n = 3$ is an integer and $3^{2} = 9$. One witness is all an
+      "there exists" claim needs. ($n = -3$ works too, but one is enough.)<br>
+      (d) Statement, and <b>false</b>: for every real $x$ we have $x^{2} \ge 0 > -1$, so no real number
+      can satisfy $x^{2} = -1$. Note what was required — a fact about <em>every</em> real $x$. Testing a
+      few values would not have settled it.
     </div>
   </div>
 </div>
 
 <div class="problem">
-  <div class="p-head"><span class="n">2</span><span class="topic">Reflection</span></div>
+  <div class="p-head"><span class="n">2</span><span class="topic">Converse, contrapositive</span></div>
   <div class="body">
-    A written question — always include at least one.
+    Over the domain $\mathbb{Z}$, consider: <em>if $n$ is a multiple of $6$, then $n$ is even.</em>
+    <ol class="parts">
+      <li>Write the converse and the contrapositive in words.</li>
+      <li>Give the truth value of all three statements. Prove or disprove the original and the converse;
+          for the contrapositive, you may quote a theorem from the lecture instead of proving it again.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Converse: <em>if $n$ is even, then $n$ is a multiple of $6$.</em> Contrapositive: <em>if $n$ is
+      not even, then $n$ is not a multiple of $6$</em> — for integers, "not even" is "odd".<br>
+      (b) <b>Original: true.</b> Let $n \in \mathbb{Z}$ be arbitrary and assume $n = 6k$ for some
+      $k \in \mathbb{Z}$. Then $n = 2(3k)$ and $3k \in \mathbb{Z}$, so $n$ is even.<br>
+      <b>Converse: false.</b> Take $n = 2$: it is an integer and it is even, but $2 = 6k$ has no integer
+      solution, since $k = \tfrac13 \notin \mathbb{Z}$. So $2$ is even and not a multiple of $6$.<br>
+      <b>Contrapositive: true</b>, and no new work is needed: a statement and its contrapositive are
+      logically equivalent, so it is true because the original is.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">3</span><span class="topic">Negation</span></div>
+  <div class="body">
+    Write the negation of each statement in words, keeping the quantifiers in the right order. Then say
+    which of the two — the statement or its negation — is true, and justify that one.
+    <ol class="parts">
+      <li>For every real $x$, $\;x^{2} &gt; x$.</li>
+      <li>There exists an integer $n$ with $n^{2} = 5$.</li>
+      <li>For every integer $n$, if $n$ is prime then $n$ is odd.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) Negation: <em>there exists a real $x$ with $x^{2} \le x$.</em> The <b>negation is true</b>:
+      $x = \tfrac12$ is real and $x^{2} = \tfrac14 \le \tfrac12$. (So the original is false.)<br>
+      (b) Negation: <em>for every integer $n$, $\;n^{2} \neq 5$.</em> The <b>negation is true</b>: if
+      $|n| \le 2$ then $n^{2} \le 4$, and if $|n| \ge 3$ then $n^{2} \ge 9$; no integer is left, so $5$
+      is never reached. Note this needs an argument about every integer, not a few trials.<br>
+      (c) Negation: <em>there exists an integer $n$ such that $n$ is prime and $n$ is not odd.</em> The
+      <b>negation is true</b>: $n = 2$ is prime and even. Watch the shape — negating "if $P$ then $Q$"
+      gives "$P$ <b>and</b> not $Q$", never "if $P$ then not $Q$".
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">4</span><span class="topic">Empty hypothesis</span></div>
+  <div class="body">
+    An implication $P \Rightarrow Q$ is false in one situation only: $P$ true and $Q$ false. So when
+    <b>nothing satisfies the hypothesis $P$</b>, no such situation can arise, there is no case left to
+    check, and the implication is true automatically.
+    <ol class="parts">
+      <li>Use this to explain, in two sentences, why "every integer $n$ with $n^{2} &lt; 0$ is prime"
+          is true.</li>
+      <li>Write a statement of your own about real numbers that is true for the same reason — because
+          no real number satisfies its hypothesis — and say in one sentence why it tells the reader
+          nothing.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) An implication is false only when its hypothesis holds and its conclusion fails. No integer
+      satisfies $n^{2} &lt; 0$, since the square of an integer is never negative, so that situation never
+      arises and the statement is true.<br>
+      (b) For example: <em>every real $x$ with $x^{2} + 1 = 0$ satisfies $x = 7$.</em> It is true because
+      no real number satisfies the hypothesis, and it is useless for exactly the same reason: it
+      describes no actual number, so nothing can be deduced from it. A proof that works only because its
+      hypothesis is never satisfied has proved nothing worth having.
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part B · Writing the proof</h2>
+
+<p><b>Name the method at the top of each solution</b> — direct, contrapositive, contradiction or
+counterexample — then write the proof in full sentences: state the domain, take an <b>arbitrary</b>
+element of it, and finish with the definition the conclusion asks for.</p>
+
+<div class="problem">
+  <div class="p-head"><span class="n">5</span><span class="topic">Direct proof</span></div>
+  <div class="body">
+    Prove: for all integers $m$ and $n$, if $m$ and $n$ are odd, then $m + n$ is even.
+    <div class="solution"><span class="tag">Solution</span>
+      <b>Method: direct proof.</b> Let $m, n \in \mathbb{Z}$ be arbitrary and assume both are odd. By the
+      definition of odd there are integers $r$ and $s$ with
+      $$m = 2r + 1 \quad\text{and}\quad n = 2s + 1 .$$
+      Adding,
+      $$m + n = (2r+1) + (2s+1) = 2r + 2s + 2 = 2(r + s + 1).$$
+      Since $r, s \in \mathbb{Z}$, also $r + s + 1 \in \mathbb{Z}$, so $m+n$ is $2$ times an integer —
+      which is the definition of even. As $m$ and $n$ were arbitrary, this holds for all odd integers.
+      $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">6</span><span class="topic">Prove or disprove</span></div>
+  <div class="body">
+    Each claim below is either true or false. Decide which, then prove it or disprove it with one
+    counterexample. For a counterexample, name the value, confirm it lies in the stated domain, and show
+    exactly what fails.
+    <ol class="parts">
+      <li>For every real $x$: if $x^{2} &gt; x$, then $x &gt; 1$.</li>
+      <li>For every integer $n$, $\;n^{2} + n$ is even.</li>
+      <li>For all real $a$ and $b$: $\;|a + b| = |a| + |b|$.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) <b>False</b> — counterexample. Take $x = -2$, which is real. The hypothesis holds, since
+      $x^{2} = 4 &gt; -2 = x$; the conclusion fails, since $-2 &gt; 1$ is false. One case with a true
+      hypothesis and a false conclusion is exactly what refutes an implication.<br>
+      (b) <b>True</b> — direct proof. Let $n \in \mathbb{Z}$ be arbitrary. Then
+      $n^{2} + n = n(n+1)$, a product of two consecutive integers. One of $n$ and $n+1$ is even: if $n$
+      is even we are done, and if $n$ is odd then $n = 2k+1$, so $n + 1 = 2(k+1)$ is even. Writing that
+      even factor as $2j$ with $j \in \mathbb{Z}$ gives $n^{2} + n = 2j \cdot (\text{the other factor})$,
+      which is $2$ times an integer, hence even. $\blacksquare$<br>
+      (c) <b>False</b> — counterexample. Take $a = 1$ and $b = -1$, both real. Then
+      $|a + b| = |0| = 0$, while $|a| + |b| = 1 + 1 = 2$, and $0 \neq 2$. (The true statement is the
+      triangle inequality $|a+b| \le |a| + |b|$, with equality only when $a$ and $b$ have the same
+      sign or one of them is $0$.)
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">7</span><span class="topic">Contrapositive</span></div>
+  <div class="body">
+    Prove: for every integer $n$, if $3n + 2$ is even, then $n$ is even. Say in one sentence why starting
+    from the hypothesis directly is awkward here.
+    <div class="solution"><span class="tag">Solution</span>
+      <b>Method: contrapositive.</b> For integers, "not even" means "odd", so the contrapositive reads:
+      <em>if $n$ is odd, then $3n + 2$ is odd.</em><br>
+      Let $n \in \mathbb{Z}$ be arbitrary and assume $n$ is odd, so $n = 2k + 1$ for some
+      $k \in \mathbb{Z}$. Then
+      $$3n + 2 = 3(2k+1) + 2 = 6k + 5 = 2(3k + 2) + 1 .$$
+      Since $3k + 2 \in \mathbb{Z}$, the number $3n+2$ has the form $2 \cdot (\text{integer}) + 1$, so it
+      is odd. This proves the contrapositive, and a statement and its contrapositive are logically
+      equivalent, so the original claim holds. $\blacksquare$<br>
+      Why not directly: the hypothesis "$3n+2$ is even" gives $3n + 2 = 2m$, i.e. $3n = 2(m-1)$, and
+      concluding that $n$ itself is even from that needs the extra fact that $3$ is odd. Assuming $n$ is
+      odd hands you $n = 2k+1$ immediately, which is algebra you can use at once.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">8</span><span class="topic">Direct · divisibility</span></div>
+  <div class="body">
+    Prove: for every odd integer $n$, the number $n^{2} - 1$ is divisible by $8$. (You may use, with a
+    one-line justification, that the product of two consecutive integers is even.)
+    <div class="solution"><span class="tag">Solution</span>
+      <b>Method: direct proof.</b> Let $n$ be an arbitrary odd integer, so $n = 2k + 1$ for some
+      $k \in \mathbb{Z}$. Then
+      $$n^{2} - 1 = (2k+1)^{2} - 1 = 4k^{2} + 4k + 1 - 1 = 4k(k+1).$$
+      Now $k(k+1)$ is a product of two consecutive integers, so one of them is even and the product is
+      even: write $k(k+1) = 2m$ with $m \in \mathbb{Z}$. Therefore
+      $$n^{2} - 1 = 4 \cdot 2m = 8m ,$$
+      with $m \in \mathbb{Z}$, which is exactly what "divisible by $8$" means. $\blacksquare$<br>
+      The step worth noticing: $4k(k+1)$ alone only gives divisibility by $4$. The factor $8$ appears
+      only after using the parity of $k(k+1)$ — dropping that line loses the claim.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">9</span><span class="topic">Contradiction</span></div>
+  <div class="body">
+    Prove: if $a$ is rational and $b$ is irrational, then $a + b$ is irrational.
+    <div class="solution"><span class="tag">Solution</span>
+      <b>Method: contradiction.</b> Assume $a$ is rational, $b$ is irrational, and — for contradiction —
+      that $a + b$ is rational. By the definition of rational there are integers $p, q, r, s$ with
+      $q \neq 0$, $s \neq 0$ and
+      $$a = \frac{p}{q}, \qquad a + b = \frac{r}{s} .$$
+      Subtracting $a$ from both sides of the second equation,
+      $$b = \frac{r}{s} - \frac{p}{q} = \frac{rq - ps}{sq} .$$
+      Here $rq - ps \in \mathbb{Z}$ and $sq \in \mathbb{Z}$, and $sq \neq 0$ because neither $s$ nor $q$
+      is $0$. So $b$ is a ratio of two integers with non-zero denominator, i.e. $b$ is rational. That
+      contradicts the assumption that $b$ is irrational. Hence $a + b$ cannot be rational, so it is
+      irrational. $\blacksquare$<br>
+      The contradiction is a genuine consequence of the assumption — "$b$ is rational" against "$b$ is
+      irrational" — not merely a surprising outcome.
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">10</span><span class="topic">Uniqueness</span></div>
+  <div class="body">
+    Prove that there is <b>at most one</b> real number $e$ with the property that $x + e = x$ for every
+    real $x$. Then name a number with the property, and say what the two facts together establish.
+    <div class="solution"><span class="tag">Solution</span>
+      <b>Method: the uniqueness shape — assume two objects qualify, show they are equal.</b><br>
+      Suppose $e$ and $e'$ are both real numbers with the property, that is,
+      $$x + e = x \ \text{ for every real } x, \qquad x + e' = x \ \text{ for every real } x .$$
+      Apply the first with $x = e'$: $\;e' + e = e'$. Apply the second with $x = e$: $\;e + e' = e$.
+      Addition of real numbers is commutative, so $e' + e = e + e'$, and therefore
+      $$e' = e' + e = e + e' = e .$$
+      So any two numbers with the property are equal: there is at most one. $\blacksquare$<br>
+      The number $e = 0$ has the property, since $x + 0 = x$ for every real $x$. "At most one" plus "at
+      least one" gives <b>exactly one</b> — $0$ is the unique additive identity. Note that the uniqueness
+      argument never needed to know which number it was.
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Part C · Reading and writing proofs</h2>
+
+<div class="problem">
+  <div class="p-head"><span class="n">11</span><span class="topic">Find the error</span></div>
+  <div class="body">
+    A student hands in the following.
+    <div class="quote-proof">
+      <b>Claim.</b> For every $n \in \mathbb{Z}$, if $n^{2}$ is even, then $n$ is even.<br>
+      <b>Proof.</b> Assume $n$ is even. Then $n = 2k$ for some $k \in \mathbb{Z}$, so
+      $n^{2} = (2k)^{2} = 2(2k^{2})$ with <span style="white-space:nowrap">$2k^{2} \in \mathbb{Z}$,</span>
+      so $n^{2}$ is even, which proves the claim. $\blacksquare$
+    </div>
+    <ol class="parts">
+      <li>Every line of algebra here is correct. Which statement has actually been proved, and what is
+          the name of the mistake?</li>
+      <li>Give a correct proof of the claim.</li>
+    </ol>
+    <div class="solution"><span class="tag">Solution</span>
+      (a) The algebra proves <em>if $n$ is even, then $n^{2}$ is even</em> — the <b>converse</b> of the
+      claim. The student assumed the conclusion and derived the hypothesis, which is the wrong
+      direction; a converse is a different statement and can have a different truth value. (Here the
+      converse happens to be true as well, which is what makes the error easy to miss: a correct proof
+      of a true statement that is not the one asked for.)<br>
+      (b) <b>Method: contrapositive.</b> The contrapositive is: <em>if $n$ is odd, then $n^{2}$ is
+      odd.</em> Let $n \in \mathbb{Z}$ be arbitrary and odd, so $n = 2k+1$ with $k \in \mathbb{Z}$. Then
+      $$n^{2} = (2k+1)^{2} = 4k^{2} + 4k + 1 = 2(2k^{2} + 2k) + 1 ,$$
+      and $2k^{2} + 2k \in \mathbb{Z}$, so $n^{2}$ is odd. The contrapositive holds, hence so does the
+      claim. $\blacksquare$
+    </div>
+  </div>
+</div>
+
+<div class="problem">
+  <div class="p-head"><span class="n">12</span><span class="topic">Writing</span></div>
+  <div class="body">
+    In three or four sentences, explain why proving the contrapositive proves the original statement,
+    while proving the converse does not. Include one concrete example of your own.
     <div class="space tall"></div>
-    <div class="solution"><span class="tag">What a good answer does</span> Guidance, not an answer key.</div>
+    <div class="solution"><span class="tag">What a good answer does</span>
+      A strong answer says <em>when</em> an implication fails: $P \Rightarrow Q$ is false in exactly one
+      situation, namely $P$ true and $Q$ false — and $\neg Q \Rightarrow \neg P$ fails in exactly that
+      same situation, so the two are true in exactly the same cases. The converse $Q \Rightarrow P$
+      fails in a different situation ($Q$ true, $P$ false), so its truth value is unrelated.<br>
+      The example should show a true statement whose converse is false — for instance "multiple of $6$
+      $\Rightarrow$ even" is true, its converse fails at $n = 2$, and its contrapositive "odd
+      $\Rightarrow$ not a multiple of $6$" is true along with the original. Answers that only restate
+      the definitions without saying <em>when each form fails</em> have described the shapes without
+      explaining the equivalence.
+    </div>
   </div>
 </div>
 

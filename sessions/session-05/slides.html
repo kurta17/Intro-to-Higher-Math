@@ -193,12 +193,12 @@
       <div class="box def">
         <span class="tag">Definition</span>
         A <strong>mathematical statement</strong> is a declarative sentence with a definite truth value:
-        once variables, domains and quantifiers are fixed, it is true or false.
+        once all variables, domains, and quantifiers are fixed, it is either true or false.
       </div>
       <div class="box def">
         <span class="tag">Definition</span>
-        A <strong>theorem</strong> is such a statement established by proof from definitions, axioms and
-        earlier results.
+        A <strong>theorem</strong> is a mathematical statement established by a valid proof from accepted
+        definitions, axioms, and earlier results.
       </div>
     </div>
     <div class="stack">
@@ -273,103 +273,6 @@
   </script>
 </section>
 
-<section class="slide">
-  <span class="kicker">Implications · vacuous truth</span>
-  <h2>An implication with no cases to check is true</h2>
-  <div class="s-body cols-2">
-    <div class="box def">
-      <span class="tag">Vacuous truth</span>
-      <p>$P\Rightarrow Q$ claims there is <strong>no case</strong> where $P$ holds and $Q$ fails.</p>
-      <p style="margin-bottom:0">If $P$ never holds, there is nothing to check — the implication is true
-      <em>vacuously</em>.</p>
-    </div>
-    <div class="stack">
-      <div class="box example">
-        <span class="tag">Example</span>
-        "Every integer $n$ with $n^2&lt;0$ is prime" is <strong>true</strong>. No such $n$ exists.
-      </div>
-      <div class="box pitfall">
-        <span class="tag">Why it matters</span>
-        A vacuously true statement tells you nothing. If your proof works only because the hypothesis is
-        never satisfied, you have proved nothing useful.
-      </div>
-    </div>
-  </div>
-  <div class="notes">
-    Vacuous truth already did real work in Session 2, where it proved $\varnothing\subseteq A$ for every
-    set $A$ — call that back explicitly, since students meet the idea twice and rarely connect them.
-    The pitfall box is the point: vacuous truth is a convention that keeps the logic consistent, not a
-    way to win an argument.
-  </div>
-  <script type="application/x-hs-check">
-    claim("no integer has n^2 < 0, so the implication holds for every n", () => {
-      for (let n = -500; n <= 500; n++) if (n*n < 0) return false;
-      return true;
-    });
-    claim("the implication table makes a false hypothesis give a true implication", () => {
-      const imp = (p, q) => !p || q;
-      return imp(false, true) === true && imp(false, false) === true
-          && imp(true, false) === false && imp(true, true) === true;
-    });
-    claim("Session 2 used it: the empty set is a subset of every set", () => {
-      const U = [1,2,3,4,5,6];
-      for (let i = 0; i < 200; i++) {
-        const A = new Set(U.filter(() => Math.random() < 0.5));
-        if (!subset(S(), A)) return false;
-      }
-      return true;
-    });
-  </script>
-</section>
-
-<section class="slide">
-  <span class="kicker">Implications · WLOG</span>
-  <h2>"Without loss of generality" must be earned</h2>
-  <div class="s-body cols-2">
-    <div class="box def">
-      <span class="tag">WLOG</span>
-      <p>Write <strong>WLOG</strong> when a symmetry lets you assume one of several cases, because the
-      others follow by relabelling.</p>
-      <p style="margin-bottom:0">It shortens a proof. It never skips one.</p>
-    </div>
-    <div class="stack">
-      <div class="box example">
-        <span class="tag">Legitimate</span>
-        To prove $|a+b|\leq|a|+|b|$, say "WLOG $|a|\geq|b|$" — swapping the names $a$ and $b$ changes
-        neither side.
-      </div>
-      <div class="box pitfall">
-        <span class="tag">The test</span>
-        You must be able to <strong>name the relabelling</strong>. "WLOG $a$ is even" is illegal unless
-        something genuinely makes the odd case identical.
-      </div>
-    </div>
-  </div>
-  <div class="notes">
-    The honest test is in the pitfall box: if a student cannot state the symmetry that licenses the WLOG,
-    they are hiding a case rather than eliminating it — the commonest abuse of the phrase in submitted
-    work. Ask the room to check the legitimate example by swapping the letters and confirming both sides
-    are unchanged.
-  </div>
-  <script type="application/x-hs-check">
-    identity("WLOG is licensed here because |a+b| is symmetric in a and b",
-      (a, b) => Math.abs(a + b), (a, b) => Math.abs(b + a), { arity: 2 });
-    identity("and so is |a| + |b|",
-      (a, b) => Math.abs(a) + Math.abs(b), (a, b) => Math.abs(b) + Math.abs(a), { arity: 2 });
-    claim("the triangle inequality holds, so the example is a real one", () => {
-      for (let i = 0; i < 5000; i++) {
-        const a = Math.random()*40 - 20, b = Math.random()*40 - 20;
-        if (Math.abs(a + b) > Math.abs(a) + Math.abs(b) + 1e-12) return false;
-      }
-      return true;
-    });
-    claim("'WLOG a is even' is NOT licensed: parity is not a symmetry of a+b", () => {
-      // swapping names cannot turn an odd a into an even one
-      return (3 + 4) === (4 + 3) && (3 % 2) !== (4 % 2);
-    });
-  </script>
-</section>
-
 <!-- 6 -->
 <section class="slide">
   <span class="kicker">Converse and contrapositive</span>
@@ -438,7 +341,6 @@
           <li>Write the contrapositive of $P(n)\Rightarrow Q(n)$ in words.</li>
           <li>For "if $n$ is a multiple of $4$, then $n$ is even," test its converse over $\mathbb Z$. Is it true or false? Justify your answer.</li>
         </ol>
-        <div class="share"><b>Share:</b> one pair reads their converse aloud; the room decides whether it is true, and names the witness if not.</div>
       </div>
     </div>
   </div>
@@ -465,14 +367,13 @@
         For $P\Rightarrow Q$:
         <ol style="margin:8px 0 0">
           <li><strong>Converse:</strong> swap the two parts: $Q\Rightarrow P$.</li>
-          <li><strong>Contrapositive:</strong> swap <strong>and</strong> negate both: 
-eg Q\Rightarrow\neg P1</li>
+          <li><strong>Contrapositive:</strong> swap the parts <strong>and</strong> negate both: $\neg Q\Rightarrow\neg P$.</li>
         </ol>
       </div>
       <div class="box note">
         <span class="tag">Parity of integers</span>
-        For \in\mathbb Z " odd" means =2k+11 Every integer is even or odd, never both — so
-        "not even" means "odd".
+        For $t\in\mathbb Z$, "$t$ is odd" means $t=2k+1$ for some $k\in\mathbb Z$. Every integer
+        is even or odd, never both — so "not even" means "odd," and "not odd" means "even."
       </div>
     </div>
     <div class="stack">
@@ -607,7 +508,6 @@ eg Q\Rightarrow\neg P1</li>
           <li>Use the definition: write $a=2k$ for some $k\in\mathbb Z$.</li>
           <li>Rewrite $ab$ in the form $2\times(\text{an integer})$.</li>
         </ol>
-        <div class="share"><b>Share:</b> one pair writes their proof on the board; the room checks that the definition of "even" is actually used.</div>
       </div>
     </div>
   </div>
@@ -938,6 +838,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
+<!-- 19 -->
 <section class="slide">
   <span class="kicker">Contradiction · uniqueness</span>
   <h2>Contradiction is how you prove something is <em>unique</em></h2>
@@ -990,6 +891,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
+<!-- 20 -->
 <section class="slide">
   <span class="kicker">Contradiction · cases</span>
   <h2>When one contradiction is not enough, split into cases</h2>
@@ -1056,6 +958,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
+<!-- 21 -->
 <section class="slide">
   <span class="kicker">Contradiction · Euclid</span>
   <h2>There are infinitely many primes</h2>
@@ -1104,7 +1007,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 19 -->
+<!-- 22 -->
 <section class="slide">
   <span class="kicker">Activity 3</span>
   <h2>Choose a proof method before writing</h2>
@@ -1120,7 +1023,6 @@ eg Q\Rightarrow\neg P1</li>
           <tr><td>For every $n\in\mathbb Z$, if $n^2$ is odd, then $n$ is odd.</td><td>?</td></tr>
           <tr><td>$\sqrt2$ is irrational.</td><td>?</td></tr>
         </table>
-        <div class="share"><b>Share:</b> each group defends one row. Where two groups picked different methods, both are presented and compared.</div>
       </div>
     </div>
   </div>
@@ -1149,7 +1051,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 20 -->
+<!-- 23 -->
 <section class="slide">
   <span class="kicker">Activity 3 · how to solve it</span>
   <h2>Why these methods fit</h2>
@@ -1179,7 +1081,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 21 -->
+<!-- 24 -->
 <section class="slide">
   <span class="kicker">Counterexamples</span>
   <h2>A counterexample can disprove a "for every" claim</h2>
@@ -1239,7 +1141,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 22 -->
+<!-- 25 -->
 <section class="slide">
   <span class="kicker">Activity 4</span>
   <h2>Disprove, prove, or explain why one example is not enough</h2>
@@ -1255,7 +1157,6 @@ eg Q\Rightarrow\neg P1</li>
           <li>For every real $x$, $(x+1)^2=x^2+1$. If false, give a counterexample.</li>
           <li>There exists a real $x$ with $x^2=-1$. Explain why checking a few values is not a disproof; use a fact about <strong>every</strong> real $x$ instead.</li>
         </ol>
-        <div class="share"><b>Share:</b> one pair gives a counterexample, another explains why checking values cannot settle the last item.</div>
       </div>
     </div>
   </div>
@@ -1277,7 +1178,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 23 -->
+<!-- 26 -->
 <section class="slide">
   <span class="kicker">Activity 4 · how to solve it</span>
   <h2>Check "every" or "there exists" first</h2>
@@ -1308,6 +1209,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
+<!-- 27 -->
 <section class="slide">
   <span class="kicker">Looking ahead · the limit of today's methods</span>
   <h2>None of these three proves infinitely many statements at once</h2>
@@ -1358,6 +1260,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
+<!-- 28 -->
 <section class="slide">
   <span class="kicker">Looking ahead · why induction is legitimate</span>
   <h2>Induction is a proof by contradiction in disguise</h2>
@@ -1413,7 +1316,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 24 -->
+<!-- 29 -->
 <section class="slide">
   <span class="kicker">Pitfalls</span>
   <h2>Four common proof mistakes</h2>
@@ -1460,7 +1363,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 25 -->
+<!-- 30 -->
 <section class="slide">
   <span class="kicker">Exit ticket</span>
   <h2>Work independently</h2>
@@ -1507,7 +1410,7 @@ eg Q\Rightarrow\neg P1</li>
   </script>
 </section>
 
-<!-- 26 -->
+<!-- 31 -->
 <section class="slide dark">
   <span class="kicker">Wrap-up</span>
   <h2>What today was about</h2>
